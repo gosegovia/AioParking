@@ -212,16 +212,106 @@ namespace CapaNegocio
 
         public byte Eliminar()
         {
-            // Implementar lógica para eliminar cliente
-            // Considera el uso de la conexión y consultas SQL para esta operación
-            return 0;
+            byte resultado = 0;
+            object filasAfectadas;
+            string sql;
+
+            if (_conexion.State == 0)
+            {
+                resultado = 1;
+            }
+            else
+            {
+                sql = "UPDATE Persona " +
+                      "SET estado = 0 " +
+                      "WHERE ci = " + _ci;
+
+
+                try
+                {
+                    _conexion.Execute(sql, out filasAfectadas);
+                }
+                catch
+                {
+                    return (2);
+                }
+                filasAfectadas = null;
+            }
+            return (resultado);
         }
 
-        public byte Guardar(bool modificacion)
+        // Metodo guardar
+        public byte Guardar(Boolean modificacion)
         {
-            // Implementar lógica para guardar o actualizar cliente
-            // Considera el uso de la conexión y consultas SQL para esta operación
-            return 0;
-        }
+            byte resultado = 0;
+            object filasAfectadas;
+            string sql, sql1;
+
+            if (_conexion.State == 0) // La conexión está cerrada
+            {
+                resultado = 1;
+            }
+            else
+            {
+                if (modificacion)
+                {
+                    sql = "update Persona " +
+                          "set nombre = '" + nombre + "', apellido = '" + apellido + "', nro_puerta = " + nroPuerta + ", calle = '" + calle + "', ciudad = '" + ciudad + "' " +
+                          "where ci = " + ci;
+                    sql1 = "update Cliente " +
+                           "set tipo_cliente = '" + TipoCliente + "' " +
+                           "where ci = " + ci;
+                }
+                else
+                {
+                    sql = "insert into Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) " +
+                          "values (" + ci + ", '" + nombre + "', '" + apellido + "', " + nroPuerta + ", '" + calle + "', '" + ciudad + "', 1);";
+                    sql1 = "insert into Cliente (ci, tipo_cliente) " +
+                           "values (" + ci + ", '" + TipoCliente + "');";
+                }
+
+                try
+                {
+                    _conexion.Execute(sql, out filasAfectadas);
+                    _conexion.Execute(sql1, out filasAfectadas);
+                }
+                catch
+                {
+                    return 2; // Error al hacer el update o el insert    
+                }
+
+                if (modificacion)
+                {
+                    sql = "delete from Telefono where ci = " + ci;
+                    try
+                    {
+                        _conexion.Execute(sql, out filasAfectadas);
+                    }
+                    catch
+                    {
+                        return 3; // Error al borrar los teléfonos
+                    }
+                }
+
+                foreach (string telefono in _telefonos)
+                {
+                    sql = "insert into Telefono(ci, telefono) " +
+                          "values(" + ci + ", '" + telefono + "')";
+
+                    try
+                    {
+                        _conexion.Execute(sql, out filasAfectadas);
+                    }
+                    catch
+                    {
+                        return 4; // Error al ejecutar el insert
+                    }
+                }
+            }
+
+            filasAfectadas = null; // Liberar memoria
+
+            return resultado;
+        } // Fin Método guardar
     }
 }

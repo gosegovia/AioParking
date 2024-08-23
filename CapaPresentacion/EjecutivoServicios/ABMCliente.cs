@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using CapaNegocio;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CapaPresentacion.EjecutivoServicios
 {
@@ -55,6 +56,45 @@ namespace CapaPresentacion.EjecutivoServicios
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
+        private void cbTelefonos_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionNumero(sender, e);
+            Validaciones.validacionLongitudCB(sender, e, 10);
+        }
+
+        private void txtCI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscar.Focus();
+            }
+        }
+
+        private void btnAgregarTelefono_Click(object sender, EventArgs e)
+        {
+            if (cbTelefonos.Items.IndexOf(cbTelefonos.Text) < 0)
+            {
+                cbTelefonos.Items.Add(cbTelefonos.Text);
+            }
+            else
+            {
+                MessageBox.Show("El telefono ya existe en la lista");
+            }
+        }
+
+        private void btnEliminarTelefono_Click(object sender, EventArgs e)
+        {
+            if (cbTelefonos.Items.IndexOf(cbTelefonos.Text) < 0)
+            {
+                MessageBox.Show("El telefono no exste en la lista");
+            }
+            else
+            {
+                cbTelefonos.Items.Remove(cbTelefonos.Text);
+            }
+        }
+
         // FIN VALIDACIONES
 
         // Botón buscar
@@ -101,7 +141,18 @@ namespace CapaPresentacion.EjecutivoServicios
                         txtNroPuerta.Text = c.nroPuerta.ToString();
                         txtCalle.Text = c.calle;
                         txtCiudad.Text = c.ciudad;
-                        cbTipoCliente.Items.Add(c.TipoCliente);
+
+                        switch (c.TipoCliente)
+                        {
+                            case "Mensual":
+                                cbTipoCliente.SelectedIndex = 0; break;
+                            case "Sistemático":
+                                cbTipoCliente.SelectedIndex = 1; break;
+                            case "Eventual":
+                                cbTipoCliente.SelectedIndex = 2; break;
+                            default:
+                                MessageBox.Show("Error con el tipo de cliente"); break;
+                        }
 
                         string telefono;
                         cbTelefonos.Items.Clear();
@@ -111,7 +162,6 @@ namespace CapaPresentacion.EjecutivoServicios
                             cbTelefonos.Items.Add(telefono);
                         }
                         cbTelefonos.SelectedIndex = 0;
-                        cbTipoCliente.SelectedIndex = 0;
                         break;
                     case 1:
                         MessageBox.Show("Debe logearse nuevamente"); break;
@@ -138,7 +188,7 @@ namespace CapaPresentacion.EjecutivoServicios
                                 txtCiudad.Clear();
                                 cbTelefonos.Items.Clear();
                                 cbTelefonos.Text = "";
-                                cbTipoCliente.Items.Clear();
+                                cbTipoCliente.SelectedIndex = 0;
                             }
                         }
                         break;
@@ -150,8 +200,15 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validación para el nombre
-            if (string.IsNullOrEmpty(txtNombre.Text))
+            CapaNegocio.Cliente c;
+            Int32 cedula;
+
+            // Validaciónes
+            if (!Int32.TryParse(txtCI.Text, out cedula))
+            {
+                MessageBox.Show("La cedula de identidad debe ser numerica.");
+            }
+            else if (string.IsNullOrEmpty(txtNombre.Text))
             {
                 MessageBox.Show("Debe ingresar el nombre o revisar su formato.");
             }
@@ -181,24 +238,76 @@ namespace CapaPresentacion.EjecutivoServicios
             }
             else
             {
-                // Guardo los datos
+                c = new Cliente();
+                c.conexion = Program.cn;
+                c.ci = cedula;
+                c.nombre = txtNombre.Text;
+                c.apellido = txtApellido.Text;
+                c.nroPuerta = int.Parse(txtNroPuerta.Text);
+                c.calle = txtCalle.Text;
+                c.ciudad = txtCiudad.Text;
+                c.TipoCliente = cbTipoCliente.SelectedItem.ToString();
 
-                txtCI.Text = "";
-                btnBuscar.Enabled = true;
-                txtCI.Enabled = true;
-                pDatos.Visible = false;
+                // Para cada telefono de string del combo box
+                foreach (string telefono in cbTelefonos.Items)
+                {
+                    c.Telefonos.Add(telefono); // Agrego cada telefono que tenga el combo box
+                }
+
+                switch (c.Guardar(btnEliminar.Enabled))
+                {
+                    case 0: // Se realizo sin problemas
+                        MessageBox.Show("Se ingreso el cliente.");
+
+                        txtCI.Text = "";
+                        btnBuscar.Enabled = true;
+                        txtCI.Enabled = true;
+                        pDatos.Visible = false;
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
+                }
+                c = null; // Liberar memoria
             }
         } // Fin botón guardar
 
         // Botón eliminar
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Datos eliminados correctamente.");
+            CapaNegocio.Cliente c;
+            Int32 cedula;
 
-            txtCI.Text = "";
-            btnBuscar.Enabled = true;
-            txtCI.Enabled = true;
-            pDatos.Visible = false;
+            if (!Int32.TryParse(txtCI.Text, out cedula))
+            {
+                MessageBox.Show("La cedula de identidad debe ser numerica.");
+            }
+            else
+            {
+                c = new Cliente();
+                c.conexion = Program.cn;
+                c.ci = cedula;
+
+                switch (c.Eliminar())
+                {
+                    case 0: // Se realizo sin problemas
+                        MessageBox.Show("Datos eliminados correctamente.");
+                        txtCI.Text = "";
+                        btnBuscar.Enabled = true;
+                        txtCI.Enabled = true;
+                        pDatos.Visible = false;
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                }
+                c = null; // Liberar memoria
+            }
         } // Fin botón eliminar
 
         // Botón cancelar
@@ -216,14 +325,5 @@ namespace CapaPresentacion.EjecutivoServicios
             // Llamo al método para que se muestren los clientes
             Program.frmPrincipal.mostrarListarCliente();
         } // Fin botón listar
-
-        private void txtCI_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
-                btnBuscar.Focus();
-            }
-        }
     }
 }

@@ -22,13 +22,6 @@ namespace CapaPresentacion
                 e.Handled = true;
                 return;
             }
-
-            // Verificar la longitud del texto en el TextBox, permitiendo un máximo de 20 caracteres
-            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 20)
-            {
-                MessageBox.Show("El texto debe contener un máximo de 20 caracteres", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                e.Handled = true;
-            }
         } // Fin validar Números
 
         // Validar Texto
@@ -42,13 +35,6 @@ namespace CapaPresentacion
                 MessageBox.Show("Solo puede ingreser letras", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 e.Handled = true;
                 return;
-            }
-
-            // Verificar la longitud del texto en el TextBox, permitiendo un máximo de 30 caracteres
-            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 30)
-            {
-                MessageBox.Show("El texto debe contener un máximo de 30 caracteres", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                e.Handled = true;
             }
         } // Fin Validar Texto
 
@@ -64,13 +50,6 @@ namespace CapaPresentacion
                 e.Handled = true;
                 return;
             }
-
-            // Verificar la longitud del texto en el TextBox, permitiendo un máximo de 30 caracteres
-            if (!char.IsControl(e.KeyChar) && textBox.Text.Length >= 30)
-            {
-                MessageBox.Show("El texto debe contener un máximo de 30 caracteres", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                e.Handled = true;
-            }
         } // Fin Validar TextoNumero
 
         public static void validacionLongitud(object sender, KeyPressEventArgs e, int longitudMaxima)
@@ -80,6 +59,20 @@ namespace CapaPresentacion
             if (textBox != null)
             {
                 if (textBox.Text.Length >= longitudMaxima && !char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true; // Cancela el evento KeyPress si la longitud máxima se excede.
+                    MessageBox.Show($"El texto no puede superar los {longitudMaxima} caracteres.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+        }
+
+        public static void validacionLongitudCB(object sender, KeyPressEventArgs e, int longitudMaxima)
+        {
+            ComboBox textCB = sender as ComboBox;
+
+            if (textCB != null)
+            {
+                if (textCB.Text.Length >= longitudMaxima && !char.IsControl(e.KeyChar))
                 {
                     e.Handled = true; // Cancela el evento KeyPress si la longitud máxima se excede.
                     MessageBox.Show($"El texto no puede superar los {longitudMaxima} caracteres.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);

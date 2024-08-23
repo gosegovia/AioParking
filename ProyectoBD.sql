@@ -14,7 +14,7 @@ create table Persona (
 );
 
 create table Telefono (
-  id_telefono int,
+  id_telefono int auto_increment,
   ci int,
   telefono int,
   primary key (id_telefono, ci),
@@ -430,18 +430,31 @@ values (2, 6, 0.00);
 -- drop user if exists 'ope'@'%';
 
 /* ----- USUARIOS ----- */
-create user 'ger' identified by '123';
-create user 'jefe' identified by '123';
-create user 'eje' identified by '123';
-create user 'caj' identified by '123';
-create user 'ope' identified by '123';
+-- create user 'ger' identified by '123';
+-- create user 'jefe' identified by '123';
+-- create user 'eje' identified by '123';
+-- create user 'caj' identified by '123';
+-- create user 'ope' identified by '123';
 
 -- Doy permiso a los usuarios segun lo necesiten
 -- Gerente
 grant select on Empleado to ger;
+grant insert on Empleado to ger;
+grant update on Empleado to ger;
+
 grant select on Cliente to ger;
+grant insert on Cliente to ger;
+grant update on Cliente to ger;
+
 grant select on Persona to ger;
+grant insert on Persona to ger;
+grant update on Persona to ger;
+
 grant select on Telefono to ger;
+grant insert on Telefono to ger;
+grant update on Telefono to ger;
+grant delete on Telefono to ger;
+
 grant select on Rol to ger;
 grant select on Marca to ger;
 grant select on Vehiculo to ger;
@@ -478,6 +491,7 @@ grant select on Persona to ope;
 grant select on Telefono to ope;
 grant select on Plaza to ope;
 
+/*
 SELECT p.nro_plaza
 FROM Vehiculo v
 JOIN Posee po ON v.matricula = po.matricula
@@ -485,4 +499,4 @@ JOIN Factura f ON po.ci = f.ci
 JOIN Solicita s ON f.id_factura = s.id_factura
 JOIN Plaza p ON s.id_plaza = p.id_plaza
 WHERE v.matricula = 'cba4321';
-
+*/

@@ -58,6 +58,8 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblApellido = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
+            this.btnAgregarTelefono = new System.Windows.Forms.Button();
+            this.btnEliminarTelefono = new System.Windows.Forms.Button();
             this.pCI.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
@@ -130,6 +132,8 @@ namespace CapaPresentacion.EjecutivoServicios
             // 
             // pDatos
             // 
+            this.pDatos.Controls.Add(this.btnEliminarTelefono);
+            this.pDatos.Controls.Add(this.btnAgregarTelefono);
             this.pDatos.Controls.Add(this.cbTelefonos);
             this.pDatos.Controls.Add(this.btnListar);
             this.pDatos.Controls.Add(this.btnCancelar);
@@ -158,10 +162,11 @@ namespace CapaPresentacion.EjecutivoServicios
             // 
             this.cbTelefonos.Font = new System.Drawing.Font("Arial", 12F);
             this.cbTelefonos.FormattingEnabled = true;
-            this.cbTelefonos.Location = new System.Drawing.Point(209, 97);
+            this.cbTelefonos.Location = new System.Drawing.Point(178, 97);
             this.cbTelefonos.Name = "cbTelefonos";
             this.cbTelefonos.Size = new System.Drawing.Size(136, 26);
             this.cbTelefonos.TabIndex = 24;
+            this.cbTelefonos.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cbTelefonos_KeyPress);
             // 
             // btnListar
             // 
@@ -170,7 +175,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnListar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnListar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnListar.ForeColor = System.Drawing.Color.White;
-            this.btnListar.Location = new System.Drawing.Point(511, 240);
+            this.btnListar.Location = new System.Drawing.Point(499, 240);
             this.btnListar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnListar.Name = "btnListar";
             this.btnListar.Size = new System.Drawing.Size(75, 25);
@@ -186,10 +191,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(420, 240);
+            this.btnCancelar.Location = new System.Drawing.Point(401, 240);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 25);
+            this.btnCancelar.Size = new System.Drawing.Size(85, 25);
             this.btnCancelar.TabIndex = 22;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -202,7 +207,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(329, 240);
+            this.btnEliminar.Location = new System.Drawing.Point(313, 240);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 25);
@@ -218,7 +223,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(238, 240);
+            this.btnGuardar.Location = new System.Drawing.Point(222, 240);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 25);
@@ -236,7 +241,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCiudad.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCiudad.Multiline = true;
             this.txtCiudad.Name = "txtCiudad";
-            this.txtCiudad.Size = new System.Drawing.Size(135, 25);
+            this.txtCiudad.Size = new System.Drawing.Size(166, 25);
             this.txtCiudad.TabIndex = 19;
             this.txtCiudad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCiudad_KeyPress);
             // 
@@ -260,7 +265,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCalle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCalle.Multiline = true;
             this.txtCalle.Name = "txtCalle";
-            this.txtCalle.Size = new System.Drawing.Size(135, 25);
+            this.txtCalle.Size = new System.Drawing.Size(166, 25);
             this.txtCalle.TabIndex = 17;
             this.txtCalle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCalle_KeyPress);
             // 
@@ -280,11 +285,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtNroPuerta.BackColor = System.Drawing.Color.LightBlue;
             this.txtNroPuerta.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNroPuerta.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtNroPuerta.Location = new System.Drawing.Point(500, 27);
+            this.txtNroPuerta.Location = new System.Drawing.Point(499, 29);
             this.txtNroPuerta.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtNroPuerta.Multiline = true;
             this.txtNroPuerta.Name = "txtNroPuerta";
-            this.txtNroPuerta.Size = new System.Drawing.Size(135, 25);
+            this.txtNroPuerta.Size = new System.Drawing.Size(167, 25);
             this.txtNroPuerta.TabIndex = 15;
             this.txtNroPuerta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNroPuerta_KeyPress);
             // 
@@ -309,10 +314,10 @@ namespace CapaPresentacion.EjecutivoServicios
             "Mensual",
             "Sistemático",
             "Eventual"});
-            this.cbTipoCliente.Location = new System.Drawing.Point(226, 134);
+            this.cbTipoCliente.Location = new System.Drawing.Point(195, 134);
             this.cbTipoCliente.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbTipoCliente.Name = "cbTipoCliente";
-            this.cbTipoCliente.Size = new System.Drawing.Size(119, 26);
+            this.cbTipoCliente.Size = new System.Drawing.Size(150, 26);
             this.cbTipoCliente.TabIndex = 13;
             // 
             // lblTipoCliente
@@ -320,7 +325,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblTipoCliente.AutoSize = true;
             this.lblTipoCliente.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTipoCliente.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTipoCliente.Location = new System.Drawing.Point(136, 137);
+            this.lblTipoCliente.Location = new System.Drawing.Point(105, 137);
             this.lblTipoCliente.Name = "lblTipoCliente";
             this.lblTipoCliente.Size = new System.Drawing.Size(87, 18);
             this.lblTipoCliente.TabIndex = 12;
@@ -331,7 +336,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblTelefono.AutoSize = true;
             this.lblTelefono.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTelefono.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTelefono.Location = new System.Drawing.Point(136, 102);
+            this.lblTelefono.Location = new System.Drawing.Point(105, 102);
             this.lblTelefono.Name = "lblTelefono";
             this.lblTelefono.Size = new System.Drawing.Size(66, 18);
             this.lblTelefono.TabIndex = 7;
@@ -342,11 +347,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtApellido.BackColor = System.Drawing.Color.LightBlue;
             this.txtApellido.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtApellido.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtApellido.Location = new System.Drawing.Point(209, 63);
+            this.txtApellido.Location = new System.Drawing.Point(178, 63);
             this.txtApellido.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtApellido.Multiline = true;
             this.txtApellido.Name = "txtApellido";
-            this.txtApellido.Size = new System.Drawing.Size(135, 25);
+            this.txtApellido.Size = new System.Drawing.Size(167, 25);
             this.txtApellido.TabIndex = 6;
             this.txtApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtApellido_KeyPress);
             // 
@@ -355,7 +360,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblApellido.AutoSize = true;
             this.lblApellido.Font = new System.Drawing.Font("Arial", 12F);
             this.lblApellido.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblApellido.Location = new System.Drawing.Point(136, 65);
+            this.lblApellido.Location = new System.Drawing.Point(105, 65);
             this.lblApellido.Name = "lblApellido";
             this.lblApellido.Size = new System.Drawing.Size(65, 18);
             this.lblApellido.TabIndex = 5;
@@ -366,11 +371,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtNombre.BackColor = System.Drawing.Color.LightBlue;
             this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNombre.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtNombre.Location = new System.Drawing.Point(209, 29);
+            this.txtNombre.Location = new System.Drawing.Point(178, 29);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtNombre.Multiline = true;
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(135, 25);
+            this.txtNombre.Size = new System.Drawing.Size(167, 25);
             this.txtNombre.TabIndex = 4;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
@@ -379,11 +384,43 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Arial", 12F);
             this.lblNombre.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombre.Location = new System.Drawing.Point(136, 30);
+            this.lblNombre.Location = new System.Drawing.Point(105, 30);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(64, 18);
             this.lblNombre.TabIndex = 3;
             this.lblNombre.Text = "Nombre";
+            // 
+            // btnAgregarTelefono
+            // 
+            this.btnAgregarTelefono.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnAgregarTelefono.FlatAppearance.BorderSize = 0;
+            this.btnAgregarTelefono.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAgregarTelefono.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarTelefono.ForeColor = System.Drawing.Color.White;
+            this.btnAgregarTelefono.Location = new System.Drawing.Point(320, 98);
+            this.btnAgregarTelefono.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAgregarTelefono.Name = "btnAgregarTelefono";
+            this.btnAgregarTelefono.Size = new System.Drawing.Size(25, 25);
+            this.btnAgregarTelefono.TabIndex = 25;
+            this.btnAgregarTelefono.Text = "+";
+            this.btnAgregarTelefono.UseVisualStyleBackColor = false;
+            this.btnAgregarTelefono.Click += new System.EventHandler(this.btnAgregarTelefono_Click);
+            // 
+            // btnEliminarTelefono
+            // 
+            this.btnEliminarTelefono.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnEliminarTelefono.FlatAppearance.BorderSize = 0;
+            this.btnEliminarTelefono.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEliminarTelefono.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarTelefono.ForeColor = System.Drawing.Color.White;
+            this.btnEliminarTelefono.Location = new System.Drawing.Point(351, 98);
+            this.btnEliminarTelefono.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnEliminarTelefono.Name = "btnEliminarTelefono";
+            this.btnEliminarTelefono.Size = new System.Drawing.Size(25, 25);
+            this.btnEliminarTelefono.TabIndex = 26;
+            this.btnEliminarTelefono.Text = "-";
+            this.btnEliminarTelefono.UseVisualStyleBackColor = false;
+            this.btnEliminarTelefono.Click += new System.EventHandler(this.btnEliminarTelefono_Click);
             // 
             // ABMCliente
             // 
@@ -433,5 +470,7 @@ namespace CapaPresentacion.EjecutivoServicios
         private Button btnEliminar;
         private Button btnListar;
         private ComboBox cbTelefonos;
+        private Button btnAgregarTelefono;
+        private Button btnEliminarTelefono;
     }
 }

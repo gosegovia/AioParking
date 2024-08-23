@@ -67,7 +67,7 @@ namespace CapaPresentacion
             this.txtUsuario.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(225, 22);
+            this.txtUsuario.Size = new System.Drawing.Size(225, 25);
             this.txtUsuario.TabIndex = 2;
             this.txtUsuario.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUsuario_KeyDown);
             // 
@@ -77,12 +77,12 @@ namespace CapaPresentacion
             this.txtContrasenia.BackColor = System.Drawing.Color.LightBlue;
             this.txtContrasenia.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtContrasenia.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtContrasenia.Location = new System.Drawing.Point(41, 263);
+            this.txtContrasenia.Location = new System.Drawing.Point(41, 266);
             this.txtContrasenia.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtContrasenia.Multiline = true;
             this.txtContrasenia.Name = "txtContrasenia";
             this.txtContrasenia.PasswordChar = '*';
-            this.txtContrasenia.Size = new System.Drawing.Size(225, 22);
+            this.txtContrasenia.Size = new System.Drawing.Size(225, 25);
             this.txtContrasenia.TabIndex = 3;
             this.txtContrasenia.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContrasenia_KeyDown);
             // 
@@ -116,7 +116,7 @@ namespace CapaPresentacion
             this.lblContrasenia.AutoSize = true;
             this.lblContrasenia.Font = new System.Drawing.Font("Arial", 12F);
             this.lblContrasenia.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblContrasenia.Location = new System.Drawing.Point(41, 238);
+            this.lblContrasenia.Location = new System.Drawing.Point(41, 241);
             this.lblContrasenia.Name = "lblContrasenia";
             this.lblContrasenia.Size = new System.Drawing.Size(89, 18);
             this.lblContrasenia.TabIndex = 6;
