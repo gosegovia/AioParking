@@ -500,3 +500,7 @@ JOIN Solicita s ON f.id_factura = s.id_factura
 JOIN Plaza p ON s.id_plaza = p.id_plaza
 WHERE v.matricula = 'cba4321';
 */
+
+update Persona
+set estado = 0
+where ci =123321123;
