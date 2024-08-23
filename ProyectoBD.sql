@@ -501,6 +501,10 @@ JOIN Plaza p ON s.id_plaza = p.id_plaza
 WHERE v.matricula = 'cba4321';
 */
 
+select p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente
+from Persona p, Telefono t, Cliente c
+where p.ci = t.ci and p.ci = c.ci;
+
 update Persona
 set estado = 0
 where ci =123321123;

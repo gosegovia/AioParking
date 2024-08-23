@@ -126,6 +126,7 @@ namespace CapaPresentacion.EjecutivoServicios
                             }
                             else
                             {
+                                txtCI.Text = "";
                                 // Ver despues
                                 return;
                             }
@@ -247,6 +248,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 c.calle = txtCalle.Text;
                 c.ciudad = txtCiudad.Text;
                 c.TipoCliente = cbTipoCliente.SelectedItem.ToString();
+                c.estado = 1;
 
                 // Para cada telefono de string del combo box
                 foreach (string telefono in cbTelefonos.Items)

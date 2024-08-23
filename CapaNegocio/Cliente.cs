@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using ADODB;
 using CapaNegocio;
 
@@ -256,8 +257,9 @@ namespace CapaNegocio
                 if (modificacion)
                 {
                     sql = "update Persona " +
-                          "set nombre = '" + nombre + "', apellido = '" + apellido + "', nro_puerta = " + nroPuerta + ", calle = '" + calle + "', ciudad = '" + ciudad + "' " +
+                          "set nombre = '" + nombre + "', apellido = '" + apellido + "', nro_puerta = " + nroPuerta + ", calle = '" + calle + "', ciudad = '" + ciudad + "', estado = " + estado + " " +
                           "where ci = " + ci;
+
                     sql1 = "update Cliente " +
                            "set tipo_cliente = '" + TipoCliente + "' " +
                            "where ci = " + ci;
@@ -313,5 +315,62 @@ namespace CapaNegocio
 
             return resultado;
         } // Fin Método guardar
+
+        // Método para obtener los clientes
+        public List<Cliente> ListarClientes()
+        {
+            List<Cliente> clientes = new List<Cliente>();
+            Dictionary<int, Cliente> clientesDict = new Dictionary<int, Cliente>();
+            Recordset rs;
+            object filasAfectadas;
+
+            string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente " +
+                         "FROM Persona p " +
+                         "JOIN Telefono t ON p.ci = t.ci " +
+                         "JOIN Cliente c ON p.ci = c.ci";
+
+            try
+            {
+                rs = _conexion.Execute(sql, out filasAfectadas);
+
+                while (!rs.EOF)
+                {
+                    int ci = Convert.ToInt32(rs.Fields["ci"].Value);
+
+                    // Verificar si el cliente ya está en el diccionario
+                    if (!clientesDict.ContainsKey(ci))
+                    {
+                        // Crear un nuevo cliente y agregarlo al diccionario
+                        clientesDict[ci] = new Cliente
+                        {
+                            _ci = ci,
+                            _nombre = Convert.ToString(rs.Fields["nombre"].Value),
+                            _apellido = Convert.ToString(rs.Fields["apellido"].Value),
+                            _nro_puerta = Convert.ToInt32(rs.Fields["nro_puerta"].Value),
+                            _calle = Convert.ToString(rs.Fields["calle"].Value),
+                            _ciudad = Convert.ToString(rs.Fields["ciudad"].Value),
+                            _estado = Convert.ToSByte(rs.Fields["estado"].Value),
+                            _tipoCliente = Convert.ToString(rs.Fields["tipo_cliente"].Value),
+                            _telefonos = new List<string>()
+                        };
+                    }
+
+                    // Agregar el teléfono al cliente existente
+                    clientesDict[ci]._telefonos.Add(Convert.ToString(rs.Fields["telefono"].Value));
+
+                    rs.MoveNext();
+                }
+
+                // Convertir el diccionario a lista
+                clientes = clientesDict.Values.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los clientes: " + ex.Message);
+            }
+
+            return clientes;
+        }
+
     }
 }
