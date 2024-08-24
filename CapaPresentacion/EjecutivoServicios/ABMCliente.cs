@@ -164,11 +164,9 @@ namespace CapaPresentacion.EjecutivoServicios
                         }
                         cbTelefonos.SelectedIndex = 0;
                         break;
-                    case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
-                    case 2:
-                    case 4:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                    case 1: MessageBox.Show("Debe logearse nuevamente"); break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
                     case 3: // No encontro
                         if (txtCI.TextLength < 8)
                         {

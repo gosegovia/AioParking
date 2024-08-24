@@ -7,17 +7,10 @@ namespace CapaNegocio
     public class Vehiculo
     {
         // Definición de la clase Vehiculo
-        protected int _ci;
         protected string _matricula;
         protected int _marca;
         protected int _tipoVehiculo;
         protected Connection _conexion;
-
-        public int ci
-        {
-            get { return _ci; }
-            set { _ci = value; }
-        }
 
         public string matricula
         {
@@ -51,16 +44,14 @@ namespace CapaNegocio
 
         public Vehiculo()
         {
-            _ci = 0;
             _matricula = "";
             _marca = 0;
             _tipoVehiculo = 0;
             _conexion = new Connection();
         }
 
-        public Vehiculo(int ci, string mat, int mar, int tipo, Connection cn)
+        public Vehiculo(string mat, int mar, int tipo, Connection cn)
         {
-            _ci = ci;
             _matricula = mat;
             _marca = mar;
             _tipoVehiculo = tipo;
@@ -101,7 +92,7 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public byte BuscarVehiculo()
+        public byte BuscarVehiculo(Cliente c)
         {
             string sql;
             object filasAfectadas;
@@ -137,7 +128,8 @@ namespace CapaNegocio
                     _matricula = Convert.ToString(rs.Fields["matricula"].Value);
                     _marca = Convert.ToInt32(rs.Fields["id_marca"].Value);
                     _tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value);
-                    _ci = Convert.ToInt32(rs.Fields["ci"].Value);
+                    c.ci = Convert.ToInt32(rs.Fields["ci"].Value);
+
                 }
             }
             return resultado;
@@ -174,11 +166,11 @@ namespace CapaNegocio
         }
 
         // Método Guardar
-        public byte Guardar(bool modificacion)
+        public byte Guardar(bool modificacion, Cliente c)
         {
             byte resultado = 0;
             object filasAfectadas;
-            string sql, sql1;
+            string sql;
 
             if (_conexion.State == 0) // La conexión está cerrada
             {
@@ -188,7 +180,9 @@ namespace CapaNegocio
             {
                 if (modificacion)
                 {
-                    // Aquí va el código para modificar un registro
+                    sql = "UPDATE Vehiculo " +
+                        "SET id_marca = " + marca + ", tipo_vehiculo = " + tipoVehiculo + " " +
+                        "WHERE matricula = '" + matricula + "'";
                 }
                 else
                 {
@@ -204,11 +198,72 @@ namespace CapaNegocio
                     }
 
                     sql = "insert into Posee (ci, matricula) " +
-                        "values ("+ci+", '" + matricula + "');";
+                        "values (" + c.ci + ", '" + matricula + "');";
+
+                    try
+                    {
+                        _conexion.Execute(sql, out filasAfectadas);
+                    }
+                    catch
+                    {
+                        return 3; // Error al insertar en la tabla posee 
+                    }
                 }
             }
-
             return resultado;
+        }
+
+        public byte Eliminar()
+        {
+            byte resultado = 0;
+            object filasAfectadas;
+            string sql;
+
+            if (_conexion.State == 0)
+            {
+                resultado = 1;
+            }
+            else
+            {
+                sql = "DELETE FROM Factura WHERE matricula = '" + matricula + "'; ";
+
+
+                _conexion.Execute(sql, out filasAfectadas);
+
+                try
+                {
+                    _conexion.Execute(sql, out filasAfectadas);
+                }
+                catch
+                {
+                    return (2);
+                }
+
+                sql = "DELETE FROM Posee WHERE matricula = '" + matricula + "'; ";
+
+                try
+                {
+                    _conexion.Execute(sql, out filasAfectadas);
+                }
+                catch
+                {
+                    return (3);
+                }
+
+                sql = "DELETE FROM Vehiculo WHERE matricula = '" + matricula + "'; ";
+
+                try
+                {
+                    _conexion.Execute(sql, out filasAfectadas);
+                }
+                catch
+                {
+                    return (4);
+                }
+
+                filasAfectadas = null;
+            }
+            return (resultado);
         }
     }
 }

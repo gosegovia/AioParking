@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CapaNegocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -67,13 +68,18 @@ namespace CapaPresentacion.JefeServicios
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
+        private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionLongitud(sender, e, 20);
+        }
+
         // FIN VALIDACIONES
 
-        /*
         // Botón buscar
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            Empleado emp;
+            CapaNegocio.Empleado emp;
             Int32 cedula;
 
             if (!Int32.TryParse(txtCI.Text, out cedula))
@@ -87,7 +93,7 @@ namespace CapaPresentacion.JefeServicios
                 emp.conexion = Program.cn;
                 emp.ci = cedula;
 
-                switch (emp.Buscar())
+                switch (emp.BuscarEmpleado())
                 {
                     case 0: // Encontro
                         if (emp.estado == 0)
@@ -99,6 +105,7 @@ namespace CapaPresentacion.JefeServicios
                             }
                             else
                             {
+                                txtCI.Text = "";
                                 // Ver despues
                                 return;
                             }
@@ -114,30 +121,17 @@ namespace CapaPresentacion.JefeServicios
                         txtNroPuerta.Text = emp.nroPuerta.ToString();
                         txtCalle.Text = emp.calle;
                         txtCiudad.Text = emp.ciudad;
-                        txtUsuario.Text = emp.Usuario;
+                        txtUsuario.Text = emp.usuario;
 
-                        switch (emp.Rol)
+                        switch (emp.rol)
                         {
-                            case 1:
-                                cbEmpleado.SelectedIndex = 0;
-                                break;
-                            case 2:
-                                cbEmpleado.SelectedIndex = 1;
-                                break;
-                            case 3:
-                                cbEmpleado.SelectedIndex = 2;
-                                break;
-                            case 4:
-                                cbEmpleado.SelectedIndex = 3;
-                                break;
-                            case 5:
-                                cbEmpleado.SelectedIndex = 4;
-                                break;
-                            default:
-                                MessageBox.Show("Rol no encontrado");
-                                break;
+                            case 1: cbEmpleado.SelectedIndex = 0; break;
+                            case 2: cbEmpleado.SelectedIndex = 1; break;
+                            case 3: cbEmpleado.SelectedIndex = 2; break;
+                            case 4: cbEmpleado.SelectedIndex = 3; break;
+                            case 5: cbEmpleado.SelectedIndex = 4; break;
                         }
-
+                     
                         string telefono;
                         cbTelefonos.Items.Clear();
                         foreach (string tel in emp.Telefonos)
@@ -147,11 +141,9 @@ namespace CapaPresentacion.JefeServicios
                         }
                         cbTelefonos.SelectedIndex = 0;
                         break;
-                    case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
-                    case 2:
-                    case 4:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                    case 1: MessageBox.Show("Debe logearse nuevamente"); break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
                     case 3: // No encontro
                         if (txtCI.TextLength < 8)
                         {
@@ -170,9 +162,10 @@ namespace CapaPresentacion.JefeServicios
                                 txtNroPuerta.Clear();
                                 txtCalle.Clear();
                                 txtCiudad.Clear();
-                                cbTelefonos.Items.Clear();
-                                cbEmpleado.Items.Clear();
                                 txtUsuario.Clear();
+                                cbTelefonos.Items.Clear();
+                                cbTelefonos.Text = "";
+                                cbEmpleado.SelectedIndex = 0;
                             }
                         }
                         break;
@@ -180,7 +173,6 @@ namespace CapaPresentacion.JefeServicios
                 emp = null; // Destruyo el objeto
             }
         } // Fin de botón buscar
-        */
 
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -242,9 +234,9 @@ namespace CapaPresentacion.JefeServicios
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            txtCI.Text = "";
             btnBuscar.Enabled = true;
             txtCI.Enabled = true;
+            txtCI.Text = "";
             pDatos.Visible = false;
         } // Fin de botón cancelar
 
@@ -254,10 +246,5 @@ namespace CapaPresentacion.JefeServicios
             // Mostramos el formulario
             Program.frmPrincipal.mostrarListarEmpleado();
         } // Fin de botón listar
-
-        private void btnBuscar_Click_1(object sender, EventArgs e)
-        {
-
-        }
     }
 }

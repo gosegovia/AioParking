@@ -45,10 +45,10 @@ namespace CapaPresentacion.EjecutivoServicios
             CargarMarcas();
         } // Fin de carga del formulario
 
-        // Botón Buscar
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             CapaNegocio.Vehiculo v;
+            CapaNegocio.Cliente c;
             string matricula = txtMatricula.Text.Trim();
 
             if (string.IsNullOrEmpty(matricula))
@@ -57,11 +57,12 @@ namespace CapaPresentacion.EjecutivoServicios
             }
             else
             {
+                c = new Cliente();
                 v = new Vehiculo();
                 v.conexion = Program.cn;
                 v.matricula = matricula;
 
-                switch (v.BuscarVehiculo())
+                switch (v.BuscarVehiculo(c))
                 {
                     case 0: // Encontró
                         btnBuscar.Enabled = false;
@@ -70,7 +71,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         btnEliminar.Enabled = true;
 
                         txtMatricula.Text = v.matricula;
-                        txtCI.Text = v.ci.ToString();
+                        txtCI.Text = c.ci.ToString();
 
                         // Seleccionar marca
                         for (int i = 0; i < cbMarca.Items.Count; i++)
@@ -105,7 +106,6 @@ namespace CapaPresentacion.EjecutivoServicios
                                 MessageBox.Show("Tipo de vehículo no reconocido");
                                 break;
                         }
-
                         break;
 
                     case 1:
@@ -134,48 +134,103 @@ namespace CapaPresentacion.EjecutivoServicios
                         break;
                 }
                 v = null; // Destruyo el objeto
+                c = null;
             }
         }
 
         // Botón Guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validar cédula
-            if (string.IsNullOrEmpty(txtCI.Text))
+            CapaNegocio.Vehiculo v;
+            CapaNegocio.Cliente c;
+            string matricula = txtMatricula.Text.Trim();
+
+            if (string.IsNullOrEmpty(matricula))
+            {
+                MessageBox.Show("La matrícula no puede estar vacía");
+            }
+            else if (string.IsNullOrEmpty(txtCI.Text))
             {
                 MessageBox.Show("Debe ingresar la cédula.");
                 return; // Detener la ejecución si la cédula no es válida
             }
-
-            // Validación de marca
-            if (cbMarca.SelectedIndex == -1)
+            else if (cbMarca.SelectedIndex == -1)
             {
                 MessageBox.Show("Debe seleccionar la marca.");
                 return; // Detener la ejecución si la marca no es válida
             }
-
-            // Validación del tipo de vehículo
-            if (cbTipoVehiculo.SelectedIndex == -1)
+            else if (cbTipoVehiculo.SelectedIndex == -1)
             {
                 MessageBox.Show("Debe seleccionar el tipo de vehículo.");
                 return; // Detener la ejecución si el tipo de vehículo no es válido
+            } else
+            {
+                c = new Cliente();
+                v = new Vehiculo();
+
+                v.conexion = Program.cn;
+                v.matricula = txtMatricula.Text;
+                c.ci = int.Parse(txtCI.Text);
+                v.marca = cbMarca.SelectedIndex + 1;
+                v.tipoVehiculo = cbTipoVehiculo.SelectedIndex + 1;
+
+                MessageBox.Show(v.marca.ToString());
+                MessageBox.Show(v.tipoVehiculo.ToString());
+
+                switch (v.Guardar(btnEliminar.Enabled, c))
+                {
+                    case 0:
+                        MessageBox.Show("Se ingreso el vehiculo.");
+
+                        btnBuscar.Enabled = true;
+                        txtMatricula.Enabled = true;
+                        txtMatricula.Text = "";
+                        pDatos.Visible = false;
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                }
+                c = null;
+                v = null;
             }
-
-            // Guardar los datos
-
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
-            pDatos.Visible = false;
         } // Fin botón guardar
 
         // Botón Eliminar
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Datos eliminados correctamente.");
+            CapaNegocio.Vehiculo v;
+            string matricula = txtMatricula.Text.Trim();
 
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
-            pDatos.Visible = false;
+            if (string.IsNullOrEmpty(matricula))
+            {
+                MessageBox.Show("La matrícula no puede estar vacía");
+            } else
+            {
+                v = new Vehiculo();
+                v.conexion = Program.cn;
+                v.matricula = matricula;
+
+                switch (v.Eliminar())
+                {
+                    case 0: // Se realizo sin problemas
+                        MessageBox.Show("Datos eliminados correctamente.");
+                        btnBuscar.Enabled = true;
+                        txtMatricula.Enabled = true;
+                        txtMatricula.Text = "";
+                        pDatos.Visible = false;
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
+                }
+                v = null;
+            }
         } // Fin botón eliminar
 
         // Botón Cancelar

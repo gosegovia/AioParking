@@ -100,7 +100,7 @@ namespace CapaPresentacion.JefeServicios
             this.btnBuscar.TabIndex = 2;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click_1);
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // txtCI
             // 
@@ -113,6 +113,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtCI.Name = "txtCI";
             this.txtCI.Size = new System.Drawing.Size(135, 25);
             this.txtCI.TabIndex = 1;
+            this.txtCI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCI_KeyPress);
             // 
             // lblCI
             // 
@@ -161,6 +162,7 @@ namespace CapaPresentacion.JefeServicios
             this.cbTelefonos.Name = "cbTelefonos";
             this.cbTelefonos.Size = new System.Drawing.Size(149, 26);
             this.cbTelefonos.TabIndex = 45;
+            this.cbTelefonos.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
             // 
             // txtUsuario
             // 
@@ -173,6 +175,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(150, 22);
             this.txtUsuario.TabIndex = 44;
+            this.txtUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsuario_KeyPress);
             // 
             // lblUsuario
             // 
@@ -214,6 +217,7 @@ namespace CapaPresentacion.JefeServicios
             this.btnCancelar.TabIndex = 42;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnEliminar
             // 
@@ -256,6 +260,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtCiudad.Name = "txtCiudad";
             this.txtCiudad.Size = new System.Drawing.Size(150, 22);
             this.txtCiudad.TabIndex = 39;
+            this.txtCiudad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCiudad_KeyPress);
             // 
             // lblCiudad
             // 
@@ -279,6 +284,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtCalle.Name = "txtCalle";
             this.txtCalle.Size = new System.Drawing.Size(150, 22);
             this.txtCalle.TabIndex = 37;
+            this.txtCalle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCalle_KeyPress);
             // 
             // lblCalle
             // 
@@ -302,6 +308,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtNroPuerta.Name = "txtNroPuerta";
             this.txtNroPuerta.Size = new System.Drawing.Size(150, 22);
             this.txtNroPuerta.TabIndex = 35;
+            this.txtNroPuerta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNroPuerta_KeyPress);
             // 
             // lblNroPuerta
             // 
@@ -365,6 +372,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(150, 22);
             this.txtApellido.TabIndex = 26;
+            this.txtApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtApellido_KeyPress);
             // 
             // lblApellido
             // 
@@ -388,6 +396,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(150, 22);
             this.txtNombre.TabIndex = 24;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // lblNombre
             // 

@@ -464,10 +464,18 @@ grant update on Vehiculo to ger;
 grant delete on Vehiculo to ger;
 
 grant select on Posee to ger;
+grant insert on Posee to ger;
+grant update on Posee to ger;
+grant delete on Posee to ger;
+
+grant select on Factura to ger;
+grant insert on Factura to ger;
+grant update on Factura to ger;
+grant delete on Factura to ger;
+
 grant select on Parking to ger;
 grant select on Solicita to ger;
 grant select on Plaza to ger;
-grant select on Factura to ger;
 grant select on Usa to ger;
 
 -- Jefe de servicios
@@ -529,6 +537,3 @@ JOIN Solicita s ON f.id_factura = s.id_factura
 JOIN Plaza p ON s.id_plaza = p.id_plaza
 WHERE v.matricula = 'cba4321';
 */
-
-insert into Vehiculo (matricula, id_marca, tipo_vehiculo)
-values ('bca7213', 4, 3)

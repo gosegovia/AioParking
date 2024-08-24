@@ -7,7 +7,7 @@ using CapaNegocio;
 
 namespace CapaNegocio
 {
-    public class Cliente
+    public class Empleado
     {
         protected int _ci;
         protected string _nombre;
@@ -18,7 +18,8 @@ namespace CapaNegocio
         protected sbyte _estado;
         protected List<string> _telefonos;
         protected Connection _conexion;
-        protected string _tipoCliente;
+        protected string _usuario;
+        protected int _rol;
 
         public int ci
         {
@@ -74,13 +75,19 @@ namespace CapaNegocio
             get { return (_conexion); }
         }
 
-        public string TipoCliente
+        public string usuario
         {
-            set { _tipoCliente = value; }
-            get { return (_tipoCliente); }
+            set { _usuario = value; }
+            get {  return (_usuario); }
         }
 
-        public Cliente()
+        public int rol
+        {
+            set { _rol = value; }
+            get { return (_rol); }
+        }
+
+        public Empleado()
         {
             _ci = 0;
             _nombre = "";
@@ -91,10 +98,11 @@ namespace CapaNegocio
             _estado = 0;
             _telefonos = new List<string>();
             _conexion = new Connection();
-            _tipoCliente = "";
+            _usuario = "";
+            _rol = 0;
         }
 
-        public Cliente(int ci, string nom, string ape, string calle, string ciudad, int np, sbyte estado, List<string> tel, Connection cn, string tc)
+        public Empleado(int ci, string nom, string ape, string calle, string ciudad, int np, sbyte estado, List<string> tel, Connection cn, string tc, string user, int rol)
         {
             _ci = ci;
             _nombre = nom;
@@ -105,47 +113,12 @@ namespace CapaNegocio
             _estado = estado;
             _telefonos = tel;
             _conexion = cn;
-            _tipoCliente = tc;
-        }
-
-        public byte BuscarCI()
-        {
-            string sql;
-            object filasAfectadas;
-            Recordset rs;
-            byte resultado = 0;
-
-            if (_conexion.State == 0)
-            {
-                resultado = 1; // Conexión cerrada
-            }
-            else
-            {
-                sql = "SELECT ci " +
-                      "FROM Cliente " +
-                      "WHERE ci = " + ci;
-
-                rs = _conexion.Execute(sql, out filasAfectadas);
-
-                try
-                {
-                    rs = _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return 2; // Error en la ejecución
-                }
-
-                if (rs.RecordCount == 0)
-                {
-                    resultado = 3; // No encontrado
-                }
-            }
-            return resultado;
+            _usuario = user;
+            _rol = rol;
         }
 
         // Implementación de los métodos abstractos
-        public byte Buscar()
+        public byte BuscarEmpleado()
         {
             string sql;
             object filasAfectadas;
@@ -158,10 +131,10 @@ namespace CapaNegocio
             }
             else
             {
-                sql = "SELECT p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, c.tipo_cliente " +
-                "FROM Persona p " +
-                "JOIN Cliente c ON p.ci = c.ci " +
-                "WHERE p.ci =" + ci;
+                sql = "SELECT p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario " +
+                    "FROM Persona p " +
+                    "JOIN Empleado e ON p.ci = e.ci " +
+                    "WHERE p.ci = " + ci;
 
                 try
                 {
@@ -184,7 +157,8 @@ namespace CapaNegocio
                     _calle = Convert.ToString(rs.Fields["calle"].Value);
                     _ciudad = Convert.ToString(rs.Fields["ciudad"].Value);
                     _estado = (sbyte)rs.Fields["estado"].Value;
-                    _tipoCliente = Convert.ToString(rs.Fields["tipo_cliente"].Value);
+                    _usuario = Convert.ToString(rs.Fields["usuario"].Value);
+                    _rol = rs.Fields["nro_puerta"].Value;
 
 
                     // Obtener los teléfonos del cliente
@@ -210,6 +184,7 @@ namespace CapaNegocio
             return resultado;
         }
 
+        /*
         public byte Eliminar()
         {
             byte resultado = 0;
@@ -370,6 +345,6 @@ namespace CapaNegocio
 
             return clientes;
         }
-
+        */
     }
 }
