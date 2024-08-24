@@ -457,7 +457,12 @@ grant delete on Telefono to ger;
 
 grant select on Rol to ger;
 grant select on Marca to ger;
+
 grant select on Vehiculo to ger;
+grant insert on Vehiculo to ger;
+grant update on Vehiculo to ger;
+grant delete on Vehiculo to ger;
+
 grant select on Posee to ger;
 grant select on Parking to ger;
 grant select on Solicita to ger;
@@ -467,17 +472,41 @@ grant select on Usa to ger;
 
 -- Jefe de servicios
 grant select on Empleado to jefe;
-grant select on Cliente to ger;
+grant insert on Empleado to jefe;
+grant update on Empleado to jefe;
+
+grant select on Cliente to jefe;
+grant insert on Cliente to jefe;
+grant update on Cliente to jefe;
+
 grant select on Persona to jefe;
+grant insert on Persona to jefe;
+grant update on Persona to jefe;
+
 grant select on Telefono to jefe;
+grant insert on Telefono to jefe;
+grant update on Telefono to jefe;
+grant delete on Telefono to jefe;
+
 grant select on Rol to jefe;
 grant select on Marca to jefe;
 
 -- Ejecutivo de servicios
 grant select on Empleado to eje;
+
 grant select on Cliente to eje;
+grant insert on Cliente to eje;
+grant update on Cliente to eje;
+
 grant select on Persona to eje;
+grant insert on Persona to eje;
+grant update on Persona to eje;
+
 grant select on Telefono to eje;
+grant insert on Telefono to eje;
+grant update on Telefono to eje;
+grant delete on Telefono to eje;
+
 grant select on Marca to eje;
 
 -- Cajero
@@ -501,10 +530,5 @@ JOIN Plaza p ON s.id_plaza = p.id_plaza
 WHERE v.matricula = 'cba4321';
 */
 
-select p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente
-from Persona p, Telefono t, Cliente c
-where p.ci = t.ci and p.ci = c.ci;
-
-update Persona
-set estado = 0
-where ci =123321123;
+insert into Vehiculo (matricula, id_marca, tipo_vehiculo)
+values ('bca7213', 4, 3)

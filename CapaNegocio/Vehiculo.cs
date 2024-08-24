@@ -1,16 +1,12 @@
 ﻿using ADODB;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace CapaNegocio
 {
     public class Vehiculo
     {
-        // Definición de la clase vehiculo
+        // Definición de la clase Vehiculo
         protected int _ci;
         protected string _matricula;
         protected int _marca;
@@ -45,6 +41,12 @@ namespace CapaNegocio
         {
             set { _conexion = value; }
             get { return (_conexion); }
+        }
+
+        public class Marca
+        {
+            public int IdMarca { get; set; }
+            public string NombreMarca { get; set; }
         }
 
         public Vehiculo()
@@ -170,16 +172,43 @@ namespace CapaNegocio
 
             return marcas;
         }
+
+        // Método Guardar
+        public byte Guardar(bool modificacion)
+        {
+            byte resultado = 0;
+            object filasAfectadas;
+            string sql, sql1;
+
+            if (_conexion.State == 0) // La conexión está cerrada
+            {
+                resultado = 1;
+            }
+            else
+            {
+                if (modificacion)
+                {
+                    // Aquí va el código para modificar un registro
+                }
+                else
+                {
+                    sql = "INSERT INTO Vehiculo (matricula, id_marca, tipo_vehiculo) " +
+                          "VALUES ('" + matricula + "', " + marca + ", "+ tipoVehiculo +")";
+                    try
+                    {
+                        _conexion.Execute(sql, out filasAfectadas);
+                    }
+                    catch
+                    {
+                        return 2; // Error al hacer el update o el insert    
+                    }
+
+                    sql = "insert into Posee (ci, matricula) " +
+                        "values ("+ci+", '" + matricula + "');";
+                }
+            }
+
+            return resultado;
+        }
     }
-
-    public class Marca
-    {
-        public int IdMarca { get; set; }
-        public string NombreMarca { get; set; }
-    }
-
-
-
-    // public abstract byte Eliminar();
-    // public abstract byte Guardar(bool modificacion);
 }

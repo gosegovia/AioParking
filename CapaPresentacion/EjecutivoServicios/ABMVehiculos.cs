@@ -26,21 +26,13 @@ namespace CapaPresentacion.EjecutivoServicios
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionTextoNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 10);
         }
 
         private void txtCI_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-        }
-
-        private void txtMarca_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.validacionTexto(sender, e);
-        }
-
-        private void txtPlaza_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.validacionNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 8);
         }
 
         // FIN VALIDACIONES
@@ -130,13 +122,13 @@ namespace CapaPresentacion.EjecutivoServicios
                         if (respuesta == DialogResult.Yes)
                         {
                             btnBuscar.Enabled = false;
+                            txtMatricula.Enabled = false;
                             pDatos.Visible = true;
                             btnEliminar.Enabled = false;
 
                             // Limpiar los campos para el nuevo registro
-                            txtMatricula.Clear();
-                            cbMarca.SelectedIndex = -1;
-                            cbTipoVehiculo.SelectedIndex = -1;
+                            cbMarca.SelectedIndex = 0;
+                            cbTipoVehiculo.SelectedIndex = 0;
                             txtCI.Clear();
                         }
                         break;
@@ -212,7 +204,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 vehiculoNegocio.conexion = Program.cn; // Asignar la conexión de la base de datos
 
                 // Obtener la lista de marcas desde la capa de negocio
-                List<CapaNegocio.Marca> marcas = vehiculoNegocio.ObtenerMarcas();
+                List<CapaNegocio.Vehiculo.Marca> marcas = vehiculoNegocio.ObtenerMarcas();
 
                 // Limpiar el ComboBox antes de cargarlo
                 cbMarca.Items.Clear();
@@ -235,7 +227,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+           if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
                 btnBuscar.Focus();

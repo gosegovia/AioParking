@@ -45,11 +45,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos = new System.Windows.Forms.Panel();
             this.cbMarca = new System.Windows.Forms.ComboBox();
             this.btnListar = new System.Windows.Forms.Button();
+            this.cbTipoVehiculo = new System.Windows.Forms.ComboBox();
             this.lblTipoVehiculo = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.cbTipoVehiculo = new System.Windows.Forms.ComboBox();
             this.pMatricula.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
@@ -91,6 +91,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtMatricula.Size = new System.Drawing.Size(135, 25);
             this.txtMatricula.TabIndex = 5;
             this.txtMatricula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatricula_KeyDown);
+            this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatricula_KeyPress);
             // 
             // btnBuscar
             // 
@@ -141,13 +142,14 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCI.Name = "txtCI";
             this.txtCI.Size = new System.Drawing.Size(135, 25);
             this.txtCI.TabIndex = 5;
+            this.txtCI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCI_KeyPress);
             // 
             // lblCICliente
             // 
             this.lblCICliente.AutoSize = true;
             this.lblCICliente.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCICliente.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCICliente.Location = new System.Drawing.Point(247, 22);
+            this.lblCICliente.Location = new System.Drawing.Point(241, 22);
             this.lblCICliente.Name = "lblCICliente";
             this.lblCICliente.Size = new System.Drawing.Size(76, 18);
             this.lblCICliente.TabIndex = 4;
@@ -205,12 +207,30 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnListar.UseVisualStyleBackColor = false;
             this.btnListar.Click += new System.EventHandler(this.btnListar_Click);
             // 
+            // cbTipoVehiculo
+            // 
+            this.cbTipoVehiculo.BackColor = System.Drawing.Color.LightBlue;
+            this.cbTipoVehiculo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTipoVehiculo.Font = new System.Drawing.Font("Arial", 12F);
+            this.cbTipoVehiculo.FormattingEnabled = true;
+            this.cbTipoVehiculo.Items.AddRange(new object[] {
+            "Auto",
+            "Utilitario",
+            "Moto",
+            "Camioneta",
+            "Camion"});
+            this.cbTipoVehiculo.Location = new System.Drawing.Point(330, 83);
+            this.cbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cbTipoVehiculo.Name = "cbTipoVehiculo";
+            this.cbTipoVehiculo.Size = new System.Drawing.Size(136, 26);
+            this.cbTipoVehiculo.TabIndex = 11;
+            // 
             // lblTipoVehiculo
             // 
             this.lblTipoVehiculo.AutoSize = true;
             this.lblTipoVehiculo.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTipoVehiculo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTipoVehiculo.Location = new System.Drawing.Point(225, 87);
+            this.lblTipoVehiculo.Location = new System.Drawing.Point(219, 87);
             this.lblTipoVehiculo.Name = "lblTipoVehiculo";
             this.lblTipoVehiculo.Size = new System.Drawing.Size(100, 18);
             this.lblTipoVehiculo.TabIndex = 10;
@@ -263,24 +283,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
-            // cbTipoVehiculo
-            // 
-            this.cbTipoVehiculo.BackColor = System.Drawing.Color.LightBlue;
-            this.cbTipoVehiculo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTipoVehiculo.Font = new System.Drawing.Font("Arial", 12F);
-            this.cbTipoVehiculo.FormattingEnabled = true;
-            this.cbTipoVehiculo.Items.AddRange(new object[] {
-            "Auto",
-            "Utilitario",
-            "Moto",
-            "Camioneta",
-            "Camion"});
-            this.cbTipoVehiculo.Location = new System.Drawing.Point(330, 83);
-            this.cbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.cbTipoVehiculo.Name = "cbTipoVehiculo";
-            this.cbTipoVehiculo.Size = new System.Drawing.Size(136, 26);
-            this.cbTipoVehiculo.TabIndex = 11;
             // 
             // ABMVehiculos
             // 
