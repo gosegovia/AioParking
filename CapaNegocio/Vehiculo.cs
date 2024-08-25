@@ -1,6 +1,7 @@
 ﻿using ADODB;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CapaNegocio
 {
@@ -264,6 +265,54 @@ namespace CapaNegocio
                 filasAfectadas = null;
             }
             return (resultado);
+        }
+
+        public List<Vehiculo> ListarVehiculo(out Dictionary<string, int> vehiculosClientes)
+        {
+            List<Vehiculo> vehiculos = new List<Vehiculo>();
+            Dictionary<string, Vehiculo> vehiculosDict = new Dictionary<string, Vehiculo>();
+            vehiculosClientes = new Dictionary<string, int>();
+            Recordset rs;
+            object filasAfectadas;
+
+            string sql = "SELECT DISTINCT v.matricula, c.ci, v.tipo_vehiculo, m.nombre_marca " +
+                "FROM Vehiculo v " +
+                "JOIN Marca m ON v.id_marca = m.id_marca " +
+                "JOIN Posee p ON v.matricula = p.matricula " +
+                "JOIN Cliente c ON p.ci = c.ci;";
+
+            try
+            {
+                rs = conexion.Execute(sql, out filasAfectadas);
+
+                while (!rs.EOF)
+                {
+                    string matricula = Convert.ToString(rs.Fields["matricula"].Value);
+                    int ciCliente = Convert.ToInt32(rs.Fields["ci"].Value);
+
+                    // Verificar si el vehículo ya está en el diccionario
+                    if (!vehiculosDict.ContainsKey(matricula))
+                    {
+                        vehiculosDict[matricula] = new Vehiculo
+                        {
+                            _matricula = matricula,
+                            _tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value),
+                            _marca = Convert.ToString(rs.Fields["nombre_marca"].Value)
+                        };
+
+                        vehiculosClientes[matricula] = ciCliente;
+                    }
+
+                    rs.MoveNext();
+                }
+
+                vehiculos = vehiculosDict.Values.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar los vehículos: " + ex.Message);
+            }
+            return vehiculos;
         }
     }
 }

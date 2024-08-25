@@ -40,6 +40,8 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCI = new System.Windows.Forms.TextBox();
             this.lblCI = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
+            this.btnEliminarTelefono = new System.Windows.Forms.Button();
+            this.btnAgregarTelefono = new System.Windows.Forms.Button();
             this.cbTelefonos = new System.Windows.Forms.ComboBox();
             this.btnListar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
@@ -58,8 +60,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblApellido = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.btnAgregarTelefono = new System.Windows.Forms.Button();
-            this.btnEliminarTelefono = new System.Windows.Forms.Button();
             this.pCI.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
@@ -83,6 +83,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pCI.Controls.Add(this.btnBuscar);
             this.pCI.Controls.Add(this.txtCI);
             this.pCI.Controls.Add(this.lblCI);
+            this.pCI.Controls.Add(this.btnListar);
             this.pCI.Location = new System.Drawing.Point(9, 61);
             this.pCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pCI.Name = "pCI";
@@ -96,7 +97,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(459, 29);
+            this.btnBuscar.Location = new System.Drawing.Point(423, 28);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -110,7 +111,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCI.BackColor = System.Drawing.Color.LightBlue;
             this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(317, 29);
+            this.txtCI.Location = new System.Drawing.Point(281, 28);
             this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCI.Multiline = true;
             this.txtCI.Name = "txtCI";
@@ -124,7 +125,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(291, 33);
+            this.lblCI.Location = new System.Drawing.Point(255, 32);
             this.lblCI.Name = "lblCI";
             this.lblCI.Size = new System.Drawing.Size(23, 18);
             this.lblCI.TabIndex = 0;
@@ -135,7 +136,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Controls.Add(this.btnEliminarTelefono);
             this.pDatos.Controls.Add(this.btnAgregarTelefono);
             this.pDatos.Controls.Add(this.cbTelefonos);
-            this.pDatos.Controls.Add(this.btnListar);
             this.pDatos.Controls.Add(this.btnCancelar);
             this.pDatos.Controls.Add(this.btnEliminar);
             this.pDatos.Controls.Add(this.btnGuardar);
@@ -158,6 +158,38 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Size = new System.Drawing.Size(800, 302);
             this.pDatos.TabIndex = 2;
             // 
+            // btnEliminarTelefono
+            // 
+            this.btnEliminarTelefono.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnEliminarTelefono.FlatAppearance.BorderSize = 0;
+            this.btnEliminarTelefono.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEliminarTelefono.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarTelefono.ForeColor = System.Drawing.Color.White;
+            this.btnEliminarTelefono.Location = new System.Drawing.Point(351, 98);
+            this.btnEliminarTelefono.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnEliminarTelefono.Name = "btnEliminarTelefono";
+            this.btnEliminarTelefono.Size = new System.Drawing.Size(25, 25);
+            this.btnEliminarTelefono.TabIndex = 26;
+            this.btnEliminarTelefono.Text = "-";
+            this.btnEliminarTelefono.UseVisualStyleBackColor = false;
+            this.btnEliminarTelefono.Click += new System.EventHandler(this.btnEliminarTelefono_Click);
+            // 
+            // btnAgregarTelefono
+            // 
+            this.btnAgregarTelefono.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnAgregarTelefono.FlatAppearance.BorderSize = 0;
+            this.btnAgregarTelefono.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAgregarTelefono.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarTelefono.ForeColor = System.Drawing.Color.White;
+            this.btnAgregarTelefono.Location = new System.Drawing.Point(320, 98);
+            this.btnAgregarTelefono.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnAgregarTelefono.Name = "btnAgregarTelefono";
+            this.btnAgregarTelefono.Size = new System.Drawing.Size(25, 25);
+            this.btnAgregarTelefono.TabIndex = 25;
+            this.btnAgregarTelefono.Text = "+";
+            this.btnAgregarTelefono.UseVisualStyleBackColor = false;
+            this.btnAgregarTelefono.Click += new System.EventHandler(this.btnAgregarTelefono_Click);
+            // 
             // cbTelefonos
             // 
             this.cbTelefonos.Font = new System.Drawing.Font("Arial", 12F);
@@ -175,7 +207,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnListar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnListar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnListar.ForeColor = System.Drawing.Color.White;
-            this.btnListar.Location = new System.Drawing.Point(499, 240);
+            this.btnListar.Location = new System.Drawing.Point(504, 28);
             this.btnListar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnListar.Name = "btnListar";
             this.btnListar.Size = new System.Drawing.Size(75, 25);
@@ -389,38 +421,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblNombre.Size = new System.Drawing.Size(64, 18);
             this.lblNombre.TabIndex = 3;
             this.lblNombre.Text = "Nombre";
-            // 
-            // btnAgregarTelefono
-            // 
-            this.btnAgregarTelefono.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnAgregarTelefono.FlatAppearance.BorderSize = 0;
-            this.btnAgregarTelefono.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAgregarTelefono.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAgregarTelefono.ForeColor = System.Drawing.Color.White;
-            this.btnAgregarTelefono.Location = new System.Drawing.Point(320, 98);
-            this.btnAgregarTelefono.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnAgregarTelefono.Name = "btnAgregarTelefono";
-            this.btnAgregarTelefono.Size = new System.Drawing.Size(25, 25);
-            this.btnAgregarTelefono.TabIndex = 25;
-            this.btnAgregarTelefono.Text = "+";
-            this.btnAgregarTelefono.UseVisualStyleBackColor = false;
-            this.btnAgregarTelefono.Click += new System.EventHandler(this.btnAgregarTelefono_Click);
-            // 
-            // btnEliminarTelefono
-            // 
-            this.btnEliminarTelefono.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnEliminarTelefono.FlatAppearance.BorderSize = 0;
-            this.btnEliminarTelefono.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminarTelefono.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminarTelefono.ForeColor = System.Drawing.Color.White;
-            this.btnEliminarTelefono.Location = new System.Drawing.Point(351, 98);
-            this.btnEliminarTelefono.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnEliminarTelefono.Name = "btnEliminarTelefono";
-            this.btnEliminarTelefono.Size = new System.Drawing.Size(25, 25);
-            this.btnEliminarTelefono.TabIndex = 26;
-            this.btnEliminarTelefono.Text = "-";
-            this.btnEliminarTelefono.UseVisualStyleBackColor = false;
-            this.btnEliminarTelefono.Click += new System.EventHandler(this.btnEliminarTelefono_Click);
             // 
             // ABMCliente
             // 

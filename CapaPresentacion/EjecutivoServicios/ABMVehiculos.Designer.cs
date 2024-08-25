@@ -71,6 +71,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // pMatricula
             // 
             this.pMatricula.Controls.Add(this.txtMatricula);
+            this.pMatricula.Controls.Add(this.btnListar);
             this.pMatricula.Controls.Add(this.btnBuscar);
             this.pMatricula.Controls.Add(this.lblMatricula);
             this.pMatricula.Location = new System.Drawing.Point(6, 69);
@@ -84,7 +85,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtMatricula.BackColor = System.Drawing.Color.LightBlue;
             this.txtMatricula.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtMatricula.Location = new System.Drawing.Point(330, 30);
+            this.txtMatricula.Location = new System.Drawing.Point(298, 30);
             this.txtMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtMatricula.Multiline = true;
             this.txtMatricula.Name = "txtMatricula";
@@ -100,7 +101,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(482, 30);
+            this.btnBuscar.Location = new System.Drawing.Point(450, 30);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -114,7 +115,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblMatricula.AutoSize = true;
             this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMatricula.Location = new System.Drawing.Point(251, 31);
+            this.lblMatricula.Location = new System.Drawing.Point(219, 31);
             this.lblMatricula.Name = "lblMatricula";
             this.lblMatricula.Size = new System.Drawing.Size(70, 18);
             this.lblMatricula.TabIndex = 4;
@@ -158,7 +159,6 @@ namespace CapaPresentacion.EjecutivoServicios
             // pDatos
             // 
             this.pDatos.Controls.Add(this.cbMarca);
-            this.pDatos.Controls.Add(this.btnListar);
             this.pDatos.Controls.Add(this.cbTipoVehiculo);
             this.pDatos.Controls.Add(this.lblTipoVehiculo);
             this.pDatos.Controls.Add(this.btnCancelar);
@@ -198,7 +198,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnListar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnListar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnListar.ForeColor = System.Drawing.Color.White;
-            this.btnListar.Location = new System.Drawing.Point(486, 166);
+            this.btnListar.Location = new System.Drawing.Point(531, 30);
             this.btnListar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnListar.Name = "btnListar";
             this.btnListar.Size = new System.Drawing.Size(75, 25);
@@ -243,7 +243,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(392, 166);
+            this.btnCancelar.Location = new System.Drawing.Point(442, 159);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(83, 25);
@@ -259,7 +259,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(308, 166);
+            this.btnEliminar.Location = new System.Drawing.Point(358, 159);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 25);
@@ -275,7 +275,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(220, 166);
+            this.btnGuardar.Location = new System.Drawing.Point(270, 159);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 25);

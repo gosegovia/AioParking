@@ -55,10 +55,10 @@ namespace CapaPresentacion.JefeServicios
             // 
             this.dgvEmpleado.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvEmpleado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEmpleado.Location = new System.Drawing.Point(12, 98);
+            this.dgvEmpleado.Location = new System.Drawing.Point(12, 95);
             this.dgvEmpleado.Name = "dgvEmpleado";
             this.dgvEmpleado.RowTemplate.Height = 25;
-            this.dgvEmpleado.Size = new System.Drawing.Size(794, 346);
+            this.dgvEmpleado.Size = new System.Drawing.Size(779, 312);
             this.dgvEmpleado.TabIndex = 2;
             // 
             // btnVolver
@@ -68,7 +68,7 @@ namespace CapaPresentacion.JefeServicios
             this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVolver.Font = new System.Drawing.Font("Arial", 12F);
             this.btnVolver.ForeColor = System.Drawing.Color.White;
-            this.btnVolver.Location = new System.Drawing.Point(718, 463);
+            this.btnVolver.Location = new System.Drawing.Point(703, 412);
             this.btnVolver.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(88, 25);

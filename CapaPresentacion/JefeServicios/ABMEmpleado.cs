@@ -47,7 +47,7 @@ namespace CapaPresentacion.JefeServicios
         private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitud(sender, e, 20);
+            Validaciones.validacionLongitudCB(sender, e, 9);
         }
 
         private void txtNroPuerta_KeyPress(object sender, KeyPressEventArgs e)
@@ -72,6 +72,39 @@ namespace CapaPresentacion.JefeServicios
         {
             Validaciones.validacionTexto(sender, e);
             Validaciones.validacionLongitud(sender, e, 20);
+        }
+
+        private void txtCI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscar.Focus();
+            }
+        }
+
+        private void btnAgregarTelefono_Click(object sender, EventArgs e)
+        {
+            if (cbTelefonos.Items.IndexOf(cbTelefonos.Text) < 0)
+            {
+                cbTelefonos.Items.Add(cbTelefonos.Text);
+            }
+            else
+            {
+                MessageBox.Show("El telefono ya existe en la lista");
+            }
+        }
+
+        private void btnEliminarTelefono_Click(object sender, EventArgs e)
+        {
+            if (cbTelefonos.Items.IndexOf(cbTelefonos.Text) < 0)
+            {
+                MessageBox.Show("El telefono no exste en la lista");
+            }
+            else
+            {
+                cbTelefonos.Items.Remove(cbTelefonos.Text);
+            }
         }
 
         // FIN VALIDACIONES
@@ -136,7 +169,7 @@ namespace CapaPresentacion.JefeServicios
                         cbTelefonos.Items.Clear();
                         foreach (string tel in emp.Telefonos)
                         {
-                            telefono = "0" + tel;
+                            telefono = tel;
                             cbTelefonos.Items.Add(telefono);
                         }
                         cbTelefonos.SelectedIndex = 0;
@@ -177,8 +210,15 @@ namespace CapaPresentacion.JefeServicios
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validación para el nombre
-            if (string.IsNullOrEmpty(txtNombre.Text))
+            CapaNegocio.Empleado emp;
+            Int32 cedula;
+
+            // Validaciónes
+            if (!Int32.TryParse(txtCI.Text, out cedula))
+            {
+                MessageBox.Show("La cedula de identidad debe ser numerica.");
+            }
+            else if (string.IsNullOrEmpty(txtNombre.Text))
             {
                 MessageBox.Show("Debe ingresar el nombre o revisar su formato.");
             }
@@ -212,23 +252,78 @@ namespace CapaPresentacion.JefeServicios
             }
             else
             {
-                // Guardar el dato
-                txtCI.Text = "";
-                btnBuscar.Enabled = true;
-                txtCI.Enabled = true;
-                pDatos.Visible = false;
+                emp = new Empleado();
+                emp.conexion = Program.cn;
+                emp.ci = cedula;
+                emp.nombre = txtNombre.Text;
+                emp.apellido = txtApellido.Text;
+                emp.nroPuerta = int.Parse(txtNroPuerta.Text);
+                emp.calle = txtCalle.Text;
+                emp.ciudad = txtCiudad.Text;
+                emp.usuario = txtUsuario.Text;
+                emp.estado = 1;
+                emp.rol = cbEmpleado.SelectedIndex + 1;
+
+                // Para cada telefono de string del combo box
+                foreach (string telefono in cbTelefonos.Items)
+                {
+                    emp.Telefonos.Add(telefono); // Agrego cada telefono que tenga el combo box
+                }
+
+                switch (emp.Guardar(btnEliminar.Enabled))
+                {
+                    case 0: // Se realizo sin problemas
+                        MessageBox.Show("Se ingreso el empleado.");
+
+                        txtCI.Text = "";
+                        btnBuscar.Enabled = true;
+                        txtCI.Enabled = true;
+                        pDatos.Visible = false;
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
+                }
+                emp = null; // Liberar memoria
             }
         } // Fin de botón guardar
 
         // Botón eliminar
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Eliminado correctamente.");
+            CapaNegocio.Empleado emp;
+            Int32 cedula;
 
-            txtCI.Text = "";
-            btnBuscar.Enabled = true;
-            txtCI.Enabled = true;
-            pDatos.Visible = false;
+            if (!Int32.TryParse(txtCI.Text, out cedula))
+            {
+                MessageBox.Show("La cedula de identidad debe ser numerica.");
+            }
+            else
+            {
+                emp = new Empleado();
+                emp.conexion = Program.cn;
+                emp.ci = cedula;
+
+                switch (emp.Eliminar())
+                {
+                    case 0: // Se realizo sin problemas
+                        MessageBox.Show("Datos eliminados correctamente.");
+                        txtCI.Text = "";
+                        btnBuscar.Enabled = true;
+                        txtCI.Enabled = true;
+                        pDatos.Visible = false;
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                }
+                emp = null; // Liberar memoria
+            }
         } // Fin de botón eliminar
 
         // Botón cancelar

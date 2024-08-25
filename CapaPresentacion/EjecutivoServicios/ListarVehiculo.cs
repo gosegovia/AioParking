@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CapaNegocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,10 +18,41 @@ namespace CapaPresentacion.EjecutivoServicios
             InitializeComponent();
         }
 
-        // Carga del formulario
         private void ListarVehiculo_Load(object sender, EventArgs e)
         {
-        } // Fin carga del formulario
+            try
+            {
+                Vehiculo v = new Vehiculo
+                {
+                    conexion = Program.cn
+                };
+
+                Dictionary<string, int> vehiculosClientes;
+                List<Vehiculo> vehiculos = v.ListarVehiculo(out vehiculosClientes);
+
+                if (vehiculos != null && vehiculos.Count > 0)
+                {
+                    var datosVehiculos = vehiculos.Select(ve => new
+                    {
+                        Matricula = ve.matricula,
+                        CICliente = vehiculosClientes.ContainsKey(ve.matricula) ? vehiculosClientes[ve.matricula] : 0,
+                        TipoVehiculo = ve.tipoVehiculo,
+                        Marca = ve.marca
+                    }).ToList();
+
+                    dgvVehiculo.DataSource = datosVehiculos;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron vehículos en la base de datos.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al cargar los vehículos: " + ex.Message);
+            }
+        }
+
 
         // Botón volver
         private void btnVolver_Click(object sender, EventArgs e)

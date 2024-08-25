@@ -158,7 +158,7 @@ namespace CapaNegocio
                     _ciudad = Convert.ToString(rs.Fields["ciudad"].Value);
                     _estado = (sbyte)rs.Fields["estado"].Value;
                     _usuario = Convert.ToString(rs.Fields["usuario"].Value);
-                    _rol = rs.Fields["nro_puerta"].Value;
+                    _rol = rs.Fields["id_rol"].Value;
 
 
                     // Obtener los teléfonos del cliente
@@ -184,7 +184,6 @@ namespace CapaNegocio
             return resultado;
         }
 
-        /*
         public byte Eliminar()
         {
             byte resultado = 0;
@@ -234,16 +233,17 @@ namespace CapaNegocio
                           "set nombre = '" + nombre + "', apellido = '" + apellido + "', nro_puerta = " + nroPuerta + ", calle = '" + calle + "', ciudad = '" + ciudad + "', estado = " + estado + " " +
                           "where ci = " + ci;
 
-                    sql1 = "update Cliente " +
-                           "set tipo_cliente = '" + TipoCliente + "' " +
+                    sql1 = "update Empleado " +
+                           "set id_rol = " + rol + ", usuario = '" + usuario + "' " +
                            "where ci = " + ci;
                 }
                 else
                 {
                     sql = "insert into Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) " +
                           "values (" + ci + ", '" + nombre + "', '" + apellido + "', " + nroPuerta + ", '" + calle + "', '" + ciudad + "', 1);";
-                    sql1 = "insert into Cliente (ci, tipo_cliente) " +
-                           "values (" + ci + ", '" + TipoCliente + "');";
+
+                    sql1 = "insert into Empleado (ci, id_rol, usuario) " +
+                           "values (" + ci + ", " + rol + ", '" + usuario + "');";
                 }
 
                 try
@@ -290,18 +290,18 @@ namespace CapaNegocio
             return resultado;
         } // Fin Método guardar
 
-        // Método para obtener los clientes
-        public List<Cliente> ListarClientes()
+        public List<Empleado> ListarEmpleado()
         {
-            List<Cliente> clientes = new List<Cliente>();
-            Dictionary<int, Cliente> clientesDict = new Dictionary<int, Cliente>();
+            List<Empleado> empleados = new List<Empleado>();
+            Dictionary<int, Empleado> empleadosDict = new Dictionary<int, Empleado>();
             Recordset rs;
             object filasAfectadas;
 
-            string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente " +
+            string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario, t.telefono " +
                          "FROM Persona p " +
+                         "JOIN Empleado e ON p.ci = e.ci " +
                          "JOIN Telefono t ON p.ci = t.ci " +
-                         "JOIN Cliente c ON p.ci = c.ci";
+                         "WHERE p.estado = 1;";
 
             try
             {
@@ -311,40 +311,39 @@ namespace CapaNegocio
                 {
                     int ci = Convert.ToInt32(rs.Fields["ci"].Value);
 
-                    // Verificar si el cliente ya está en el diccionario
-                    if (!clientesDict.ContainsKey(ci))
+                    // Verificar si el empleado ya está en el diccionario
+                    if (!empleadosDict.ContainsKey(ci))
                     {
-                        // Crear un nuevo cliente y agregarlo al diccionario
-                        clientesDict[ci] = new Cliente
+                        // Crear un nuevo empleado y agregarlo al diccionario
+                        empleadosDict[ci] = new Empleado
                         {
-                            _ci = ci,
-                            _nombre = Convert.ToString(rs.Fields["nombre"].Value),
-                            _apellido = Convert.ToString(rs.Fields["apellido"].Value),
-                            _nro_puerta = Convert.ToInt32(rs.Fields["nro_puerta"].Value),
-                            _calle = Convert.ToString(rs.Fields["calle"].Value),
-                            _ciudad = Convert.ToString(rs.Fields["ciudad"].Value),
-                            _estado = Convert.ToSByte(rs.Fields["estado"].Value),
-                            _tipoCliente = Convert.ToString(rs.Fields["tipo_cliente"].Value),
-                            _telefonos = new List<string>()
+                            ci = ci,
+                            nombre = Convert.ToString(rs.Fields["nombre"].Value),
+                            apellido = Convert.ToString(rs.Fields["apellido"].Value),
+                            nroPuerta = Convert.ToInt32(rs.Fields["nro_puerta"].Value),
+                            calle = Convert.ToString(rs.Fields["calle"].Value),
+                            ciudad = Convert.ToString(rs.Fields["ciudad"].Value),
+                            estado = Convert.ToSByte(rs.Fields["estado"].Value),
+                            Telefonos = new List<string>(),
+                            usuario = Convert.ToString(rs.Fields["usuario"].Value),
+                            rol = Convert.ToInt32(rs.Fields["id_rol"].Value)
                         };
                     }
 
-                    // Agregar el teléfono al cliente existente
-                    clientesDict[ci]._telefonos.Add(Convert.ToString(rs.Fields["telefono"].Value));
+                    // Agregar el teléfono al empleado existente
+                    empleadosDict[ci].Telefonos.Add(Convert.ToString(rs.Fields["telefono"].Value));
 
                     rs.MoveNext();
                 }
 
                 // Convertir el diccionario a lista
-                clientes = clientesDict.Values.ToList();
+                empleados = empleadosDict.Values.ToList();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al listar los clientes: " + ex.Message);
+                throw new Exception("Error al listar los empleados: " + ex.Message);
             }
-
-            return clientes;
+            return empleados;
         }
-        */
     }
 }

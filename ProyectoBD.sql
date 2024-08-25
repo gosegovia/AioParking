@@ -537,3 +537,9 @@ JOIN Solicita s ON f.id_factura = s.id_factura
 JOIN Plaza p ON s.id_plaza = p.id_plaza
 WHERE v.matricula = 'cba4321';
 */
+
+SELECT DISTINCT v.matricula, c.ci, v.tipo_vehiculo, m.nombre_marca
+FROM Vehiculo v
+JOIN Marca m ON v.id_marca = m.id_marca
+JOIN Posee p ON v.matricula = p.matricula
+JOIN Cliente c ON p.ci = c.ci;
