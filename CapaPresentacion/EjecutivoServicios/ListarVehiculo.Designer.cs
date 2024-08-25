@@ -60,7 +60,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // dgvVehiculo
             // 
             this.dgvVehiculo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvVehiculo.Location = new System.Drawing.Point(12, 90);
+            this.dgvVehiculo.Location = new System.Drawing.Point(12, 84);
             this.dgvVehiculo.Name = "dgvVehiculo";
             this.dgvVehiculo.RowTemplate.Height = 25;
             this.dgvVehiculo.Size = new System.Drawing.Size(779, 312);

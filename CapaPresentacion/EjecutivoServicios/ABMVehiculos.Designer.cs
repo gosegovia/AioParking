@@ -37,6 +37,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblVehiculo = new System.Windows.Forms.Label();
             this.pMatricula = new System.Windows.Forms.Panel();
             this.txtMatricula = new System.Windows.Forms.TextBox();
+            this.btnListar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.lblMatricula = new System.Windows.Forms.Label();
             this.lblMarca = new System.Windows.Forms.Label();
@@ -44,7 +45,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCICliente = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
             this.cbMarca = new System.Windows.Forms.ComboBox();
-            this.btnListar = new System.Windows.Forms.Button();
             this.cbTipoVehiculo = new System.Windows.Forms.ComboBox();
             this.lblTipoVehiculo = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
@@ -85,7 +85,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtMatricula.BackColor = System.Drawing.Color.LightBlue;
             this.txtMatricula.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtMatricula.Location = new System.Drawing.Point(298, 30);
+            this.txtMatricula.Location = new System.Drawing.Point(297, 30);
             this.txtMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtMatricula.Multiline = true;
             this.txtMatricula.Name = "txtMatricula";
@@ -94,6 +94,22 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtMatricula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatricula_KeyDown);
             this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatricula_KeyPress);
             // 
+            // btnListar
+            // 
+            this.btnListar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnListar.FlatAppearance.BorderSize = 0;
+            this.btnListar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnListar.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnListar.ForeColor = System.Drawing.Color.White;
+            this.btnListar.Location = new System.Drawing.Point(521, 30);
+            this.btnListar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnListar.Name = "btnListar";
+            this.btnListar.Size = new System.Drawing.Size(75, 25);
+            this.btnListar.TabIndex = 14;
+            this.btnListar.Text = "Listar";
+            this.btnListar.UseVisualStyleBackColor = false;
+            this.btnListar.Click += new System.EventHandler(this.btnListar_Click);
+            // 
             // btnBuscar
             // 
             this.btnBuscar.BackColor = System.Drawing.Color.DodgerBlue;
@@ -101,7 +117,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(450, 30);
+            this.btnBuscar.Location = new System.Drawing.Point(440, 30);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -115,7 +131,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblMatricula.AutoSize = true;
             this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMatricula.Location = new System.Drawing.Point(219, 31);
+            this.lblMatricula.Location = new System.Drawing.Point(218, 31);
             this.lblMatricula.Name = "lblMatricula";
             this.lblMatricula.Size = new System.Drawing.Size(70, 18);
             this.lblMatricula.TabIndex = 4;
@@ -190,22 +206,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.cbMarca.Name = "cbMarca";
             this.cbMarca.Size = new System.Drawing.Size(136, 26);
             this.cbMarca.TabIndex = 15;
-            // 
-            // btnListar
-            // 
-            this.btnListar.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnListar.FlatAppearance.BorderSize = 0;
-            this.btnListar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnListar.Font = new System.Drawing.Font("Arial", 12F);
-            this.btnListar.ForeColor = System.Drawing.Color.White;
-            this.btnListar.Location = new System.Drawing.Point(531, 30);
-            this.btnListar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnListar.Name = "btnListar";
-            this.btnListar.Size = new System.Drawing.Size(75, 25);
-            this.btnListar.TabIndex = 14;
-            this.btnListar.Text = "Listar";
-            this.btnListar.UseVisualStyleBackColor = false;
-            this.btnListar.Click += new System.EventHandler(this.btnListar_Click);
             // 
             // cbTipoVehiculo
             // 

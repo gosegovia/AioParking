@@ -35,9 +35,9 @@ namespace CapaPresentacion.EjecutivoServicios
                     var datosVehiculos = vehiculos.Select(ve => new
                     {
                         Matricula = ve.matricula,
-                        CICliente = vehiculosClientes.ContainsKey(ve.matricula) ? vehiculosClientes[ve.matricula] : 0,
-                        TipoVehiculo = ve.tipoVehiculo,
-                        Marca = ve.marca
+                        Ci = vehiculosClientes.ContainsKey(ve.matricula) ? vehiculosClientes[ve.matricula] : 0,
+                        TipoVehiculo = ve.NombreVehiculo, // Aquí se muestra el nombre del tipo de vehículo
+                        Marca = ve.NombreMarca
                     }).ToList();
 
                     dgvVehiculo.DataSource = datosVehiculos;
@@ -52,7 +52,6 @@ namespace CapaPresentacion.EjecutivoServicios
                 MessageBox.Show("Ocurrió un error al cargar los vehículos: " + ex.Message);
             }
         }
-
 
         // Botón volver
         private void btnVolver_Click(object sender, EventArgs e)

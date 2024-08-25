@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace CapaNegocio
 {
@@ -10,7 +11,9 @@ namespace CapaNegocio
         // Definición de la clase Vehiculo
         protected string _matricula;
         protected int _marca;
+        protected string _nombreMarca;
         protected int _tipoVehiculo;
+        protected string _nombreVehiculo;
         protected Connection _conexion;
 
         public string matricula
@@ -25,10 +28,22 @@ namespace CapaNegocio
             set { _marca = value; }
         }
 
+        public string NombreMarca
+        {
+            get { return _nombreMarca; }
+            set { _nombreMarca = value; }
+        }
+
         public int tipoVehiculo
         {
             get { return _tipoVehiculo; }
             set { _tipoVehiculo = value; }
+        }
+
+        public string NombreVehiculo
+        {
+            get { return _nombreVehiculo; }
+            set { _nombreVehiculo = value; }
         }
 
         public ADODB.Connection conexion
@@ -47,15 +62,19 @@ namespace CapaNegocio
         {
             _matricula = "";
             _marca = 0;
+            _nombreMarca = "";
             _tipoVehiculo = 0;
+            _nombreVehiculo = "";
             _conexion = new Connection();
         }
 
-        public Vehiculo(string mat, int mar, int tipo, Connection cn)
+        public Vehiculo(string mat, int mar, string nommar, int tipo, string nomve, Connection cn)
         {
             _matricula = mat;
             _marca = mar;
+            _nombreMarca = nommar;
             _tipoVehiculo = tipo;
+            _nombreVehiculo= nomve;
             _conexion = cn;
         }
 
@@ -276,10 +295,10 @@ namespace CapaNegocio
             object filasAfectadas;
 
             string sql = "SELECT DISTINCT v.matricula, c.ci, v.tipo_vehiculo, m.nombre_marca " +
-                "FROM Vehiculo v " +
-                "JOIN Marca m ON v.id_marca = m.id_marca " +
-                "JOIN Posee p ON v.matricula = p.matricula " +
-                "JOIN Cliente c ON p.ci = c.ci;";
+                         "FROM Vehiculo v " +
+                         "JOIN Marca m ON v.id_marca = m.id_marca " +
+                         "JOIN Posee p ON v.matricula = p.matricula " +
+                         "JOIN Cliente c ON p.ci = c.ci;";
 
             try
             {
@@ -289,15 +308,39 @@ namespace CapaNegocio
                 {
                     string matricula = Convert.ToString(rs.Fields["matricula"].Value);
                     int ciCliente = Convert.ToInt32(rs.Fields["ci"].Value);
+                    int tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value);
+                    string nombreVehiculo;
 
-                    // Verificar si el vehículo ya está en el diccionario
+                    switch (tipoVehiculo)
+                    {
+                        case 1:
+                            nombreVehiculo = "Auto";
+                            break;
+                        case 2:
+                            nombreVehiculo = "Utilitario";
+                            break;
+                        case 3:
+                            nombreVehiculo = "Moto";
+                            break;
+                        case 4:
+                            nombreVehiculo = "Camioneta";
+                            break;
+                        case 5:
+                            nombreVehiculo = "Camión";
+                            break;
+                        default:
+                            nombreVehiculo = "Desconocido";
+                            break;
+                    }
+
                     if (!vehiculosDict.ContainsKey(matricula))
                     {
                         vehiculosDict[matricula] = new Vehiculo
                         {
-                            _matricula = matricula,
-                            _tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value),
-                            _marca = Convert.ToString(rs.Fields["nombre_marca"].Value)
+                            matricula = matricula,
+                            tipoVehiculo = tipoVehiculo,
+                            NombreMarca = Convert.ToString(rs.Fields["nombre_marca"].Value),
+                            NombreVehiculo = nombreVehiculo // Asigna el nombre del tipo de vehículo
                         };
 
                         vehiculosClientes[matricula] = ciCliente;
@@ -308,10 +351,15 @@ namespace CapaNegocio
 
                 vehiculos = vehiculosDict.Values.ToList();
             }
+            catch (COMException comEx)
+            {
+                throw new Exception("Error en la ejecución de la consulta SQL: " + comEx.Message);
+            }
             catch (Exception ex)
             {
                 throw new Exception("Error al listar los vehículos: " + ex.Message);
             }
+
             return vehiculos;
         }
     }
