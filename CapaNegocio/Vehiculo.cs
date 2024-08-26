@@ -95,6 +95,7 @@ namespace CapaNegocio
                       "FROM Posee " +
                       "WHERE ci = " + ci + " AND matricula = '" + matricula + "';";
 
+                rs = _conexion.Execute(sql, out filasAfectadas);
                 try
                 {
                     rs = _conexion.Execute(sql, out filasAfectadas);
@@ -361,6 +362,45 @@ namespace CapaNegocio
             }
 
             return vehiculos;
+        }
+
+        public Dictionary<int, int> VehiculosActuales()
+        {
+            var resultado = new Dictionary<int, int>();
+            string sql;
+
+            // Verifica que la conexión esté abierta
+            if (_conexion.State != 1) // 1 indica que la conexión está abierta
+            {
+                throw new InvalidOperationException("La conexión está cerrada.");
+            }
+
+            sql = "SELECT tipo_vehiculo, COUNT(*) AS Cantidad " +
+                  "FROM Vehiculo " +
+                  "GROUP BY tipo_vehiculo;";
+
+            try
+            {
+                // Ejecuta la consulta
+                Recordset rs = _conexion.Execute(sql, out object filasAfectadas);
+
+                while (!rs.EOF)
+                {
+                    int tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value);
+                    int cantidad = Convert.ToInt32(rs.Fields["Cantidad"].Value);
+
+                    resultado[tipoVehiculo] = cantidad;
+
+                    rs.MoveNext();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Registra y maneja las excepciones
+                throw new Exception("Error al ejecutar la consulta SQL: " + ex.Message);
+            }
+
+            return resultado;
         }
     }
 }

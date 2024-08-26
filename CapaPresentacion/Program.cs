@@ -17,7 +17,7 @@ namespace CapaPresentacion
         public static EjecutivoServicios.ListarCliente frmListarCliente;
         public static EjecutivoServicios.ABMVehiculos frmABMVehiculos;
         public static EjecutivoServicios.ListarVehiculo frmListarVehiculo;
-        public static EjecutivoServicios.Parking frmParking;
+        public static EjecutivoServicios.Parkings frmParking;
         public static EjecutivoServicios.Servicios frmServicios;
         public static EjecutivoServicios.VentaNeumaticos frmVentaNeumaticos;
         // Formulario de Jefe de servicios

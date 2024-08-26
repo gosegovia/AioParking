@@ -413,8 +413,9 @@ insert into Hace(id_factura, id_ayb, precio_hace, cantidad_hace)
 values (1, 5, 2475.00, 1);
 
 /* SOLICITA */ -- Referencia al parking
-insert into Solicita(id_factura, id_plaza, id_parking, precio_solicita)
-values (2, 3, 1, 200.00);
+insert into Solicita(id_factura, id_plaza, id_parking, precio_solicita) values 
+(1, 6, 2, 500.00),
+(2, 3, 1, 200.00);
 
 /* USA */
 insert into Usa(id_factura, id_lavado, precio_usa)
@@ -438,83 +439,33 @@ values (2, 6, 0.00);
 
 -- Doy permiso a los usuarios segun lo necesiten
 -- Gerente
-grant select on Empleado to ger;
-grant insert on Empleado to ger;
-grant update on Empleado to ger;
-
-grant select on Cliente to ger;
-grant insert on Cliente to ger;
-grant update on Cliente to ger;
-
-grant select on Persona to ger;
-grant insert on Persona to ger;
-grant update on Persona to ger;
-
-grant select on Telefono to ger;
-grant insert on Telefono to ger;
-grant update on Telefono to ger;
-grant delete on Telefono to ger;
-
+grant select, insert, update on Empleado to ger;
+grant select, insert, update on Cliente to ger;
+grant select, insert, update on Persona to ger;
+grant select, insert, update, delete on Telefono to ger;
 grant select on Rol to ger;
 grant select on Marca to ger;
-
-grant select on Vehiculo to ger;
-grant insert on Vehiculo to ger;
-grant update on Vehiculo to ger;
-grant delete on Vehiculo to ger;
-
-grant select on Posee to ger;
-grant insert on Posee to ger;
-grant update on Posee to ger;
-grant delete on Posee to ger;
-
-grant select on Factura to ger;
-grant insert on Factura to ger;
-grant update on Factura to ger;
-grant delete on Factura to ger;
-
+grant select, insert, update, delete on Vehiculo to ger;
+grant select, insert, update, delete on Posee to ger;
+grant select, insert, update, delete on Factura to ger;
 grant select on Parking to ger;
 grant select on Solicita to ger;
 grant select on Plaza to ger;
 grant select on Usa to ger;
 
 -- Jefe de servicios
-grant select on Empleado to jefe;
-grant insert on Empleado to jefe;
-grant update on Empleado to jefe;
-
-grant select on Cliente to jefe;
-grant insert on Cliente to jefe;
-grant update on Cliente to jefe;
-
-grant select on Persona to jefe;
-grant insert on Persona to jefe;
-grant update on Persona to jefe;
-
-grant select on Telefono to jefe;
-grant insert on Telefono to jefe;
-grant update on Telefono to jefe;
-grant delete on Telefono to jefe;
-
+grant select, insert, update on Empleado to jefe;
+grant select, insert, update on Cliente to jefe;
+grant select, insert, update on Persona to jefe;
+grant select, insert, update, delete on Telefono to jefe;
 grant select on Rol to jefe;
 grant select on Marca to jefe;
 
 -- Ejecutivo de servicios
 grant select on Empleado to eje;
-
-grant select on Cliente to eje;
-grant insert on Cliente to eje;
-grant update on Cliente to eje;
-
-grant select on Persona to eje;
-grant insert on Persona to eje;
-grant update on Persona to eje;
-
-grant select on Telefono to eje;
-grant insert on Telefono to eje;
-grant update on Telefono to eje;
-grant delete on Telefono to eje;
-
+grant select, insert, update on Cliente to eje;
+grant select, insert, update on Persona to eje;
+grant select, insert, update, delete on Telefono to eje;
 grant select on Marca to eje;
 
 -- Cajero
@@ -524,22 +475,25 @@ grant select on Telefono to caj;
 
 -- Operador de camaras y respaldo
 grant select on Empleado to ope;
+grant select on Cliente to ope;
+grant select on Posee to ope;
+grant select on Vehiculo to ope;
 grant select on Persona to ope;
 grant select on Telefono to ope;
 grant select on Plaza to ope;
 
-/*
 SELECT p.nro_plaza
 FROM Vehiculo v
 JOIN Posee po ON v.matricula = po.matricula
-JOIN Factura f ON po.ci = f.ci
+JOIN Factura f ON po.matricula = f.matricula
 JOIN Solicita s ON f.id_factura = s.id_factura
-JOIN Plaza p ON s.id_plaza = p.id_plaza
-WHERE v.matricula = 'cba4321';
-*/
+JOIN Reserva r ON s.id_parking = r.id_parking
+JOIN Parking pa ON r.id_parking = pa.id_parking
+JOIN Plaza p ON r.id_plaza = p.id_plaza
+WHERE v.matricula = 'abc1234';
 
-SELECT DISTINCT v.matricula, c.ci, v.tipo_vehiculo, m.nombre_marca
-FROM Vehiculo v
-JOIN Marca m ON v.id_marca = m.id_marca
-JOIN Posee p ON v.matricula = p.matricula
-JOIN Cliente c ON p.ci = c.ci;
+SELECT tipo_vehiculo, COUNT(*) AS Cantidad
+FROM Vehiculo
+GROUP BY tipo_vehiculo;
+
+select nro_plaza, estado_plaza from plaza;

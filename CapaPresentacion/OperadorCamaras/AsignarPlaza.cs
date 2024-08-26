@@ -1,21 +1,19 @@
-﻿using ADODB;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CapaNegocio;
 
 namespace CapaPresentacion.OperadorCamaras
 {
     public partial class AsignarPlaza : Form
     {
+        private Parking _parkingNegocio;
+
         public AsignarPlaza()
         {
             InitializeComponent();
+            _parkingNegocio = new Parking(); // Inicializa la instancia de la capa de negocio
         }
 
         // Cargar formulario
@@ -23,32 +21,33 @@ namespace CapaPresentacion.OperadorCamaras
         {
             // Ocultar panel de datos inicialmente
             pDatos.Visible = false;
-        } // Fin cargar formulario
+            pMatricula.Visible = false;
+            dgvPlaza.DataBindingComplete -= asignarColor; // Evitar múltiples suscripciones
+            dgvPlaza.DataBindingComplete += asignarColor;
+
+        }
 
         // Cambiar color de las filas basado en el estado
         private void asignarColor(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             foreach (DataGridViewRow row in dgvPlaza.Rows)
             {
-                if (row.Cells["Estado"].Value != null)
+                if (row.Cells["Estado Plaza"].Value != null) // Verifica el nombre exacto
                 {
-                    if (row.Cells["Estado"].Value.ToString() == "Libre")
+                    string estado = row.Cells["Estado Plaza"].Value.ToString();
+                    if (estado == "Libre")
                     {
-                        row.Cells["Estado"].Style.BackColor = Color.Green;
-                        row.Cells["Estado"].Style.ForeColor = Color.White;
-                        row.Cells["Estado"].Style.Font = new Font(dgvPlaza.DefaultCellStyle.Font, FontStyle.Bold);
+                        row.Cells["Estado Plaza"].Style.ForeColor = Color.Green;
                     }
-                    else if (row.Cells["Estado"].Value.ToString() == "Ocupado")
+                    else if (estado == "Ocupado")
                     {
-                        row.Cells["Estado"].Style.BackColor = Color.Red;
-                        row.Cells["Estado"].Style.ForeColor = Color.White;
-                        row.Cells["Estado"].Style.Font = new Font(dgvPlaza.DefaultCellStyle.Font, FontStyle.Bold);
+                        row.Cells["Estado Plaza"].Style.ForeColor = Color.Red;
                     }
                 }
             }
-        } // Fin cambiar color
+        }
 
-        // VALIDACIONES
+        // Validaciones de entrada
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionTextoNumero(sender, e);
@@ -58,110 +57,143 @@ namespace CapaPresentacion.OperadorCamaras
         private void txtPlaza_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitud( sender, e, 3);
+            Validaciones.validacionLongitud(sender, e, 2);
         }
 
-        // FIN VALIDACIONES
+        // Buscar CI
+        private void btnBuscarCi_Click(object sender, EventArgs e)
+        {
+            CapaNegocio.Cliente c;
+            Int32 cedula;
+
+            if (!Int32.TryParse(txtCi.Text, out cedula))
+            {
+                MessageBox.Show("La cedula de identidad debe ser numerica");
+            }
+            else
+            {
+                c = new Cliente();
+                c.conexion = Program.cn;
+                c.ci = cedula;
+
+                switch (c.BuscarCI())
+                {
+                    case 0: // Encontro
+                        txtCi.Enabled = false;
+                        btnBuscarCi.Enabled = false;
+                        pMatricula.Visible = true;
+                        txtMatricula.Focus();
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente"); break;
+                    case 2:
+                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                    case 3: // No encontro
+                        if (txtCi.TextLength < 8)
+                        {
+                            MessageBox.Show("Formato incorrecto");
+                        }
+                        break;
+                }
+                c = null; // Destruyo el objeto
+            }
+        }
 
         // Botón buscar
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtMatricula.Text))
+            CapaNegocio.Vehiculo v;
+            string matricula = txtMatricula.Text.Trim();
+
+            if (string.IsNullOrEmpty(matricula))
             {
-                MessageBox.Show("Debe ingresar la matrícula.");
+                MessageBox.Show("La matrícula no puede estar vacía");
+                return;
             }
-            else
+
+            v = new CapaNegocio.Vehiculo();
+            v.conexion = Program.cn;
+            v.matricula = matricula;
+            Int32 ci = Convert.ToInt32(txtCi.Text);
+
+            try
             {
-                // Si la matrícula es "1"
-                if (txtMatricula.Text == "1")
+                switch (v.BuscarMatricula(ci))
                 {
-                    // Mostrar el panel de datos
-                    pDatos.Visible = true;
-                    // Bloquear el TextBox para que el usuario no pueda ingresar otra matrícula
-                    txtMatricula.ReadOnly = true;
+                    case 0: // Encontrado
+                        txtMatricula.Enabled = false;
+                        btnBuscarMatricula.Enabled = false;
+                        pDatos.Visible = true;
 
-                    // TABLA PLAZA
-
-                    // Crear la conexión ADODB
-                    Recordset rs = new Recordset();
-
-                    try
-                    {
-                        // Consulta SQL con el formato corregido
-                        string sql = @"SELECT nro_plaza, estado FROM Plaza";
-
-                        // Ejecutar el comando SQL
-                        rs.Open(sql, Program.cn, CursorTypeEnum.adOpenStatic, LockTypeEnum.adLockReadOnly, -1);
-
-                        // Crear un DataTable para almacenar los datos
-                        DataTable dt = new DataTable();
-
-                        // Agregar columnas al DataTable
-                        dt.Columns.Add("Número Plaza");
-                        dt.Columns.Add("Estado");
-
-                        // Llenar el DataTable con los datos del Recordset
-                        while (!rs.EOF)
+                        try
                         {
-                            DataRow row = dt.NewRow();
-                            row["Número Plaza"] = rs.Fields["nro_plaza"].Value;
-                            row["Estado"] = rs.Fields["estado"].Value;
-                            dt.Rows.Add(row);
-                            rs.MoveNext();
+                            // Asignar la conexión a la capa de negocio
+                            _parkingNegocio.Conexion = Program.cn;
+
+                            // Obtener datos de plazas
+                            DataTable dt = _parkingNegocio.ObtenerPlazas();
+
+                            // Configurar DataGridView
+                            dgvPlaza.AutoGenerateColumns = true;
+                            dgvPlaza.DataSource = dt;
+                            dgvPlaza.DataBindingComplete -= asignarColor; // Asegura que no se agreguen múltiples suscripciones
+                            dgvPlaza.DataBindingComplete += asignarColor;
+
+                            foreach (DataGridViewColumn column in dgvPlaza.Columns)
+                            {
+                                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                            }
                         }
-
-                        // Suscribirse al evento DataBindingComplete para asignar colores
-                        dgvPlaza.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(asignarColor);
-
-                        // Vincular el DataTable al DataGridView
-                        dgvPlaza.DataSource = dt;
-
-                        // Deshabilitar la ordenación en todas las columnas
-                        foreach (DataGridViewColumn column in dgvPlaza.Columns)
+                        catch (Exception ex)
                         {
-                            column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                            MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No existe la matrícula.");
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente.");
+                        break;
+                    case 2:
+                        MessageBox.Show("Error en la ejecución de la consulta.");
+                        break;
+                    case 3: // No encontrado
+                        MessageBox.Show("Este vehículo no está asociado al cliente seleccionado.");
+                        break;
                 }
             }
-        } // Fin botón buscar
+            catch (Exception ex)
+            {
+                // Manejo de excepciones general
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message);
+            }
+            finally
+            {
+                v = null; // Libera el objeto
+            }
+        }
 
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validación de la plaza
             if (string.IsNullOrEmpty(txtPlaza.Text))
             {
                 MessageBox.Show("Debe ingresar la plaza.");
-                return; // Detener la ejecución si la plaza no es válida
+                return;
             }
             else
             {
-                // Intentar convertir el texto a un número entero
                 if (int.TryParse(txtPlaza.Text, out int plaza))
                 {
-                    // Verificar si el número está en el rango de 1 a 60
                     if (plaza >= 1 && plaza <= 60)
                     {
-                        // Guardar el dato
+                        // Lógica para guardar la plaza asignada
                     }
                     else
                     {
-                        // El número está fuera del rango
                         MessageBox.Show("El número de plaza debe estar entre 1 y 60.");
                     }
                 }
                 else
                 {
-                    // El texto no es un número válido
                     MessageBox.Show("El valor ingresado para la plaza no es válido.");
                 }
             }
@@ -169,37 +201,64 @@ namespace CapaPresentacion.OperadorCamaras
             txtMatricula.Text = "";
             txtMatricula.ReadOnly = false;
             pDatos.Visible = false;
-        } // Fin botón guardar
+        }
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            txtCi.Text = "";
+            txtCi.Enabled = true;
+            btnBuscarCi.Enabled = true;
             txtMatricula.Text = "";
+            txtMatricula.Enabled = true;
+            btnBuscarMatricula.Enabled = true;
+            pMatricula.Visible = false;
             pDatos.Visible = false;
-            txtMatricula.ReadOnly = false;
-        } // Fin botón cancelar
+        }
 
-        // Función para asignar plaza con click
+        // Asignar plaza con click en el DataGridView
+
         private void dgvPlaza_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Verificar que el índice de la fila sea válido (no es un encabezado)
+            // Verifica que el índice de la fila sea válido (no es un encabezado)
             if (e.RowIndex >= 0)
             {
-                // Obtener la fila clickeada
+                // Obtiene la fila seleccionada
                 DataGridViewRow row = dgvPlaza.Rows[e.RowIndex];
 
-                // Verificar el estado de la plaza
-                if (row.Cells["Estado"].Value.ToString() == "Ocupado")
+                // Verifica si el estado de la plaza es "Libre" antes de asignarla
+                if (row.Cells["Estado Plaza"].Value.ToString() == "Libre")
                 {
-                    MessageBox.Show("La plaza seleccionada está ocupada.");
+                    // Obtiene el número de la plaza
+                    string numeroPlaza = row.Cells["Número Plaza"].Value.ToString();
+
+                    // Asigna el número de plaza al TextBox
+                    txtPlaza.Text = numeroPlaza;
                 }
                 else
                 {
-                    // Obtener el número de fila
-                    int rowIndex = e.RowIndex + 1;
-                    txtPlaza.Text = rowIndex.ToString();
+                    // Muestra un mensaje si la plaza está ocupada
+                    MessageBox.Show("La plaza seleccionada está ocupada.");
                 }
             }
-        } // Fin función para asignar plaza con click
+        }
+
+        private void txtCi_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarCi.Focus();
+            }
+        }
+
+        private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarMatricula.Focus();
+            }
+        }
     }
 }

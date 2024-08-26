@@ -35,352 +35,354 @@ namespace CapaPresentacion
         /// </summary>
         private void InitializeComponent()
         {
-            pAuto = new Panel();
-            lblCantAutos = new Label();
-            label2 = new Label();
-            pictureBox1 = new PictureBox();
-            panel2 = new Panel();
-            lblCantUtilitarios = new Label();
-            label5 = new Label();
-            pictureBox2 = new PictureBox();
-            panel3 = new Panel();
-            lblCantMotos = new Label();
-            pictureBox3 = new PictureBox();
-            label7 = new Label();
-            panel4 = new Panel();
-            lblCantCamionetas = new Label();
-            label9 = new Label();
-            pictureBox4 = new PictureBox();
-            panel5 = new Panel();
-            lblCantCamiones = new Label();
-            pictureBox5 = new PictureBox();
-            label11 = new Label();
-            panel6 = new Panel();
-            lblCantTotal = new Label();
-            pictureBox6 = new PictureBox();
-            label13 = new Label();
-            label1 = new Label();
-            pAuto.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
-            panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
-            panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).BeginInit();
-            SuspendLayout();
+            this.pAuto = new System.Windows.Forms.Panel();
+            this.lblCantAutos = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblCantUtilitarios = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.lblCantMotos = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.lblCantCamionetas = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.lblCantCamiones = new System.Windows.Forms.Label();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.lblCantTotal = new System.Windows.Forms.Label();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pAuto.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.panel6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            this.SuspendLayout();
             // 
             // pAuto
             // 
-            pAuto.BackColor = Color.SkyBlue;
-            pAuto.Controls.Add(lblCantAutos);
-            pAuto.Controls.Add(label2);
-            pAuto.Controls.Add(pictureBox1);
-            pAuto.Location = new Point(168, 86);
-            pAuto.Margin = new Padding(3, 2, 3, 2);
-            pAuto.Name = "pAuto";
-            pAuto.Size = new Size(262, 112);
-            pAuto.TabIndex = 0;
+            this.pAuto.BackColor = System.Drawing.Color.SkyBlue;
+            this.pAuto.Controls.Add(this.lblCantAutos);
+            this.pAuto.Controls.Add(this.label2);
+            this.pAuto.Controls.Add(this.pictureBox1);
+            this.pAuto.Location = new System.Drawing.Point(144, 75);
+            this.pAuto.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pAuto.Name = "pAuto";
+            this.pAuto.Size = new System.Drawing.Size(225, 97);
+            this.pAuto.TabIndex = 0;
             // 
             // lblCantAutos
             // 
-            lblCantAutos.AutoSize = true;
-            lblCantAutos.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCantAutos.Location = new Point(141, 58);
-            lblCantAutos.Name = "lblCantAutos";
-            lblCantAutos.Size = new Size(36, 25);
-            lblCantAutos.TabIndex = 2;
-            lblCantAutos.Text = "20";
+            this.lblCantAutos.AutoSize = true;
+            this.lblCantAutos.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.lblCantAutos.Location = new System.Drawing.Point(121, 50);
+            this.lblCantAutos.Name = "lblCantAutos";
+            this.lblCantAutos.Size = new System.Drawing.Size(36, 25);
+            this.lblCantAutos.TabIndex = 2;
+            this.lblCantAutos.Text = "20";
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(123, 26);
-            label2.Name = "label2";
-            label2.Size = new Size(68, 25);
-            label2.TabIndex = 1;
-            label2.Text = "Autos";
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.label2.Location = new System.Drawing.Point(105, 23);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(68, 25);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Autos";
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = Properties.Resources.auto;
-            pictureBox1.Location = new Point(20, 34);
-            pictureBox1.Margin = new Padding(3, 2, 3, 2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(56, 48);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
+            this.pictureBox1.Image = global::CapaPresentacion.Properties.Resources.auto;
+            this.pictureBox1.Location = new System.Drawing.Point(17, 29);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 42);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // panel2
             // 
-            panel2.BackColor = Color.SkyBlue;
-            panel2.Controls.Add(lblCantUtilitarios);
-            panel2.Controls.Add(label5);
-            panel2.Controls.Add(pictureBox2);
-            panel2.Location = new Point(168, 224);
-            panel2.Margin = new Padding(3, 2, 3, 2);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(262, 112);
-            panel2.TabIndex = 1;
+            this.panel2.BackColor = System.Drawing.Color.SkyBlue;
+            this.panel2.Controls.Add(this.lblCantUtilitarios);
+            this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.pictureBox2);
+            this.panel2.Location = new System.Drawing.Point(144, 194);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(225, 97);
+            this.panel2.TabIndex = 1;
             // 
             // lblCantUtilitarios
             // 
-            lblCantUtilitarios.AutoSize = true;
-            lblCantUtilitarios.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCantUtilitarios.Location = new Point(141, 58);
-            lblCantUtilitarios.Name = "lblCantUtilitarios";
-            lblCantUtilitarios.Size = new Size(36, 25);
-            lblCantUtilitarios.TabIndex = 5;
-            lblCantUtilitarios.Text = "10";
+            this.lblCantUtilitarios.AutoSize = true;
+            this.lblCantUtilitarios.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.lblCantUtilitarios.Location = new System.Drawing.Point(121, 50);
+            this.lblCantUtilitarios.Name = "lblCantUtilitarios";
+            this.lblCantUtilitarios.Size = new System.Drawing.Size(36, 25);
+            this.lblCantUtilitarios.TabIndex = 5;
+            this.lblCantUtilitarios.Text = "10";
             // 
             // label5
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(104, 26);
-            label5.Name = "label5";
-            label5.Size = new Size(102, 25);
-            label5.TabIndex = 4;
-            label5.Text = "Utilitarios";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.label5.Location = new System.Drawing.Point(89, 23);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 25);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Utilitarios";
             // 
             // pictureBox2
             // 
-            pictureBox2.Image = Properties.Resources.utilitario;
-            pictureBox2.Location = new Point(20, 34);
-            pictureBox2.Margin = new Padding(3, 2, 3, 2);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(56, 48);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 3;
-            pictureBox2.TabStop = false;
+            this.pictureBox2.Image = global::CapaPresentacion.Properties.Resources.utilitario;
+            this.pictureBox2.Location = new System.Drawing.Point(17, 29);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(48, 42);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
             // 
             // panel3
             // 
-            panel3.BackColor = Color.SkyBlue;
-            panel3.Controls.Add(lblCantMotos);
-            panel3.Controls.Add(pictureBox3);
-            panel3.Controls.Add(label7);
-            panel3.Location = new Point(168, 364);
-            panel3.Margin = new Padding(3, 2, 3, 2);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(262, 112);
-            panel3.TabIndex = 1;
+            this.panel3.BackColor = System.Drawing.Color.SkyBlue;
+            this.panel3.Controls.Add(this.lblCantMotos);
+            this.panel3.Controls.Add(this.pictureBox3);
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Location = new System.Drawing.Point(144, 315);
+            this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(225, 97);
+            this.panel3.TabIndex = 1;
             // 
             // lblCantMotos
             // 
-            lblCantMotos.AutoSize = true;
-            lblCantMotos.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCantMotos.Location = new Point(141, 62);
-            lblCantMotos.Name = "lblCantMotos";
-            lblCantMotos.Size = new Size(36, 25);
-            lblCantMotos.TabIndex = 8;
-            lblCantMotos.Text = "10";
+            this.lblCantMotos.AutoSize = true;
+            this.lblCantMotos.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.lblCantMotos.Location = new System.Drawing.Point(121, 54);
+            this.lblCantMotos.Name = "lblCantMotos";
+            this.lblCantMotos.Size = new System.Drawing.Size(36, 25);
+            this.lblCantMotos.TabIndex = 8;
+            this.lblCantMotos.Text = "10";
             // 
             // pictureBox3
             // 
-            pictureBox3.Image = Properties.Resources.moto;
-            pictureBox3.Location = new Point(20, 38);
-            pictureBox3.Margin = new Padding(3, 2, 3, 2);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(56, 48);
-            pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox3.TabIndex = 6;
-            pictureBox3.TabStop = false;
+            this.pictureBox3.Image = global::CapaPresentacion.Properties.Resources.moto;
+            this.pictureBox3.Location = new System.Drawing.Point(17, 33);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(48, 42);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 6;
+            this.pictureBox3.TabStop = false;
             // 
             // label7
             // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label7.Location = new Point(120, 31);
-            label7.Name = "label7";
-            label7.Size = new Size(74, 25);
-            label7.TabIndex = 7;
-            label7.Text = "Motos";
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.label7.Location = new System.Drawing.Point(103, 27);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(74, 25);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Motos";
             // 
             // panel4
             // 
-            panel4.BackColor = Color.SkyBlue;
-            panel4.Controls.Add(lblCantCamionetas);
-            panel4.Controls.Add(label9);
-            panel4.Controls.Add(pictureBox4);
-            panel4.Location = new Point(528, 86);
-            panel4.Margin = new Padding(3, 2, 3, 2);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(262, 112);
-            panel4.TabIndex = 1;
+            this.panel4.BackColor = System.Drawing.Color.SkyBlue;
+            this.panel4.Controls.Add(this.lblCantCamionetas);
+            this.panel4.Controls.Add(this.label9);
+            this.panel4.Controls.Add(this.pictureBox4);
+            this.panel4.Location = new System.Drawing.Point(453, 75);
+            this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(225, 97);
+            this.panel4.TabIndex = 1;
             // 
             // lblCantCamionetas
             // 
-            lblCantCamionetas.AutoSize = true;
-            lblCantCamionetas.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCantCamionetas.Location = new Point(143, 58);
-            lblCantCamionetas.Name = "lblCantCamionetas";
-            lblCantCamionetas.Size = new Size(36, 25);
-            lblCantCamionetas.TabIndex = 11;
-            lblCantCamionetas.Text = "10";
+            this.lblCantCamionetas.AutoSize = true;
+            this.lblCantCamionetas.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.lblCantCamionetas.Location = new System.Drawing.Point(123, 50);
+            this.lblCantCamionetas.Name = "lblCantCamionetas";
+            this.lblCantCamionetas.Size = new System.Drawing.Size(36, 25);
+            this.lblCantCamionetas.TabIndex = 11;
+            this.lblCantCamionetas.Text = "10";
             // 
             // label9
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label9.Location = new Point(100, 26);
-            label9.Name = "label9";
-            label9.Size = new Size(128, 25);
-            label9.TabIndex = 10;
-            label9.Text = "Camionetas";
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.label9.Location = new System.Drawing.Point(86, 23);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(128, 25);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "Camionetas";
             // 
             // pictureBox4
             // 
-            pictureBox4.Image = Properties.Resources.camioneta;
-            pictureBox4.Location = new Point(19, 34);
-            pictureBox4.Margin = new Padding(3, 2, 3, 2);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(56, 48);
-            pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox4.TabIndex = 9;
-            pictureBox4.TabStop = false;
+            this.pictureBox4.Image = global::CapaPresentacion.Properties.Resources.camioneta;
+            this.pictureBox4.Location = new System.Drawing.Point(16, 29);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(48, 42);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox4.TabIndex = 9;
+            this.pictureBox4.TabStop = false;
             // 
             // panel5
             // 
-            panel5.BackColor = Color.SkyBlue;
-            panel5.Controls.Add(lblCantCamiones);
-            panel5.Controls.Add(pictureBox5);
-            panel5.Controls.Add(label11);
-            panel5.Location = new Point(528, 224);
-            panel5.Margin = new Padding(3, 2, 3, 2);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(262, 112);
-            panel5.TabIndex = 1;
+            this.panel5.BackColor = System.Drawing.Color.SkyBlue;
+            this.panel5.Controls.Add(this.lblCantCamiones);
+            this.panel5.Controls.Add(this.pictureBox5);
+            this.panel5.Controls.Add(this.label11);
+            this.panel5.Location = new System.Drawing.Point(453, 194);
+            this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(225, 97);
+            this.panel5.TabIndex = 1;
             // 
             // lblCantCamiones
             // 
-            lblCantCamiones.AutoSize = true;
-            lblCantCamiones.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCantCamiones.Location = new Point(143, 58);
-            lblCantCamiones.Name = "lblCantCamiones";
-            lblCantCamiones.Size = new Size(36, 25);
-            lblCantCamiones.TabIndex = 14;
-            lblCantCamiones.Text = "10";
+            this.lblCantCamiones.AutoSize = true;
+            this.lblCantCamiones.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.lblCantCamiones.Location = new System.Drawing.Point(123, 50);
+            this.lblCantCamiones.Name = "lblCantCamiones";
+            this.lblCantCamiones.Size = new System.Drawing.Size(36, 25);
+            this.lblCantCamiones.TabIndex = 14;
+            this.lblCantCamiones.Text = "10";
             // 
             // pictureBox5
             // 
-            pictureBox5.Image = Properties.Resources.camion;
-            pictureBox5.Location = new Point(19, 34);
-            pictureBox5.Margin = new Padding(3, 2, 3, 2);
-            pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(56, 48);
-            pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox5.TabIndex = 12;
-            pictureBox5.TabStop = false;
+            this.pictureBox5.Image = global::CapaPresentacion.Properties.Resources.camion;
+            this.pictureBox5.Location = new System.Drawing.Point(16, 29);
+            this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(48, 42);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 12;
+            this.pictureBox5.TabStop = false;
             // 
             // label11
             // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label11.Location = new Point(108, 26);
-            label11.Name = "label11";
-            label11.Size = new Size(110, 25);
-            label11.TabIndex = 13;
-            label11.Text = "Camiones";
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.label11.Location = new System.Drawing.Point(93, 23);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(110, 25);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Camiones";
             // 
             // panel6
             // 
-            panel6.BackColor = Color.SkyBlue;
-            panel6.Controls.Add(lblCantTotal);
-            panel6.Controls.Add(pictureBox6);
-            panel6.Controls.Add(label13);
-            panel6.Location = new Point(528, 364);
-            panel6.Margin = new Padding(3, 2, 3, 2);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(262, 112);
-            panel6.TabIndex = 1;
+            this.panel6.BackColor = System.Drawing.Color.SkyBlue;
+            this.panel6.Controls.Add(this.lblCantTotal);
+            this.panel6.Controls.Add(this.pictureBox6);
+            this.panel6.Controls.Add(this.label13);
+            this.panel6.Location = new System.Drawing.Point(453, 315);
+            this.panel6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(225, 97);
+            this.panel6.TabIndex = 1;
             // 
             // lblCantTotal
             // 
-            lblCantTotal.AutoSize = true;
-            lblCantTotal.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            lblCantTotal.Location = new Point(143, 62);
-            lblCantTotal.Name = "lblCantTotal";
-            lblCantTotal.Size = new Size(36, 25);
-            lblCantTotal.TabIndex = 17;
-            lblCantTotal.Text = "60";
+            this.lblCantTotal.AutoSize = true;
+            this.lblCantTotal.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.lblCantTotal.Location = new System.Drawing.Point(123, 54);
+            this.lblCantTotal.Name = "lblCantTotal";
+            this.lblCantTotal.Size = new System.Drawing.Size(36, 25);
+            this.lblCantTotal.TabIndex = 17;
+            this.lblCantTotal.Text = "60";
             // 
             // pictureBox6
             // 
-            pictureBox6.Image = Properties.Resources.total;
-            pictureBox6.Location = new Point(19, 38);
-            pictureBox6.Margin = new Padding(3, 2, 3, 2);
-            pictureBox6.Name = "pictureBox6";
-            pictureBox6.Size = new Size(56, 48);
-            pictureBox6.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox6.TabIndex = 15;
-            pictureBox6.TabStop = false;
+            this.pictureBox6.Image = global::CapaPresentacion.Properties.Resources.total;
+            this.pictureBox6.Location = new System.Drawing.Point(16, 33);
+            this.pictureBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(48, 42);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox6.TabIndex = 15;
+            this.pictureBox6.TabStop = false;
             // 
             // label13
             // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Arial", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label13.Location = new Point(130, 31);
-            label13.Name = "label13";
-            label13.Size = new Size(59, 25);
-            label13.TabIndex = 16;
-            label13.Text = "Total";
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Arial", 16.2F);
+            this.label13.Location = new System.Drawing.Point(111, 27);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(59, 25);
+            this.label13.TabIndex = 16;
+            this.label13.Text = "Total";
             // 
             // label1
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Font = new Font("Arial", 28.2F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.SteelBlue;
-            label1.Location = new Point(296, 26);
-            label1.Name = "label1";
-            label1.Size = new Size(335, 43);
-            label1.TabIndex = 2;
-            label1.Text = "Vehiculos Actuales";
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Arial", 28.2F);
+            this.label1.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label1.Location = new System.Drawing.Point(254, 23);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(335, 43);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Vehiculos Actuales";
             // 
             // MenuInicial
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(954, 518);
-            Controls.Add(label1);
-            Controls.Add(panel6);
-            Controls.Add(panel5);
-            Controls.Add(panel4);
-            Controls.Add(panel3);
-            Controls.Add(panel2);
-            Controls.Add(pAuto);
-            FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(3, 2, 3, 2);
-            Name = "MenuInicial";
-            Text = "MenuInicial";
-            pAuto.ResumeLayout(false);
-            pAuto.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            panel4.ResumeLayout(false);
-            panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
-            panel5.ResumeLayout(false);
-            panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox6).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ClientSize = new System.Drawing.Size(818, 449);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.panel6);
+            this.Controls.Add(this.panel5);
+            this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pAuto);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Name = "MenuInicial";
+            this.Text = "MenuInicial";
+            this.Load += new System.EventHandler(this.MenuInicial_Load);
+            this.pAuto.ResumeLayout(false);
+            this.pAuto.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

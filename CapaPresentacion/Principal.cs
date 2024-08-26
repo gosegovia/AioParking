@@ -47,13 +47,13 @@ namespace CapaPresentacion
                 case 1:
                     lblRol.Text = "Gerente"; break;
                 case 2:
-                    lblRol.Text = "Jefe de Servicio"; break;
+                    lblRol.Text = "Jefe Servicio"; break;
                 case 3:
-                    lblRol.Text = "Ejecutivo de Servicio"; break;
+                    lblRol.Text = "Ejecutivo"; break;
                 case 4:
                     lblRol.Text = "Cajero"; break;
                 case 5:
-                    lblRol.Text = "Operador de Camara"; break;
+                    lblRol.Text = "Operador"; break;
             }
 
             // Luego asignamos también el nombre y apellido de la persona
@@ -146,7 +146,7 @@ namespace CapaPresentacion
         private void btnParking_Click(object sender, EventArgs e)
         {
             // Creó el objeto para el formulario frmParking
-            Program.frmParking = new EjecutivoServicios.Parking();
+            Program.frmParking = new EjecutivoServicios.Parkings();
             // Dice que frmParkign va a estar contenido como formulario dentro del formulario principal
             Program.frmParking.MdiParent = this;
             // Ajusta el contenido de frmParking para llenar completamente el área del formulario principal

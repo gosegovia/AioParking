@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace CapaPresentacion.EjecutivoServicios
 {
-    public partial class Parking : Form
+    public partial class Parkings : Form
     {
-        public Parking()
+        public Parkings()
         {
             InitializeComponent();
         }

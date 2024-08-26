@@ -77,11 +77,11 @@
     <Compile Include="EjecutivoServicios\ListarVehiculo.Designer.cs">
       <DependentUpon>ListarVehiculo.cs</DependentUpon>
     </Compile>
-    <Compile Include="EjecutivoServicios\Parking.cs">
+    <Compile Include="EjecutivoServicios\Parkings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EjecutivoServicios\Parking.Designer.cs">
-      <DependentUpon>Parking.cs</DependentUpon>
+    <Compile Include="EjecutivoServicios\Parkings.Designer.cs">
+      <DependentUpon>Parkings.cs</DependentUpon>
     </Compile>
     <Compile Include="EjecutivoServicios\Servicios.cs">
       <SubType>Form</SubType>
@@ -155,8 +155,8 @@
     <EmbeddedResource Include="EjecutivoServicios\ListarVehiculo.resx">
       <DependentUpon>ListarVehiculo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EjecutivoServicios\Parking.resx">
-      <DependentUpon>Parking.cs</DependentUpon>
+    <EmbeddedResource Include="EjecutivoServicios\Parkings.resx">
+      <DependentUpon>Parkings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EjecutivoServicios\Servicios.resx">
       <DependentUpon>Servicios.cs</DependentUpon>

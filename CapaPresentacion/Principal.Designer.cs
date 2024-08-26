@@ -294,11 +294,11 @@ namespace CapaPresentacion
             this.lblRol.AutoSize = true;
             this.lblRol.Font = new System.Drawing.Font("Arial", 12F);
             this.lblRol.ForeColor = System.Drawing.Color.White;
-            this.lblRol.Location = new System.Drawing.Point(-2, 23);
+            this.lblRol.Location = new System.Drawing.Point(3, 23);
             this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(162, 23);
+            this.lblRol.Size = new System.Drawing.Size(84, 24);
             this.lblRol.TabIndex = 1;
-            this.lblRol.Text = "Operador de Camara";
+            this.lblRol.Text = "Operador\r\n";
             this.lblRol.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblRol.UseCompatibleTextRendering = true;
             // 

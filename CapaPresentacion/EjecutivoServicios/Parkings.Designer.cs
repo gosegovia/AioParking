@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace CapaPresentacion.EjecutivoServicios
 {
-    partial class Parking
+    partial class Parkings
     {
         /// <summary>
         /// Required designer variable.
