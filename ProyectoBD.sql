@@ -497,3 +497,6 @@ FROM Vehiculo
 GROUP BY tipo_vehiculo;
 
 select nro_plaza, estado_plaza from plaza;
+
+select *
+from vehiculo;
