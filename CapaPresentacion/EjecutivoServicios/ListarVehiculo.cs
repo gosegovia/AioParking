@@ -24,7 +24,7 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 Vehiculo v = new Vehiculo
                 {
-                    conexion = Program.cn
+                    Conexion = Program.con
                 };
 
                 Dictionary<string, int> vehiculosClientes;
@@ -34,8 +34,8 @@ namespace CapaPresentacion.EjecutivoServicios
                 {
                     var datosVehiculos = vehiculos.Select(ve => new
                     {
-                        Matricula = ve.matricula,
-                        Ci = vehiculosClientes.ContainsKey(ve.matricula) ? vehiculosClientes[ve.matricula] : 0,
+                        Matricula = ve.Matricula,
+                        Ci = vehiculosClientes.ContainsKey(ve.Matricula) ? vehiculosClientes[ve.Matricula] : 0,
                         TipoVehiculo = ve.NombreVehiculo, // Aquí se muestra el nombre del tipo de vehículo
                         Marca = ve.NombreMarca
                     }).ToList();

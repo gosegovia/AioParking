@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CapaPersistencia;
+using System.Data;
 
 namespace CapaNegocio
 {
@@ -14,7 +16,7 @@ namespace CapaNegocio
         protected bool _ayb;
         protected int _alineacion;
         protected int _balanceo;
-        protected Connection _conexion;
+        protected Conexion _conexion;
 
         public int lavado
         {
@@ -46,12 +48,11 @@ namespace CapaNegocio
             get { return (_balanceo); }
         }
 
-        public ADODB.Connection conexion
+        public Conexion Conexion
         {
             set { _conexion = value; }
-            get { return (_conexion); }
+            get { return _conexion; }
         }
-        protected Vehiculo Vehiculo { get; set; }
 
         public Servicio()
         {
@@ -60,10 +61,10 @@ namespace CapaNegocio
             _ayb = false;
             _alineacion = 0;
             _balanceo = 0;
-            _conexion = new Connection(); ;
+            _conexion = new Conexion(); ;
         }
 
-        public Servicio(int l, bool mon, bool ayb, int al, int bal, Connection cn)
+        public Servicio(int l, bool mon, bool ayb, int al, int bal, Conexion cn)
         {
             _lavado = l;
             _montaje = mon;
@@ -76,11 +77,10 @@ namespace CapaNegocio
         public byte BuscarServicio(string matricula)
         {
             string sql;
-            object filasAfectadas;
-            Recordset rs;
+            DataTable dt;
             byte resultado = 0;
 
-            if (_conexion.State == 0)
+            if (!_conexion.Abierta())
             {
                 resultado = 1; // Conexión cerrada
             }
@@ -92,14 +92,14 @@ namespace CapaNegocio
 
                 try
                 {
-                    rs = _conexion.Execute(sql, out filasAfectadas);
+                    dt = Conexion.EjecutarSelect(sql);
                 }
                 catch
                 {
                     return 2; // Error en la ejecución
                 }
 
-                if (rs.RecordCount == 0)
+                if (dt.Rows.Count == 0)
                 {
                     resultado = 3; // No encontrado
                 }

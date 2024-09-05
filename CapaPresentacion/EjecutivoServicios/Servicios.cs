@@ -79,7 +79,7 @@ namespace CapaPresentacion.EjecutivoServicios
             } else
             {
                 s = new Servicio();
-                s.conexion = Program.cn;
+                s.Conexion = Program.con;
 
                 switch (s.BuscarServicio(matricula))
                 {

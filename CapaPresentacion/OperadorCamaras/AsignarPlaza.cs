@@ -101,43 +101,51 @@ namespace CapaPresentacion.OperadorCamaras
         // Botón buscar
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Vehiculo v;
+            CapaNegocio.Vehiculo v = new CapaNegocio.Vehiculo();
             string matricula = txtMatricula.Text.Trim();
 
+            // Validar que la matrícula no esté vacía
             if (string.IsNullOrEmpty(matricula))
             {
-                MessageBox.Show("La matrícula no puede estar vacía");
+                MessageBox.Show("La matrícula no puede estar vacía.");
                 return;
             }
 
-            v = new CapaNegocio.Vehiculo();
-            v.conexion = Program.cn;
-            v.matricula = matricula;
-            Int32 ci = Convert.ToInt32(txtCi.Text);
+            // Validar que el CI no esté vacío y sea un número válido
+            if (!int.TryParse(txtCi.Text.Trim(), out int ci))
+            {
+                MessageBox.Show("Ingrese un CI válido.");
+                return;
+            }
+
+            // Asignar la conexión y la matrícula al objeto Vehiculo
+            v.Conexion = Program.con;
+            v.Matricula = matricula;
 
             try
             {
+                // Realizar la búsqueda de la matrícula
                 switch (v.BuscarMatricula(ci))
                 {
-                    case 0: // Encontrado
+                    case 0: // Vehículo encontrado
                         txtMatricula.Enabled = false;
                         btnBuscarMatricula.Enabled = false;
                         pDatos.Visible = true;
 
                         try
                         {
-                            // Asignar la conexión a la capa de negocio
-                            _parkingNegocio.Conexion = Program.cn;
-
                             // Obtener datos de plazas
-                            DataTable dt = _parkingNegocio.ObtenerPlazas();
+                            DataTable dt = _parkingNegocio.ListarPlazas();
 
-                            // Configurar DataGridView
+                            // Configurar el DataGridView para mostrar las plazas
                             dgvPlaza.AutoGenerateColumns = true;
                             dgvPlaza.DataSource = dt;
-                            dgvPlaza.DataBindingComplete -= asignarColor; // Asegura que no se agreguen múltiples suscripciones
+
+                            // Asegurar una única suscripción al evento DataBindingComplete
+                            dgvPlaza.DataBindingComplete -= asignarColor;
                             dgvPlaza.DataBindingComplete += asignarColor;
 
+                            // Desactivar la capacidad de ordenar las columnas
                             foreach (DataGridViewColumn column in dgvPlaza.Columns)
                             {
                                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -145,28 +153,37 @@ namespace CapaPresentacion.OperadorCamaras
                         }
                         catch (Exception ex)
                         {
+                            // Manejo de excepciones al cargar los datos de plazas
                             MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         break;
-                    case 1:
+
+                    case 1: // Error de sesión
                         MessageBox.Show("Debe logearse nuevamente.");
                         break;
-                    case 2:
+
+                    case 2: // Error en la ejecución de la consulta SQL
                         MessageBox.Show("Error en la ejecución de la consulta.");
                         break;
-                    case 3: // No encontrado
+
+                    case 3: // Vehículo no encontrado
                         MessageBox.Show("Este vehículo no está asociado al cliente seleccionado.");
+                        break;
+
+                    default: // Caso inesperado
+                        MessageBox.Show("Error desconocido.");
                         break;
                 }
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones general
+                // Manejo de excepciones generales
                 MessageBox.Show("Ocurrió un error inesperado: " + ex.Message);
             }
             finally
             {
-                v = null; // Libera el objeto
+                // Liberar el objeto Vehiculo, aunque no es estrictamente necesario
+                v = null;
             }
         }
 

@@ -105,73 +105,7 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón buscar matrícula
         private void btnBuscarMatricula_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Vehiculo v;
-            CapaNegocio.ParkingBuscar pb;
-            string matricula = txtMatricula.Text.Trim();
-
-            if (string.IsNullOrEmpty(matricula))
-            {
-                MessageBox.Show("La matrícula no puede estar vacía");
-                return;
-            }
-
-            // Mostrar la matrícula que se está buscando
-            MessageBox.Show("Matrícula buscada: " + matricula);
-
-            // Asigno una nueva instancia de la clase ParkingBuscar
-            v = new CapaNegocio.Vehiculo();
-            v.conexion = Program.cn;
-            v.matricula = matricula;
-            Int32 ci = Convert.ToInt32(txtCI.Text);
-
-            pb = new CapaNegocio.ParkingBuscar();
-            int plaza = pb.plaza;
-
-            try
-            {
-                switch (v.BuscarMatricula(ci))
-                {
-                    case 0: // Encontrado
-                        txtMatricula.Enabled = false;
-                        btnBuscarMatricula.Enabled = false;
-                        pDatos.Visible = true;
-                        break;
-                    case 1:
-                        MessageBox.Show("Debe logearse nuevamente.");
-                        break;
-                    case 2:
-                        MessageBox.Show("Error en la ejecución de la consulta.");
-                        break;
-                    case 3: // No encontrado
-                        MessageBox.Show("Este vehículo no está asociado al cliente seleccionado.");
-                        break;
-                }
-
-                // Llama a BuscarParking y muestra el resultado
-                switch (pb.BuscarParking(matricula))
-                {
-                    case 0:
-                        // Mostrar la plaza obtenida
-                        MessageBox.Show("Plaza obtenida: " + pb.plaza);
-                        txtPlaza.Text = Convert.ToString(pb.plaza);
-                        break;
-                    case 2:
-                        MessageBox.Show("Error en la ejecución de la consulta.");
-                        break;
-                    case 3:
-                        MessageBox.Show("No tiene una plaza asociada.");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Manejo de excepciones general
-                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message);
-            }
-            finally
-            {
-                v = null; // Libera el objeto
-            }
+            
         }
 
 

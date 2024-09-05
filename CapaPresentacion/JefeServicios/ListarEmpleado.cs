@@ -25,7 +25,7 @@ namespace CapaPresentacion.JefeServicios
             {
                 // Crear una instancia de empleados desde la capa de negocio
                 Empleado emp = new Empleado();
-                emp.conexion = Program.cn;
+                emp.conexion = Program.con;
 
                 // Obtener la lista de empleados
                 List<Empleado> empleados = emp.ListarEmpleado();

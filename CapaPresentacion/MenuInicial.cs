@@ -21,12 +21,12 @@ namespace CapaPresentacion
         {
             // Crear una instancia de la clase Vehiculo y asignar la conexión
             CapaNegocio.Vehiculo v = new CapaNegocio.Vehiculo();
-            v.conexion = Program.con;
+            v.Conexion = Program.con;
 
             try
             {
                 // Verificar que la conexión esté abierta
-                if (v.conexion.State != 1)
+                if (!v.Conexion.Abierta())
                 {
                     throw new InvalidOperationException("La conexión está cerrada.");
                 }
