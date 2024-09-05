@@ -459,24 +459,24 @@ values (2, 6, 0.00);
 /* USUARIOS DEL SISTEMA */
 
 -- Borrar empleados si existen
--- drop user if exists 'ger'@'%';
--- drop user if exists 'jefe'@'%';
--- drop user if exists 'eje'@'%';
--- drop user if exists 'caj'@'%';
--- drop user if exists 'ope'@'%';
+DROP USER IF EXISTS 'ger'@'localhost';
+DROP USER IF EXISTS 'jefe'@'localhost';
+DROP USER IF EXISTS 'eje'@'localhost';
+DROP USER IF EXISTS 'caj'@'localhost';
+DROP USER IF EXISTS 'ope'@'localhost';
 
 /* ----- USUARIOS ----- */
--- create user 'ger' identified by '123';
--- create user 'jefe' identified by '123';
--- create user 'eje' identified by '123';
--- create user 'caj' identified by '123';
--- create user 'ope' identified by '123';
+-- CREATE USER 'ger'@'localhost' IDENTIFIED BY '123';
+-- CREATE USER 'jefe'@'localhost' IDENTIFIED BY '123';
+-- CREATE USER 'eje'@'localhost' IDENTIFIED BY '123';
+-- CREATE USER 'caj'@'localhost' IDENTIFIED BY '123';
+-- CREATE USER 'ope'@'localhost' IDENTIFIED BY '123';
 
 -- Doy permiso a los usuarios segun lo necesiten
 -- Gerente
 
 -- Agregar localhost o ip del servidor
-GRANT ALL PRIVILEGES ON *.* TO 'ger'@'localhost';
+GRANT ALL PRIVILEGES ON ProyectoBD.* TO 'ger'@'localhost';
 
 -- Jefe de servicios
 GRANT SELECT, INSERT, UPDATE ON Persona TO 'jefe'@'localhost';

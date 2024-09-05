@@ -213,6 +213,10 @@
       <Project>{c19dc666-1891-46b0-bc24-9cb57ba0282c}</Project>
       <Name>CapaNegocio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CapaPersistencia\CapaPersistencia.csproj">
+      <Project>{5aeda092-40e7-4340-8477-32d016b69ea9}</Project>
+      <Name>CapaPersistencia</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="ADODB">

@@ -115,6 +115,7 @@ namespace CapaNegocio
         public byte BuscarCI()
         {
             byte resultado = 0;
+            DataTable dt;
 
             if (!_conexion.Abierta())
             {
@@ -124,7 +125,7 @@ namespace CapaNegocio
             string sql = $"SELECT ci FROM Cliente WHERE ci = {_ci}";
             try
             {
-                DataTable dt = _conexion.EjecutarSelect(sql);
+                dt = _conexion.EjecutarSelect(sql);
                 if (dt.Rows.Count == 0)
                 {
                     resultado = 3; // No encontrado

@@ -59,8 +59,8 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 c = new Cliente();
                 v = new Vehiculo();
-                v.conexion = Program.cn;
-                v.matricula = matricula;
+                v.Conexion = Program.con;
+                v.Matricula = matricula;
 
                 switch (v.BuscarVehiculo(c))
                 {
@@ -70,7 +70,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         pDatos.Visible = true;
                         btnEliminar.Enabled = true;
 
-                        txtMatricula.Text = v.matricula;
+                        txtMatricula.Text = v.Matricula;
                         txtCI.Text = c.ci.ToString();
 
                         // Seleccionar marca
@@ -85,7 +85,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         }
 
                         // Seleccionar tipo de vehículo
-                        switch (v.tipoVehiculo)
+                        switch (v.TipoVehiculo)
                         {
                             case 1:
                                 cbTipoVehiculo.SelectedIndex = 0; // Opción 1
@@ -168,14 +168,14 @@ namespace CapaPresentacion.EjecutivoServicios
                 c = new Cliente();
                 v = new Vehiculo();
 
-                v.conexion = Program.cn;
-                v.matricula = txtMatricula.Text;
+                v.Conexion = Program.con;
+                v.Matricula = txtMatricula.Text;
                 c.ci = int.Parse(txtCI.Text);
                 v.marca = cbMarca.SelectedIndex + 1;
-                v.tipoVehiculo = cbTipoVehiculo.SelectedIndex + 1;
+                v.TipoVehiculo = cbTipoVehiculo.SelectedIndex + 1;
 
                 MessageBox.Show(v.marca.ToString());
-                MessageBox.Show(v.tipoVehiculo.ToString());
+                MessageBox.Show(v.TipoVehiculo.ToString());
 
                 switch (v.Guardar(btnEliminar.Enabled, c))
                 {
@@ -210,8 +210,8 @@ namespace CapaPresentacion.EjecutivoServicios
             } else
             {
                 v = new Vehiculo();
-                v.conexion = Program.cn;
-                v.matricula = matricula;
+                v.Conexion = Program.con;
+                v.Matricula = matricula;
 
                 switch (v.Eliminar())
                 {
@@ -255,11 +255,11 @@ namespace CapaPresentacion.EjecutivoServicios
             try
             {
                 // Crear una instancia de la clase Vehiculo
-                CapaNegocio.Vehiculo vehiculoNegocio = new CapaNegocio.Vehiculo();
-                vehiculoNegocio.conexion = Program.cn; // Asignar la conexión de la base de datos
+                CapaNegocio.Vehiculo v = new CapaNegocio.Vehiculo();
+                v.Conexion = Program.con; // Asignar la conexión de la base de datos
 
                 // Obtener la lista de marcas desde la capa de negocio
-                List<CapaNegocio.Vehiculo.Marca> marcas = vehiculoNegocio.ObtenerMarcas();
+                List<CapaNegocio.Vehiculo.Marca> marcas = v.ObtenerMarcas();
 
                 // Limpiar el ComboBox antes de cargarlo
                 cbMarca.Items.Clear();

@@ -1,22 +1,23 @@
-﻿using ADODB;
+﻿using CapaPersistencia;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace CapaNegocio
 {
     public class Vehiculo
     {
-        // Definición de la clase Vehiculo
         protected string _matricula;
         protected int _marca;
         protected string _nombreMarca;
         protected int _tipoVehiculo;
         protected string _nombreVehiculo;
-        protected Connection _conexion;
+        protected Conexion _conexion;
 
-        public string matricula
+        public string Matricula
         {
             get { return _matricula; }
             set { _matricula = value; }
@@ -34,7 +35,7 @@ namespace CapaNegocio
             set { _nombreMarca = value; }
         }
 
-        public int tipoVehiculo
+        public int TipoVehiculo
         {
             get { return _tipoVehiculo; }
             set { _tipoVehiculo = value; }
@@ -46,10 +47,10 @@ namespace CapaNegocio
             set { _nombreVehiculo = value; }
         }
 
-        public ADODB.Connection conexion
+        public Conexion Conexion
         {
             set { _conexion = value; }
-            get { return (_conexion); }
+            get { return _conexion; }
         }
 
         public class Marca
@@ -58,6 +59,7 @@ namespace CapaNegocio
             public string NombreMarca { get; set; }
         }
 
+
         public Vehiculo()
         {
             _matricula = "";
@@ -65,235 +67,150 @@ namespace CapaNegocio
             _nombreMarca = "";
             _tipoVehiculo = 0;
             _nombreVehiculo = "";
-            _conexion = new Connection();
+            _conexion = new Conexion();
         }
 
-        public Vehiculo(string mat, int mar, string nommar, int tipo, string nomve, Connection cn)
+        public Vehiculo(string mat, int mar, string nommar, int tipo, string nomve, Conexion cn)
         {
             _matricula = mat;
             _marca = mar;
             _nombreMarca = nommar;
             _tipoVehiculo = tipo;
-            _nombreVehiculo= nomve;
+            _nombreVehiculo = nomve;
             _conexion = cn;
         }
 
         public byte BuscarMatricula(int ci)
         {
-            string sql;
-            object filasAfectadas;
-            Recordset rs;
-            byte resultado = 0;
+            if (!_conexion.Abierta())
+                return 1; // Conexión cerrada
 
-            if (_conexion.State == 0)
+            string sql = $"SELECT ci, matricula FROM Posee WHERE ci = {ci} AND matricula = '{_matricula}'";
+
+            try
             {
-                resultado = 1; // Conexión cerrada
+                DataTable dt = _conexion.EjecutarSelect(sql);
+                if (dt.Rows.Count == 0)
+                    return 3; // No encontrado
             }
-            else
+            catch
             {
-                sql = "SELECT ci, matricula " +
-                      "FROM Posee " +
-                      "WHERE ci = " + ci + " AND matricula = '" + matricula + "';";
-
-                rs = _conexion.Execute(sql, out filasAfectadas);
-                try
-                {
-                    rs = _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return 2; // Error en la ejecución
-                }
-
-                if (rs.RecordCount == 0)
-                {
-                    resultado = 3; // No encontrado
-                }
+                return 2; // Error en la ejecución
             }
-            return resultado;
+
+            return 0; // Encontrado
         }
 
         public byte BuscarVehiculo(Cliente c)
         {
-            string sql;
-            object filasAfectadas;
-            Recordset rs;
-            byte resultado = 0;
+            if (!_conexion.Abierta())
+                return 1; // Conexión cerrada
 
-            if (_conexion.State == 0)
-            {
-                resultado = 1; // Conexión cerrada
-            }
-            else
-            {
-                sql = "SELECT v.matricula, v.id_marca, v.tipo_vehiculo, p.ci " +
-                      "FROM Vehiculo v " +
-                      "JOIN Posee p ON v.matricula = p.matricula " +
-                      "WHERE v.matricula = '" + matricula + "'";
-
-                try
-                {
-                    rs = _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return 2; // Error en la ejecución
-                }
-
-                if (rs.RecordCount == 0)
-                {
-                    resultado = 3; // No encontrado
-                }
-                else
-                {
-                    _matricula = Convert.ToString(rs.Fields["matricula"].Value);
-                    _marca = Convert.ToInt32(rs.Fields["id_marca"].Value);
-                    _tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value);
-                    c.ci = Convert.ToInt32(rs.Fields["ci"].Value);
-
-                }
-            }
-            return resultado;
-        }
-
-        // Método para obtener las marcas
-        public List<Marca> ObtenerMarcas()
-        {
-            List<Marca> marcas = new List<Marca>();
-            string sql = "SELECT id_marca, nombre_marca FROM Marca";
-            Recordset rs;
-            object filasAfectadas;
+            string sql = $"SELECT v.matricula, v.id_marca, v.tipo_vehiculo, p.ci FROM Vehiculo v " +
+                         $"JOIN Posee p ON v.matricula = p.matricula WHERE v.matricula = '{_matricula}'";
 
             try
             {
-                rs = _conexion.Execute(sql, out filasAfectadas);
+                DataTable dt = _conexion.EjecutarSelect(sql);
+                if (dt.Rows.Count == 0)
+                    return 3; // No encontrado
 
-                while (!rs.EOF)
-                {
-                    marcas.Add(new Marca
-                    {
-                        IdMarca = Convert.ToInt32(rs.Fields["id_marca"].Value),
-                        NombreMarca = Convert.ToString(rs.Fields["nombre_marca"].Value)
-                    });
-                    rs.MoveNext();
-                }
+                DataRow row = dt.Rows[0];
+                _matricula = row["matricula"].ToString();
+                _marca = Convert.ToInt32(row["id_marca"]);
+                _tipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                c.ci = Convert.ToInt32(row["ci"]);
             }
             catch
             {
-                throw new Exception("Error al obtener las marcas");
+                return 2; // Error en la ejecución
+            }
+            return 0; // Encontrado
+        }
+
+        public List<Marca> ObtenerMarcas()
+        {
+            // Lista para almacenar las marcas obtenidas
+            var marcas = new List<Marca>();
+            string sql = "SELECT id_marca, nombre_marca FROM Marca";
+
+            try
+            {
+                // Ejecutar la consulta y obtener los resultados en un DataTable
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                // Convertir cada fila del DataTable en un objeto Marca
+                marcas = dt.AsEnumerable()
+                           .Select(row => new Marca
+                           {
+                               IdMarca = row.Field<int>("id_marca"),
+                               NombreMarca = row.Field<string>("nombre_marca")
+                           })
+                           .ToList();
+            }
+            catch (Exception ex)
+            {
+                // Lanzar una excepción con más información sobre el error
+                throw new Exception("Error al obtener las marcas: " + ex.Message, ex);
             }
 
             return marcas;
         }
 
-        // Método Guardar
         public byte Guardar(bool modificacion, Cliente c)
         {
-            byte resultado = 0;
-            object filasAfectadas;
-            string sql;
+            if (!_conexion.Abierta())
+                return 1; // Conexión cerrada
 
-            if (_conexion.State == 0) // La conexión está cerrada
+            string sql = modificacion
+                ? $"UPDATE Vehiculo SET id_marca = {marca}, tipo_vehiculo = {TipoVehiculo} WHERE matricula = '{Matricula}'"
+                : $"INSERT INTO Vehiculo (matricula, id_marca, tipo_vehiculo) VALUES ('{Matricula}', {marca}, {TipoVehiculo})";
+
+            try
             {
-                resultado = 1;
-            }
-            else
-            {
-                if (modificacion)
-                {
-                    sql = "UPDATE Vehiculo " +
-                        "SET id_marca = " + marca + ", tipo_vehiculo = " + tipoVehiculo + " " +
-                        "WHERE matricula = '" + matricula + "'";
-                }
-                else
-                {
-                    sql = "INSERT INTO Vehiculo (matricula, id_marca, tipo_vehiculo) " +
-                          "VALUES ('" + matricula + "', " + marca + ", "+ tipoVehiculo +")";
-                    try
-                    {
-                        _conexion.Execute(sql, out filasAfectadas);
-                    }
-                    catch
-                    {
-                        return 2; // Error al hacer el update o el insert    
-                    }
+                _conexion.Ejecutar(sql);
 
-                    sql = "insert into Posee (ci, matricula) " +
-                        "values (" + c.ci + ", '" + matricula + "');";
-
-                    try
-                    {
-                        _conexion.Execute(sql, out filasAfectadas);
-                    }
-                    catch
-                    {
-                        return 3; // Error al insertar en la tabla posee 
-                    }
+                if (!modificacion)
+                {
+                    sql = $"INSERT INTO Posee (ci, matricula) VALUES ({c.ci}, '{Matricula}')";
+                    _conexion.Ejecutar(sql);
                 }
             }
-            return resultado;
+            catch
+            {
+                return modificacion ? (byte)2 : (byte)3; // Error en ejecución de actualización o inserción
+            }
+
+            return 0; // Guardado correctamente
         }
 
         public byte Eliminar()
         {
-            byte resultado = 0;
-            object filasAfectadas;
-            string sql;
+            if (!_conexion.Abierta())
+                return 1; // Conexión cerrada
 
-            if (_conexion.State == 0)
+            string sql = $"DELETE FROM Factura WHERE matricula = '{Matricula}';";
+
+            try
             {
-                resultado = 1;
+                _conexion.Ejecutar(sql);
+                sql = $"DELETE FROM Posee WHERE matricula = '{Matricula}';";
+                _conexion.Ejecutar(sql);
+                sql = $"DELETE FROM Vehiculo WHERE matricula = '{Matricula}';";
+                _conexion.Ejecutar(sql);
             }
-            else
+            catch
             {
-                sql = "DELETE FROM Factura WHERE matricula = '" + matricula + "'; ";
-
-
-                _conexion.Execute(sql, out filasAfectadas);
-
-                try
-                {
-                    _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return (2);
-                }
-
-                sql = "DELETE FROM Posee WHERE matricula = '" + matricula + "'; ";
-
-                try
-                {
-                    _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return (3);
-                }
-
-                sql = "DELETE FROM Vehiculo WHERE matricula = '" + matricula + "'; ";
-
-                try
-                {
-                    _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return (4);
-                }
-
-                filasAfectadas = null;
+                return 2; // Error en la eliminación
             }
-            return (resultado);
+
+            return 0; // Eliminado correctamente
         }
 
         public List<Vehiculo> ListarVehiculo(out Dictionary<string, int> vehiculosClientes)
         {
             List<Vehiculo> vehiculos = new List<Vehiculo>();
-            Dictionary<string, Vehiculo> vehiculosDict = new Dictionary<string, Vehiculo>();
             vehiculosClientes = new Dictionary<string, int>();
-            Recordset rs;
-            object filasAfectadas;
 
             string sql = "SELECT DISTINCT v.matricula, c.ci, v.tipo_vehiculo, m.nombre_marca " +
                          "FROM Vehiculo v " +
@@ -303,58 +220,25 @@ namespace CapaNegocio
 
             try
             {
-                rs = conexion.Execute(sql, out filasAfectadas);
+                DataTable dt = _conexion.EjecutarSelect(sql);
 
-                while (!rs.EOF)
+                foreach (DataRow row in dt.Rows)
                 {
-                    string matricula = Convert.ToString(rs.Fields["matricula"].Value);
-                    int ciCliente = Convert.ToInt32(rs.Fields["ci"].Value);
-                    int tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value);
-                    string nombreVehiculo;
+                    string matricula = row["matricula"].ToString();
+                    int ciCliente = Convert.ToInt32(row["ci"]);
+                    int tipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                    string nombreVehiculo = ObtenerNombreVehiculo(tipoVehiculo);
 
-                    switch (tipoVehiculo)
+                    vehiculos.Add(new Vehiculo
                     {
-                        case 1:
-                            nombreVehiculo = "Auto";
-                            break;
-                        case 2:
-                            nombreVehiculo = "Utilitario";
-                            break;
-                        case 3:
-                            nombreVehiculo = "Moto";
-                            break;
-                        case 4:
-                            nombreVehiculo = "Camioneta";
-                            break;
-                        case 5:
-                            nombreVehiculo = "Camión";
-                            break;
-                        default:
-                            nombreVehiculo = "Desconocido";
-                            break;
-                    }
+                        Matricula = matricula,
+                        TipoVehiculo = tipoVehiculo,
+                        NombreMarca = row["nombre_marca"].ToString(),
+                        NombreVehiculo = nombreVehiculo
+                    });
 
-                    if (!vehiculosDict.ContainsKey(matricula))
-                    {
-                        vehiculosDict[matricula] = new Vehiculo
-                        {
-                            matricula = matricula,
-                            tipoVehiculo = tipoVehiculo,
-                            NombreMarca = Convert.ToString(rs.Fields["nombre_marca"].Value),
-                            NombreVehiculo = nombreVehiculo // Asigna el nombre del tipo de vehículo
-                        };
-
-                        vehiculosClientes[matricula] = ciCliente;
-                    }
-
-                    rs.MoveNext();
+                    vehiculosClientes[matricula] = ciCliente;
                 }
-
-                vehiculos = vehiculosDict.Values.ToList();
-            }
-            catch (COMException comEx)
-            {
-                throw new Exception("Error en la ejecución de la consulta SQL: " + comEx.Message);
             }
             catch (Exception ex)
             {
@@ -364,40 +248,42 @@ namespace CapaNegocio
             return vehiculos;
         }
 
+        private string ObtenerNombreVehiculo(int tipoVehiculo)
+        {
+            switch (tipoVehiculo)
+            {
+                case 1: return "Auto";
+                case 2: return "Utilitario";
+                case 3: return "Moto";
+                case 4: return "Camioneta";
+                case 5: return "Camión";
+                default: return "Desconocido";
+            }
+        }
+
+
         public Dictionary<int, int> VehiculosActuales()
         {
-            var resultado = new Dictionary<int, int>();
-            string sql;
-
-            // Verifica que la conexión esté abierta
-            if (_conexion.State != 1) // 1 indica que la conexión está abierta
-            {
+            if (!_conexion.Abierta())
                 throw new InvalidOperationException("La conexión está cerrada.");
-            }
 
-            sql = "SELECT tipo_vehiculo, COUNT(*) AS Cantidad " +
-                  "FROM Vehiculo " +
-                  "GROUP BY tipo_vehiculo;";
+            var resultado = new Dictionary<int, int>();
+            string sql = "SELECT tipo_vehiculo, COUNT(*) AS Cantidad FROM Vehiculo GROUP BY tipo_vehiculo;";
 
             try
             {
-                // Ejecuta la consulta
-                Recordset rs = _conexion.Execute(sql, out object filasAfectadas);
+                DataTable dt = _conexion.EjecutarSelect(sql);
 
-                while (!rs.EOF)
+                foreach (DataRow row in dt.Rows)
                 {
-                    int tipoVehiculo = Convert.ToInt32(rs.Fields["tipo_vehiculo"].Value);
-                    int cantidad = Convert.ToInt32(rs.Fields["Cantidad"].Value);
-
+                    int tipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                    int cantidad = Convert.ToInt32(row["Cantidad"]);
                     resultado[tipoVehiculo] = cantidad;
-
-                    rs.MoveNext();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                // Registra y maneja las excepciones
-                throw new Exception("Error al ejecutar la consulta SQL: " + ex.Message);
+                throw new Exception("Error al obtener la cantidad de vehículos actuales.");
             }
 
             return resultado;

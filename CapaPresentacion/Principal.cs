@@ -276,7 +276,7 @@ namespace CapaPresentacion
             // Llamamos al metodo para que se oculte el panel qIzquierda y los botones
             mostrarMenu();
             // Cierro la conexión con la base de datos
-            Program.cn.Close();
+            Program.con.Cerrar();
             // Creó el objeto para el formulario login
             Program.frmLogin = new Login();
             // Dice que frmLogin va a estar contenido como formulario dentro del formulario principal

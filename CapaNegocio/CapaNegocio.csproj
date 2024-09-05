@@ -46,7 +46,6 @@
     <Compile Include="Cliente.cs" />
     <Compile Include="Neumatico.cs" />
     <Compile Include="Parking.cs" />
-    <Compile Include="ParkingBuscar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicio.cs" />
     <Compile Include="Vehiculo.cs" />

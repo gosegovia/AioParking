@@ -20,7 +20,6 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 // Crear una instancia de Cliente desde la capa de negocio
                 Cliente c = new Cliente();
-                c.conexion = Program.cn;
 
                 // Obtener la lista de clientes
                 List<Cliente> clientes = c.ListarClientes();

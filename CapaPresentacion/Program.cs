@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
+using CapaPersistencia;
 
 namespace CapaPresentacion
 {
@@ -31,7 +33,7 @@ namespace CapaPresentacion
         public static OperadorCamaras.AsignarPlaza frmAsignarPlaza;
 
         // Creamos la coneccion con la base de datos
-        public static ADODB.Connection cn = new ADODB.Connection();
+        public static Conexion con = new Conexion();
 
         /// <summary>
         ///  The main entry point for the application.
@@ -49,10 +51,8 @@ namespace CapaPresentacion
         {
             // Sentencia sql
             string sql;
-            // Fila que estamos accediendo
-            object filasAfectadas;
             // Almacenar el resultado del select(está almacenado en la memoria de la máquina del cliente)
-            ADODB.Recordset rs;
+            DataTable dt;
             // Guardamos el rol que obtengamos
             byte rol = 0;
             // Guardamos el nombre y el apellido
@@ -61,7 +61,7 @@ namespace CapaPresentacion
 
             // cn.state (estado de la conexión)
             // cn.State != 0 (conexión abierta)
-            if (cn.State != 0)
+            if (con.Abierta())
             {
                 // Sentencia sql para obtener el rol, nombre y apellido
 
@@ -80,7 +80,7 @@ namespace CapaPresentacion
                 try
                 {
                     // Ejecutó la sentencia y guardo las filas afectadas
-                    rs = cn.Execute(sql, out filasAfectadas);
+                    dt = con.EjecutarSelect(sql);
                 }
                 catch
                 {
@@ -90,17 +90,17 @@ namespace CapaPresentacion
                 }
 
                 // Si rol == 0  significa que no tiene un rol asignado
-                if (rs.RecordCount == 0)
+                if (dt.Rows.Count == 0)
                 {
                     MessageBox.Show("Usuario sin rol asignado. Avise al admin del sistema");
                 }
                 else // Encontre un registro, buscamos por la clave primaria
                 {
                     // Cambiamos el tipo de dato a byte
-                    rol = Convert.ToByte(rs.Fields[0].Value);
+                    rol = Convert.ToByte(dt.Rows[0][0]);
                     // Obtenemos el nombre y apellido
-                    nombre = Convert.ToString(rs.Fields[1].Value);
-                    apellido = Convert.ToString(rs.Fields[2].Value);
+                    nombre = Convert.ToString(dt.Rows[0][1]);
+                    apellido = Convert.ToString(dt.Rows[0][2]);
 
                     
                     // Según el rol de el cliente mostramos lo que necesite
@@ -148,9 +148,6 @@ namespace CapaPresentacion
                             break;
                     }
                 }
-                // Reiniciamos las variables
-                rs = null;
-                filasAfectadas = null;
             }
         } // Fin doyPermisos
     }

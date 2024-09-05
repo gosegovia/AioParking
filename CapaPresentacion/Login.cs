@@ -19,14 +19,15 @@ namespace CapaPresentacion
             InitializeComponent();
         }
 
-        // Metodo login
-        public void login()
+        // Btn ingregar
+        private void btnIngresar_Click(object sender, EventArgs e)
         {
-            try
+            if (Program.con.Abrir("probd", txtUsuario.Text, txtContrasenia.Text))
             {
-                Program.cn.Open("probd", txtUsuario.Text, txtContrasenia.Text);
+                Program.doyPermisos(txtUsuario.Text);
+                this.Close();
             }
-            catch
+            else
             {
                 MessageBox.Show("Usuario o contraseña incorrectos");
                 txtUsuario.Text = "";
@@ -34,16 +35,6 @@ namespace CapaPresentacion
                 txtContrasenia.Text = "";
                 return;
             }
-            Program.cn.CursorLocation = ADODB.CursorLocationEnum.adUseClient;
-            Program.doyPermisos(txtUsuario.Text);
-            this.Close();
-        } // Fin metodo login
-
-        // Btn ingregar
-        private void btnIngresar_Click(object sender, EventArgs e)
-        {
-            // Cuando presionamos el boton carga el login
-            login();
         }
 
         private void txtUsuario_KeyDown(object sender, KeyEventArgs e)
@@ -64,7 +55,7 @@ namespace CapaPresentacion
             if (e.KeyCode == Keys.Enter)
             {
                 // Hacemos el login
-                login();
+                btnIngresar_Click(sender, e);
             }
         }
     }

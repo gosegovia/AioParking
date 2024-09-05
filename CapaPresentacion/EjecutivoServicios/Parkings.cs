@@ -77,7 +77,6 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 // Asigno una nueva instancia de la clase Cliente al objeto c de dicha clase
                 c = new Cliente();
-                c.conexion = Program.cn;
                 c.ci = cedula;
 
                 switch (c.BuscarCI())

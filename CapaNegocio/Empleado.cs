@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using ADODB;
 using CapaNegocio;
+using CapaPersistencia;
 
 namespace CapaNegocio
 {
@@ -17,7 +18,7 @@ namespace CapaNegocio
         protected int _nro_puerta;
         protected sbyte _estado;
         protected List<string> _telefonos;
-        protected Connection _conexion;
+        protected Conexion _conexion;
         protected string _usuario;
         protected int _rol;
 
@@ -69,7 +70,7 @@ namespace CapaNegocio
             set { _telefonos = value; }
         }
 
-        public ADODB.Connection conexion
+        public Conexion conexion
         {
             set { _conexion = value; }
             get { return (_conexion); }
@@ -97,12 +98,12 @@ namespace CapaNegocio
             _nro_puerta = 0;
             _estado = 0;
             _telefonos = new List<string>();
-            _conexion = new Connection();
+            _conexion = new Conexion();  // Iniciar la conexión de la clase persistencia
             _usuario = "";
             _rol = 0;
         }
 
-        public Empleado(int ci, string nom, string ape, string calle, string ciudad, int np, sbyte estado, List<string> tel, Connection cn, string tc, string user, int rol)
+        public Empleado(int ci, string nom, string ape, string calle, string ciudad, int np, sbyte estado, List<string> tel, Conexion cn, string tc, string user, int rol)
         {
             _ci = ci;
             _nombre = nom;
@@ -117,67 +118,71 @@ namespace CapaNegocio
             _rol = rol;
         }
 
-        // Implementación de los métodos abstractos
         public byte BuscarEmpleado()
         {
             string sql;
-            object filasAfectadas;
-            Recordset rs;
             byte resultado = 0;
+            DataTable dt;
 
-            if (_conexion.State == 0)
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
             {
                 resultado = 1; // Conexión cerrada
             }
             else
             {
+                // Consulta para obtener los datos del empleado
                 sql = "SELECT p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario " +
-                    "FROM Persona p " +
-                    "JOIN Empleado e ON p.ci = e.ci " +
-                    "WHERE p.ci = " + ci;
+                      "FROM Persona p " +
+                      "JOIN Empleado e ON p.ci = e.ci " +
+                      "WHERE p.ci = " + _ci;
 
                 try
                 {
-                    rs = _conexion.Execute(sql, out filasAfectadas);
+                    // Ejecutar la consulta y almacenar el resultado en un DataTable
+                    dt = _conexion.EjecutarSelect(sql);
                 }
                 catch
                 {
                     return 2; // Error en la ejecución
                 }
 
-                if (rs.RecordCount == 0)
+                // Verificar si se encontró el empleado
+                if (dt.Rows.Count == 0)
                 {
                     resultado = 3; // No encontrado
                 }
                 else
                 {
-                    _nombre = Convert.ToString(rs.Fields["nombre"].Value);
-                    _apellido = Convert.ToString(rs.Fields["apellido"].Value);
-                    _nro_puerta = rs.Fields["nro_puerta"].Value;
-                    _calle = Convert.ToString(rs.Fields["calle"].Value);
-                    _ciudad = Convert.ToString(rs.Fields["ciudad"].Value);
-                    _estado = (sbyte)rs.Fields["estado"].Value;
-                    _usuario = Convert.ToString(rs.Fields["usuario"].Value);
-                    _rol = rs.Fields["id_rol"].Value;
+                    // Asignar los valores obtenidos a las propiedades del empleado
+                    DataRow row = dt.Rows[0];
+                    _nombre = Convert.ToString(row["nombre"]);
+                    _apellido = Convert.ToString(row["apellido"]);
+                    _nro_puerta = Convert.ToInt32(row["nro_puerta"]);
+                    _calle = Convert.ToString(row["calle"]);
+                    _ciudad = Convert.ToString(row["ciudad"]);
+                    _estado = Convert.ToSByte(row["estado"]);
+                    _usuario = Convert.ToString(row["usuario"]);
+                    _rol = Convert.ToInt32(row["id_rol"]);
 
-
-                    // Obtener los teléfonos del cliente
-                    sql = $"SELECT telefono FROM Telefono WHERE ci=" + _ci;
+                    // Consulta para obtener los teléfonos asociados al empleado
+                    sql = "SELECT telefono FROM Telefono WHERE ci = " + _ci;
 
                     try
                     {
-                        rs = _conexion.Execute(sql, out filasAfectadas);
+                        // Ejecutar la consulta para obtener los teléfonos
+                        dt = _conexion.EjecutarSelect(sql);
                     }
                     catch
                     {
                         return 4; // Error al obtener los teléfonos
                     }
 
+                    // Limpiar la lista de teléfonos actual y agregar los nuevos
                     _telefonos.Clear();
-                    while (!rs.EOF)
+                    foreach (DataRow telefonoRow in dt.Rows)
                     {
-                        _telefonos.Add(Convert.ToString(rs.Fields["telefono"].Value));
-                        rs.MoveNext();
+                        _telefonos.Add(Convert.ToString(telefonoRow["telefono"]));
                     }
                 }
             }
@@ -187,41 +192,46 @@ namespace CapaNegocio
         public byte Eliminar()
         {
             byte resultado = 0;
-            object filasAfectadas;
             string sql;
 
-            if (_conexion.State == 0)
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
             {
-                resultado = 1;
+                resultado = 1; // Conexión cerrada
             }
             else
             {
+                // SQL para actualizar el estado de la persona a 0 (eliminar lógicamente)
                 sql = "UPDATE Persona " +
                       "SET estado = 0 " +
                       "WHERE ci = " + _ci;
 
-
                 try
                 {
-                    _conexion.Execute(sql, out filasAfectadas);
+                    // Ejecutar la consulta y verificar si se modificaron registros
+                    object filasAfectadas = _conexion.Ejecutar(sql);
+                    if (filasAfectadas == null)
+                    {
+                        resultado = 3; // No se modificaron registros, posible CI inexistente
+                    }
+
                 }
                 catch
                 {
-                    return (2);
+                    return 2; // Error en la ejecución
                 }
-                filasAfectadas = null;
             }
-            return (resultado);
+            return resultado;
         }
+
 
         // Metodo guardar
         public byte Guardar(Boolean modificacion)
         {
             byte resultado = 0;
-            object filasAfectadas;
             string sql, sql1;
 
-            if (_conexion.State == 0) // La conexión está cerrada
+            if (!_conexion.Abierta()) // La conexión está cerrada
             {
                 resultado = 1;
             }
@@ -248,8 +258,8 @@ namespace CapaNegocio
 
                 try
                 {
-                    _conexion.Execute(sql, out filasAfectadas);
-                    _conexion.Execute(sql1, out filasAfectadas);
+                    _conexion.Ejecutar(sql);
+                    _conexion.Ejecutar(sql1);
                 }
                 catch
                 {
@@ -261,7 +271,7 @@ namespace CapaNegocio
                     sql = "delete from Telefono where ci = " + ci;
                     try
                     {
-                        _conexion.Execute(sql, out filasAfectadas);
+                        _conexion.Ejecutar(sql);
                     }
                     catch
                     {
@@ -276,7 +286,7 @@ namespace CapaNegocio
 
                     try
                     {
-                        _conexion.Execute(sql, out filasAfectadas);
+                        _conexion.Ejecutar(sql);
                     }
                     catch
                     {
@@ -284,9 +294,6 @@ namespace CapaNegocio
                     }
                 }
             }
-
-            filasAfectadas = null; // Liberar memoria
-
             return resultado;
         } // Fin Método guardar
 
@@ -294,9 +301,9 @@ namespace CapaNegocio
         {
             List<Empleado> empleados = new List<Empleado>();
             Dictionary<int, Empleado> empleadosDict = new Dictionary<int, Empleado>();
-            Recordset rs;
-            object filasAfectadas;
+            DataTable dt;
 
+            // Consulta SQL para obtener los empleados y sus teléfonos
             string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario, t.telefono " +
                          "FROM Persona p " +
                          "JOIN Empleado e ON p.ci = e.ci " +
@@ -305,44 +312,45 @@ namespace CapaNegocio
 
             try
             {
-                rs = _conexion.Execute(sql, out filasAfectadas);
+                // Ejecuta la consulta y obtiene el resultado en un DataTable
+                dt = _conexion.EjecutarSelect(sql);
 
-                while (!rs.EOF)
+                // Recorre las filas del DataTable
+                foreach (DataRow row in dt.Rows)
                 {
-                    int ci = Convert.ToInt32(rs.Fields["ci"].Value);
+                    int ci = Convert.ToInt32(row["ci"]);
 
-                    // Verificar si el empleado ya está en el diccionario
+                    // Verifica si el empleado ya está en el diccionario
                     if (!empleadosDict.ContainsKey(ci))
                     {
-                        // Crear un nuevo empleado y agregarlo al diccionario
+                        // Crea un nuevo empleado y lo agrega al diccionario
                         empleadosDict[ci] = new Empleado
                         {
                             ci = ci,
-                            nombre = Convert.ToString(rs.Fields["nombre"].Value),
-                            apellido = Convert.ToString(rs.Fields["apellido"].Value),
-                            nroPuerta = Convert.ToInt32(rs.Fields["nro_puerta"].Value),
-                            calle = Convert.ToString(rs.Fields["calle"].Value),
-                            ciudad = Convert.ToString(rs.Fields["ciudad"].Value),
-                            estado = Convert.ToSByte(rs.Fields["estado"].Value),
+                            nombre = Convert.ToString(row["nombre"]),
+                            apellido = Convert.ToString(row["apellido"]),
+                            nroPuerta = Convert.ToInt32(row["nro_puerta"]),
+                            calle = Convert.ToString(row["calle"]),
+                            ciudad = Convert.ToString(row["ciudad"]),
+                            estado = Convert.ToSByte(row["estado"]),
                             Telefonos = new List<string>(),
-                            usuario = Convert.ToString(rs.Fields["usuario"].Value),
-                            rol = Convert.ToInt32(rs.Fields["id_rol"].Value)
+                            usuario = Convert.ToString(row["usuario"]),
+                            rol = Convert.ToInt32(row["id_rol"])
                         };
                     }
 
-                    // Agregar el teléfono al empleado existente
-                    empleadosDict[ci].Telefonos.Add(Convert.ToString(rs.Fields["telefono"].Value));
-
-                    rs.MoveNext();
+                    // Agrega el teléfono al empleado existente
+                    empleadosDict[ci].Telefonos.Add(Convert.ToString(row["telefono"]));
                 }
 
-                // Convertir el diccionario a lista
+                // Convierte el diccionario a una lista
                 empleados = empleadosDict.Values.ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al listar los empleados: " + ex.Message);
             }
+
             return empleados;
         }
     }

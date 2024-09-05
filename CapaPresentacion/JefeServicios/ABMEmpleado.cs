@@ -123,7 +123,7 @@ namespace CapaPresentacion.JefeServicios
             {
                 // Asigno una nueva instancia de la clase Cliente al objeto c de dicha clase
                 emp = new Empleado();
-                emp.conexion = Program.cn;
+                emp.conexion = Program.con;
                 emp.ci = cedula;
 
                 switch (emp.BuscarEmpleado())
@@ -253,7 +253,7 @@ namespace CapaPresentacion.JefeServicios
             else
             {
                 emp = new Empleado();
-                emp.conexion = Program.cn;
+                emp.conexion = Program.con;
                 emp.ci = cedula;
                 emp.nombre = txtNombre.Text;
                 emp.apellido = txtApellido.Text;
@@ -304,7 +304,7 @@ namespace CapaPresentacion.JefeServicios
             else
             {
                 emp = new Empleado();
-                emp.conexion = Program.cn;
+                emp.conexion = Program.con;
                 emp.ci = cedula;
 
                 switch (emp.Eliminar())

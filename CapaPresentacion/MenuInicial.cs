@@ -21,7 +21,7 @@ namespace CapaPresentacion
         {
             // Crear una instancia de la clase Vehiculo y asignar la conexión
             CapaNegocio.Vehiculo v = new CapaNegocio.Vehiculo();
-            v.conexion = Program.cn;
+            v.conexion = Program.con;
 
             try
             {
