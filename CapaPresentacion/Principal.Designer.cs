@@ -71,7 +71,7 @@ namespace CapaPresentacion
             this.pArriba.Location = new System.Drawing.Point(0, 0);
             this.pArriba.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pArriba.Name = "pArriba";
-            this.pArriba.Size = new System.Drawing.Size(960, 22);
+            this.pArriba.Size = new System.Drawing.Size(1024, 25);
             this.pArriba.TabIndex = 3;
             // 
             // lblTitulo
@@ -79,7 +79,7 @@ namespace CapaPresentacion
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTitulo.ForeColor = System.Drawing.Color.White;
-            this.lblTitulo.Location = new System.Drawing.Point(33, 2);
+            this.lblTitulo.Location = new System.Drawing.Point(48, 2);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(88, 18);
             this.lblTitulo.TabIndex = 1;
@@ -92,7 +92,7 @@ namespace CapaPresentacion
             this.lblMinimizar.BackColor = System.Drawing.Color.Transparent;
             this.lblMinimizar.Font = new System.Drawing.Font("Arial", 19.8F, System.Drawing.FontStyle.Bold);
             this.lblMinimizar.ForeColor = System.Drawing.Color.White;
-            this.lblMinimizar.Location = new System.Drawing.Point(914, -5);
+            this.lblMinimizar.Location = new System.Drawing.Point(978, -5);
             this.lblMinimizar.Name = "lblMinimizar";
             this.lblMinimizar.Size = new System.Drawing.Size(23, 32);
             this.lblMinimizar.TabIndex = 1;
@@ -106,7 +106,7 @@ namespace CapaPresentacion
             this.lblCerrar.BackColor = System.Drawing.Color.Transparent;
             this.lblCerrar.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.lblCerrar.ForeColor = System.Drawing.Color.White;
-            this.lblCerrar.Location = new System.Drawing.Point(938, 3);
+            this.lblCerrar.Location = new System.Drawing.Point(1002, 3);
             this.lblCerrar.Name = "lblCerrar";
             this.lblCerrar.Size = new System.Drawing.Size(20, 19);
             this.lblCerrar.TabIndex = 0;
@@ -121,10 +121,10 @@ namespace CapaPresentacion
             this.pIzquierda.Controls.Add(this.pInfoCargo);
             this.pIzquierda.Controls.Add(this.pictureBox1);
             this.pIzquierda.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pIzquierda.Location = new System.Drawing.Point(0, 22);
+            this.pIzquierda.Location = new System.Drawing.Point(0, 25);
             this.pIzquierda.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pIzquierda.Name = "pIzquierda";
-            this.pIzquierda.Size = new System.Drawing.Size(152, 446);
+            this.pIzquierda.Size = new System.Drawing.Size(180, 575);
             this.pIzquierda.TabIndex = 4;
             // 
             // btnLogout
@@ -133,10 +133,10 @@ namespace CapaPresentacion
             this.btnLogout.FlatAppearance.BorderSize = 0;
             this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogout.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnLogout.Location = new System.Drawing.Point(21, 415);
+            this.btnLogout.Location = new System.Drawing.Point(35, 538);
             this.btnLogout.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLogout.Name = "btnLogout";
-            this.btnLogout.Size = new System.Drawing.Size(109, 22);
+            this.btnLogout.Size = new System.Drawing.Size(109, 25);
             this.btnLogout.TabIndex = 8;
             this.btnLogout.Text = "Logout";
             this.btnLogout.UseVisualStyleBackColor = false;
@@ -152,10 +152,10 @@ namespace CapaPresentacion
             this.pBotones.Controls.Add(this.btnServicios);
             this.pBotones.Controls.Add(this.btnInicio);
             this.pBotones.Controls.Add(this.btnClientes);
-            this.pBotones.Location = new System.Drawing.Point(18, 159);
+            this.pBotones.Location = new System.Drawing.Point(3, 209);
             this.pBotones.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pBotones.Name = "pBotones";
-            this.pBotones.Size = new System.Drawing.Size(113, 214);
+            this.pBotones.Size = new System.Drawing.Size(174, 252);
             this.pBotones.TabIndex = 2;
             // 
             // btnVehiculo
@@ -164,10 +164,10 @@ namespace CapaPresentacion
             this.btnVehiculo.FlatAppearance.BorderSize = 0;
             this.btnVehiculo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVehiculo.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnVehiculo.Location = new System.Drawing.Point(3, 55);
+            this.btnVehiculo.Location = new System.Drawing.Point(33, 66);
             this.btnVehiculo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnVehiculo.Name = "btnVehiculo";
-            this.btnVehiculo.Size = new System.Drawing.Size(109, 22);
+            this.btnVehiculo.Size = new System.Drawing.Size(110, 25);
             this.btnVehiculo.TabIndex = 7;
             this.btnVehiculo.Text = "Vehículo";
             this.btnVehiculo.UseVisualStyleBackColor = false;
@@ -179,10 +179,10 @@ namespace CapaPresentacion
             this.btnPrecio.FlatAppearance.BorderSize = 0;
             this.btnPrecio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPrecio.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnPrecio.Location = new System.Drawing.Point(3, 182);
+            this.btnPrecio.Location = new System.Drawing.Point(33, 217);
             this.btnPrecio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnPrecio.Name = "btnPrecio";
-            this.btnPrecio.Size = new System.Drawing.Size(109, 22);
+            this.btnPrecio.Size = new System.Drawing.Size(110, 25);
             this.btnPrecio.TabIndex = 6;
             this.btnPrecio.Text = "Precio";
             this.btnPrecio.UseVisualStyleBackColor = false;
@@ -194,10 +194,10 @@ namespace CapaPresentacion
             this.btnEmpleados.FlatAppearance.BorderSize = 0;
             this.btnEmpleados.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEmpleados.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnEmpleados.Location = new System.Drawing.Point(3, 157);
+            this.btnEmpleados.Location = new System.Drawing.Point(33, 187);
             this.btnEmpleados.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEmpleados.Name = "btnEmpleados";
-            this.btnEmpleados.Size = new System.Drawing.Size(109, 22);
+            this.btnEmpleados.Size = new System.Drawing.Size(110, 25);
             this.btnEmpleados.TabIndex = 5;
             this.btnEmpleados.Text = "Empleados";
             this.btnEmpleados.UseVisualStyleBackColor = false;
@@ -209,10 +209,10 @@ namespace CapaPresentacion
             this.btnParking.FlatAppearance.BorderSize = 0;
             this.btnParking.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnParking.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnParking.Location = new System.Drawing.Point(3, 132);
+            this.btnParking.Location = new System.Drawing.Point(33, 157);
             this.btnParking.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnParking.Name = "btnParking";
-            this.btnParking.Size = new System.Drawing.Size(109, 22);
+            this.btnParking.Size = new System.Drawing.Size(110, 25);
             this.btnParking.TabIndex = 4;
             this.btnParking.Text = "Parking";
             this.btnParking.UseVisualStyleBackColor = false;
@@ -224,10 +224,10 @@ namespace CapaPresentacion
             this.btnNeumaticos.FlatAppearance.BorderSize = 0;
             this.btnNeumaticos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNeumaticos.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnNeumaticos.Location = new System.Drawing.Point(3, 107);
+            this.btnNeumaticos.Location = new System.Drawing.Point(33, 128);
             this.btnNeumaticos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNeumaticos.Name = "btnNeumaticos";
-            this.btnNeumaticos.Size = new System.Drawing.Size(109, 22);
+            this.btnNeumaticos.Size = new System.Drawing.Size(110, 25);
             this.btnNeumaticos.TabIndex = 3;
             this.btnNeumaticos.Text = "Neumático";
             this.btnNeumaticos.UseVisualStyleBackColor = false;
@@ -239,10 +239,10 @@ namespace CapaPresentacion
             this.btnServicios.FlatAppearance.BorderSize = 0;
             this.btnServicios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServicios.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnServicios.Location = new System.Drawing.Point(3, 81);
+            this.btnServicios.Location = new System.Drawing.Point(33, 97);
             this.btnServicios.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnServicios.Name = "btnServicios";
-            this.btnServicios.Size = new System.Drawing.Size(109, 22);
+            this.btnServicios.Size = new System.Drawing.Size(110, 25);
             this.btnServicios.TabIndex = 2;
             this.btnServicios.Text = "Servicios";
             this.btnServicios.UseVisualStyleBackColor = false;
@@ -254,10 +254,10 @@ namespace CapaPresentacion
             this.btnInicio.FlatAppearance.BorderSize = 0;
             this.btnInicio.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInicio.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnInicio.Location = new System.Drawing.Point(3, 5);
+            this.btnInicio.Location = new System.Drawing.Point(33, 6);
             this.btnInicio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnInicio.Name = "btnInicio";
-            this.btnInicio.Size = new System.Drawing.Size(109, 22);
+            this.btnInicio.Size = new System.Drawing.Size(110, 25);
             this.btnInicio.TabIndex = 1;
             this.btnInicio.Text = "Inicio";
             this.btnInicio.UseVisualStyleBackColor = false;
@@ -269,10 +269,10 @@ namespace CapaPresentacion
             this.btnClientes.FlatAppearance.BorderSize = 0;
             this.btnClientes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClientes.Font = new System.Drawing.Font("Arial", 10.2F);
-            this.btnClientes.Location = new System.Drawing.Point(3, 30);
+            this.btnClientes.Location = new System.Drawing.Point(33, 36);
             this.btnClientes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClientes.Name = "btnClientes";
-            this.btnClientes.Size = new System.Drawing.Size(109, 22);
+            this.btnClientes.Size = new System.Drawing.Size(110, 25);
             this.btnClientes.TabIndex = 0;
             this.btnClientes.Text = "Cliente";
             this.btnClientes.UseVisualStyleBackColor = false;
@@ -282,10 +282,10 @@ namespace CapaPresentacion
             // 
             this.pInfoCargo.Controls.Add(this.lblRol);
             this.pInfoCargo.Controls.Add(this.lblPersona);
-            this.pInfoCargo.Location = new System.Drawing.Point(3, 105);
+            this.pInfoCargo.Location = new System.Drawing.Point(3, 142);
             this.pInfoCargo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pInfoCargo.Name = "pInfoCargo";
-            this.pInfoCargo.Size = new System.Drawing.Size(149, 42);
+            this.pInfoCargo.Size = new System.Drawing.Size(174, 49);
             this.pInfoCargo.TabIndex = 1;
             // 
             // lblRol
@@ -294,7 +294,7 @@ namespace CapaPresentacion
             this.lblRol.AutoSize = true;
             this.lblRol.Font = new System.Drawing.Font("Arial", 12F);
             this.lblRol.ForeColor = System.Drawing.Color.White;
-            this.lblRol.Location = new System.Drawing.Point(3, 23);
+            this.lblRol.Location = new System.Drawing.Point(2, 26);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(84, 24);
             this.lblRol.TabIndex = 1;
@@ -307,7 +307,7 @@ namespace CapaPresentacion
             this.lblPersona.AutoSize = true;
             this.lblPersona.Font = new System.Drawing.Font("Arial", 12F);
             this.lblPersona.ForeColor = System.Drawing.Color.White;
-            this.lblPersona.Location = new System.Drawing.Point(3, 3);
+            this.lblPersona.Location = new System.Drawing.Point(3, 5);
             this.lblPersona.Name = "lblPersona";
             this.lblPersona.Size = new System.Drawing.Size(67, 18);
             this.lblPersona.TabIndex = 0;
@@ -317,10 +317,10 @@ namespace CapaPresentacion
             // pictureBox1
             // 
             this.pictureBox1.Image = global::CapaPresentacion.Properties.Resources.AioParkingLogo_150px;
-            this.pictureBox1.Location = new System.Drawing.Point(28, 15);
+            this.pictureBox1.Location = new System.Drawing.Point(36, 11);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(90, 78);
+            this.pictureBox1.Size = new System.Drawing.Size(110, 117);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -330,7 +330,7 @@ namespace CapaPresentacion
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(960, 468);
+            this.ClientSize = new System.Drawing.Size(1024, 600);
             this.Controls.Add(this.pIzquierda);
             this.Controls.Add(this.pArriba);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

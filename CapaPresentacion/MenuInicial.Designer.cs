@@ -80,7 +80,7 @@ namespace CapaPresentacion
             this.pAuto.Controls.Add(this.lblCantAutos);
             this.pAuto.Controls.Add(this.label2);
             this.pAuto.Controls.Add(this.pictureBox1);
-            this.pAuto.Location = new System.Drawing.Point(144, 75);
+            this.pAuto.Location = new System.Drawing.Point(159, 151);
             this.pAuto.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pAuto.Name = "pAuto";
             this.pAuto.Size = new System.Drawing.Size(225, 97);
@@ -123,7 +123,7 @@ namespace CapaPresentacion
             this.panel2.Controls.Add(this.lblCantUtilitarios);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Location = new System.Drawing.Point(144, 194);
+            this.panel2.Location = new System.Drawing.Point(159, 270);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(225, 97);
@@ -166,7 +166,7 @@ namespace CapaPresentacion
             this.panel3.Controls.Add(this.lblCantMotos);
             this.panel3.Controls.Add(this.pictureBox3);
             this.panel3.Controls.Add(this.label7);
-            this.panel3.Location = new System.Drawing.Point(144, 315);
+            this.panel3.Location = new System.Drawing.Point(159, 391);
             this.panel3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(225, 97);
@@ -209,7 +209,7 @@ namespace CapaPresentacion
             this.panel4.Controls.Add(this.lblCantCamionetas);
             this.panel4.Controls.Add(this.label9);
             this.panel4.Controls.Add(this.pictureBox4);
-            this.panel4.Location = new System.Drawing.Point(453, 75);
+            this.panel4.Location = new System.Drawing.Point(468, 151);
             this.panel4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(225, 97);
@@ -252,7 +252,7 @@ namespace CapaPresentacion
             this.panel5.Controls.Add(this.lblCantCamiones);
             this.panel5.Controls.Add(this.pictureBox5);
             this.panel5.Controls.Add(this.label11);
-            this.panel5.Location = new System.Drawing.Point(453, 194);
+            this.panel5.Location = new System.Drawing.Point(468, 270);
             this.panel5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(225, 97);
@@ -295,7 +295,7 @@ namespace CapaPresentacion
             this.panel6.Controls.Add(this.lblCantTotal);
             this.panel6.Controls.Add(this.pictureBox6);
             this.panel6.Controls.Add(this.label13);
-            this.panel6.Location = new System.Drawing.Point(453, 315);
+            this.panel6.Location = new System.Drawing.Point(468, 391);
             this.panel6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(225, 97);
@@ -338,18 +338,19 @@ namespace CapaPresentacion
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 28.2F);
             this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(254, 23);
+            this.label1.Location = new System.Drawing.Point(268, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(335, 43);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Vehiculos Actuales";
+            this.label1.Text = "Vehículos actuales";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MenuInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(818, 449);
+            this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);

@@ -62,7 +62,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblParking.AutoSize = true;
             this.lblParking.Font = new System.Drawing.Font("Arial", 28.2F);
             this.lblParking.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblParking.Location = new System.Drawing.Point(351, 33);
+            this.lblParking.Location = new System.Drawing.Point(351, 50);
             this.lblParking.Name = "lblParking";
             this.lblParking.Size = new System.Drawing.Size(148, 43);
             this.lblParking.TabIndex = 0;
@@ -73,10 +73,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pCI.Controls.Add(this.btnBuscarCI);
             this.pCI.Controls.Add(this.txtCI);
             this.pCI.Controls.Add(this.lblCI);
-            this.pCI.Location = new System.Drawing.Point(9, 84);
+            this.pCI.Location = new System.Drawing.Point(12, 101);
             this.pCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pCI.Name = "pCI";
-            this.pCI.Size = new System.Drawing.Size(800, 62);
+            this.pCI.Size = new System.Drawing.Size(826, 62);
             this.pCI.TabIndex = 1;
             // 
             // btnBuscarCI
@@ -125,10 +125,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pMatricula.Controls.Add(this.btnBuscarMatricula);
             this.pMatricula.Controls.Add(this.txtMatricula);
             this.pMatricula.Controls.Add(this.lblMatricula);
-            this.pMatricula.Location = new System.Drawing.Point(9, 150);
+            this.pMatricula.Location = new System.Drawing.Point(12, 167);
             this.pMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pMatricula.Name = "pMatricula";
-            this.pMatricula.Size = new System.Drawing.Size(800, 54);
+            this.pMatricula.Size = new System.Drawing.Size(826, 54);
             this.pMatricula.TabIndex = 3;
             // 
             // btnBuscarMatricula
@@ -182,10 +182,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Controls.Add(this.btnGuardar);
             this.pDatos.Controls.Add(this.lblHoraSalida);
             this.pDatos.Controls.Add(this.lblHoraEntrada);
-            this.pDatos.Location = new System.Drawing.Point(9, 208);
+            this.pDatos.Location = new System.Drawing.Point(12, 225);
             this.pDatos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(800, 233);
+            this.pDatos.Size = new System.Drawing.Size(826, 233);
             this.pDatos.TabIndex = 4;
             // 
             // dtpSalida
@@ -282,18 +282,18 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblHoraEntrada.TabIndex = 3;
             this.lblHoraEntrada.Text = "Hora entrada";
             // 
-            // Parking
+            // Parkings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 449);
+            this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.pDatos);
             this.Controls.Add(this.pMatricula);
             this.Controls.Add(this.pCI);
             this.Controls.Add(this.lblParking);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "Parking";
+            this.Name = "Parkings";
             this.Text = "Parking";
             this.Load += new System.EventHandler(this.Parking_Load);
             this.pCI.ResumeLayout(false);

@@ -49,7 +49,7 @@ namespace CapaPresentacion
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.Image = global::CapaPresentacion.Properties.Resources.AioParkingLogo_150px;
-            this.pictureBox1.Location = new System.Drawing.Point(95, 29);
+            this.pictureBox1.Location = new System.Drawing.Point(438, 97);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(112, 97);
@@ -63,7 +63,7 @@ namespace CapaPresentacion
             this.txtUsuario.BackColor = System.Drawing.Color.LightBlue;
             this.txtUsuario.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtUsuario.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtUsuario.Location = new System.Drawing.Point(41, 210);
+            this.txtUsuario.Location = new System.Drawing.Point(384, 278);
             this.txtUsuario.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
@@ -77,7 +77,7 @@ namespace CapaPresentacion
             this.txtContrasenia.BackColor = System.Drawing.Color.LightBlue;
             this.txtContrasenia.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtContrasenia.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtContrasenia.Location = new System.Drawing.Point(41, 266);
+            this.txtContrasenia.Location = new System.Drawing.Point(384, 334);
             this.txtContrasenia.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtContrasenia.Multiline = true;
             this.txtContrasenia.Name = "txtContrasenia";
@@ -92,7 +92,7 @@ namespace CapaPresentacion
             this.lblLogin.AutoSize = true;
             this.lblLogin.Font = new System.Drawing.Font("Arial", 19.8F);
             this.lblLogin.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblLogin.Location = new System.Drawing.Point(114, 146);
+            this.lblLogin.Location = new System.Drawing.Point(457, 214);
             this.lblLogin.Name = "lblLogin";
             this.lblLogin.Size = new System.Drawing.Size(80, 32);
             this.lblLogin.TabIndex = 4;
@@ -104,7 +104,7 @@ namespace CapaPresentacion
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.Font = new System.Drawing.Font("Arial", 12F);
             this.lblUsuario.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblUsuario.Location = new System.Drawing.Point(41, 185);
+            this.lblUsuario.Location = new System.Drawing.Point(384, 253);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(62, 18);
             this.lblUsuario.TabIndex = 5;
@@ -116,7 +116,7 @@ namespace CapaPresentacion
             this.lblContrasenia.AutoSize = true;
             this.lblContrasenia.Font = new System.Drawing.Font("Arial", 12F);
             this.lblContrasenia.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblContrasenia.Location = new System.Drawing.Point(41, 241);
+            this.lblContrasenia.Location = new System.Drawing.Point(384, 309);
             this.lblContrasenia.Name = "lblContrasenia";
             this.lblContrasenia.Size = new System.Drawing.Size(89, 18);
             this.lblContrasenia.TabIndex = 6;
@@ -130,7 +130,7 @@ namespace CapaPresentacion
             this.btnIngresar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIngresar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnIngresar.ForeColor = System.Drawing.Color.White;
-            this.btnIngresar.Location = new System.Drawing.Point(41, 305);
+            this.btnIngresar.Location = new System.Drawing.Point(384, 373);
             this.btnIngresar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(225, 25);
@@ -144,7 +144,7 @@ namespace CapaPresentacion
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(315, 364);
+            this.ClientSize = new System.Drawing.Size(1000, 500);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.lblContrasenia);
             this.Controls.Add(this.lblUsuario);

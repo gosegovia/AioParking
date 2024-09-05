@@ -103,6 +103,7 @@ namespace CapaPresentacion.EjecutivoServicios
             CapaNegocio.Cliente c;
             Int32 cedula;
 
+            // Validar que la CI sea numérica
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
                 MessageBox.Show("La cedula de identidad debe ser numerica");
@@ -111,38 +112,44 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 // Asigno una nueva instancia de la clase Cliente al objeto c de dicha clase
                 c = new Cliente();
-                c.ci = cedula;
-                c.conexion = Program.con;
+                c.ci = cedula; // Asigna la CI al cliente
+                c.conexion = Program.con; // Asigna la conexión desde el programa principal
 
+                // Ejecuta la búsqueda y maneja los diferentes resultados
                 switch (c.Buscar())
                 {
-                    case 0: // Encontro
+                    case 0: // Encontró al cliente
+                            // Verifica si el cliente está inactivo
                         if (c.estado == 0)
                         {
+                            // Pregunta al usuario si desea recuperar al cliente inactivo
                             DialogResult estadoRespuesta = MessageBox.Show("¿Este cliente esta dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
                             if (estadoRespuesta == DialogResult.Yes)
                             {
-                                c.estado = 1;
+                                c.estado = 1; // Cambia el estado del cliente a activo
                             }
                             else
                             {
+                                // Si no desea recuperar, limpia la CI y termina
                                 txtCI.Text = "";
-                                // Ver despues
                                 return;
                             }
                         }
 
+                        // Deshabilita la búsqueda y la entrada de CI, muestra los datos
                         btnBuscar.Enabled = false;
                         txtCI.Enabled = false;
                         pDatos.Visible = true;
                         btnEliminar.Enabled = true;
 
+                        // Rellena los campos de datos con la información del cliente
                         txtNombre.Text = c.nombre;
                         txtApellido.Text = c.apellido;
                         txtNroPuerta.Text = c.nroPuerta.ToString();
                         txtCalle.Text = c.calle;
                         txtCiudad.Text = c.ciudad;
 
+                        // Selecciona el tipo de cliente en el ComboBox
                         switch (c.TipoCliente)
                         {
                             case "Mensual":
@@ -155,6 +162,7 @@ namespace CapaPresentacion.EjecutivoServicios
                                 MessageBox.Show("Error con el tipo de cliente"); break;
                         }
 
+                        // Muestra los teléfonos del cliente en el ComboBox
                         string telefono;
                         cbTelefonos.Items.Clear();
                         foreach (string tel in c.Telefonos)
@@ -162,21 +170,34 @@ namespace CapaPresentacion.EjecutivoServicios
                             telefono = "0" + tel;
                             cbTelefonos.Items.Add(telefono);
                         }
-                        cbTelefonos.SelectedIndex = 0;
+                        cbTelefonos.SelectedIndex = 0; // Selecciona el primer teléfono
                         break;
-                    case 1: MessageBox.Show("Debe logearse nuevamente"); break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 4: MessageBox.Show("Error 4"); break;
-                    case 3: // No encontro
+
+                    case 1: // Error de conexión
+                        MessageBox.Show("Debe logearse nuevamente");
+                        break;
+
+                    case 2: // Error en la ejecución
+                        MessageBox.Show("Error 2");
+                        break;
+
+                    case 4: // Error desconocido
+                        MessageBox.Show("Error 4");
+                        break;
+
+                    case 3: // No encontró al cliente
+                            // Verifica si el formato de CI es correcto
                         if (txtCI.TextLength < 8)
                         {
                             MessageBox.Show("Formato incorrecto");
                         }
                         else
                         {
+                            // Pregunta si desea dar de alta al nuevo cliente
                             DialogResult respuesta = MessageBox.Show("¿Desea efectuar el alta?", "Alta", MessageBoxButtons.YesNo);
                             if (respuesta == DialogResult.Yes)
                             {
+                                // Habilita el panel para ingresar los datos del nuevo cliente
                                 btnBuscar.Enabled = false;
                                 pDatos.Visible = true;
                                 btnEliminar.Enabled = false;
@@ -192,7 +213,9 @@ namespace CapaPresentacion.EjecutivoServicios
                         }
                         break;
                 }
-                c = null; // Destruyo el objeto
+
+                // Destruye el objeto Cliente para liberar la memoria
+                c = null;
             }
         } // Fin botón buscar
 
@@ -238,6 +261,7 @@ namespace CapaPresentacion.EjecutivoServicios
             else
             {
                 c = new Cliente();
+                c.conexion = Program.con;
                 c.ci = cedula;
                 c.nombre = txtNombre.Text;
                 c.apellido = txtApellido.Text;
@@ -280,34 +304,54 @@ namespace CapaPresentacion.EjecutivoServicios
             CapaNegocio.Cliente c;
             Int32 cedula;
 
+            // Verifica que la cédula ingresada sea numérica
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica.");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
+                // Asigna una nueva instancia de la clase Cliente y establece la conexión y cédula
                 c = new Cliente();
                 c.conexion = Program.con;
                 c.ci = cedula;
 
-                switch (c.Eliminar())
+                // Pregunta al usuario si desea eliminar el cliente
+                DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea eliminar este cliente?", "Confirmación de Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                // Si la respuesta es 'Yes', procede con la eliminación
+                if (respuesta == DialogResult.Yes)
                 {
-                    case 0: // Se realizo sin problemas
-                        MessageBox.Show("Datos eliminados correctamente.");
-                        txtCI.Text = "";
-                        btnBuscar.Enabled = true;
-                        txtCI.Enabled = true;
-                        pDatos.Visible = false;
-                        break;
-                    case 1:
-                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
-                        break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 3: MessageBox.Show("Error 3"); break;
+                    // Llama al método Eliminar() y gestiona los diferentes resultados
+                    switch (c.Eliminar())
+                    {
+                        case 0: // Eliminación exitosa
+                            MessageBox.Show("Datos eliminados correctamente.");
+                            txtCI.Text = ""; // Limpia el campo de cédula
+                            btnBuscar.Enabled = true; // Habilita el botón Buscar
+                            txtCI.Enabled = true; // Habilita el campo de cédula
+                            pDatos.Visible = false; // Oculta el panel de datos
+                            break;
+                        case 1: // Conexión cerrada
+                            MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
+                            break;
+                        case 2: // Error específico 2
+                            MessageBox.Show("Error 2.");
+                            break;
+                        case 3: // Error específico 3
+                            MessageBox.Show("Error 3.");
+                            break;
+                        default:
+                            MessageBox.Show("Error desconocido.");
+                            break;
+                    }
                 }
-                c = null; // Liberar memoria
+
+                // Libera la instancia de la clase Cliente
+                c = null;
             }
-        } // Fin botón eliminar
+        } // Fin del botón eliminar
+
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)

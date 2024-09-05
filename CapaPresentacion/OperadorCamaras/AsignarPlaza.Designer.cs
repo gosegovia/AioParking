@@ -71,10 +71,10 @@ namespace CapaPresentacion.OperadorCamaras
             this.pDatos.Controls.Add(this.btnGuardar);
             this.pDatos.Controls.Add(this.lblMarcaTexto);
             this.pDatos.Controls.Add(this.lblCICliente);
-            this.pDatos.Location = new System.Drawing.Point(12, 200);
+            this.pDatos.Location = new System.Drawing.Point(12, 218);
             this.pDatos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(794, 219);
+            this.pDatos.Size = new System.Drawing.Size(826, 219);
             this.pDatos.TabIndex = 10;
             // 
             // dgvPlaza
@@ -221,10 +221,10 @@ namespace CapaPresentacion.OperadorCamaras
             this.pMatricula.Controls.Add(this.txtMatricula);
             this.pMatricula.Controls.Add(this.btnBuscarMatricula);
             this.pMatricula.Controls.Add(this.lblMatricula);
-            this.pMatricula.Location = new System.Drawing.Point(12, 146);
+            this.pMatricula.Location = new System.Drawing.Point(12, 164);
             this.pMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pMatricula.Name = "pMatricula";
-            this.pMatricula.Size = new System.Drawing.Size(794, 50);
+            this.pMatricula.Size = new System.Drawing.Size(826, 50);
             this.pMatricula.TabIndex = 9;
             // 
             // txtMatricula
@@ -276,7 +276,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblAsignarPlaza.AutoSize = true;
             this.lblAsignarPlaza.Font = new System.Drawing.Font("Arial", 28.2F);
             this.lblAsignarPlaza.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblAsignarPlaza.Location = new System.Drawing.Point(302, 23);
+            this.lblAsignarPlaza.Location = new System.Drawing.Point(302, 41);
             this.lblAsignarPlaza.Name = "lblAsignarPlaza";
             this.lblAsignarPlaza.Size = new System.Drawing.Size(253, 43);
             this.lblAsignarPlaza.TabIndex = 8;
@@ -287,10 +287,10 @@ namespace CapaPresentacion.OperadorCamaras
             this.pCedula.Controls.Add(this.txtCi);
             this.pCedula.Controls.Add(this.btnBuscarCi);
             this.pCedula.Controls.Add(this.lblCi);
-            this.pCedula.Location = new System.Drawing.Point(12, 92);
+            this.pCedula.Location = new System.Drawing.Point(12, 110);
             this.pCedula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pCedula.Name = "pCedula";
-            this.pCedula.Size = new System.Drawing.Size(794, 50);
+            this.pCedula.Size = new System.Drawing.Size(826, 50);
             this.pCedula.TabIndex = 10;
             // 
             // txtCi
@@ -337,7 +337,7 @@ namespace CapaPresentacion.OperadorCamaras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 449);
+            this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.pCedula);
             this.Controls.Add(this.pDatos);
             this.Controls.Add(this.pMatricula);

@@ -62,7 +62,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblVehiculo.AutoSize = true;
             this.lblVehiculo.Font = new System.Drawing.Font("Arial", 28.2F);
             this.lblVehiculo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblVehiculo.Location = new System.Drawing.Point(327, 24);
+            this.lblVehiculo.Location = new System.Drawing.Point(327, 41);
             this.lblVehiculo.Name = "lblVehiculo";
             this.lblVehiculo.Size = new System.Drawing.Size(164, 43);
             this.lblVehiculo.TabIndex = 0;
@@ -74,10 +74,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pMatricula.Controls.Add(this.btnListar);
             this.pMatricula.Controls.Add(this.btnBuscar);
             this.pMatricula.Controls.Add(this.lblMatricula);
-            this.pMatricula.Location = new System.Drawing.Point(6, 69);
+            this.pMatricula.Location = new System.Drawing.Point(12, 111);
             this.pMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pMatricula.Name = "pMatricula";
-            this.pMatricula.Size = new System.Drawing.Size(787, 69);
+            this.pMatricula.Size = new System.Drawing.Size(826, 69);
             this.pMatricula.TabIndex = 1;
             // 
             // txtMatricula
@@ -142,7 +142,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblMarca.AutoSize = true;
             this.lblMarca.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMarca.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMarca.Location = new System.Drawing.Point(269, 53);
+            this.lblMarca.Location = new System.Drawing.Point(285, 53);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(52, 18);
             this.lblMarca.TabIndex = 6;
@@ -153,7 +153,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCI.BackColor = System.Drawing.Color.LightBlue;
             this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(330, 18);
+            this.txtCI.Location = new System.Drawing.Point(346, 18);
             this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCI.Multiline = true;
             this.txtCI.Name = "txtCI";
@@ -166,7 +166,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCICliente.AutoSize = true;
             this.lblCICliente.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCICliente.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCICliente.Location = new System.Drawing.Point(241, 22);
+            this.lblCICliente.Location = new System.Drawing.Point(257, 22);
             this.lblCICliente.Name = "lblCICliente";
             this.lblCICliente.Size = new System.Drawing.Size(76, 18);
             this.lblCICliente.TabIndex = 4;
@@ -183,10 +183,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Controls.Add(this.lblMarca);
             this.pDatos.Controls.Add(this.txtCI);
             this.pDatos.Controls.Add(this.lblCICliente);
-            this.pDatos.Location = new System.Drawing.Point(6, 142);
+            this.pDatos.Location = new System.Drawing.Point(12, 184);
             this.pDatos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(787, 268);
+            this.pDatos.Size = new System.Drawing.Size(826, 268);
             this.pDatos.TabIndex = 7;
             // 
             // cbMarca
@@ -201,7 +201,7 @@ namespace CapaPresentacion.EjecutivoServicios
             "Moto",
             "Camioneta",
             "Camion"});
-            this.cbMarca.Location = new System.Drawing.Point(330, 49);
+            this.cbMarca.Location = new System.Drawing.Point(346, 50);
             this.cbMarca.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbMarca.Name = "cbMarca";
             this.cbMarca.Size = new System.Drawing.Size(136, 26);
@@ -219,7 +219,7 @@ namespace CapaPresentacion.EjecutivoServicios
             "Moto",
             "Camioneta",
             "Camion"});
-            this.cbTipoVehiculo.Location = new System.Drawing.Point(330, 83);
+            this.cbTipoVehiculo.Location = new System.Drawing.Point(346, 83);
             this.cbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbTipoVehiculo.Name = "cbTipoVehiculo";
             this.cbTipoVehiculo.Size = new System.Drawing.Size(136, 26);
@@ -230,7 +230,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblTipoVehiculo.AutoSize = true;
             this.lblTipoVehiculo.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTipoVehiculo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTipoVehiculo.Location = new System.Drawing.Point(219, 87);
+            this.lblTipoVehiculo.Location = new System.Drawing.Point(235, 87);
             this.lblTipoVehiculo.Name = "lblTipoVehiculo";
             this.lblTipoVehiculo.Size = new System.Drawing.Size(100, 18);
             this.lblTipoVehiculo.TabIndex = 10;
@@ -289,7 +289,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(804, 418);
+            this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.pDatos);
             this.Controls.Add(this.pMatricula);
             this.Controls.Add(this.lblVehiculo);

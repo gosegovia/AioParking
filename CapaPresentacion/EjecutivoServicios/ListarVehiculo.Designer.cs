@@ -48,7 +48,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVolver.Font = new System.Drawing.Font("Arial", 12F);
             this.btnVolver.ForeColor = System.Drawing.Color.White;
-            this.btnVolver.Location = new System.Drawing.Point(703, 407);
+            this.btnVolver.Location = new System.Drawing.Point(737, 484);
             this.btnVolver.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(88, 25);
@@ -60,10 +60,10 @@ namespace CapaPresentacion.EjecutivoServicios
             // dgvVehiculo
             // 
             this.dgvVehiculo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvVehiculo.Location = new System.Drawing.Point(12, 84);
+            this.dgvVehiculo.Location = new System.Drawing.Point(12, 92);
             this.dgvVehiculo.Name = "dgvVehiculo";
             this.dgvVehiculo.RowTemplate.Height = 25;
-            this.dgvVehiculo.Size = new System.Drawing.Size(779, 312);
+            this.dgvVehiculo.Size = new System.Drawing.Size(813, 387);
             this.dgvVehiculo.TabIndex = 26;
             // 
             // label1
@@ -74,7 +74,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 28.2F);
             this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(290, 24);
+            this.label1.Location = new System.Drawing.Point(293, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(266, 43);
             this.label1.TabIndex = 25;
@@ -87,7 +87,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnEntregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEntregar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnEntregar.ForeColor = System.Drawing.Color.White;
-            this.btnEntregar.Location = new System.Drawing.Point(609, 407);
+            this.btnEntregar.Location = new System.Drawing.Point(643, 484);
             this.btnEntregar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEntregar.Name = "btnEntregar";
             this.btnEntregar.Size = new System.Drawing.Size(88, 25);
@@ -100,7 +100,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 449);
+            this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.btnEntregar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvVehiculo);

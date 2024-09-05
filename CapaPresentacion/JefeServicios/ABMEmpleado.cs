@@ -291,7 +291,6 @@ namespace CapaPresentacion.JefeServicios
             }
         } // Fin de botón guardar
 
-        // Botón eliminar
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             CapaNegocio.Empleado emp;
@@ -299,32 +298,48 @@ namespace CapaPresentacion.JefeServicios
 
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica.");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
-                emp = new Empleado();
-                emp.conexion = Program.con;
-                emp.ci = cedula;
+                // Confirmar eliminación
+                var confirmResult = MessageBox.Show(
+                    "¿Está seguro de que desea eliminar este empleado?",
+                    "Confirmar Eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
 
-                switch (emp.Eliminar())
+                if (confirmResult == DialogResult.Yes)
                 {
-                    case 0: // Se realizo sin problemas
-                        MessageBox.Show("Datos eliminados correctamente.");
-                        txtCI.Text = "";
-                        btnBuscar.Enabled = true;
-                        txtCI.Enabled = true;
-                        pDatos.Visible = false;
-                        break;
-                    case 1:
-                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
-                        break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 3: MessageBox.Show("Error 3"); break;
+                    emp = new Empleado();
+                    emp.conexion = Program.con;
+                    emp.ci = cedula;
+
+                    switch (emp.Eliminar())
+                    {
+                        case 0: // Se realizó sin problemas
+                            MessageBox.Show("Datos eliminados correctamente.");
+                            txtCI.Text = "";
+                            btnBuscar.Enabled = true;
+                            txtCI.Enabled = true;
+                            pDatos.Visible = false;
+                            break;
+                        case 1:
+                            MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
+                            break;
+                        case 2:
+                            MessageBox.Show("Error 2");
+                            break;
+                        case 3:
+                            MessageBox.Show("Error 3");
+                            break;
+                    }
+                    emp = null; // Liberar memoria
                 }
-                emp = null; // Liberar memoria
             }
-        } // Fin de botón eliminar
+        }
+
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)

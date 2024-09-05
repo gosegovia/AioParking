@@ -115,49 +115,58 @@ namespace CapaNegocio
         public byte BuscarCI()
         {
             byte resultado = 0;
-            DataTable dt;
 
+            // Verificar si la conexión está abierta
             if (!_conexion.Abierta())
             {
                 return 1; // Conexión cerrada
             }
 
-            string sql = $"SELECT ci FROM Cliente WHERE ci = {_ci}";
+            // Definir la consulta SQL para buscar por CI
+            string sql = $"SELECT ci FROM Cliente WHERE ci = " + ci;
+
             try
             {
-                dt = _conexion.EjecutarSelect(sql);
-                if (dt.Rows.Count == 0)
+                // Ejecutar la consulta y obtener los resultados en un DataTable
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                // Verificar si se encontraron filas en el resultado
+                if (dt == null || dt.Rows.Count == 0)
                 {
                     resultado = 3; // No encontrado
                 }
             }
             catch
             {
-                return 2; // Error en la ejecución
+                return 2; // Error en la ejecución de la consulta
             }
 
             return resultado;
         }
 
-        // Implementación del método Buscar
+        // Metodo para buscar cliente
         public byte Buscar()
         {
             byte resultado = 0;
 
+            // Chequeo el estado de la conexion
             if (!_conexion.Abierta())
             {
                 return 1; // Conexión cerrada
             }
 
-            string sql = $"SELECT p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, c.tipo_cliente " +
-                         $"FROM Persona p JOIN Cliente c ON p.ci = c.ci WHERE p.ci = {_ci}";
-
             try
             {
+                // Consulta principal para obtener los datos del cliente
+                string sql = $"SELECT p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, c.tipo_cliente " +
+                             $"FROM Persona p JOIN Cliente c ON p.ci = c.ci WHERE p.ci = " + ci;
+
+                // Ejecutamos la consulta
                 DataTable dt = _conexion.EjecutarSelect(sql);
+
                 if (dt.Rows.Count == 0)
                 {
-                    return 3; // No encontrado
+                    return 3; // No encontrado un cliennte
                 }
 
                 // Asignar valores desde la consulta
@@ -171,77 +180,88 @@ namespace CapaNegocio
                 _tipoCliente = row["tipo_cliente"].ToString();
 
                 // Obtener los teléfonos del cliente
-                sql = $"SELECT telefono FROM Telefono WHERE ci = {_ci}";
+                sql = $"SELECT telefono FROM Telefono WHERE ci = " + ci;
+
+                // Ejecutar la consulta para los telefonos
                 dt = _conexion.EjecutarSelect(sql);
 
-                _telefonos = dt.AsEnumerable().Select(r => r.Field<string>("telefono")).ToList();
+                // Convertir los teléfonos a string y guardarlos en la lista
+                _telefonos = dt.AsEnumerable().Select(r => r.Field<object>("telefono").ToString()).ToList();
             }
             catch
             {
-                return 2; // Error en la ejecución
+                return 2; // Error en la ejecución de la consulta
             }
-
-            return resultado;
+            return resultado; // Todo funciono correctamente
         }
+
 
         // Método para eliminar un cliente
         public byte Eliminar()
         {
             byte resultado = 0;
 
+            // Chequeo el estado de la conexion
             if (!_conexion.Abierta())
             {
                 return 1; // Conexión cerrada
             }
 
-            string sql = $"UPDATE Persona SET estado = 0 WHERE ci = {_ci}";
+            // Consulta para hacer borrado logico de cliente
+            string sql = $"UPDATE Persona SET estado = 0 WHERE ci = " + ci;
 
             try
             {
+                // Ejecuto la consulta
                 _conexion.Ejecutar(sql);
             }
             catch
             {
                 return 2; // Error al ejecutar la actualización
             }
+            return resultado; // Datos obtenidos correctamente
+        } // Fin metodo para eliminar cliente
 
-            return resultado;
-        }
-
-        // Método para guardar o actualizar un cliente
         public byte Guardar(bool modificacion)
         {
             byte resultado = 0;
 
+            // Verificar si la conexión está abierta
             if (!_conexion.Abierta())
             {
                 return 1; // Conexión cerrada
             }
 
+            // Definir las consultas SQL para insertar o actualizar
             string sql, sql1;
 
             if (modificacion)
             {
-                sql = $"UPDATE Persona SET nombre = '{_nombre}', apellido = '{_apellido}', nro_puerta = {_nro_puerta}, calle = '{_calle}', ciudad = '{_ciudad}', estado = {_estado} WHERE ci = {_ci}";
-                sql1 = $"UPDATE Cliente SET tipo_cliente = '{_tipoCliente}' WHERE ci = {_ci}";
+                // Consulta para actualizar los datos del cliente
+                sql = $"UPDATE Persona SET nombre = '{nombre}', apellido = '{apellido}', nro_puerta = {nroPuerta}, calle = '{calle}', ciudad = '{ciudad}', estado = {estado} WHERE ci = {ci}";
+                sql1 = $"UPDATE Cliente SET tipo_cliente = '{TipoCliente}' WHERE ci = {ci}";
             }
             else
             {
-                sql = $"INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VALUES ({_ci}, '{_nombre}', '{_apellido}', {_nro_puerta}, '{_calle}', '{_ciudad}', 1)";
-                sql1 = $"INSERT INTO Cliente (ci, tipo_cliente) VALUES ({_ci}, '{_tipoCliente}')";
+                // Consulta para insertar un nuevo cliente
+                sql = $"INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VALUES ({ci}, '{nombre}', '{apellido}', {nroPuerta}, '{calle}', '{ciudad}', 1)";
+                sql1 = $"INSERT INTO Cliente (ci, tipo_cliente) VALUES ({ci}, '{TipoCliente}')";
             }
 
             try
             {
+                // Ejecutar la consulta SQL para Persona
                 _conexion.Ejecutar(sql);
+                // Ejecutar la consulta SQL para Cliente
                 _conexion.Ejecutar(sql1);
             }
             catch
             {
+                // Manejar errores en las consultas
                 return 2; // Error en el insert o update
             }
 
-            // Manejo de teléfonos si es modificación
+            // Manejo de teléfonos si es una modificación
             if (modificacion)
             {
                 sql = $"DELETE FROM Telefono WHERE ci = {_ci}";
@@ -251,11 +271,12 @@ namespace CapaNegocio
                 }
                 catch
                 {
+                    // Manejar errores al borrar los teléfonos
                     return 3; // Error al borrar los teléfonos
                 }
             }
 
-            // Insertar teléfonos
+            // Insertar teléfonos nuevos
             foreach (string telefono in _telefonos)
             {
                 sql = $"INSERT INTO Telefono(ci, telefono) VALUES({_ci}, '{telefono}')";
@@ -265,6 +286,7 @@ namespace CapaNegocio
                 }
                 catch
                 {
+                    // Manejar errores al insertar los teléfonos
                     return 4; // Error al insertar los teléfonos
                 }
             }
@@ -272,11 +294,17 @@ namespace CapaNegocio
             return resultado;
         }
 
-        // Método para listar todos los clientes
+
         public List<Cliente> ListarClientes()
         {
             List<Cliente> clientes = new List<Cliente>();
             Dictionary<int, Cliente> clientesDict = new Dictionary<int, Cliente>();
+
+            // Verifica si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                throw new Exception("La conexión a la base de datos está cerrada.");
+            }
 
             string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente " +
                          "FROM Persona p " +
@@ -285,13 +313,15 @@ namespace CapaNegocio
 
             try
             {
+                // Ejecuta la consulta y obtiene el DataTable
                 DataTable dt = _conexion.EjecutarSelect(sql);
 
+                // Procesa cada fila del DataTable
                 foreach (DataRow row in dt.Rows)
                 {
                     int ci = Convert.ToInt32(row["ci"]);
 
-                    // Verificar si el cliente ya está en el diccionario
+                    // Verifica si el cliente ya está en el diccionario
                     if (!clientesDict.ContainsKey(ci))
                     {
                         // Crear un nuevo cliente y agregarlo al diccionario
@@ -313,11 +343,12 @@ namespace CapaNegocio
                     clientesDict[ci]._telefonos.Add(row["telefono"].ToString());
                 }
 
-                // Convertir el diccionario a lista
+                // Convierte el diccionario a lista
                 clientes = clientesDict.Values.ToList();
             }
             catch (Exception ex)
             {
+                // Manejo de errores
                 throw new Exception("Error al listar los clientes: " + ex.Message);
             }
 

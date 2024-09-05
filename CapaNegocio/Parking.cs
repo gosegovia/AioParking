@@ -1,4 +1,5 @@
 ﻿using ADODB;
+using CapaPersistencia;
 using System;
 using System.Data;
 
@@ -11,7 +12,7 @@ namespace CapaNegocio
         protected string _estadoPlaza;
         protected DateTime _horaEntrada;
         protected DateTime _horaSalida;
-        protected Connection _conexion;
+        protected Conexion _conexion;
 
         public int Plaza
         {
@@ -43,10 +44,10 @@ namespace CapaNegocio
             set { _horaSalida = value; }
         }
 
-        public ADODB.Connection Conexion
+        public Conexion conexion
         {
             set { _conexion = value; }
-            get { return _conexion; }
+            get { return (_conexion); }
         }
 
         public Parking()
@@ -54,10 +55,10 @@ namespace CapaNegocio
             _plaza = 0;
             _idparking = 0;
             _estadoPlaza = "";
-            _conexion = new Connection();
+            _conexion = new Conexion();
         }
 
-        public Parking(int plaza, int parking, string estado, Connection cn)
+        public Parking(int plaza, int parking, string estado, Conexion cn)
         {
             _plaza = plaza;
             _idparking = parking;
@@ -68,94 +69,77 @@ namespace CapaNegocio
         public DataTable ListarPlazas()
         {
             DataTable dt = new DataTable();
-            string sql = "SELECT nro_plaza, estado_plaza FROM Plaza"; // Consulta actualizada para MySQL
 
-            Recordset rs = new Recordset();
+            string sql = "SELECT nro_plaza, estado_plaza FROM Plaza"; // Consulta actualizada para MySQL
 
             try
             {
-                rs.Open(sql, _conexion, CursorTypeEnum.adOpenStatic, LockTypeEnum.adLockReadOnly, -1);
+                // Ejecutar la consulta y obtener el DataTable directamente
+                dt = _conexion.EjecutarSelect(sql);
 
-                // Agregar columnas al DataTable
-                dt.Columns.Add("Número Plaza");
-                dt.Columns.Add("Estado Plaza");
-
-                // Llenar el DataTable con los datos del Recordset
-                while (!rs.EOF)
-                {
-                    DataRow row = dt.NewRow();
-                    row["Número Plaza"] = rs.Fields["nro_plaza"].Value;
-                    row["Estado Plaza"] = rs.Fields["estado_plaza"].Value;
-                    dt.Rows.Add(row);
-                    rs.MoveNext();
-                }
+                // Cambiar los nombres de las columnas en el DataTable si es necesario
+                dt.Columns["nro_plaza"].ColumnName = "Número Plaza";
+                dt.Columns["estado_plaza"].ColumnName = "Estado Plaza";
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Error al obtener datos de plazas: " + ex.Message);
-            }
-            finally
-            {
-                // Cerrar y liberar el Recordset
-                if (rs != null && rs.State == 1) // 1 indica que el Recordset está abierto
-                {
-                    rs.Close();
-                }
+                
             }
 
             return dt;
         }
 
+
         public byte ObtenerPlaza(string matricula)
         {
             string sql;
-            object filasAfectadas;
-            Recordset rs;
+            DataTable dt;
             byte resultado = 0;
 
-            if (_conexion.State == 0)
+            if (!_conexion.Abierta())
             {
-                resultado = 1; // Conexión cerrada
+                return 1; // Conexión cerrada
+            }
+
+            sql = "SELECT p.nro_plaza " +
+                  "FROM Vehiculo v " +
+                  "JOIN Posee po ON v.matricula = po.matricula " +
+                  "JOIN Factura f ON po.matricula = f.matricula " +
+                  "JOIN Solicita s ON f.id_factura = s.id_factura " +
+                  "JOIN Reserva r ON s.id_parking = r.id_parking " +
+                  "JOIN Plaza p ON r.id_plaza = p.id_plaza " +
+                  "WHERE v.matricula = @matricula;";
+
+            try
+            {
+                // Usar parámetros para evitar SQL Injection
+                dt = _conexion.EjecutarSelect(sql);
+            }
+            catch
+            {
+                return 2; // Error en la ejecución
+            }
+
+            if (dt.Rows.Count == 0)
+            {
+                return 3; // No encontrado
             }
             else
             {
-                sql = "SELECT p.nro_plaza " +
-                    "FROM Vehiculo v " +
-                    "JOIN Posee po ON v.matricula = po.matricula " +
-                    "JOIN Factura f ON po.matricula = f.matricula " +
-                    "JOIN Solicita s ON f.id_factura = s.id_factura " +
-                    "JOIN Reserva r ON s.id_parking = r.id_parking " +
-                    "JOIN Plaza p ON r.id_plaza = p.id_plaza " +
-                    "WHERE v.matricula = '" + matricula + "';";
-
-                try
-                {
-                    rs = _conexion.Execute(sql, out filasAfectadas);
-                }
-                catch
-                {
-                    return 2; // Error en la ejecución
-                }
-
-                if (rs.RecordCount == 0)
-                {
-                    resultado = 3; // No encontrado
-                }
-                else
-                {
-                    _plaza = rs.Fields["nro_plaza"].Value;
-                }
+                // Asumiendo que _plaza es una variable de instancia para almacenar el resultado
+                _plaza = Convert.ToByte(dt.Rows[0]["nro_plaza"]);
             }
+
             return resultado;
         }
 
         public byte GuardarParking()
         {
             byte resultado = 0;
-            object filasAfectadas;
+            DataTable dt;
             string sql;
 
-            if (_conexion.State == 0) // La conexión está cerrada
+            if (!_conexion.Abierta()) // La conexión está cerrada
             {
                 return 1; // Error: Conexión cerrada
             }
@@ -168,31 +152,28 @@ namespace CapaNegocio
             sql = $"INSERT INTO Parking (hora_entrada, hora_salida) VALUES ('{HoraEntradaRepair}', '{HoraSalidaRepair}');";
 
             // Ejecutar la primera consulta para insertar en Parking
-            _conexion.Execute(sql, out filasAfectadas);
+            dt = _conexion.EjecutarSelect(sql);
 
             // Obtener el último id_parking insertado
             sql = "SELECT LAST_INSERT_ID();";
 
-            var recordset = _conexion.Execute(sql, out filasAfectadas); // Ejecutar y obtener el Recordset
-                                                                        // Verificar si el Recordset no está vacío
-            if (!recordset.EOF)
+            dt = _conexion.EjecutarSelect(sql);
+
+            if (dt != null)
             {
                 // Obtener el valor del id_parking
-                int idParking = Convert.ToInt32(recordset.Fields[0].Value);
+                int idParking = Convert.ToInt32(dt.Rows[0][0]);
 
                 // Consulta para insertar en la tabla Reserva
                 sql = $"INSERT INTO Reserva (id_parking, id_plaza) VALUES ({idParking}, {Plaza});";
 
                 // Ejecutar la segunda consulta para insertar en Reserva
-                _conexion.Execute(sql, out filasAfectadas);
+                _conexion.EjecutarSelect(sql);
             }
             else
             {
                 resultado = 4; // Error al obtener el id_parking
             }
-
-            recordset.Close(); // Cerrar el Recordset
-            recordset = null; // Liberar memoria del Recordset
             return resultado;
         }
     }

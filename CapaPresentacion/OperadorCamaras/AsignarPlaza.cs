@@ -74,6 +74,7 @@ namespace CapaPresentacion.OperadorCamaras
             {
                 c = new Cliente();
                 c.ci = cedula;
+                c.conexion = Program.con;
 
                 switch (c.BuscarCI())
                 {

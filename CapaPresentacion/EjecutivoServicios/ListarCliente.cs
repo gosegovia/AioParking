@@ -19,7 +19,11 @@ namespace CapaPresentacion.EjecutivoServicios
             try
             {
                 // Crear una instancia de Cliente desde la capa de negocio
-                Cliente c = new Cliente();
+                Cliente c = new Cliente
+                {
+                    // Asegúrate de que la conexión esté asignada si es necesario
+                    conexion = Program.con // Asumiendo que Program.con es la conexión global
+                };
 
                 // Obtener la lista de clientes
                 List<Cliente> clientes = c.ListarClientes();
@@ -40,7 +44,7 @@ namespace CapaPresentacion.EjecutivoServicios
                             NumeroPuerta = cl.nroPuerta,
                             Calle = cl.calle,
                             Ciudad = cl.ciudad,
-                            TipoCliente = cl.TipoCliente,
+                            Tipo_Cliente = cl.TipoCliente,
                             Telefonos = string.Join(", ", cl.Telefonos) // Concatenar los teléfonos
                         }).ToList();
 
@@ -62,6 +66,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 MessageBox.Show("Ocurrió un error al cargar los clientes: " + ex.Message);
             }
         }
+
 
 
         // Botón volver
