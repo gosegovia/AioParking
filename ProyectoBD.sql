@@ -577,3 +577,10 @@ GRANT SELECT, INSERT, UPDATE ON Parking TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Plaza TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Reserva TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
+
+SELECT p.ci, p.matricula, v.id_marca, m.nombre AS nombre_marca, v.tipo_vehiculo
+FROM Posee p
+JOIN Vehiculo v ON p.matricula = v.matricula
+JOIN Marca m ON v.id_marca = m.id_marca
+WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
+

@@ -123,7 +123,10 @@ namespace CapaNegocio
             }
 
             // Definir la consulta SQL para buscar por CI
-            string sql = $"SELECT ci FROM Cliente WHERE ci = " + ci;
+            string sql = "SELECT p.ci, p.nombre, p.apellido " +
+                "FROM Cliente c " +
+                "JOIN Persona p ON p.ci = c.ci " +
+                "WHERE c.ci =" + ci;
 
             try
             {
@@ -134,13 +137,18 @@ namespace CapaNegocio
                 if (dt == null || dt.Rows.Count == 0)
                 {
                     resultado = 3; // No encontrado
+                } else
+                {
+                    // Asignar los valores a las propiedades
+                    DataRow row = dt.Rows[0];
+                    nombre = row["nombre"].ToString();
+                    apellido = row["apellido"].ToString();
                 }
             }
             catch
             {
                 return 2; // Error en la ejecución de la consulta
             }
-
             return resultado;
         }
 

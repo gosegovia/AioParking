@@ -74,7 +74,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.pDatos.Location = new System.Drawing.Point(12, 218);
             this.pDatos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(826, 219);
+            this.pDatos.Size = new System.Drawing.Size(826, 321);
             this.pDatos.TabIndex = 10;
             // 
             // dgvPlaza
@@ -85,12 +85,12 @@ namespace CapaPresentacion.OperadorCamaras
             this.dgvPlaza.AllowUserToResizeRows = false;
             this.dgvPlaza.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvPlaza.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPlaza.Location = new System.Drawing.Point(468, 8);
+            this.dgvPlaza.Location = new System.Drawing.Point(468, 17);
             this.dgvPlaza.MultiSelect = false;
             this.dgvPlaza.Name = "dgvPlaza";
             this.dgvPlaza.ReadOnly = true;
             this.dgvPlaza.RowTemplate.Height = 25;
-            this.dgvPlaza.Size = new System.Drawing.Size(280, 200);
+            this.dgvPlaza.Size = new System.Drawing.Size(280, 271);
             this.dgvPlaza.TabIndex = 17;
             this.dgvPlaza.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPlaza_CellClick);
             // 
@@ -99,7 +99,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblTipoVehiculo.AutoSize = true;
             this.lblTipoVehiculo.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTipoVehiculo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTipoVehiculo.Location = new System.Drawing.Point(295, 90);
+            this.lblTipoVehiculo.Location = new System.Drawing.Point(295, 125);
             this.lblTipoVehiculo.Name = "lblTipoVehiculo";
             this.lblTipoVehiculo.Size = new System.Drawing.Size(28, 18);
             this.lblTipoVehiculo.TabIndex = 16;
@@ -110,7 +110,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblMarca.AutoSize = true;
             this.lblMarca.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMarca.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMarca.Location = new System.Drawing.Point(295, 52);
+            this.lblMarca.Location = new System.Drawing.Point(295, 87);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(28, 18);
             this.lblMarca.TabIndex = 15;
@@ -121,7 +121,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblCedula.AutoSize = true;
             this.lblCedula.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCedula.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCedula.Location = new System.Drawing.Point(295, 16);
+            this.lblCedula.Location = new System.Drawing.Point(295, 51);
             this.lblCedula.Name = "lblCedula";
             this.lblCedula.Size = new System.Drawing.Size(28, 18);
             this.lblCedula.TabIndex = 14;
@@ -132,7 +132,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.txtPlaza.BackColor = System.Drawing.Color.LightBlue;
             this.txtPlaza.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtPlaza.Location = new System.Drawing.Point(264, 124);
+            this.txtPlaza.Location = new System.Drawing.Point(264, 159);
             this.txtPlaza.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPlaza.Multiline = true;
             this.txtPlaza.Name = "txtPlaza";
@@ -145,7 +145,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblPlaza.AutoSize = true;
             this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
             this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPlaza.Location = new System.Drawing.Point(140, 131);
+            this.lblPlaza.Location = new System.Drawing.Point(140, 166);
             this.lblPlaza.Name = "lblPlaza";
             this.lblPlaza.Size = new System.Drawing.Size(47, 18);
             this.lblPlaza.TabIndex = 12;
@@ -156,7 +156,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblTipoVehiculoTexto.AutoSize = true;
             this.lblTipoVehiculoTexto.Font = new System.Drawing.Font("Arial", 12F);
             this.lblTipoVehiculoTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTipoVehiculoTexto.Location = new System.Drawing.Point(140, 90);
+            this.lblTipoVehiculoTexto.Location = new System.Drawing.Point(140, 125);
             this.lblTipoVehiculoTexto.Name = "lblTipoVehiculoTexto";
             this.lblTipoVehiculoTexto.Size = new System.Drawing.Size(100, 18);
             this.lblTipoVehiculoTexto.TabIndex = 10;
@@ -169,7 +169,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(298, 183);
+            this.btnCancelar.Location = new System.Drawing.Point(298, 218);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(88, 25);
@@ -185,7 +185,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(193, 183);
+            this.btnGuardar.Location = new System.Drawing.Point(193, 218);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(88, 25);
@@ -199,7 +199,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblMarcaTexto.AutoSize = true;
             this.lblMarcaTexto.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMarcaTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMarcaTexto.Location = new System.Drawing.Point(140, 52);
+            this.lblMarcaTexto.Location = new System.Drawing.Point(140, 87);
             this.lblMarcaTexto.Name = "lblMarcaTexto";
             this.lblMarcaTexto.Size = new System.Drawing.Size(52, 18);
             this.lblMarcaTexto.TabIndex = 6;
@@ -210,7 +210,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblCICliente.AutoSize = true;
             this.lblCICliente.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCICliente.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCICliente.Location = new System.Drawing.Point(140, 16);
+            this.lblCICliente.Location = new System.Drawing.Point(140, 51);
             this.lblCICliente.Name = "lblCICliente";
             this.lblCICliente.Size = new System.Drawing.Size(57, 18);
             this.lblCICliente.TabIndex = 4;

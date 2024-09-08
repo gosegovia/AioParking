@@ -39,7 +39,7 @@ namespace CapaPresentacion.OperadorCamaras
                     {
                         row.Cells["Estado Plaza"].Style.ForeColor = Color.Green;
                     }
-                    else if (estado == "Ocupado")
+                    else if (estado == "Ocupada")
                     {
                         row.Cells["Estado Plaza"].Style.ForeColor = Color.Red;
                     }
@@ -83,6 +83,8 @@ namespace CapaPresentacion.OperadorCamaras
                         btnBuscarCi.Enabled = false;
                         pMatricula.Visible = true;
                         txtMatricula.Focus();
+
+                        lblCedula.Text = c.nombre + " " + c.apellido;
                         break;
                     case 1:
                         MessageBox.Show("Debe logearse nuevamente"); break;
@@ -133,29 +135,60 @@ namespace CapaPresentacion.OperadorCamaras
                         btnBuscarMatricula.Enabled = false;
                         pDatos.Visible = true;
 
+                        lblMarca.Text = v.NombreMarca;
+                        switch (v.TipoVehiculo)
+                        {
+                            case 1: lblTipoVehiculo.Text = "Auto"; break;
+                            case 2: lblTipoVehiculo.Text = "Utilitario"; break;
+                            case 3: lblTipoVehiculo.Text = "Moto"; break;
+                            case 4: lblTipoVehiculo.Text = "Camioneta"; break;
+                            case 5: lblTipoVehiculo.Text = "Camion"; break;
+                        }
+
                         try
                         {
-                            // Obtener datos de plazas
-                            DataTable dt = _parkingNegocio.ListarPlazas();
-
-                            // Configurar el DataGridView para mostrar las plazas
-                            dgvPlaza.AutoGenerateColumns = true;
-                            dgvPlaza.DataSource = dt;
-
-                            // Asegurar una única suscripción al evento DataBindingComplete
-                            dgvPlaza.DataBindingComplete -= asignarColor;
-                            dgvPlaza.DataBindingComplete += asignarColor;
-
-                            // Desactivar la capacidad de ordenar las columnas
-                            foreach (DataGridViewColumn column in dgvPlaza.Columns)
+                            // Crear una instancia de la capa de negocio para plazas
+                            CapaNegocio.Parking parkingNegocio = new CapaNegocio.Parking
                             {
-                                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                                conexion = Program.con
+                            };
+
+                            // Obtener la lista de plazas
+                            DataTable dt = parkingNegocio.ListarPlazas();
+
+                            // Verificar si el DataTable tiene filas
+                            if (dt != null && dt.Rows.Count > 0)
+                            {
+                                // Mostrar los datos recuperados para depuración
+                                Console.WriteLine($"Número de filas recuperadas: {dt.Rows.Count}");
+
+                                // Configurar el DataGridView para mostrar las plazas
+                                dgvPlaza.AutoGenerateColumns = true;
+                                dgvPlaza.DataSource = dt;
+
+                                // Asegurar una única suscripción al evento DataBindingComplete
+                                dgvPlaza.DataBindingComplete -= asignarColor;
+                                dgvPlaza.DataBindingComplete += asignarColor;
+
+                                // Forzar la actualización del DataGridView
+                                dgvPlaza.Refresh();
+
+                                // Desactivar la capacidad de ordenar las columnas
+                                foreach (DataGridViewColumn column in dgvPlaza.Columns)
+                                {
+                                    column.SortMode = DataGridViewColumnSortMode.NotSortable;
+                                }
+                            }
+                            else
+                            {
+                                // Mostrar mensaje si no se encontraron datos de plazas
+                                MessageBox.Show("No se encontraron datos de plazas.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
                         catch (Exception ex)
                         {
                             // Manejo de excepciones al cargar los datos de plazas
-                            MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error al cargar los datos de plazas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         break;
 
@@ -179,7 +212,7 @@ namespace CapaPresentacion.OperadorCamaras
             catch (Exception ex)
             {
                 // Manejo de excepciones generales
-                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message);
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -187,6 +220,7 @@ namespace CapaPresentacion.OperadorCamaras
                 v = null;
             }
         }
+
 
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)

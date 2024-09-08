@@ -85,13 +85,25 @@ namespace CapaNegocio
             if (!_conexion.Abierta())
                 return 1; // Conexión cerrada
 
-            string sql = $"SELECT ci, matricula FROM Posee WHERE ci = {ci} AND matricula = '{_matricula}'";
+            string sql = "SELECT p.ci, p.matricula, v.id_marca, m.nombre_marca AS nombre_marca, v.tipo_vehiculo " +
+                "FROM Posee p " +
+                "JOIN Vehiculo v ON p.matricula = v.matricula " +
+                "JOIN Marca m ON v.id_marca = m.id_marca " +
+                "WHERE p.ci = " + ci + " AND p.matricula = '" + _matricula + "';";
 
             try
             {
                 DataTable dt = _conexion.EjecutarSelect(sql);
                 if (dt.Rows.Count == 0)
+                {
                     return 3; // No encontrado
+                } else
+                {
+                    // Asignar los valores a las propiedades y convertir a int
+                    DataRow row = dt.Rows[0];
+                    NombreMarca = row["nombre_marca"].ToString();
+                    TipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                }
             }
             catch
             {

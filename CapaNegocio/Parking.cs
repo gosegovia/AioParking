@@ -68,27 +68,30 @@ namespace CapaNegocio
 
         public DataTable ListarPlazas()
         {
+            // Crear una nueva instancia de DataTable para almacenar los resultados.
             DataTable dt = new DataTable();
-
-            string sql = "SELECT nro_plaza, estado_plaza FROM Plaza"; // Consulta actualizada para MySQL
+            string sql = "SELECT id_plaza AS 'Número Plaza', estado_plaza AS 'Estado Plaza' FROM Plaza"; // Consulta SQL simplificada con alias.
 
             try
             {
-                // Ejecutar la consulta y obtener el DataTable directamente
+                // Ejecutar la consulta SQL y obtener los resultados en el DataTable.
                 dt = _conexion.EjecutarSelect(sql);
 
-                // Cambiar los nombres de las columnas en el DataTable si es necesario
-                dt.Columns["nro_plaza"].ColumnName = "Número Plaza";
-                dt.Columns["estado_plaza"].ColumnName = "Estado Plaza";
+                // Verificar si el DataTable tiene filas; si no, mostrar un mensaje de depuración.
+                if (dt.Rows.Count == 0)
+                {
+                    Console.WriteLine("No se encontraron datos en la tabla Plaza.");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                
+                // Manejar excepciones y mostrar el error para facilitar la depuración.
+                Console.WriteLine("Error al listar las plazas: " + ex.Message);
             }
 
+            // Devolver el DataTable con los resultados.
             return dt;
         }
-
 
         public byte ObtenerPlaza(string matricula)
         {
@@ -132,6 +135,80 @@ namespace CapaNegocio
 
             return resultado;
         }
+
+        /*
+        public byte GuardarPlaza()
+        {
+            byte resultado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Definir las consultas SQL para insertar o actualizar
+            string sql, sql1;
+
+            if (modificacion)
+            {
+                // Consulta para actualizar los datos del cliente
+                sql = $"UPDATE Persona SET nombre = '{nombre}', apellido = '{apellido}', nro_puerta = {nroPuerta}, calle = '{calle}', ciudad = '{ciudad}', estado = {estado} WHERE ci = {ci}";
+                sql1 = $"UPDATE Cliente SET tipo_cliente = '{TipoCliente}' WHERE ci = {ci}";
+            }
+            else
+            {
+                // Consulta para insertar un nuevo cliente
+                sql = $"INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VALUES ({ci}, '{nombre}', '{apellido}', {nroPuerta}, '{calle}', '{ciudad}', 1)";
+                sql1 = $"INSERT INTO Cliente (ci, tipo_cliente) VALUES ({ci}, '{TipoCliente}')";
+            }
+
+            try
+            {
+                // Ejecutar la consulta SQL para Persona
+                _conexion.Ejecutar(sql);
+                // Ejecutar la consulta SQL para Cliente
+                _conexion.Ejecutar(sql1);
+            }
+            catch
+            {
+                // Manejar errores en las consultas
+                return 2; // Error en el insert o update
+            }
+
+            // Manejo de teléfonos si es una modificación
+            if (modificacion)
+            {
+                sql = $"DELETE FROM Telefono WHERE ci = {_ci}";
+                try
+                {
+                    _conexion.Ejecutar(sql);
+                }
+                catch
+                {
+                    // Manejar errores al borrar los teléfonos
+                    return 3; // Error al borrar los teléfonos
+                }
+            }
+
+            // Insertar teléfonos nuevos
+            foreach (string telefono in _telefonos)
+            {
+                sql = $"INSERT INTO Telefono(ci, telefono) VALUES({_ci}, '{telefono}')";
+                try
+                {
+                    _conexion.Ejecutar(sql);
+                }
+                catch
+                {
+                    // Manejar errores al insertar los teléfonos
+                    return 4; // Error al insertar los teléfonos
+                }
+            }
+
+            return resultado;
+        }
+        */
 
         public byte GuardarParking()
         {
