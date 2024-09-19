@@ -214,11 +214,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.cbTipoVehiculo.Font = new System.Drawing.Font("Arial", 12F);
             this.cbTipoVehiculo.FormattingEnabled = true;
             this.cbTipoVehiculo.Items.AddRange(new object[] {
-            "Auto",
-            "Utilitario",
             "Moto",
+            "Auto",
             "Camioneta",
-            "Camion"});
+            "Pequeño Camion",
+            "Pequeño Utilitario"});
             this.cbTipoVehiculo.Location = new System.Drawing.Point(346, 83);
             this.cbTipoVehiculo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbTipoVehiculo.Name = "cbTipoVehiculo";

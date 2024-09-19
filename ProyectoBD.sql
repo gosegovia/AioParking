@@ -51,13 +51,23 @@ CREATE TABLE Marca (
   UNIQUE (nombre_marca)
 );
 
+CREATE TABLE Tipo_Vehiculo (
+  id_tipo INT AUTO_INCREMENT,
+  nombre_tipo VARCHAR(20) NOT NULL,
+  precio_tipo DOUBLE NOT NULL DEFAULT 0,
+  plaza_ocupa INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (id_tipo),
+  UNIQUE (nombre_tipo)
+);
+
 CREATE TABLE Vehiculo (
   matricula VARCHAR(10) NOT NULL,
   id_marca INT NOT NULL,
-  tipo_vehiculo INT NOT NULL,
+  id_tipo INT NOT NULL,
   estado_vehiculo TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (matricula),
   FOREIGN KEY (id_marca) REFERENCES Marca(id_marca),
+  FOREIGN KEY (id_tipo) REFERENCES Tipo_Vehiculo(id_tipo),
   CONSTRAINT chk_estado_vehiculo CHECK (estado_vehiculo IN (0, 1))
 );
 
@@ -65,12 +75,8 @@ CREATE TABLE Posee (
   ci INT NOT NULL,
   matricula VARCHAR(10) NOT NULL,
   PRIMARY KEY (ci, matricula),
-  FOREIGN KEY (ci) REFERENCES Persona(ci)
-    ON DELETE CASCADE -- Elimina registros en Posee si el dueño es eliminado
-    ON UPDATE CASCADE, -- Actualiza registros en Posee si CI cambia
+  FOREIGN KEY (ci) REFERENCES Persona(ci),
   FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula)
-    ON DELETE CASCADE -- Elimina registros en Posee si el vehículo es eliminado
-    ON UPDATE CASCADE -- Actualiza registros en Posee si la matrícula cambia
 );
 
 CREATE TABLE Factura (
@@ -115,6 +121,7 @@ CREATE TABLE Parking (
   id_parking INT AUTO_INCREMENT,
   hora_entrada DATETIME NOT NULL,
   hora_salida DATETIME NOT NULL,
+  precio_parking DECIMAL(10, 2) NOT NULL DEFAULT 0,
   PRIMARY KEY (id_parking),
   CHECK (hora_salida IS NULL OR hora_salida > hora_entrada)
 );
@@ -122,7 +129,6 @@ CREATE TABLE Parking (
 CREATE TABLE Plaza (
   id_plaza INT AUTO_INCREMENT,
   estado_plaza ENUM('Libre', 'Ocupada') NOT NULL,
-  precio_plaza DECIMAL(10, 2) NOT NULL DEFAULT 0,
   PRIMARY KEY (id_plaza)
 );
 
@@ -132,6 +138,18 @@ CREATE TABLE Reserva (
   PRIMARY KEY (id_parking, id_plaza),
   FOREIGN KEY (id_parking) REFERENCES Parking(id_parking),
   FOREIGN KEY (id_plaza) REFERENCES Plaza(id_plaza)
+);
+
+CREATE TABLE Ticket (
+	id_ticket INT NOT NULL,
+    matricula VARCHAR(10) NOT NULL,
+    ci INT NOT NULL,
+    id_plaza INT NOT NULL,
+    fecha_ticket DATETIME NOT NULL,
+    PRIMARY KEY (id_ticket, matricula, ci, id_plaza),
+    FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
+    FOREIGN KEY (ci) REFERENCES Cliente(ci),
+    FOREIGN KEY (id_plaza) REFERENCES Plaza(id_plaza)
 );
 
 CREATE TABLE Solicita (
@@ -275,19 +293,30 @@ INSERT INTO Marca (id_marca, nombre_marca) VALUES
 (19, 'Yamaha'),
 (20, 'Suzuki');
 
+/* TIPO VEHICULO */
+
+INSERT INTO Tipo_Vehiculo (id_tipo, nombre_tipo, precio_tipo, plaza_ocupa) VALUES
+(1, 'Moto', 50, 0),
+(2, 'Auto', 100, 1),
+(3, 'Camioneta', 120, 1),
+(4, 'Pequenio camion', 150, 2),
+(5, 'Pequenio utilitario', 150, 2);
+
 /* VEHICULO */
 
-INSERT INTO Vehiculo (matricula, id_marca, tipo_vehiculo, estado_vehiculo) VALUES
+INSERT INTO Vehiculo (matricula, id_marca, id_tipo, estado_vehiculo) VALUES
 ('abc1234', 14, 1, 1),
-('cba4321', 16, 3, 1),
-('fga1235', 4, 5, 1),
-('das7869', 7, 3, 1),
+('cba4321', 16, 1, 1),
+('fga1235', 4, 1, 1),
+('das7869', 7, 2, 1),
 ('xyz5678', 1, 4, 1),
 ('uvw8765', 2, 2, 1),
 ('rst3456', 3, 4, 1),
-('opq2345', 5, 1, 1),
+('opq2345', 5, 2, 1),
 ('lmn6543', 8, 3, 1),
-('ijk9876', 12, 1, 1);
+('ijk9876', 12, 3, 1);
+
+/* POSEE */
 
 insert into Posee (ci, matricula) values
 (56303446, 'abc1234'),
@@ -337,17 +366,17 @@ INSERT INTO Venta_Neumatico (id_ventaNeumatico, id_neumatico, precio_total, cant
 
 /* PARKING */
 
-INSERT INTO Parking (id_parking, hora_entrada, hora_salida) VALUES
-(1, '2024-08-19 08:00:00', '2024-08-19 10:00:00'),
-(2, '2024-08-19 09:00:00', '2024-08-19 11:45:00'),
-(3, '2024-08-19 11:00:00', '2024-08-19 13:30:00'),
-(4, '2024-08-19 12:00:00', '2024-08-19 14:00:00'),
-(5, '2024-08-19 13:00:00', '2024-08-19 15:15:00'),
-(6, '2024-08-19 14:00:00', '2024-08-19 16:30:00'),
-(7, '2024-08-19 15:00:00', '2024-08-19 17:00:00'),
-(8, '2024-08-19 16:00:00', '2024-08-19 18:30:00'),
-(9, '2024-08-19 17:00:00', '2024-08-19 19:00:00'),
-(10, '2024-08-19 18:00:00', '2024-08-19 20:00:00');
+INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
+(1, '2024-08-19 08:00:00', '2024-08-19 10:00:00', 50),
+(2, '2024-08-19 09:00:00', '2024-08-19 11:45:00', 100),
+(3, '2024-08-19 11:00:00', '2024-08-19 13:30:00', 50),
+(4, '2024-08-19 12:00:00', '2024-08-19 14:00:00', 120),
+(5, '2024-08-19 13:00:00', '2024-08-19 15:15:00', 100),
+(6, '2024-08-19 14:00:00', '2024-08-19 16:30:00', 125),
+(7, '2024-08-19 15:00:00', '2024-08-19 17:00:00', 100),
+(8, '2024-08-19 16:00:00', '2024-08-19 18:30:00', 50),
+(9, '2024-08-19 17:00:00', '2024-08-19 19:00:00', 150),
+(10, '2024-08-19 18:00:00', '2024-08-19 20:00:00', 120);
 
 /* PLAZA */
 
@@ -377,7 +406,7 @@ INSERT INTO Plaza (id_plaza, estado_plaza) VALUES
 (23, 'Libre'),
 (24, 'Libre'),
 (25, 'Ocupada'),
-(26, 'Libre'),
+(26, 'Ocupada'),
 (27, 'Libre'),
 (28, 'Libre'),
 (29, 'Libre'),
@@ -392,7 +421,7 @@ INSERT INTO Plaza (id_plaza, estado_plaza) VALUES
 (38, 'Libre'),
 (39, 'Libre'),
 (40, 'Ocupada'),
-(41, 'Libre'),
+(41, 'Ocupada'),
 (42, 'Libre'),
 (43, 'Ocupada'),
 (44, 'Libre'),
@@ -426,6 +455,22 @@ INSERT INTO Reserva (id_parking, id_plaza) VALUES
 (8, 43),
 (9, 52),
 (10, 53);
+
+/* TICKET */
+
+INSERT INTO Ticket(id_ticket, matricula, ci, id_plaza, fecha_ticket) VALUES
+(1, 'abc1234', 56303446, 3, '2024-08-17 14:22:45'),
+(2, 'cba4321', 43214321, 6, '2024-08-18 10:34:12'),
+(3, 'fga1235', 32132143, 9, '2024-08-19 09:00:00'),
+(4, 'das7869', 54839454, 21, '2024-08-20 15:45:00'),
+(5, 'xyz5678', 38765432, 25, '2024-08-21 11:22:00'),
+(5, 'xyz5678', 38765432, 26, '2024-08-21 11:22:00'),
+(6, 'uvw8765', 57654321, 30, '2024-08-22 13:30:00'),
+(7, 'rst3456', 26543210, 40, '2024-08-23 10:15:00'),
+(7, 'rst3456', 26543210, 41, '2024-08-23 10:15:00'),
+(8, 'opq2345', 15432109, 43, '2024-08-24 16:00:00'),
+(9, 'lmn6543', 34321098, 52, '2024-08-25 14:50:00'),
+(10, 'ijk9876', 43210987, 53, '2024-08-26 12:10:00');
 
 /* SOLICITA */
 
@@ -571,16 +616,19 @@ GRANT SELECT ON Rol TO 'ope'@'localhost';
 GRANT SELECT ON Empleado TO 'ope'@'localhost';
 GRANT SELECT ON Marca TO 'ope'@'localhost';
 GRANT SELECT ON Vehiculo TO 'ope'@'localhost';
+GRANT SELECT ON Tipo_Vehiculo TO 'ope'@'localhost';
 GRANT SELECT ON Posee TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Parking TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Plaza TO 'ope'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON Ticket TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Reserva TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 
-SELECT p.ci, p.matricula, v.id_marca, m.nombre AS nombre_marca, v.tipo_vehiculo
+SELECT p.ci, p.matricula, m.nombre_marca, t.nombre_tipo
 FROM Posee p
 JOIN Vehiculo v ON p.matricula = v.matricula
 JOIN Marca m ON v.id_marca = m.id_marca
+JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo
 WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
 

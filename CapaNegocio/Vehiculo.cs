@@ -14,6 +14,7 @@ namespace CapaNegocio
         protected int _marca;
         protected string _nombreMarca;
         protected int _tipoVehiculo;
+        protected string _nombreTipo;
         protected string _nombreVehiculo;
         protected Conexion _conexion;
 
@@ -41,6 +42,12 @@ namespace CapaNegocio
             set { _tipoVehiculo = value; }
         }
 
+        public string NombreTipo
+        {
+            get { return _nombreTipo; }
+            set { _nombreTipo = value; }
+        }
+
         public string NombreVehiculo
         {
             get { return _nombreVehiculo; }
@@ -66,16 +73,18 @@ namespace CapaNegocio
             _marca = 0;
             _nombreMarca = "";
             _tipoVehiculo = 0;
+            _nombreTipo = "";
             _nombreVehiculo = "";
             _conexion = new Conexion();
         }
 
-        public Vehiculo(string mat, int mar, string nommar, int tipo, string nomve, Conexion cn)
+        public Vehiculo(string mat, int mar, string nommar, int tipo, string nombtipo, string nomve, Conexion cn)
         {
             _matricula = mat;
             _marca = mar;
             _nombreMarca = nommar;
             _tipoVehiculo = tipo;
+            _nombreTipo = nombtipo;
             _nombreVehiculo = nomve;
             _conexion = cn;
         }
@@ -85,11 +94,12 @@ namespace CapaNegocio
             if (!_conexion.Abierta())
                 return 1; // Conexión cerrada
 
-            string sql = "SELECT p.ci, p.matricula, v.id_marca, m.nombre_marca AS nombre_marca, v.tipo_vehiculo " +
+            string sql = "SELECT p.ci, p.matricula, m.nombre_marca, t.nombre_tipo " +
                 "FROM Posee p " +
                 "JOIN Vehiculo v ON p.matricula = v.matricula " +
                 "JOIN Marca m ON v.id_marca = m.id_marca " +
-                "WHERE p.ci = " + ci + " AND p.matricula = '" + _matricula + "';";
+                "JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo " +
+                "WHERE p.ci = " + ci + " AND p.matricula = '" + Matricula + "';";
 
             try
             {
@@ -102,7 +112,7 @@ namespace CapaNegocio
                     // Asignar los valores a las propiedades y convertir a int
                     DataRow row = dt.Rows[0];
                     NombreMarca = row["nombre_marca"].ToString();
-                    TipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                    NombreTipo = row["nombre_tipo"].ToString();
                 }
             }
             catch

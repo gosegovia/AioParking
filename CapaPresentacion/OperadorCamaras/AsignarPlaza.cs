@@ -24,7 +24,6 @@ namespace CapaPresentacion.OperadorCamaras
             pMatricula.Visible = false;
             dgvPlaza.DataBindingComplete -= asignarColor; // Evitar múltiples suscripciones
             dgvPlaza.DataBindingComplete += asignarColor;
-
         }
 
         // Cambiar color de las filas basado en el estado
@@ -90,12 +89,17 @@ namespace CapaPresentacion.OperadorCamaras
                         MessageBox.Show("Debe logearse nuevamente"); break;
                     case 2:
                         MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
-                    case 3: // No encontro
-                        if (txtCi.TextLength < 8)
+                    case 3: // No encontró
+                        if (txtCi.TextLength != 8)
                         {
                             MessageBox.Show("Formato incorrecto");
                         }
+                        else
+                        {
+                            MessageBox.Show("No se encontró el cliente con la cédula ingresada.");
+                        }
                         break;
+                    default: MessageBox.Show("Error al obtener la cedula."); break;
                 }
                 c = null; // Destruyo el objeto
             }
@@ -136,14 +140,7 @@ namespace CapaPresentacion.OperadorCamaras
                         pDatos.Visible = true;
 
                         lblMarca.Text = v.NombreMarca;
-                        switch (v.TipoVehiculo)
-                        {
-                            case 1: lblTipoVehiculo.Text = "Auto"; break;
-                            case 2: lblTipoVehiculo.Text = "Utilitario"; break;
-                            case 3: lblTipoVehiculo.Text = "Moto"; break;
-                            case 4: lblTipoVehiculo.Text = "Camioneta"; break;
-                            case 5: lblTipoVehiculo.Text = "Camion"; break;
-                        }
+                        lblTipoVehiculo.Text = v.NombreTipo;
 
                         try
                         {
@@ -225,34 +222,47 @@ namespace CapaPresentacion.OperadorCamaras
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtPlaza.Text))
+            CapaNegocio.Parking p;
+            p = new Parking();
+            p.conexion = Program.con;
+
+            string matricula = txtMatricula.Text;
+            int ci = Int32.Parse(txtCi.Text);
+            int plaza = Int32.Parse(lblPlaza.Text);
+            DateTime fecha = DateTime.Now;
+
+
+            // Generar ticket
+            switch (p.GenerarTicket(matricula, ci, plaza, fecha))
             {
-                MessageBox.Show("Debe ingresar la plaza.");
-                return;
-            }
-            else
-            {
-                if (int.TryParse(txtPlaza.Text, out int plaza))
-                {
-                    if (plaza >= 1 && plaza <= 60)
-                    {
-                        // Lógica para guardar la plaza asignada
-                    }
-                    else
-                    {
-                        MessageBox.Show("El número de plaza debe estar entre 1 y 60.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("El valor ingresado para la plaza no es válido.");
-                }
+                case 0: // Se realizó sin problemas
+                    MessageBox.Show("Se genero el ticket.");
+
+                    p.CrearTicketPDF(matricula, ci, plaza, fecha);
+
+                    txtCi.Text = "";
+                    txtCi.Enabled = true;
+                    btnBuscarCi.Enabled = true;
+                    txtMatricula.Text = "";
+                    txtMatricula.Enabled = true;
+                    btnBuscarMatricula.Enabled = true;
+                    pMatricula.Visible = false;
+                    pDatos.Visible = false;
+                    break;
+
+                case 1: // Conexión cerrada
+                    MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
+                    break;
+
+                case 2: // Error genérico
+                    MessageBox.Show("Error 2");
+                    break;
             }
 
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
-            pDatos.Visible = false;
+            // Liberar memoria
+            p = null;
         }
+
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -281,10 +291,44 @@ namespace CapaPresentacion.OperadorCamaras
                 if (row.Cells["Estado Plaza"].Value.ToString() == "Libre")
                 {
                     // Obtiene el número de la plaza
-                    string numeroPlaza = row.Cells["Número Plaza"].Value.ToString();
+                    int numPlaza = Convert.ToInt32(row.Cells["Número Plaza"].Value);
 
-                    // Asigna el número de plaza al TextBox
-                    txtPlaza.Text = numeroPlaza;
+                    if ((numPlaza >= 1 && numPlaza <= 20) && lblTipoVehiculo.Text.Trim() == "Moto")
+                    {
+                        lblPlaza.Text = numPlaza.ToString();  // Asignar el número de plaza para moto
+                    }
+                    else if ((numPlaza >= 21 && numPlaza <= 60) && (lblTipoVehiculo.Text.Trim() == "Auto" || lblTipoVehiculo.Text.Trim() == "Camioneta"))
+                    {
+                        lblPlaza.Text = numPlaza.ToString();  // Asignar el número de plaza para auto/camioneta
+                    }
+                    else if ((numPlaza >= 21 && numPlaza <= 60) && (lblTipoVehiculo.Text.Trim() == "Pequenio camion" || lblTipoVehiculo.Text.Trim() == "Pequenio utilitario"))
+                    {
+                        // Verifica si la siguiente plaza (numPlaza + 1) está ocupada
+                        if (e.RowIndex + 1 < dgvPlaza.Rows.Count)
+                        {
+                            // Obtiene la siguiente fila (numPlaza + 1)
+                            DataGridViewRow nextRow = dgvPlaza.Rows[e.RowIndex + 1];
+
+                            // Verifica si el estado de la próxima plaza es "Ocupada"
+                            if (nextRow.Cells["Estado Plaza"].Value.ToString() == "Ocupada")
+                            {
+                                MessageBox.Show("La próxima plaza está ocupada, este vehiculo ocupa 2 plazas.");
+                            }
+                            else
+                            {
+                                // Asigna el número de las dos plazas si la siguiente está libre
+                                lblPlaza.Text = numPlaza.ToString() + ", " + (numPlaza + 1).ToString();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("No hay más plazas disponibles para verificar.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Esta plaza no es para ese tipo de vehículo.");
+                    }
                 }
                 else
                 {
@@ -293,6 +337,7 @@ namespace CapaPresentacion.OperadorCamaras
                 }
             }
         }
+
 
         private void txtCi_KeyDown(object sender, KeyEventArgs e)
         {
@@ -310,6 +355,12 @@ namespace CapaPresentacion.OperadorCamaras
                 e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
                 btnBuscarMatricula.Focus();
             }
+        }
+
+        private void txtCi_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 8);
         }
     }
 }

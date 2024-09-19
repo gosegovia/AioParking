@@ -2,6 +2,10 @@
 using CapaPersistencia;
 using System;
 using System.Data;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using iTextSharp.text.pdf.draw;
 
 namespace CapaNegocio
 {
@@ -252,6 +256,149 @@ namespace CapaNegocio
                 resultado = 4; // Error al obtener el id_parking
             }
             return resultado;
+        }
+
+        public byte GenerarTicket(string matricula, int ci, int plaza, DateTime fecha)
+        {
+            byte resultado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Definir las consultas SQL para insertar o actualizar
+            string sql = "INSERT INTO Ticket(matricula, ci, id_plaza, fecha_ticket) VALUES " +
+                "('"+ matricula +"', " + ci + ", " + plaza + ", '" + fecha + "'),";
+
+            try
+            {
+                // Ejecutar la consulta SQL para Persona
+                _conexion.Ejecutar(sql);
+            }
+            catch
+            {
+                // Manejar errores en las consultas
+                return 2; // Error en el insert o update
+            }
+
+            return resultado;
+        }
+
+        public void CrearTicketPDF(string matricula, int ci, int plaza, DateTime fecha)
+        {
+            // Ruta base para el archivo PDF
+            string carpeta = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string nombreArchivo = "ticket.pdf";
+            string rutaArchivo = Path.Combine(carpeta, nombreArchivo);
+
+            // Verificar si el archivo ya existe y renombrar si es necesario
+            int contador = 1;
+            while (File.Exists(rutaArchivo))
+            {
+                string nuevoNombreArchivo = $"ticket_{contador}.pdf";
+                rutaArchivo = Path.Combine(carpeta, nuevoNombreArchivo);
+                contador++;
+            }
+
+            // Ruta de la imagen de fondo
+            string rutaImagenFondo = @"C:\Users\56303446\Desktop\UTU\AioParking\CapaPresentacion\Resources\AioParkingLogo_150px.png";
+
+            // Crear el archivo en la ruta especificada
+            using (FileStream fs = new FileStream(rutaArchivo, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                using (Document doc = new Document(PageSize.A7)) // A7 es más pequeño, similar al tamaño de un ticket
+                {
+                    PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+                    writer.PageEvent = new BackgroundImagePageEvent(rutaImagenFondo); // Asignar el evento de página para la imagen de fondo
+
+                    // Abrir el documento para escribir en él
+                    doc.Open();
+
+                    // Fuentes personalizadas
+                    Font tituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+                    Font subTituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
+                    Font contenidoFont = FontFactory.GetFont(FontFactory.HELVETICA, 7);  // Reducir tamaño de fuente
+                    Font footerFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 6);
+
+                    // Agregar nombre de la empresa y título del ticket
+                    Paragraph empresa = new Paragraph("Aio Parking", tituloFont)
+                    {
+                        Alignment = Element.ALIGN_CENTER
+                    };
+                    doc.Add(empresa);
+
+                    // Espacio en blanco reducido
+                    doc.Add(new Paragraph(" ", contenidoFont));
+
+                    // Agregar título del ticket
+                    Paragraph titulo = new Paragraph("Ticket de parking", tituloFont)
+                    {
+                        Alignment = Element.ALIGN_CENTER
+                    };
+                    doc.Add(titulo);
+
+                    // Línea separadora
+                    doc.Add(new Paragraph(new Chunk(new LineSeparator(0.5f, 80f, BaseColor.BLACK, Element.ALIGN_CENTER, -2)))); // Reducción de espacios
+
+                    // Datos del ticket
+                    doc.Add(new Paragraph("Datos del Cliente", subTituloFont));
+                    doc.Add(new Paragraph(" ", contenidoFont));
+                    doc.Add(new Paragraph($"Matrícula: {matricula}", contenidoFont));
+                    doc.Add(new Paragraph($"Cédula: {ci}", contenidoFont));
+                    doc.Add(new Paragraph($"Fecha: {fecha.ToString("dd/MM/yyyy")}", contenidoFont));
+                    doc.Add(new Paragraph($"Hora: {fecha.ToString("HH:mm:ss")}", contenidoFont));
+                    doc.Add(new Paragraph($"Plaza: {plaza}", contenidoFont));
+
+                    // Línea separadora
+                    doc.Add(new Paragraph(new Chunk(new LineSeparator(0.5f, 80f, BaseColor.BLACK, Element.ALIGN_CENTER, -2))));
+
+                    // Mensaje de agradecimiento
+                    Paragraph footer = new Paragraph("¡Gracias por su preferencia!", footerFont)
+                    {
+                        Alignment = Element.ALIGN_CENTER
+                    };
+                    doc.Add(footer);
+
+                    // Cerrar el documento para finalizar la escritura
+                    doc.Close();
+                }
+            }
+        }
+
+        // Clase para manejar la imagen de fondo
+        public class BackgroundImagePageEvent : PdfPageEventHelper
+        {
+            private string _rutaImagenFondo;
+
+            public BackgroundImagePageEvent(string rutaImagenFondo)
+            {
+                _rutaImagenFondo = rutaImagenFondo;
+            }
+
+            public override void OnEndPage(PdfWriter writer, Document document)
+            {
+                base.OnEndPage(writer, document);
+
+                // Cargar la imagen de fondo
+                iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(_rutaImagenFondo);
+
+                // Establecer tamaño más pequeño y centrar la imagen
+                float anchoImagen = document.PageSize.Width * 0.6f; // 40% del ancho de la página
+                float altoImagen = anchoImagen * (img.ScaledHeight / img.ScaledWidth); // Mantener la proporción
+                img.ScaleAbsolute(anchoImagen, altoImagen);
+
+                // Centrar imagen en la página
+                float x = (document.PageSize.Width - anchoImagen) / 2;
+                float y = (document.PageSize.Height - altoImagen) / 2;
+                img.SetAbsolutePosition(x, y);
+
+                // Establecer la transparencia de la imagen
+                PdfContentByte canvas = writer.DirectContentUnder;
+                canvas.SetGState(new PdfGState { FillOpacity = 0.1f }); // Transparencia ajustada
+                canvas.AddImage(img);
+            }
         }
     }
 }

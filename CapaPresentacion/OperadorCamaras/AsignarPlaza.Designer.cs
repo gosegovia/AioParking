@@ -36,8 +36,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblTipoVehiculo = new System.Windows.Forms.Label();
             this.lblMarca = new System.Windows.Forms.Label();
             this.lblCedula = new System.Windows.Forms.Label();
-            this.txtPlaza = new System.Windows.Forms.TextBox();
-            this.lblPlaza = new System.Windows.Forms.Label();
+            this.lblPlazas = new System.Windows.Forms.Label();
             this.lblTipoVehiculoTexto = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -52,6 +51,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.txtCi = new System.Windows.Forms.TextBox();
             this.btnBuscarCi = new System.Windows.Forms.Button();
             this.lblCi = new System.Windows.Forms.Label();
+            this.lblPlaza = new System.Windows.Forms.Label();
             this.pDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlaza)).BeginInit();
             this.pMatricula.SuspendLayout();
@@ -60,12 +60,12 @@ namespace CapaPresentacion.OperadorCamaras
             // 
             // pDatos
             // 
+            this.pDatos.Controls.Add(this.lblPlaza);
             this.pDatos.Controls.Add(this.dgvPlaza);
             this.pDatos.Controls.Add(this.lblTipoVehiculo);
             this.pDatos.Controls.Add(this.lblMarca);
             this.pDatos.Controls.Add(this.lblCedula);
-            this.pDatos.Controls.Add(this.txtPlaza);
-            this.pDatos.Controls.Add(this.lblPlaza);
+            this.pDatos.Controls.Add(this.lblPlazas);
             this.pDatos.Controls.Add(this.lblTipoVehiculoTexto);
             this.pDatos.Controls.Add(this.btnCancelar);
             this.pDatos.Controls.Add(this.btnGuardar);
@@ -127,29 +127,16 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblCedula.TabIndex = 14;
             this.lblCedula.Text = ".....";
             // 
-            // txtPlaza
+            // lblPlazas
             // 
-            this.txtPlaza.BackColor = System.Drawing.Color.LightBlue;
-            this.txtPlaza.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtPlaza.Location = new System.Drawing.Point(264, 159);
-            this.txtPlaza.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtPlaza.Multiline = true;
-            this.txtPlaza.Name = "txtPlaza";
-            this.txtPlaza.Size = new System.Drawing.Size(158, 25);
-            this.txtPlaza.TabIndex = 13;
-            this.txtPlaza.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaza_KeyPress);
-            // 
-            // lblPlaza
-            // 
-            this.lblPlaza.AutoSize = true;
-            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPlaza.Location = new System.Drawing.Point(140, 166);
-            this.lblPlaza.Name = "lblPlaza";
-            this.lblPlaza.Size = new System.Drawing.Size(47, 18);
-            this.lblPlaza.TabIndex = 12;
-            this.lblPlaza.Text = "Plaza";
+            this.lblPlazas.AutoSize = true;
+            this.lblPlazas.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPlazas.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPlazas.Location = new System.Drawing.Point(140, 166);
+            this.lblPlazas.Name = "lblPlazas";
+            this.lblPlazas.Size = new System.Drawing.Size(47, 18);
+            this.lblPlazas.TabIndex = 12;
+            this.lblPlazas.Text = "Plaza";
             // 
             // lblTipoVehiculoTexto
             // 
@@ -305,6 +292,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.txtCi.Size = new System.Drawing.Size(158, 25);
             this.txtCi.TabIndex = 5;
             this.txtCi.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCi_KeyDown);
+            this.txtCi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCi_KeyPress);
             // 
             // btnBuscarCi
             // 
@@ -332,6 +320,17 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblCi.Size = new System.Drawing.Size(58, 18);
             this.lblCi.TabIndex = 4;
             this.lblCi.Text = "Cedula";
+            // 
+            // lblPlaza
+            // 
+            this.lblPlaza.AutoSize = true;
+            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPlaza.Location = new System.Drawing.Point(295, 166);
+            this.lblPlaza.Name = "lblPlaza";
+            this.lblPlaza.Size = new System.Drawing.Size(28, 18);
+            this.lblPlaza.TabIndex = 18;
+            this.lblPlaza.Text = ".....";
             // 
             // AsignarPlaza
             // 
@@ -363,8 +362,7 @@ namespace CapaPresentacion.OperadorCamaras
         #endregion
 
         private Panel pDatos;
-        private TextBox txtPlaza;
-        private Label lblPlaza;
+        private Label lblPlazas;
         private Label lblTipoVehiculoTexto;
         private Button btnCancelar;
         private Button btnGuardar;
@@ -383,5 +381,6 @@ namespace CapaPresentacion.OperadorCamaras
         private TextBox txtCi;
         private Button btnBuscarCi;
         private Label lblCi;
+        private Label lblPlaza;
     }
 }
