@@ -83,6 +83,7 @@ CREATE TABLE Factura (
   id_factura INT AUTO_INCREMENT,
   ci INT NOT NULL,
   matricula VARCHAR(10) NOT NULL,
+  factura_paga ENUM('0', '1') NOT NULL DEFAULT '0',
   fecha DATETIME NOT NULL,
   PRIMARY KEY (id_factura),
   FOREIGN KEY (ci) REFERENCES Persona(ci),
@@ -346,17 +347,17 @@ INSERT INTO Marca_Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, pr
 
 /* FACTURA */
 
-INSERT INTO Factura (id_factura, ci, matricula, fecha) VALUES
-(1, 56303446, 'abc1234', '2024-08-17 14:22:45'),
-(2, 43214321, 'cba4321', '2024-08-18 10:34:12'),
-(3, 32132143, 'fga1235', '2024-08-19 09:00:00'),
-(4, 54839454, 'das7869', '2024-08-20 15:45:00'),
-(5, 38765432, 'xyz5678', '2024-08-21 11:22:00'),
-(6, 57654321, 'uvw8765', '2024-08-22 13:30:00'),
-(7, 26543210, 'rst3456', '2024-08-23 10:15:00'),
-(8, 15432109, 'opq2345', '2024-08-24 16:00:00'),
-(9, 34321098, 'lmn6543', '2024-08-25 14:50:00'),
-(10, 43210987, 'ijk9876', '2024-08-26 12:10:00');
+INSERT INTO Factura (id_factura, ci, matricula, factura_paga, fecha) VALUES
+(1, 56303446, 'abc1234', '0', '2024-08-17 14:22:45'),
+(2, 43214321, 'cba4321', '0', '2024-08-18 10:34:12'),
+(3, 32132143, 'fga1235', '0','2024-08-19 09:00:00'),
+(4, 54839454, 'das7869', '0','2024-08-20 15:45:00'),
+(5, 38765432, 'xyz5678', '0','2024-08-21 11:22:00'),
+(6, 57654321, 'uvw8765', '0','2024-08-22 13:30:00'),
+(7, 26543210, 'rst3456', '0','2024-08-23 10:15:00'),
+(8, 15432109, 'opq2345', '0','2024-08-24 16:00:00'),
+(9, 34321098, 'lmn6543', '0','2024-08-25 14:50:00'),
+(10, 43210987, 'ijk9876', '0','2024-08-26 12:10:00');
 
 /* VENTA NEUMATICO */
 
@@ -595,6 +596,7 @@ GRANT SELECT ON Rol TO 'caj'@'localhost';
 GRANT SELECT ON Empleado TO 'caj'@'localhost';
 GRANT SELECT ON Marca TO 'caj'@'localhost';
 GRANT SELECT ON Vehiculo TO 'caj'@'localhost';
+GRANT SELECT ON Tipo_Vehiculo TO 'caj'@'localhost';
 GRANT SELECT ON Posee TO 'caj'@'localhost';
 GRANT SELECT ON Factura TO 'caj'@'localhost';
 GRANT SELECT ON Marca_Neumatico TO 'caj'@'localhost';
@@ -632,4 +634,4 @@ JOIN Marca m ON v.id_marca = m.id_marca
 JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo
 WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
 
-SELECT * FROM ticket ORDER BY fecha_ticket DESC;
+-- SELECT * FROM ticket ORDER BY fecha_ticket DESC;

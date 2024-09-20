@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CapaNegocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,6 +22,7 @@ namespace CapaPresentacion.Cajero
         private void Factura_Load(object sender, EventArgs e)
         {
             // Ocultar los paneles
+            pMatricula.Visible = false;
             pDatos.Visible = false;
             pDatosServicios.Visible = false;
             btnFactura.Visible = false;
@@ -28,6 +30,30 @@ namespace CapaPresentacion.Cajero
         } // Fin cargar formulario
 
         // VALIDACIONES
+        private void txtCi_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarCi.Focus();
+            }
+        }
+
+        private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarMatricula.Focus();
+            }
+        }
+
+        private void txtCi_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 8);
+        }
+
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionTextoNumero(sender, e);
@@ -36,33 +62,116 @@ namespace CapaPresentacion.Cajero
 
         // FIN VALIDACIONES
 
-        // Botón Buscar
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void btnBuscarCi_Click(object sender, EventArgs e)
         {
-            // Si es nulo, pide que ingrese la matrícula nuevamente
-            if (string.IsNullOrEmpty(txtMatricula.Text))
+            CapaNegocio.Cliente c;
+            Int32 cedula;
+
+            if (!Int32.TryParse(txtCi.Text, out cedula))
             {
-                MessageBox.Show("Debe ingresar la matrícula.");
+                MessageBox.Show("La cedula de identidad debe ser numerica");
             }
             else
             {
-                // Si la matrícula ingresada es 1
-                if (txtMatricula.Text == "1")
+                c = new Cliente();
+                c.ci = cedula;
+                c.conexion = Program.con;
+
+                switch (c.BuscarCI())
                 {
-                    // Le permitimos el acceso a los datos
-                    pDatos.Visible = true;
-                    pDatosServicios.Visible = true;
-                    btnFactura.Visible = true;
-                    btnCancelar.Visible = true;
-                    // Bloquear el TextBox para que el usuario no pueda ingresar otra matrícula
-                    txtMatricula.ReadOnly = true;
+                    case 0: // Encontro
+                        txtCi.Enabled = false;
+                        btnBuscarCi.Enabled = false;
+                        pMatricula.Visible = true;
+                        txtMatricula.Focus();
+
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente"); break;
+                    case 2:
+                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                    case 3: // No encontró
+                        if (txtCi.TextLength != 8)
+                        {
+                            MessageBox.Show("Formato incorrecto");
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se encontró el cliente con la cédula ingresada.");
+                        }
+                        break;
+                    default: MessageBox.Show("Error al obtener la cedula."); break;
                 }
-                else
+                c = null; // Destruyo el objeto
+            }
+        }
+
+        private void btnBuscarMatricula_Click(object sender, EventArgs e)
+        {
+            CapaNegocio.Vehiculo v = new CapaNegocio.Vehiculo();
+            string matricula = txtMatricula.Text.Trim();
+
+            // Validar que la matrícula no esté vacía
+            if (string.IsNullOrEmpty(matricula))
+            {
+                MessageBox.Show("La matrícula no puede estar vacía.");
+                return;
+            }
+
+            // Validar que el CI no esté vacío y sea un número válido
+            if (!int.TryParse(txtCi.Text.Trim(), out int ci))
+            {
+                MessageBox.Show("Ingrese un CI válido.");
+                return;
+            }
+
+            // Asignar la conexión y la matrícula al objeto Vehiculo
+            v.Conexion = Program.con;
+            v.Matricula = matricula;
+
+            try
+            {
+                // Realizar la búsqueda de la matrícula
+                switch (v.BuscarMatricula(ci))
                 {
-                    MessageBox.Show("La matrícula no existe.");
+                    case 0: // Vehículo encontrado
+                        txtMatricula.Enabled = false;
+                        btnBuscarMatricula.Enabled = false;
+                        pDatos.Visible = true;
+                        pDatosServicios.Visible = true;
+                        btnFactura.Visible = true;
+                        btnCancelar.Visible = true;
+
+                        break;
+
+                    case 1: // Error de sesión
+                        MessageBox.Show("Debe logearse nuevamente.");
+                        break;
+
+                    case 2: // Error en la ejecución de la consulta SQL
+                        MessageBox.Show("Error en la ejecución de la consulta.");
+                        break;
+
+                    case 3: // Vehículo no encontrado
+                        MessageBox.Show("Este vehículo no está asociado al cliente seleccionado.");
+                        break;
+
+                    default: // Caso inesperado
+                        MessageBox.Show("Error desconocido.");
+                        break;
                 }
             }
-        } // Fin botón buscar
+            catch (Exception ex)
+            {
+                // Manejo de excepciones generales
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Liberar el objeto Vehiculo, aunque no es estrictamente necesario
+                v = null;
+            }
+        }
 
         // Botón Factura
         private void btnFactura_Click(object sender, EventArgs e)
@@ -80,12 +189,17 @@ namespace CapaPresentacion.Cajero
         // Botón Cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            txtCi.Enabled = true;
+            btnBuscarCi.Enabled = true;
+            txtMatricula.Enabled = true;
+            btnBuscarMatricula.Enabled = true;
+            txtCi.Text = "";
+            txtMatricula.Text = "";
+            pMatricula.Visible = false;
             pDatos.Visible = false;
             pDatosServicios.Visible = false;
             btnFactura.Visible = false;
             btnCancelar.Visible = false;
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
         } // Fin botón cancelar
     }
 }

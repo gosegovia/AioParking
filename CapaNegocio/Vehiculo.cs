@@ -290,7 +290,7 @@ namespace CapaNegocio
                 throw new InvalidOperationException("La conexión está cerrada.");
 
             var resultado = new Dictionary<int, int>();
-            string sql = "SELECT tipo_vehiculo, COUNT(*) AS Cantidad FROM Vehiculo GROUP BY tipo_vehiculo;";
+            string sql = "SELECT id_tipo, COUNT(*) AS Cantidad FROM Vehiculo GROUP BY id_tipo;";
 
             try
             {
@@ -298,7 +298,7 @@ namespace CapaNegocio
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    int tipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                    int tipoVehiculo = Convert.ToInt32(row["id_tipo"]);
                     int cantidad = Convert.ToInt32(row["Cantidad"]);
                     resultado[tipoVehiculo] = cantidad;
                 }

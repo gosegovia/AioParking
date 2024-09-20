@@ -320,26 +320,12 @@ namespace CapaNegocio
             return resultado; // 0 indica éxito
         }
 
-
-
         public void CrearTicketPDF(string matricula, int ci, int plaza, int plaza1, DateTime fecha)
         {
             // Ruta base para el archivo PDF
             string carpeta = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string nombreArchivo = "ticket.pdf";
+            string nombreArchivo = "ticket_"+Ticket+".pdf";
             string rutaArchivo = Path.Combine(carpeta, nombreArchivo);
-
-            // Verificar si el archivo ya existe y renombrar si es necesario
-            int contador = 1;
-            while (File.Exists(rutaArchivo))
-            {
-                string nuevoNombreArchivo = $"ticket_{contador}.pdf";
-                rutaArchivo = Path.Combine(carpeta, nuevoNombreArchivo);
-                contador++;
-            }
-
-            // Ruta de la imagen de fondo
-            string rutaImagenFondo = @"C:\Users\56303446\Desktop\UTU\AioParking\CapaPresentacion\Resources\AioParkingLogo_150px.png";
 
             // Crear el archivo en la ruta especificada
             using (FileStream fs = new FileStream(rutaArchivo, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -347,57 +333,86 @@ namespace CapaNegocio
                 using (Document doc = new Document(PageSize.A7)) // A7 es más pequeño, similar al tamaño de un ticket
                 {
                     PdfWriter writer = PdfWriter.GetInstance(doc, fs);
-                    writer.PageEvent = new BackgroundImagePageEvent(rutaImagenFondo); // Asignar el evento de página para la imagen de fondo
 
                     // Abrir el documento para escribir en él
                     doc.Open();
 
                     // Fuentes personalizadas
-                    Font tituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
-                    Font subTituloFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9);
-                    Font contenidoFont = FontFactory.GetFont(FontFactory.HELVETICA, 7);  // Reducir tamaño de fuente
-                    Font footerFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 6);
+                    Font tituloFont = FontFactory.GetFont(FontFactory.COURIER_BOLD, 10);
+                    Font subTituloFont = FontFactory.GetFont(FontFactory.COURIER_BOLD, 8);
+                    Font contenidoFont = FontFactory.GetFont(FontFactory.COURIER, 7);
+                    Font fechaFont = FontFactory.GetFont(FontFactory.COURIER, 12);
+                    Font footerFont = FontFactory.GetFont(FontFactory.COURIER_OBLIQUE, 6);
 
-                    // Agregar nombre de la empresa y título del ticket
+                    // Agregar nombre de la empresa
                     Paragraph empresa = new Paragraph("Aio Parking", tituloFont)
                     {
                         Alignment = Element.ALIGN_CENTER
                     };
                     doc.Add(empresa);
 
-                    // Espacio en blanco reducido
-                    doc.Add(new Paragraph(" ", contenidoFont));
+                    // Línea separadora
+                    doc.Add(new Paragraph("--------------------------------", contenidoFont));
 
                     // Agregar título del ticket
-                    Paragraph titulo = new Paragraph("Ticket de parking", tituloFont)
+                    Paragraph titulo = new Paragraph("Ticket de Parking", subTituloFont)
                     {
                         Alignment = Element.ALIGN_CENTER
                     };
                     doc.Add(titulo);
 
                     // Línea separadora
-                    doc.Add(new Paragraph(new Chunk(new LineSeparator(0.5f, 80f, BaseColor.BLACK, Element.ALIGN_CENTER, -2)))); // Reducción de espacios
+                    doc.Add(new Paragraph("--------------------------------", contenidoFont));
 
-                    // Datos del ticket
-                    doc.Add(new Paragraph("Datos del Cliente", subTituloFont));
-                    doc.Add(new Paragraph(" ", contenidoFont));
-                    doc.Add(new Paragraph($"ID Ticket: {Ticket}", contenidoFont));
-                    doc.Add(new Paragraph($"Matrícula: {matricula}", contenidoFont));
-                    doc.Add(new Paragraph($"Cédula: {ci}", contenidoFont));
-                    doc.Add(new Paragraph($"Fecha: {fecha.ToString("dd/MM/yyyy")}", contenidoFont));
-                    doc.Add(new Paragraph($"Hora: {fecha.ToString("HH:mm:ss")}", contenidoFont));
-                    if(plaza1 == 0)
+                    // Datos del ticket (centrados)
+                    doc.Add(new Paragraph($"{fecha.ToString("HH:mm:ss")}", fechaFont)
                     {
-                       doc.Add(new Paragraph($"Plaza: {plaza}", contenidoFont));
-                    } else if(plaza1 > 21)
+                        Alignment = Element.ALIGN_CENTER
+                    });
+                    doc.Add(new Paragraph($"Ticket: {Ticket}", contenidoFont)
                     {
-                        doc.Add(new Paragraph($"Plazas: {plaza}, {plaza1}", contenidoFont));
+                        Alignment = Element.ALIGN_CENTER
+                    });
+                    doc.Add(new Paragraph($"Fecha: {fecha.ToString("dd/MM/yyyy")}", contenidoFont)
+                    {
+                        Alignment = Element.ALIGN_CENTER
+                    });
+
+                    // Si hay dos plazas, las mostramos ambas, sino una sola
+                    if (plaza1 == 0)
+                    {
+                        doc.Add(new Paragraph($"Plaza: {plaza}", contenidoFont)
+                        {
+                            Alignment = Element.ALIGN_CENTER
+                        });
+                    }
+                    else if (plaza1 > 21)
+                    {
+                        doc.Add(new Paragraph($"Plazas: {plaza}, {plaza1}", contenidoFont)
+                        {
+                            Alignment = Element.ALIGN_CENTER
+                        });
                     }
 
                     // Línea separadora
-                    doc.Add(new Paragraph(new Chunk(new LineSeparator(0.5f, 80f, BaseColor.BLACK, Element.ALIGN_CENTER, -2))));
+                    doc.Add(new Paragraph("--------------------------------", contenidoFont));
 
-                    // Mensaje de agradecimiento
+                    // Generar el código de barras basado en la matrícula
+                    Barcode128 codigoBarras = new Barcode128
+                    {
+                        Code = matricula,
+                        BarHeight = 25f, // Altura del código de barras ajustada
+                        X = 1.25f,        // Ancho del código de barras ajustado
+                        TextAlignment = Element.ALIGN_CENTER,  // Centrar el texto del código de barras debajo
+                        Font = null      // Sin texto debajo del código de barras
+                    };
+
+                    // Convertir el código de barras en una imagen que pueda ser agregada al documento
+                    Image imagenCodigoBarras = codigoBarras.CreateImageWithBarcode(writer.DirectContent, BaseColor.BLACK, BaseColor.BLACK);
+                    imagenCodigoBarras.Alignment = Element.ALIGN_CENTER; // Centrar la imagen del código de barras
+                    doc.Add(imagenCodigoBarras); // Agregar la imagen del código de barras al PDF
+
+                    // Mensaje de agradecimiento (centrado)
                     Paragraph footer = new Paragraph("¡Gracias por su preferencia!", footerFont)
                     {
                         Alignment = Element.ALIGN_CENTER
@@ -410,38 +425,6 @@ namespace CapaNegocio
             }
         }
 
-        // Clase para manejar la imagen de fondo
-        public class BackgroundImagePageEvent : PdfPageEventHelper
-        {
-            private string _rutaImagenFondo;
 
-            public BackgroundImagePageEvent(string rutaImagenFondo)
-            {
-                _rutaImagenFondo = rutaImagenFondo;
-            }
-
-            public override void OnEndPage(PdfWriter writer, Document document)
-            {
-                base.OnEndPage(writer, document);
-
-                // Cargar la imagen de fondo
-                iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(_rutaImagenFondo);
-
-                // Establecer tamaño más pequeño y centrar la imagen
-                float anchoImagen = document.PageSize.Width * 0.6f; // 40% del ancho de la página
-                float altoImagen = anchoImagen * (img.ScaledHeight / img.ScaledWidth); // Mantener la proporción
-                img.ScaleAbsolute(anchoImagen, altoImagen);
-
-                // Centrar imagen en la página
-                float x = (document.PageSize.Width - anchoImagen) / 2;
-                float y = (document.PageSize.Height - altoImagen) / 2;
-                img.SetAbsolutePosition(x, y);
-
-                // Establecer la transparencia de la imagen
-                PdfContentByte canvas = writer.DirectContentUnder;
-                canvas.SetGState(new PdfGState { FillOpacity = 0.1f }); // Transparencia ajustada
-                canvas.AddImage(img);
-            }
-        }
     }
 }

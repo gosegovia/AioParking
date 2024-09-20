@@ -32,8 +32,8 @@ namespace CapaPresentacion.Cajero
         private void InitializeComponent()
         {
             this.lblFactura = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnBuscar = new System.Windows.Forms.Button();
+            this.pMatricula = new System.Windows.Forms.Panel();
+            this.btnBuscarMatricula = new System.Windows.Forms.Button();
             this.txtMatricula = new System.Windows.Forms.TextBox();
             this.lblMatricula = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
@@ -58,9 +58,14 @@ namespace CapaPresentacion.Cajero
             this.lblOtrosServicios = new System.Windows.Forms.Label();
             this.btnFactura = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
+            this.pCi = new System.Windows.Forms.Panel();
+            this.btnBuscarCi = new System.Windows.Forms.Button();
+            this.txtCi = new System.Windows.Forms.TextBox();
+            this.lblCI = new System.Windows.Forms.Label();
+            this.pMatricula.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.pDatosServicios.SuspendLayout();
+            this.pCi.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblFactura
@@ -71,47 +76,48 @@ namespace CapaPresentacion.Cajero
             this.lblFactura.AutoSize = true;
             this.lblFactura.Font = new System.Drawing.Font("Arial", 28.2F);
             this.lblFactura.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblFactura.Location = new System.Drawing.Point(366, 34);
+            this.lblFactura.Location = new System.Drawing.Point(372, 34);
             this.lblFactura.Name = "lblFactura";
             this.lblFactura.Size = new System.Drawing.Size(148, 43);
             this.lblFactura.TabIndex = 0;
             this.lblFactura.Text = "Factura";
             // 
-            // panel1
+            // pMatricula
             // 
-            this.panel1.Controls.Add(this.btnBuscar);
-            this.panel1.Controls.Add(this.txtMatricula);
-            this.panel1.Controls.Add(this.lblMatricula);
-            this.panel1.Location = new System.Drawing.Point(12, 100);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(794, 83);
-            this.panel1.TabIndex = 1;
+            this.pMatricula.Controls.Add(this.btnBuscarMatricula);
+            this.pMatricula.Controls.Add(this.txtMatricula);
+            this.pMatricula.Controls.Add(this.lblMatricula);
+            this.pMatricula.Location = new System.Drawing.Point(12, 178);
+            this.pMatricula.Name = "pMatricula";
+            this.pMatricula.Size = new System.Drawing.Size(826, 51);
+            this.pMatricula.TabIndex = 1;
             // 
-            // btnBuscar
+            // btnBuscarMatricula
             // 
-            this.btnBuscar.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnBuscar.FlatAppearance.BorderSize = 0;
-            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
-            this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(523, 31);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(100, 25);
-            this.btnBuscar.TabIndex = 5;
-            this.btnBuscar.Text = "Buscar";
-            this.btnBuscar.UseVisualStyleBackColor = false;
-            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            this.btnBuscarMatricula.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscarMatricula.FlatAppearance.BorderSize = 0;
+            this.btnBuscarMatricula.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarMatricula.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnBuscarMatricula.ForeColor = System.Drawing.Color.White;
+            this.btnBuscarMatricula.Location = new System.Drawing.Point(527, 11);
+            this.btnBuscarMatricula.Name = "btnBuscarMatricula";
+            this.btnBuscarMatricula.Size = new System.Drawing.Size(100, 25);
+            this.btnBuscarMatricula.TabIndex = 5;
+            this.btnBuscarMatricula.Text = "Buscar";
+            this.btnBuscarMatricula.UseVisualStyleBackColor = false;
+            this.btnBuscarMatricula.Click += new System.EventHandler(this.btnBuscarMatricula_Click);
             // 
             // txtMatricula
             // 
             this.txtMatricula.BackColor = System.Drawing.Color.LightBlue;
             this.txtMatricula.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtMatricula.Location = new System.Drawing.Point(334, 32);
+            this.txtMatricula.Location = new System.Drawing.Point(338, 12);
             this.txtMatricula.Multiline = true;
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.Size = new System.Drawing.Size(180, 25);
             this.txtMatricula.TabIndex = 4;
+            this.txtMatricula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatricula_KeyDown);
             this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatricula_KeyPress);
             // 
             // lblMatricula
@@ -119,7 +125,7 @@ namespace CapaPresentacion.Cajero
             this.lblMatricula.AutoSize = true;
             this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMatricula.Location = new System.Drawing.Point(248, 36);
+            this.lblMatricula.Location = new System.Drawing.Point(252, 16);
             this.lblMatricula.Name = "lblMatricula";
             this.lblMatricula.Size = new System.Drawing.Size(70, 18);
             this.lblMatricula.TabIndex = 3;
@@ -137,7 +143,7 @@ namespace CapaPresentacion.Cajero
             this.pDatos.Controls.Add(this.lblHorasTotales);
             this.pDatos.Controls.Add(this.lblHoraSalida);
             this.pDatos.Controls.Add(this.lblHoraEntrada);
-            this.pDatos.Location = new System.Drawing.Point(66, 192);
+            this.pDatos.Location = new System.Drawing.Point(66, 252);
             this.pDatos.Name = "pDatos";
             this.pDatos.Size = new System.Drawing.Size(369, 187);
             this.pDatos.TabIndex = 2;
@@ -262,7 +268,7 @@ namespace CapaPresentacion.Cajero
             this.pDatosServicios.Controls.Add(this.txtLavado);
             this.pDatosServicios.Controls.Add(this.lblLavadoText);
             this.pDatosServicios.Controls.Add(this.lblOtrosServicios);
-            this.pDatosServicios.Location = new System.Drawing.Point(453, 192);
+            this.pDatosServicios.Location = new System.Drawing.Point(453, 252);
             this.pDatosServicios.Name = "pDatosServicios";
             this.pDatosServicios.Size = new System.Drawing.Size(283, 187);
             this.pDatosServicios.TabIndex = 16;
@@ -358,7 +364,7 @@ namespace CapaPresentacion.Cajero
             this.btnFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFactura.Font = new System.Drawing.Font("Arial", 12F);
             this.btnFactura.ForeColor = System.Drawing.Color.White;
-            this.btnFactura.Location = new System.Drawing.Point(332, 403);
+            this.btnFactura.Location = new System.Drawing.Point(332, 463);
             this.btnFactura.Name = "btnFactura";
             this.btnFactura.Size = new System.Drawing.Size(100, 30);
             this.btnFactura.TabIndex = 6;
@@ -373,7 +379,7 @@ namespace CapaPresentacion.Cajero
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(439, 403);
+            this.btnCancelar.Location = new System.Drawing.Point(439, 463);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 30);
             this.btnCancelar.TabIndex = 17;
@@ -381,16 +387,66 @@ namespace CapaPresentacion.Cajero
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
+            // pCi
+            // 
+            this.pCi.Controls.Add(this.btnBuscarCi);
+            this.pCi.Controls.Add(this.txtCi);
+            this.pCi.Controls.Add(this.lblCI);
+            this.pCi.Location = new System.Drawing.Point(12, 121);
+            this.pCi.Name = "pCi";
+            this.pCi.Size = new System.Drawing.Size(826, 51);
+            this.pCi.TabIndex = 6;
+            // 
+            // btnBuscarCi
+            // 
+            this.btnBuscarCi.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscarCi.FlatAppearance.BorderSize = 0;
+            this.btnBuscarCi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarCi.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnBuscarCi.ForeColor = System.Drawing.Color.White;
+            this.btnBuscarCi.Location = new System.Drawing.Point(527, 11);
+            this.btnBuscarCi.Name = "btnBuscarCi";
+            this.btnBuscarCi.Size = new System.Drawing.Size(100, 25);
+            this.btnBuscarCi.TabIndex = 5;
+            this.btnBuscarCi.Text = "Buscar";
+            this.btnBuscarCi.UseVisualStyleBackColor = false;
+            this.btnBuscarCi.Click += new System.EventHandler(this.btnBuscarCi_Click);
+            // 
+            // txtCi
+            // 
+            this.txtCi.BackColor = System.Drawing.Color.LightBlue;
+            this.txtCi.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCi.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtCi.Location = new System.Drawing.Point(338, 12);
+            this.txtCi.Multiline = true;
+            this.txtCi.Name = "txtCi";
+            this.txtCi.Size = new System.Drawing.Size(180, 25);
+            this.txtCi.TabIndex = 4;
+            this.txtCi.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCi_KeyDown);
+            this.txtCi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCi_KeyPress);
+            // 
+            // lblCI
+            // 
+            this.lblCI.AutoSize = true;
+            this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCI.Location = new System.Drawing.Point(252, 16);
+            this.lblCI.Name = "lblCI";
+            this.lblCI.Size = new System.Drawing.Size(58, 18);
+            this.lblCI.TabIndex = 3;
+            this.lblCI.Text = "Cedula";
+            // 
             // Factura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 449);
+            this.ClientSize = new System.Drawing.Size(850, 550);
+            this.Controls.Add(this.pCi);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnFactura);
             this.Controls.Add(this.pDatosServicios);
             this.Controls.Add(this.pDatos);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pMatricula);
             this.Controls.Add(this.lblFactura);
             this.Font = new System.Drawing.Font("Arial", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -398,12 +454,14 @@ namespace CapaPresentacion.Cajero
             this.Name = "Factura";
             this.Text = "Factura";
             this.Load += new System.EventHandler(this.Factura_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pMatricula.ResumeLayout(false);
+            this.pMatricula.PerformLayout();
             this.pDatos.ResumeLayout(false);
             this.pDatos.PerformLayout();
             this.pDatosServicios.ResumeLayout(false);
             this.pDatosServicios.PerformLayout();
+            this.pCi.ResumeLayout(false);
+            this.pCi.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -412,8 +470,8 @@ namespace CapaPresentacion.Cajero
         #endregion
 
         private Label lblFactura;
-        private Panel panel1;
-        private Button btnBuscar;
+        private Panel pMatricula;
+        private Button btnBuscarMatricula;
         private TextBox txtMatricula;
         private Label lblMatricula;
         private Panel pDatos;
@@ -438,5 +496,9 @@ namespace CapaPresentacion.Cajero
         private Label txtHoraEntrada;
         private Label txtHoraSalida;
         private Button btnCancelar;
+        private Panel pCi;
+        private Button btnBuscarCi;
+        private TextBox txtCi;
+        private Label lblCI;
     }
 }
