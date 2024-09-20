@@ -6,6 +6,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using iTextSharp.text.pdf.draw;
+using System.Collections.Generic;
 
 namespace CapaNegocio
 {
@@ -14,6 +15,7 @@ namespace CapaNegocio
         protected int _plaza;
         protected int _idparking;
         protected string _estadoPlaza;
+        protected int _ticket;
         protected DateTime _horaEntrada;
         protected DateTime _horaSalida;
         protected Conexion _conexion;
@@ -28,6 +30,12 @@ namespace CapaNegocio
         {
             get { return _idparking; }
             set { _idparking = value; }
+        }
+
+        public int Ticket
+        {
+            get { return _ticket; }
+            set { _ticket = value; }
         }
 
         public string EstadoPlaza
@@ -58,14 +66,16 @@ namespace CapaNegocio
         {
             _plaza = 0;
             _idparking = 0;
+            _ticket = 0;
             _estadoPlaza = "";
             _conexion = new Conexion();
         }
 
-        public Parking(int plaza, int parking, string estado, Conexion cn)
+        public Parking(int plaza, int parking, int ticket, string estado, Conexion cn)
         {
             _plaza = plaza;
             _idparking = parking;
+            _ticket = ticket;
             _estadoPlaza = estado;
             _conexion = cn;
         }
@@ -258,35 +268,61 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public byte GenerarTicket(string matricula, int ci, int plaza, DateTime fecha)
+        public byte GenerarTicket(string matricula, int ci, int plaza, int plaza1, DateTime fecha)
         {
             byte resultado = 0;
 
-            // Verificar si la conexión está abierta
             if (!_conexion.Abierta())
             {
                 return 1; // Conexión cerrada
             }
 
-            // Definir las consultas SQL para insertar o actualizar
-            string sql = "INSERT INTO Ticket(matricula, ci, id_plaza, fecha_ticket) VALUES " +
-                "('"+ matricula +"', " + ci + ", " + plaza + ", '" + fecha + "'),";
-
             try
             {
-                // Ejecutar la consulta SQL para Persona
-                _conexion.Ejecutar(sql);
+                // Formatear la fecha en formato 'yyyy-MM-dd HH:mm:ss'
+                string fechaFormateada = fecha.ToString("yyyy-MM-dd HH:mm:ss");
+
+                // Insertar el primer ticket
+                string sql = "INSERT INTO Ticket(matricula, ci, id_plaza, fecha_ticket) VALUES " +
+                    "('" + matricula + "', " + ci + ", " + plaza + ", '" + fechaFormateada + "');";
+
+                int filasAfectadas = _conexion.Ejecutar(sql);
+
+                // Verificar si la inserción fue exitosa
+                if (filasAfectadas <= 0)
+                {
+                    return 2; // Error en la inserción del primer ticket
+                }
+
+                // Insertar el segundo ticket si hay una segunda plaza
+                if (plaza1 != 0)
+                {
+                    sql = "INSERT INTO Ticket(matricula, ci, id_plaza, fecha_ticket) VALUES " +
+                    "('" + matricula + "', " + ci + ", " + plaza1 + ", '" + fechaFormateada + "');";
+
+                    filasAfectadas = _conexion.Ejecutar(sql);
+
+                    if (filasAfectadas <= 0)
+                    {
+                        return 3; // Error en la inserción del segundo ticket
+                    }
+                }
+
+                // Obtener el id_ticket recién insertado
+                string obtenerIdSql = "SELECT LAST_INSERT_ID();";
+                Ticket = Convert.ToInt32(_conexion.EjecutarEscalar(obtenerIdSql));
             }
             catch
             {
-                // Manejar errores en las consultas
-                return 2; // Error en el insert o update
+                return 4; // Error en la inserción
             }
 
-            return resultado;
+            return resultado; // 0 indica éxito
         }
 
-        public void CrearTicketPDF(string matricula, int ci, int plaza, DateTime fecha)
+
+
+        public void CrearTicketPDF(string matricula, int ci, int plaza, int plaza1, DateTime fecha)
         {
             // Ruta base para el archivo PDF
             string carpeta = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -345,11 +381,18 @@ namespace CapaNegocio
                     // Datos del ticket
                     doc.Add(new Paragraph("Datos del Cliente", subTituloFont));
                     doc.Add(new Paragraph(" ", contenidoFont));
+                    doc.Add(new Paragraph($"ID Ticket: {Ticket}", contenidoFont));
                     doc.Add(new Paragraph($"Matrícula: {matricula}", contenidoFont));
                     doc.Add(new Paragraph($"Cédula: {ci}", contenidoFont));
                     doc.Add(new Paragraph($"Fecha: {fecha.ToString("dd/MM/yyyy")}", contenidoFont));
                     doc.Add(new Paragraph($"Hora: {fecha.ToString("HH:mm:ss")}", contenidoFont));
-                    doc.Add(new Paragraph($"Plaza: {plaza}", contenidoFont));
+                    if(plaza1 == 0)
+                    {
+                       doc.Add(new Paragraph($"Plaza: {plaza}", contenidoFont));
+                    } else if(plaza1 > 21)
+                    {
+                        doc.Add(new Paragraph($"Plazas: {plaza}, {plaza1}", contenidoFont));
+                    }
 
                     // Línea separadora
                     doc.Add(new Paragraph(new Chunk(new LineSeparator(0.5f, 80f, BaseColor.BLACK, Element.ALIGN_CENTER, -2))));

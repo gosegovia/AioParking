@@ -49,22 +49,23 @@ namespace CapaPersistencia
 
         }
 
-        public Boolean Ejecutar(string sql)
+        public int Ejecutar(string sql)
         {
-            Boolean resultado = true;
-            object filasAfectadas;
+            int filasAfectadas = 0;
 
             try
             {
-                _cn.Execute(sql, out filasAfectadas);
+                _cn.Execute(sql, out object resultado);
+                filasAfectadas = Convert.ToInt32(resultado); // Convertir el objeto a int
             }
             catch
             {
-                resultado = false;
+                filasAfectadas = -1; // Usamos -1 para indicar un error en la ejecución
             }
 
-            return (resultado);
+            return filasAfectadas; // Retorna el número de filas afectadas
         }
+
 
         public DataTable EjecutarSelect(string sql)
         {
@@ -109,5 +110,40 @@ namespace CapaPersistencia
             }
             return (resultado);
         }
+
+        public object EjecutarEscalar(string sql)
+        {
+            object resultado = null;
+            ADODB.Recordset rs = new ADODB.Recordset();
+            object filasAfectadas;
+
+            try
+            {
+                // Ejecutar la consulta SQL
+                rs = _cn.Execute(sql, out filasAfectadas, -1);
+
+                // Si hay resultados, obtener el primer valor de la primera fila
+                if (!rs.EOF)
+                {
+                    resultado = rs.Fields[0].Value;
+                }
+            }
+            catch
+            {
+                // Aquí podrías capturar la excepción y hacer algo con ella si es necesario
+                throw;
+            }
+            finally
+            {
+                // Cerrar el recordset si está abierto
+                if (rs.State == 1)
+                {
+                    rs.Close();
+                }
+            }
+
+            return resultado;
+        }
+
     }
 }

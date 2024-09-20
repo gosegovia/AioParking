@@ -141,12 +141,12 @@ CREATE TABLE Reserva (
 );
 
 CREATE TABLE Ticket (
-	id_ticket INT NOT NULL,
+	id_ticket INT AUTO_INCREMENT,
     matricula VARCHAR(10) NOT NULL,
     ci INT NOT NULL,
     id_plaza INT NOT NULL,
     fecha_ticket DATETIME NOT NULL,
-    PRIMARY KEY (id_ticket, matricula, ci, id_plaza),
+    PRIMARY KEY (id_ticket),
     FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
     FOREIGN KEY (ci) REFERENCES Cliente(ci),
     FOREIGN KEY (id_plaza) REFERENCES Plaza(id_plaza)
@@ -464,13 +464,13 @@ INSERT INTO Ticket(id_ticket, matricula, ci, id_plaza, fecha_ticket) VALUES
 (3, 'fga1235', 32132143, 9, '2024-08-19 09:00:00'),
 (4, 'das7869', 54839454, 21, '2024-08-20 15:45:00'),
 (5, 'xyz5678', 38765432, 25, '2024-08-21 11:22:00'),
-(5, 'xyz5678', 38765432, 26, '2024-08-21 11:22:00'),
-(6, 'uvw8765', 57654321, 30, '2024-08-22 13:30:00'),
-(7, 'rst3456', 26543210, 40, '2024-08-23 10:15:00'),
-(7, 'rst3456', 26543210, 41, '2024-08-23 10:15:00'),
-(8, 'opq2345', 15432109, 43, '2024-08-24 16:00:00'),
-(9, 'lmn6543', 34321098, 52, '2024-08-25 14:50:00'),
-(10, 'ijk9876', 43210987, 53, '2024-08-26 12:10:00');
+(6, 'xyz5678', 38765432, 26, '2024-08-21 11:22:00'),
+(7, 'uvw8765', 57654321, 30, '2024-08-22 13:30:00'),
+(8, 'rst3456', 26543210, 40, '2024-08-23 10:15:00'),
+(9, 'rst3456', 26543210, 41, '2024-08-23 10:15:00'),
+(10, 'opq2345', 15432109, 43, '2024-08-24 16:00:00'),
+(11, 'lmn6543', 34321098, 52, '2024-08-25 14:50:00'),
+(12, 'ijk9876', 43210987, 53, '2024-08-26 12:10:00');
 
 /* SOLICITA */
 
@@ -632,3 +632,4 @@ JOIN Marca m ON v.id_marca = m.id_marca
 JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo
 WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
 
+SELECT * FROM ticket ORDER BY fecha_ticket DESC;

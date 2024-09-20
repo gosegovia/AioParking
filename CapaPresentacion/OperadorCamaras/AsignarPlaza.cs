@@ -228,17 +228,29 @@ namespace CapaPresentacion.OperadorCamaras
 
             string matricula = txtMatricula.Text;
             int ci = Int32.Parse(txtCi.Text);
-            int plaza = Int32.Parse(lblPlaza.Text);
+            int plaza=0, plaza1=0;
             DateTime fecha = DateTime.Now;
 
+            if (lblPlaza.Text.Length <= 2)
+            {
+                plaza = Int32.Parse(lblPlaza.Text);
+            } else if (lblPlaza.Text.Length > 2)
+            {
+                // Divides el texto por la coma y el espacio
+                string[] partes = lblPlaza.Text.Split(new string[] { ", " }, StringSplitOptions.None);
+
+                // Convertir las partes a enteros
+                plaza = Int32.Parse(partes[0]);
+                plaza1 = Int32.Parse(partes[1]);
+            }
 
             // Generar ticket
-            switch (p.GenerarTicket(matricula, ci, plaza, fecha))
+            switch (p.GenerarTicket(matricula, ci, plaza, plaza1, fecha))
             {
                 case 0: // Se realizó sin problemas
                     MessageBox.Show("Se genero el ticket.");
 
-                    p.CrearTicketPDF(matricula, ci, plaza, fecha);
+                    p.CrearTicketPDF(matricula, ci, plaza, plaza1, fecha);
 
                     txtCi.Text = "";
                     txtCi.Enabled = true;
@@ -254,9 +266,8 @@ namespace CapaPresentacion.OperadorCamaras
                     MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
                     break;
 
-                case 2: // Error genérico
-                    MessageBox.Show("Error 2");
-                    break;
+                case 2: MessageBox.Show("Error 2"); break;
+                case 3: MessageBox.Show("Error 3"); break;
             }
 
             // Liberar memoria
