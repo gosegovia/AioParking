@@ -143,9 +143,9 @@ namespace CapaPresentacion.Cajero
             this.pDatos.Controls.Add(this.lblHorasTotales);
             this.pDatos.Controls.Add(this.lblHoraSalida);
             this.pDatos.Controls.Add(this.lblHoraEntrada);
-            this.pDatos.Location = new System.Drawing.Point(66, 252);
+            this.pDatos.Location = new System.Drawing.Point(12, 252);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(369, 187);
+            this.pDatos.Size = new System.Drawing.Size(296, 187);
             this.pDatos.TabIndex = 2;
             // 
             // txtHoraSalida
@@ -268,9 +268,9 @@ namespace CapaPresentacion.Cajero
             this.pDatosServicios.Controls.Add(this.txtLavado);
             this.pDatosServicios.Controls.Add(this.lblLavadoText);
             this.pDatosServicios.Controls.Add(this.lblOtrosServicios);
-            this.pDatosServicios.Location = new System.Drawing.Point(453, 252);
+            this.pDatosServicios.Location = new System.Drawing.Point(332, 252);
             this.pDatosServicios.Name = "pDatosServicios";
-            this.pDatosServicios.Size = new System.Drawing.Size(283, 187);
+            this.pDatosServicios.Size = new System.Drawing.Size(506, 187);
             this.pDatosServicios.TabIndex = 16;
             // 
             // panel4
@@ -285,7 +285,7 @@ namespace CapaPresentacion.Cajero
             this.txtCompraNeumatico.AutoSize = true;
             this.txtCompraNeumatico.Font = new System.Drawing.Font("Arial", 12F);
             this.txtCompraNeumatico.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtCompraNeumatico.Location = new System.Drawing.Point(232, 142);
+            this.txtCompraNeumatico.Location = new System.Drawing.Point(204, 142);
             this.txtCompraNeumatico.Name = "txtCompraNeumatico";
             this.txtCompraNeumatico.Size = new System.Drawing.Size(28, 18);
             this.txtCompraNeumatico.TabIndex = 15;
@@ -307,7 +307,7 @@ namespace CapaPresentacion.Cajero
             this.txtAyB.AutoSize = true;
             this.txtAyB.Font = new System.Drawing.Font("Arial", 12F);
             this.txtAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtAyB.Location = new System.Drawing.Point(231, 99);
+            this.txtAyB.Location = new System.Drawing.Point(204, 99);
             this.txtAyB.Name = "txtAyB";
             this.txtAyB.Size = new System.Drawing.Size(28, 18);
             this.txtAyB.TabIndex = 13;
@@ -329,7 +329,7 @@ namespace CapaPresentacion.Cajero
             this.txtLavado.AutoSize = true;
             this.txtLavado.Font = new System.Drawing.Font("Arial", 12F);
             this.txtLavado.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtLavado.Location = new System.Drawing.Point(230, 61);
+            this.txtLavado.Location = new System.Drawing.Point(204, 61);
             this.txtLavado.Name = "txtLavado";
             this.txtLavado.Size = new System.Drawing.Size(28, 18);
             this.txtLavado.TabIndex = 11;

@@ -142,6 +142,23 @@ namespace CapaPresentacion.Cajero
                         btnFactura.Visible = true;
                         btnCancelar.Visible = true;
 
+                        CapaNegocio.Servicio s = new CapaNegocio.Servicio();
+                        s.Conexion = Program.con;
+
+                        switch (s.BuscarServicios(txtMatricula.Text))
+                        {
+                            case 0: 
+                                txtAyB.Text = s.aybNombre + " $" + s.aybPrecio;
+                                txtLavado.Text = s.lavadoNombre + " $" + s.lavadoPrecio;
+                                txtCompraNeumatico.Text = s.neumaticoNombre + " / " + s.neumaticoCantidad + " x $" + s.neumaticoPrecio/s.neumaticoCantidad;
+                                break;
+                            case 1: MessageBox.Show("Error 1"); break;
+                            case 2: MessageBox.Show("Error 2"); break;
+                            case 3: MessageBox.Show("Error 3"); break;
+                            case 4: MessageBox.Show("Error 4"); break;
+                            case 5: MessageBox.Show("Error 5"); break;
+                        }
+
                         break;
 
                     case 1: // Error de sesión

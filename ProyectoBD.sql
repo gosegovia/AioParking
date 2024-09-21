@@ -90,7 +90,7 @@ CREATE TABLE Factura (
   FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula)
 );
 
-CREATE TABLE Marca_Neumatico (
+CREATE TABLE Neumatico (
   id_neumatico INT AUTO_INCREMENT,
   nombre_neumatico VARCHAR(40) NOT NULL,
   marca_neumatico VARCHAR(20) NOT NULL,
@@ -101,21 +101,14 @@ CREATE TABLE Marca_Neumatico (
   PRIMARY KEY (id_neumatico)
 );
 
-CREATE TABLE Venta_Neumatico (
-  id_ventaNeumatico INT AUTO_INCREMENT,
-  id_neumatico INT NOT NULL,
-  precio_total DECIMAL(10, 2) NOT NULL,
-  cantidad_neumatico INT NOT NULL CHECK (cantidad_neumatico > 0),
-  PRIMARY KEY (id_ventaNeumatico),
-  FOREIGN KEY (id_neumatico) REFERENCES Marca_Neumatico(id_neumatico)
-);
-
 CREATE TABLE Compra (
   id_factura INT NOT NULL,
-  id_ventaNeumatico INT NOT NULL,
-  PRIMARY KEY (id_factura, id_ventaNeumatico),
+  id_neumatico INT NOT NULL,
+  precio_compra DOUBLE NOT NULL,
+  cantidad_compra INT NOT NULL,
+  PRIMARY KEY (id_factura, id_neumatico),
   FOREIGN KEY (id_factura) REFERENCES Factura(id_factura),
-  FOREIGN KEY (id_ventaNeumatico) REFERENCES Venta_Neumatico(id_ventaNeumatico)
+  FOREIGN KEY (id_neumatico) REFERENCES Neumatico(id_neumatico)
 );
 
 CREATE TABLE Parking (
@@ -333,7 +326,7 @@ insert into Posee (ci, matricula) values
 
 /* MARCA NEUMATICO */
 
-INSERT INTO Marca_Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico) VALUES
+INSERT INTO Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico) VALUES
 (1, 'Pilot Sport 4', 'Michelin', 250.00, 20),
 (2, 'Potenza RE-71R', 'Bridgestone', 230.00, 10),
 (3, 'P Zero', 'Pirelli', 280.00, 31),
@@ -358,12 +351,6 @@ INSERT INTO Factura (id_factura, ci, matricula, factura_paga, fecha) VALUES
 (8, 15432109, 'opq2345', '0','2024-08-24 16:00:00'),
 (9, 34321098, 'lmn6543', '0','2024-08-25 14:50:00'),
 (10, 43210987, 'ijk9876', '0','2024-08-26 12:10:00');
-
-/* VENTA NEUMATICO */
-
-INSERT INTO Venta_Neumatico (id_ventaNeumatico, id_neumatico, precio_total, cantidad_neumatico) VALUES
-(1, 3, 1120.00, 4),
-(2, 9, 400, 2);
 
 /* PARKING */
 
@@ -510,8 +497,8 @@ INSERT INTO Alineacion_Balanceo(id_ayb, nombre_ayb, precio_ayb) VALUES
 
 /* COMPRA */
 
-INSERT INTO Compra(id_factura, id_ventaNeumatico) 
-VALUES (1, 1);
+INSERT INTO Compra(id_factura, id_neumatico, precio_compra, cantidad_compra) 
+VALUES (1, 1, 1000.00, 4);
 
 /* HACE */
 
@@ -520,8 +507,9 @@ VALUES (1, 5, 2475.00, 1);
 
 /* USA */
 
-INSERT INTO Usa(id_factura, id_lavado, precio_usa)
-VALUES (2, 6, 0.00);
+INSERT INTO Usa(id_factura, id_lavado, precio_usa) VALUES 
+(1, 1, 200.00),
+(2, 6, 0.00);
 
 /* USUARIOS DEL SISTEMA */
 
@@ -555,8 +543,7 @@ GRANT SELECT ON Marca TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'jefe'@'localhost';
-GRANT SELECT ON Marca_Neumatico TO 'jefe'@'localhost';
-GRANT SELECT ON Venta_Neumatico TO 'jefe'@'localhost';
+GRANT SELECT ON Neumatico TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Compra TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Parking TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Plaza TO 'jefe'@'localhost';
@@ -577,8 +564,7 @@ GRANT SELECT ON Marca TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'eje'@'localhost';
-GRANT SELECT ON Marca_Neumatico TO 'eje'@'localhost';
-GRANT SELECT ON Venta_Neumatico TO 'eje'@'localhost';
+GRANT SELECT ON Neumatico TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Compra TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Parking TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Plaza TO 'eje'@'localhost';
@@ -599,8 +585,7 @@ GRANT SELECT ON Vehiculo TO 'caj'@'localhost';
 GRANT SELECT ON Tipo_Vehiculo TO 'caj'@'localhost';
 GRANT SELECT ON Posee TO 'caj'@'localhost';
 GRANT SELECT ON Factura TO 'caj'@'localhost';
-GRANT SELECT ON Marca_Neumatico TO 'caj'@'localhost';
-GRANT SELECT ON Venta_Neumatico TO 'caj'@'localhost';
+GRANT SELECT ON Neumatico TO 'caj'@'localhost';
 GRANT SELECT ON Compra TO 'caj'@'localhost';
 GRANT SELECT ON Parking TO 'caj'@'localhost';
 GRANT SELECT ON Plaza TO 'caj'@'localhost';
@@ -635,3 +620,28 @@ JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo
 WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
 
 -- SELECT * FROM ticket ORDER BY fecha_ticket DESC;
+
+SELECT p.ci, p.matricula, f.id_factura
+FROM Posee p
+JOIN Factura f ON f.matricula = p.matricula AND f.ci = p.ci
+WHERE p.ci = 56303446 AND p.matricula = 'abc1234' AND f.factura_paga = '0';
+
+SELECT ayb.nombre_ayb, h.precio_hace
+FROM Alineacion_Balanceo ayb
+JOIN Hace h ON ayb.id_ayb = h.id_ayb
+JOIN Factura f ON f.id_factura = h.id_factura
+WHERE f.factura_paga = '0';
+
+SELECT l.nombre_lavado, u.precio_usa
+FROM Lavado l
+JOIN Usa u ON l.id_lavado = u.id_lavado
+JOIN Factura f ON f.id_factura = u.id_factura
+WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+
+SELECT n.nombre_neumatico, c.precio_compra, c.cantidad_compra
+FROM Neumatico n
+JOIN Compra c ON n.id_neumatico = c.id_neumatico
+JOIN Factura f ON f.id_factura = c.id_factura
+WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+
+

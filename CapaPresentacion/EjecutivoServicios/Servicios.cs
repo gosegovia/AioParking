@@ -70,30 +70,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Servicio s;
-            string matricula = txtMatricula.Text.Trim();
-
-            if (string.IsNullOrEmpty(matricula))
-            {
-                MessageBox.Show("La matrícula no puede estar vacía.");
-            } else
-            {
-                s = new Servicio();
-                s.Conexion = Program.con;
-
-                switch (s.BuscarServicio(matricula))
-                {
-                    case 0:
-                        txtMatricula.Enabled = false;
-                        btnBuscar.Enabled = false;
-                        pDatos.Visible = true;
-                        break;
-                    case 1:
-                        MessageBox.Show("Error en la ejecución"); break;
-                    case 2:
-                        MessageBox.Show("No encontro"); break;
-                }
-            }
+            
         }
 
 
