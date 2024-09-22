@@ -636,7 +636,7 @@ SELECT l.nombre_lavado, u.precio_usa
 FROM Lavado l
 JOIN Usa u ON l.id_lavado = u.id_lavado
 JOIN Factura f ON f.id_factura = u.id_factura
-WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+WHERE f.factura_paga = '0' AND f.matricula = 'cba4321';
 
 SELECT n.nombre_neumatico, c.precio_compra, c.cantidad_compra
 FROM Neumatico n
@@ -644,4 +644,20 @@ JOIN Compra c ON n.id_neumatico = c.id_neumatico
 JOIN Factura f ON f.id_factura = c.id_factura
 WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
+SELECT p.hora_entrada, p.hora_salida, s.precio_solicita
+FROM Parking p
+JOIN Reserva r ON r.id_parking = p.id_parking
+JOIN Solicita s ON s.id_parking = r.id_parking
+JOIN Factura f ON f.id_factura = s.id_factura
+WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
+SELECT matricula, ci, id_plaza, fecha_ticket 
+FROM ticket
+WHERE id_ticket = 2;
+
+SELECT f.factura_paga
+FROM Factura f
+JOIN Solicita s ON f.id_factura = s.id_factura
+WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+
+insert into factura ()

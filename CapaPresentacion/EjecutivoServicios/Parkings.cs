@@ -22,7 +22,6 @@ namespace CapaPresentacion.EjecutivoServicios
         private void Parking_Load(object sender, EventArgs e)
         {
             // Ocultar los paneles
-            pMatricula.Visible = false;
             pDatos.Visible = false;
         } // Fin carga del menú
 
@@ -33,27 +32,13 @@ namespace CapaPresentacion.EjecutivoServicios
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
-                btnBuscarCI.Focus();
+                btnBuscarTicket.Focus();
             }
         }
 
         private void txtCI_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-        }
-
-        private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
-                btnBuscarMatricula.Focus();
-            }
-        }
-
-        private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.validacionTextoNumero(sender, e);
         }
 
         private void txtPlaza_KeyPress(object sender, KeyPressEventArgs e)
@@ -66,84 +51,60 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón buscar cédula
         private void btnBuscarCI_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Cliente c;
-            Int32 cedula;
+            CapaNegocio.Parking p;
+            Int32 ticket;
 
-            if (!Int32.TryParse(txtCI.Text, out cedula))
+            if (!Int32.TryParse(txtTicket.Text, out ticket))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("El ticket debe ser numerico.");
             }
             else
             {
-                // Asigno una nueva instancia de la clase Cliente al objeto c de dicha clase
-                c = new Cliente();
-                c.ci = cedula;
+                p = new Parking();
+                p.Ticket = ticket;
+                p.conexion = Program.con;
 
-                switch (c.BuscarCI())
+                switch (p.buscarTicket())
                 {
                     case 0: // Encontro
-                        txtCI.Enabled = false;
-                        btnBuscarCI.Enabled = false;
-                        pMatricula.Visible = true;
-                        txtMatricula.Focus();
+                        lblCi.Text = p.Cliente.ci.ToString();
+                        lblMatricula.Text = p.Vehiculo.Matricula;
+                        lblHoraEntrada.Text = p.HoraEntrada.ToString();
+                        lblPlaza.Text = p.Plaza.ToString();
+
+                        txtTicket.Enabled = false;
+                        btnBuscarTicket.Enabled = false;
+                        pDatos.Visible = true;
                         break;
                     case 1:
                         MessageBox.Show("Debe logearse nuevamente"); break;
                     case 2:
                         MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
                     case 3: // No encontro
-                        if (txtCI.TextLength < 8)
-                        {
-                            MessageBox.Show("Formato incorrecto");
-                        }
+                        MessageBox.Show("Formato incorrecto");
                         break;
                 }
-                c = null; // Destruyo el objeto
+                p = null; // Destruyo el objeto
             }
         } // Fin botón buscar cédula
-
-        // Botón buscar matrícula
-        private void btnBuscarMatricula_Click(object sender, EventArgs e)
-        {
-            
-        }
-
 
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Verificar si la fecha y hora de dtpEntrada es mayor que la de dtpSalida
-            if (dtpEntrada.Value > dtpSalida.Value)
-            {
-                MessageBox.Show("La hora de entrada no puede ser mayor que la hora de salida");
-                return; // Detener la ejecución si la plaza no es válida
-            }
 
-            // Validación de la plaza
-            if (string.IsNullOrEmpty(txtPlaza.Text))
-            {
-                MessageBox.Show("Debe ingresar la plaza.");
-                return; // Detener la ejecución si la plaza no es válida
-            }
 
             // Limpiar los campos
-            txtCI.Text = "";
-            txtCI.ReadOnly = false;
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
+            txtTicket.Text = "";
+            txtTicket.ReadOnly = false;
             pDatos.Visible = false;
         } // Fin botón guardar
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            txtCI.Enabled = true;
-            txtCI.Text = "";
-            btnBuscarCI.Enabled = true;
-            txtMatricula.Enabled = true;
-            txtMatricula.Text = "";
-            btnBuscarMatricula.Enabled = true;
-            pMatricula.Visible = false;
+            txtTicket.Enabled = true;
+            txtTicket.Text = "";
+            btnBuscarTicket.Enabled = true;
             pDatos.Visible = false;
         } // Fin botón cancelar
     }

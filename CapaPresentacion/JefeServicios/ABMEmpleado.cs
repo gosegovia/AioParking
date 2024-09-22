@@ -74,6 +74,12 @@ namespace CapaPresentacion.JefeServicios
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
+        private void txtContrasenia_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionTextoNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 12);
+        }
+
         private void txtCI_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -356,5 +362,19 @@ namespace CapaPresentacion.JefeServicios
             // Mostramos el formulario
             Program.frmPrincipal.mostrarListarEmpleado();
         } // Fin de botón listar
+
+        private void checkBoxVer_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkBoxVer.Checked)
+            {
+                // Mostrar contraseña como texto normal
+                txtContrasenia.UseSystemPasswordChar = false;
+            }
+            else
+            {
+                // Ocultar contraseña con asteriscos
+                txtContrasenia.UseSystemPasswordChar = true;
+            }
+        }
     }
 }

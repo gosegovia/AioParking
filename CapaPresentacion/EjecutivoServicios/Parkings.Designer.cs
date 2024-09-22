@@ -33,24 +33,23 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             this.lblParking = new System.Windows.Forms.Label();
             this.pCI = new System.Windows.Forms.Panel();
-            this.btnBuscarCI = new System.Windows.Forms.Button();
-            this.txtCI = new System.Windows.Forms.TextBox();
-            this.lblCI = new System.Windows.Forms.Label();
-            this.pMatricula = new System.Windows.Forms.Panel();
-            this.btnBuscarMatricula = new System.Windows.Forms.Button();
-            this.txtMatricula = new System.Windows.Forms.TextBox();
-            this.lblMatricula = new System.Windows.Forms.Label();
+            this.btnBuscarTicket = new System.Windows.Forms.Button();
+            this.txtTicket = new System.Windows.Forms.TextBox();
+            this.lblTicket = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
             this.dtpSalida = new System.Windows.Forms.DateTimePicker();
-            this.dtpEntrada = new System.Windows.Forms.DateTimePicker();
-            this.txtPlaza = new System.Windows.Forms.TextBox();
-            this.lblPlaza = new System.Windows.Forms.Label();
+            this.lblPlazaTexto = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.lblHoraSalida = new System.Windows.Forms.Label();
+            this.lblHoraEntradaTexto = new System.Windows.Forms.Label();
+            this.lblPlaza = new System.Windows.Forms.Label();
+            this.lblMatricula = new System.Windows.Forms.Label();
+            this.lblMatriculaTexto = new System.Windows.Forms.Label();
+            this.lblCi = new System.Windows.Forms.Label();
+            this.lblCiTexto = new System.Windows.Forms.Label();
             this.lblHoraEntrada = new System.Windows.Forms.Label();
             this.pCI.SuspendLayout();
-            this.pMatricula.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,163 +69,94 @@ namespace CapaPresentacion.EjecutivoServicios
             // 
             // pCI
             // 
-            this.pCI.Controls.Add(this.btnBuscarCI);
-            this.pCI.Controls.Add(this.txtCI);
-            this.pCI.Controls.Add(this.lblCI);
-            this.pCI.Location = new System.Drawing.Point(12, 101);
+            this.pCI.Controls.Add(this.btnBuscarTicket);
+            this.pCI.Controls.Add(this.txtTicket);
+            this.pCI.Controls.Add(this.lblTicket);
+            this.pCI.Location = new System.Drawing.Point(12, 123);
             this.pCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pCI.Name = "pCI";
             this.pCI.Size = new System.Drawing.Size(826, 62);
             this.pCI.TabIndex = 1;
             // 
-            // btnBuscarCI
+            // btnBuscarTicket
             // 
-            this.btnBuscarCI.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnBuscarCI.FlatAppearance.BorderSize = 0;
-            this.btnBuscarCI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.btnBuscarCI.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarCI.Location = new System.Drawing.Point(457, 24);
-            this.btnBuscarCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnBuscarCI.Name = "btnBuscarCI";
-            this.btnBuscarCI.Size = new System.Drawing.Size(75, 25);
-            this.btnBuscarCI.TabIndex = 2;
-            this.btnBuscarCI.Text = "Buscar";
-            this.btnBuscarCI.UseVisualStyleBackColor = false;
-            this.btnBuscarCI.Click += new System.EventHandler(this.btnBuscarCI_Click);
+            this.btnBuscarTicket.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscarTicket.FlatAppearance.BorderSize = 0;
+            this.btnBuscarTicket.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscarTicket.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnBuscarTicket.ForeColor = System.Drawing.Color.White;
+            this.btnBuscarTicket.Location = new System.Drawing.Point(490, 22);
+            this.btnBuscarTicket.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBuscarTicket.Name = "btnBuscarTicket";
+            this.btnBuscarTicket.Size = new System.Drawing.Size(75, 25);
+            this.btnBuscarTicket.TabIndex = 2;
+            this.btnBuscarTicket.Text = "Buscar";
+            this.btnBuscarTicket.UseVisualStyleBackColor = false;
+            this.btnBuscarTicket.Click += new System.EventHandler(this.btnBuscarCI_Click);
             // 
-            // txtCI
+            // txtTicket
             // 
-            this.txtCI.BackColor = System.Drawing.Color.LightBlue;
-            this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(311, 24);
-            this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtCI.Multiline = true;
-            this.txtCI.Name = "txtCI";
-            this.txtCI.Size = new System.Drawing.Size(135, 25);
-            this.txtCI.TabIndex = 1;
-            this.txtCI.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCI_KeyDown);
-            this.txtCI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCI_KeyPress);
+            this.txtTicket.BackColor = System.Drawing.Color.LightBlue;
+            this.txtTicket.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtTicket.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtTicket.Location = new System.Drawing.Point(344, 22);
+            this.txtTicket.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtTicket.Multiline = true;
+            this.txtTicket.Name = "txtTicket";
+            this.txtTicket.Size = new System.Drawing.Size(135, 25);
+            this.txtTicket.TabIndex = 1;
+            this.txtTicket.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCI_KeyDown);
+            this.txtTicket.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCI_KeyPress);
             // 
-            // lblCI
+            // lblTicket
             // 
-            this.lblCI.AutoSize = true;
-            this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(277, 26);
-            this.lblCI.Name = "lblCI";
-            this.lblCI.Size = new System.Drawing.Size(23, 18);
-            this.lblCI.TabIndex = 0;
-            this.lblCI.Text = "CI";
-            // 
-            // pMatricula
-            // 
-            this.pMatricula.Controls.Add(this.btnBuscarMatricula);
-            this.pMatricula.Controls.Add(this.txtMatricula);
-            this.pMatricula.Controls.Add(this.lblMatricula);
-            this.pMatricula.Location = new System.Drawing.Point(12, 167);
-            this.pMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pMatricula.Name = "pMatricula";
-            this.pMatricula.Size = new System.Drawing.Size(826, 54);
-            this.pMatricula.TabIndex = 3;
-            // 
-            // btnBuscarMatricula
-            // 
-            this.btnBuscarMatricula.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnBuscarMatricula.FlatAppearance.BorderSize = 0;
-            this.btnBuscarMatricula.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.btnBuscarMatricula.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarMatricula.Location = new System.Drawing.Point(474, 12);
-            this.btnBuscarMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnBuscarMatricula.Name = "btnBuscarMatricula";
-            this.btnBuscarMatricula.Size = new System.Drawing.Size(75, 25);
-            this.btnBuscarMatricula.TabIndex = 2;
-            this.btnBuscarMatricula.Text = "Buscar";
-            this.btnBuscarMatricula.UseVisualStyleBackColor = false;
-            this.btnBuscarMatricula.Click += new System.EventHandler(this.btnBuscarMatricula_Click);
-            // 
-            // txtMatricula
-            // 
-            this.txtMatricula.BackColor = System.Drawing.Color.LightBlue;
-            this.txtMatricula.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtMatricula.Location = new System.Drawing.Point(328, 12);
-            this.txtMatricula.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtMatricula.Multiline = true;
-            this.txtMatricula.Name = "txtMatricula";
-            this.txtMatricula.Size = new System.Drawing.Size(135, 25);
-            this.txtMatricula.TabIndex = 1;
-            this.txtMatricula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatricula_KeyDown);
-            this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatricula_KeyPress);
-            // 
-            // lblMatricula
-            // 
-            this.lblMatricula.AutoSize = true;
-            this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMatricula.Location = new System.Drawing.Point(250, 15);
-            this.lblMatricula.Name = "lblMatricula";
-            this.lblMatricula.Size = new System.Drawing.Size(70, 18);
-            this.lblMatricula.TabIndex = 0;
-            this.lblMatricula.Text = "Matrícula";
+            this.lblTicket.AutoSize = true;
+            this.lblTicket.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblTicket.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblTicket.Location = new System.Drawing.Point(272, 25);
+            this.lblTicket.Name = "lblTicket";
+            this.lblTicket.Size = new System.Drawing.Size(66, 18);
+            this.lblTicket.TabIndex = 0;
+            this.lblTicket.Text = "Ticket id";
             // 
             // pDatos
             // 
-            this.pDatos.Controls.Add(this.dtpSalida);
-            this.pDatos.Controls.Add(this.dtpEntrada);
-            this.pDatos.Controls.Add(this.txtPlaza);
+            this.pDatos.Controls.Add(this.lblHoraEntrada);
+            this.pDatos.Controls.Add(this.lblCi);
+            this.pDatos.Controls.Add(this.lblCiTexto);
+            this.pDatos.Controls.Add(this.lblMatricula);
+            this.pDatos.Controls.Add(this.lblMatriculaTexto);
             this.pDatos.Controls.Add(this.lblPlaza);
+            this.pDatos.Controls.Add(this.dtpSalida);
+            this.pDatos.Controls.Add(this.lblPlazaTexto);
             this.pDatos.Controls.Add(this.btnCancelar);
             this.pDatos.Controls.Add(this.btnGuardar);
             this.pDatos.Controls.Add(this.lblHoraSalida);
-            this.pDatos.Controls.Add(this.lblHoraEntrada);
-            this.pDatos.Location = new System.Drawing.Point(12, 225);
+            this.pDatos.Controls.Add(this.lblHoraEntradaTexto);
+            this.pDatos.Location = new System.Drawing.Point(12, 189);
             this.pDatos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(826, 233);
+            this.pDatos.Size = new System.Drawing.Size(826, 350);
             this.pDatos.TabIndex = 4;
             // 
             // dtpSalida
             // 
             this.dtpSalida.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpSalida.Location = new System.Drawing.Point(375, 39);
+            this.dtpSalida.Location = new System.Drawing.Point(375, 123);
             this.dtpSalida.Name = "dtpSalida";
             this.dtpSalida.Size = new System.Drawing.Size(136, 20);
             this.dtpSalida.TabIndex = 11;
             // 
-            // dtpEntrada
+            // lblPlazaTexto
             // 
-            this.dtpEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpEntrada.Location = new System.Drawing.Point(375, 7);
-            this.dtpEntrada.Name = "dtpEntrada";
-            this.dtpEntrada.Size = new System.Drawing.Size(136, 20);
-            this.dtpEntrada.TabIndex = 10;
-            // 
-            // txtPlaza
-            // 
-            this.txtPlaza.BackColor = System.Drawing.Color.LightBlue;
-            this.txtPlaza.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtPlaza.Location = new System.Drawing.Point(375, 68);
-            this.txtPlaza.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtPlaza.Multiline = true;
-            this.txtPlaza.Name = "txtPlaza";
-            this.txtPlaza.Size = new System.Drawing.Size(135, 25);
-            this.txtPlaza.TabIndex = 9;
-            this.txtPlaza.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPlaza_KeyPress);
-            // 
-            // lblPlaza
-            // 
-            this.lblPlaza.AutoSize = true;
-            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPlaza.Location = new System.Drawing.Point(267, 71);
-            this.lblPlaza.Name = "lblPlaza";
-            this.lblPlaza.Size = new System.Drawing.Size(47, 18);
-            this.lblPlaza.TabIndex = 8;
-            this.lblPlaza.Text = "Plaza";
+            this.lblPlazaTexto.AutoSize = true;
+            this.lblPlazaTexto.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPlazaTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPlazaTexto.Location = new System.Drawing.Point(267, 155);
+            this.lblPlazaTexto.Name = "lblPlazaTexto";
+            this.lblPlazaTexto.Size = new System.Drawing.Size(47, 18);
+            this.lblPlazaTexto.TabIndex = 8;
+            this.lblPlazaTexto.Text = "Plaza";
             // 
             // btnCancelar
             // 
@@ -235,7 +165,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(403, 137);
+            this.btnCancelar.Location = new System.Drawing.Point(403, 221);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(87, 25);
@@ -251,7 +181,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(316, 137);
+            this.btnGuardar.Location = new System.Drawing.Point(316, 221);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 25);
@@ -265,22 +195,88 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblHoraSalida.AutoSize = true;
             this.lblHoraSalida.Font = new System.Drawing.Font("Arial", 12F);
             this.lblHoraSalida.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblHoraSalida.Location = new System.Drawing.Point(267, 39);
+            this.lblHoraSalida.Location = new System.Drawing.Point(267, 123);
             this.lblHoraSalida.Name = "lblHoraSalida";
             this.lblHoraSalida.Size = new System.Drawing.Size(88, 18);
             this.lblHoraSalida.TabIndex = 5;
             this.lblHoraSalida.Text = "Hora salida";
+            // 
+            // lblHoraEntradaTexto
+            // 
+            this.lblHoraEntradaTexto.AutoSize = true;
+            this.lblHoraEntradaTexto.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblHoraEntradaTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblHoraEntradaTexto.Location = new System.Drawing.Point(267, 91);
+            this.lblHoraEntradaTexto.Name = "lblHoraEntradaTexto";
+            this.lblHoraEntradaTexto.Size = new System.Drawing.Size(99, 18);
+            this.lblHoraEntradaTexto.TabIndex = 3;
+            this.lblHoraEntradaTexto.Text = "Hora entrada";
+            // 
+            // lblPlaza
+            // 
+            this.lblPlaza.AutoSize = true;
+            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPlaza.Location = new System.Drawing.Point(372, 155);
+            this.lblPlaza.Name = "lblPlaza";
+            this.lblPlaza.Size = new System.Drawing.Size(20, 18);
+            this.lblPlaza.TabIndex = 12;
+            this.lblPlaza.Text = "...";
+            // 
+            // lblMatricula
+            // 
+            this.lblMatricula.AutoSize = true;
+            this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblMatricula.Location = new System.Drawing.Point(372, 62);
+            this.lblMatricula.Name = "lblMatricula";
+            this.lblMatricula.Size = new System.Drawing.Size(20, 18);
+            this.lblMatricula.TabIndex = 14;
+            this.lblMatricula.Text = "...";
+            // 
+            // lblMatriculaTexto
+            // 
+            this.lblMatriculaTexto.AutoSize = true;
+            this.lblMatriculaTexto.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblMatriculaTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblMatriculaTexto.Location = new System.Drawing.Point(267, 62);
+            this.lblMatriculaTexto.Name = "lblMatriculaTexto";
+            this.lblMatriculaTexto.Size = new System.Drawing.Size(71, 18);
+            this.lblMatriculaTexto.TabIndex = 13;
+            this.lblMatriculaTexto.Text = "Matricula";
+            // 
+            // lblCi
+            // 
+            this.lblCi.AutoSize = true;
+            this.lblCi.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCi.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCi.Location = new System.Drawing.Point(372, 34);
+            this.lblCi.Name = "lblCi";
+            this.lblCi.Size = new System.Drawing.Size(20, 18);
+            this.lblCi.TabIndex = 16;
+            this.lblCi.Text = "...";
+            // 
+            // lblCiTexto
+            // 
+            this.lblCiTexto.AutoSize = true;
+            this.lblCiTexto.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCiTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCiTexto.Location = new System.Drawing.Point(267, 34);
+            this.lblCiTexto.Name = "lblCiTexto";
+            this.lblCiTexto.Size = new System.Drawing.Size(58, 18);
+            this.lblCiTexto.TabIndex = 15;
+            this.lblCiTexto.Text = "Cedula";
             // 
             // lblHoraEntrada
             // 
             this.lblHoraEntrada.AutoSize = true;
             this.lblHoraEntrada.Font = new System.Drawing.Font("Arial", 12F);
             this.lblHoraEntrada.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblHoraEntrada.Location = new System.Drawing.Point(267, 7);
+            this.lblHoraEntrada.Location = new System.Drawing.Point(371, 91);
             this.lblHoraEntrada.Name = "lblHoraEntrada";
-            this.lblHoraEntrada.Size = new System.Drawing.Size(99, 18);
-            this.lblHoraEntrada.TabIndex = 3;
-            this.lblHoraEntrada.Text = "Hora entrada";
+            this.lblHoraEntrada.Size = new System.Drawing.Size(20, 18);
+            this.lblHoraEntrada.TabIndex = 17;
+            this.lblHoraEntrada.Text = "...";
             // 
             // Parkings
             // 
@@ -288,7 +284,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.pDatos);
-            this.Controls.Add(this.pMatricula);
             this.Controls.Add(this.pCI);
             this.Controls.Add(this.lblParking);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -298,8 +293,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.Load += new System.EventHandler(this.Parking_Load);
             this.pCI.ResumeLayout(false);
             this.pCI.PerformLayout();
-            this.pMatricula.ResumeLayout(false);
-            this.pMatricula.PerformLayout();
             this.pDatos.ResumeLayout(false);
             this.pDatos.PerformLayout();
             this.ResumeLayout(false);
@@ -311,21 +304,21 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private Label lblParking;
         private Panel pCI;
-        private Button btnBuscarCI;
-        private TextBox txtCI;
-        private Label lblCI;
-        private Panel pMatricula;
-        private Button btnBuscarMatricula;
-        private TextBox txtMatricula;
-        private Label lblMatricula;
+        private Button btnBuscarTicket;
+        private TextBox txtTicket;
+        private Label lblTicket;
         private Panel pDatos;
         private Button btnGuardar;
         private Label lblHoraSalida;
-        private Label lblHoraEntrada;
-        private Label lblPlaza;
+        private Label lblHoraEntradaTexto;
+        private Label lblPlazaTexto;
         private Button btnCancelar;
         private DateTimePicker dtpSalida;
-        private DateTimePicker dtpEntrada;
-        private TextBox txtPlaza;
+        private Label lblPlaza;
+        private Label lblMatricula;
+        private Label lblMatriculaTexto;
+        private Label lblCi;
+        private Label lblCiTexto;
+        private Label lblHoraEntrada;
     }
 }

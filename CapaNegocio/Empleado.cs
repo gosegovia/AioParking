@@ -353,5 +353,39 @@ namespace CapaNegocio
 
             return empleados;
         }
+
+        public byte CrearEmpleado(string usuario, string contrasenia)
+        {
+            byte resultado = 0;
+            string sql;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                resultado = 1; // Conexión cerrada
+            }
+            else
+            {
+                // SQL para actualizar el estado de la persona a 0 (eliminar lógicamente)
+                sql = "CREATE USER '" + usuario + "'@'localhost' IDENTIFIED BY '" + contrasenia + "';";
+
+                try
+                {
+                    // Ejecutar la consulta y verificar si se modificaron registros
+                    object filasAfectadas = _conexion.Ejecutar(sql);
+
+                    if (filasAfectadas == null)
+                    {
+                        resultado = 3; // No se modificaron registros, posible CI inexistente
+                    }
+
+                }
+                catch
+                {
+                    return 2; // Error en la ejecución
+                }
+            }
+            return resultado;
+        }
     }
 }

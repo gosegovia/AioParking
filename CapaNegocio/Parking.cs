@@ -7,18 +7,21 @@ using iTextSharp.text.pdf;
 using System.IO;
 using iTextSharp.text.pdf.draw;
 using System.Collections.Generic;
+using iTextSharp.text.pdf.codec.wmf;
 
 namespace CapaNegocio
 {
     public class Parking
     {
         protected int _plaza;
-        protected int _id_parking;
         protected string _estadoPlaza;
         protected int _ticket;
+        protected int _id_parking;
         protected double _precio_parking;
         protected DateTime _horaEntrada;
         protected DateTime _horaSalida;
+        protected Cliente _cliente;
+        protected Vehiculo _vehiculo;
         protected Conexion _conexion;
 
         public int Plaza
@@ -63,6 +66,18 @@ namespace CapaNegocio
             set { _horaSalida = value; }
         }
 
+        public Cliente Cliente
+        {
+            set { _cliente = value; }
+            get { return (_cliente); }
+        }
+
+        public Vehiculo Vehiculo
+        {
+            set { _vehiculo = value; }
+            get { return (_vehiculo); }
+        }
+
         public Conexion conexion
         {
             set { _conexion = value; }
@@ -78,10 +93,12 @@ namespace CapaNegocio
             _precio_parking = 0;
             _horaEntrada = DateTime.MinValue;
             _horaSalida = DateTime.MinValue;
+            _cliente = new Cliente();
+            _vehiculo = new Vehiculo();
             _conexion = new Conexion();
         }
 
-        public Parking(int plaza, int idpark, string estadopla, int ticket, double preciopark, DateTime he, DateTime hs, Conexion cn)
+        public Parking(int plaza, int idpark, string estadopla, int ticket, double preciopark, DateTime he, DateTime hs, Cliente cli, Vehiculo ve, Conexion cn)
         {
             _plaza = plaza;
             _id_parking = idpark;
@@ -90,7 +107,9 @@ namespace CapaNegocio
             _precio_parking = preciopark;
             _horaEntrada = he;
             _horaSalida = hs;
-            _conexion = new Conexion();
+            _cliente = cli;
+            _vehiculo = ve;
+            _conexion = cn;
         }
 
         public DataTable ListarPlazas()
@@ -162,80 +181,6 @@ namespace CapaNegocio
 
             return resultado;
         }
-
-        /*
-        public byte GuardarPlaza()
-        {
-            byte resultado = 0;
-
-            // Verificar si la conexión está abierta
-            if (!_conexion.Abierta())
-            {
-                return 1; // Conexión cerrada
-            }
-
-            // Definir las consultas SQL para insertar o actualizar
-            string sql, sql1;
-
-            if (modificacion)
-            {
-                // Consulta para actualizar los datos del cliente
-                sql = $"UPDATE Persona SET nombre = '{nombre}', apellido = '{apellido}', nro_puerta = {nroPuerta}, calle = '{calle}', ciudad = '{ciudad}', estado = {estado} WHERE ci = {ci}";
-                sql1 = $"UPDATE Cliente SET tipo_cliente = '{TipoCliente}' WHERE ci = {ci}";
-            }
-            else
-            {
-                // Consulta para insertar un nuevo cliente
-                sql = $"INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VALUES ({ci}, '{nombre}', '{apellido}', {nroPuerta}, '{calle}', '{ciudad}', 1)";
-                sql1 = $"INSERT INTO Cliente (ci, tipo_cliente) VALUES ({ci}, '{TipoCliente}')";
-            }
-
-            try
-            {
-                // Ejecutar la consulta SQL para Persona
-                _conexion.Ejecutar(sql);
-                // Ejecutar la consulta SQL para Cliente
-                _conexion.Ejecutar(sql1);
-            }
-            catch
-            {
-                // Manejar errores en las consultas
-                return 2; // Error en el insert o update
-            }
-
-            // Manejo de teléfonos si es una modificación
-            if (modificacion)
-            {
-                sql = $"DELETE FROM Telefono WHERE ci = {_ci}";
-                try
-                {
-                    _conexion.Ejecutar(sql);
-                }
-                catch
-                {
-                    // Manejar errores al borrar los teléfonos
-                    return 3; // Error al borrar los teléfonos
-                }
-            }
-
-            // Insertar teléfonos nuevos
-            foreach (string telefono in _telefonos)
-            {
-                sql = $"INSERT INTO Telefono(ci, telefono) VALUES({_ci}, '{telefono}')";
-                try
-                {
-                    _conexion.Ejecutar(sql);
-                }
-                catch
-                {
-                    // Manejar errores al insertar los teléfonos
-                    return 4; // Error al insertar los teléfonos
-                }
-            }
-
-            return resultado;
-        }
-        */
 
         public byte GuardarParking()
         {
@@ -438,6 +383,100 @@ namespace CapaNegocio
             }
         }
 
+        public byte buscarTicket()
+        {
+            string sql;
+            DataTable dt;
+            byte resultado = 0;
 
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            sql = "SELECT matricula, ci, id_plaza, fecha_ticket " +
+                "FROM ticket " +
+                "WHERE id_ticket = " + Ticket + ";";
+
+            dt = _conexion.EjecutarSelect(sql);
+            try
+            {
+                // Usar parámetros para evitar SQL Injection
+                dt = _conexion.EjecutarSelect(sql);
+            }
+            catch
+            {
+                return 2; // Error en la ejecución
+            }
+
+            if (dt.Rows.Count == 0)
+            {
+                return 3; // No encontrado
+            }
+            else
+            {
+                Cliente.ci = Convert.ToInt32(dt.Rows[0]["ci"]);
+                Vehiculo.Matricula = Convert.ToString(dt.Rows[0]["matricula"]);
+                Plaza = Convert.ToByte(dt.Rows[0]["id_plaza"]);
+                HoraEntrada = Convert.ToDateTime(dt.Rows[0]["fecha_ticket"]);
+            }
+            return resultado;
+        }
+
+        public byte GuardarParking(bool modificacion)
+        {
+            string sql;
+            DataTable dt;
+            byte resultado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            sql = "SELECT f.factura_paga " +
+                "FROM Factura f JOIN Solicita s ON f.id_factura = s.id_factura " +
+                "WHERE f.factura_paga = '0' AND f.matricula = '" + Vehiculo.Matricula + "';";
+
+            try
+            {
+                // Ejecutar la consulta SQL para Persona
+                dt = _conexion.EjecutarSelect(sql);
+            }
+            catch
+            {
+                // Manejar errores en las consultas
+                return 2;
+            }
+
+            if (dt.Rows.Count == 0)
+            {
+                
+            }
+
+            if (modificacion)
+            {
+                // Consulta para actualizar los datos del cliente
+                sql = "";
+            }
+            else
+            {
+                sql = "";
+            }
+
+            try
+            {
+                // Ejecutar la consulta SQL para Persona
+                _conexion.Ejecutar(sql);
+            }
+            catch
+            {
+                // Manejar errores en las consultas
+                return 2; // Error en el insert o update
+            }
+
+            return resultado;
+        }
     }
 }
