@@ -39,10 +39,8 @@ namespace CapaPresentacion.Cajero
             this.pDatos = new System.Windows.Forms.Panel();
             this.txtHoraSalida = new System.Windows.Forms.Label();
             this.txtHoraEntrada = new System.Windows.Forms.Label();
-            this.lblPesos = new System.Windows.Forms.Label();
             this.txtPrecio = new System.Windows.Forms.Label();
             this.lblPrecioText = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.txtHorasTotales = new System.Windows.Forms.Label();
             this.lblHorasTotales = new System.Windows.Forms.Label();
             this.lblHoraSalida = new System.Windows.Forms.Label();
@@ -62,6 +60,7 @@ namespace CapaPresentacion.Cajero
             this.btnBuscarCi = new System.Windows.Forms.Button();
             this.txtCi = new System.Windows.Forms.TextBox();
             this.lblCI = new System.Windows.Forms.Label();
+            this.lblPrecioTotal = new System.Windows.Forms.Label();
             this.pMatricula.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.pDatosServicios.SuspendLayout();
@@ -133,19 +132,18 @@ namespace CapaPresentacion.Cajero
             // 
             // pDatos
             // 
+            this.pDatos.Controls.Add(this.lblPrecioTotal);
             this.pDatos.Controls.Add(this.txtHoraSalida);
             this.pDatos.Controls.Add(this.txtHoraEntrada);
-            this.pDatos.Controls.Add(this.lblPesos);
             this.pDatos.Controls.Add(this.txtPrecio);
             this.pDatos.Controls.Add(this.lblPrecioText);
-            this.pDatos.Controls.Add(this.label7);
             this.pDatos.Controls.Add(this.txtHorasTotales);
             this.pDatos.Controls.Add(this.lblHorasTotales);
             this.pDatos.Controls.Add(this.lblHoraSalida);
             this.pDatos.Controls.Add(this.lblHoraEntrada);
             this.pDatos.Location = new System.Drawing.Point(12, 252);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(296, 187);
+            this.pDatos.Size = new System.Drawing.Size(296, 249);
             this.pDatos.TabIndex = 2;
             // 
             // txtHoraSalida
@@ -170,23 +168,12 @@ namespace CapaPresentacion.Cajero
             this.txtHoraEntrada.TabIndex = 16;
             this.txtHoraEntrada.Text = ".....";
             // 
-            // lblPesos
-            // 
-            this.lblPesos.AutoSize = true;
-            this.lblPesos.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblPesos.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPesos.Location = new System.Drawing.Point(165, 144);
-            this.lblPesos.Name = "lblPesos";
-            this.lblPesos.Size = new System.Drawing.Size(17, 18);
-            this.lblPesos.TabIndex = 15;
-            this.lblPesos.Text = "$";
-            // 
             // txtPrecio
             // 
             this.txtPrecio.AutoSize = true;
             this.txtPrecio.Font = new System.Drawing.Font("Arial", 12F);
             this.txtPrecio.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtPrecio.Location = new System.Drawing.Point(184, 144);
+            this.txtPrecio.Location = new System.Drawing.Point(163, 144);
             this.txtPrecio.Name = "txtPrecio";
             this.txtPrecio.Size = new System.Drawing.Size(28, 18);
             this.txtPrecio.TabIndex = 14;
@@ -199,20 +186,9 @@ namespace CapaPresentacion.Cajero
             this.lblPrecioText.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblPrecioText.Location = new System.Drawing.Point(35, 144);
             this.lblPrecioText.Name = "lblPrecioText";
-            this.lblPrecioText.Size = new System.Drawing.Size(54, 18);
+            this.lblPrecioText.Size = new System.Drawing.Size(58, 18);
             this.lblPrecioText.TabIndex = 13;
-            this.lblPrecioText.Text = "Precio";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Arial", 12F);
-            this.label7.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label7.Location = new System.Drawing.Point(193, 105);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(24, 18);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "hs";
+            this.lblPrecioText.Text = "Precio:";
             // 
             // txtHorasTotales
             // 
@@ -232,9 +208,9 @@ namespace CapaPresentacion.Cajero
             this.lblHorasTotales.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblHorasTotales.Location = new System.Drawing.Point(35, 105);
             this.lblHorasTotales.Name = "lblHorasTotales";
-            this.lblHorasTotales.Size = new System.Drawing.Size(83, 18);
+            this.lblHorasTotales.Size = new System.Drawing.Size(87, 18);
             this.lblHorasTotales.TabIndex = 10;
-            this.lblHorasTotales.Text = "Total horas";
+            this.lblHorasTotales.Text = "Total horas:";
             // 
             // lblHoraSalida
             // 
@@ -243,9 +219,9 @@ namespace CapaPresentacion.Cajero
             this.lblHoraSalida.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblHoraSalida.Location = new System.Drawing.Point(35, 63);
             this.lblHoraSalida.Name = "lblHoraSalida";
-            this.lblHoraSalida.Size = new System.Drawing.Size(88, 18);
+            this.lblHoraSalida.Size = new System.Drawing.Size(92, 18);
             this.lblHoraSalida.TabIndex = 8;
-            this.lblHoraSalida.Text = "Hora salida";
+            this.lblHoraSalida.Text = "Hora salida:";
             // 
             // lblHoraEntrada
             // 
@@ -254,9 +230,9 @@ namespace CapaPresentacion.Cajero
             this.lblHoraEntrada.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblHoraEntrada.Location = new System.Drawing.Point(35, 24);
             this.lblHoraEntrada.Name = "lblHoraEntrada";
-            this.lblHoraEntrada.Size = new System.Drawing.Size(99, 18);
+            this.lblHoraEntrada.Size = new System.Drawing.Size(103, 18);
             this.lblHoraEntrada.TabIndex = 6;
-            this.lblHoraEntrada.Text = "Hora entrada";
+            this.lblHoraEntrada.Text = "Hora entrada:";
             // 
             // pDatosServicios
             // 
@@ -298,9 +274,9 @@ namespace CapaPresentacion.Cajero
             this.lblCompraText.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblCompraText.Location = new System.Drawing.Point(22, 142);
             this.lblCompraText.Name = "lblCompraText";
-            this.lblCompraText.Size = new System.Drawing.Size(144, 18);
+            this.lblCompraText.Size = new System.Drawing.Size(148, 18);
             this.lblCompraText.TabIndex = 14;
-            this.lblCompraText.Text = "Compra Neumático";
+            this.lblCompraText.Text = "Compra Neumático:";
             // 
             // txtAyB
             // 
@@ -320,9 +296,9 @@ namespace CapaPresentacion.Cajero
             this.lblAyBText.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblAyBText.Location = new System.Drawing.Point(22, 99);
             this.lblAyBText.Name = "lblAyBText";
-            this.lblAyBText.Size = new System.Drawing.Size(162, 18);
+            this.lblAyBText.Size = new System.Drawing.Size(166, 18);
             this.lblAyBText.TabIndex = 12;
-            this.lblAyBText.Text = "Alineación y Balanceo";
+            this.lblAyBText.Text = "Alineación y Balanceo:";
             // 
             // txtLavado
             // 
@@ -342,9 +318,9 @@ namespace CapaPresentacion.Cajero
             this.lblLavadoText.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblLavadoText.Location = new System.Drawing.Point(22, 61);
             this.lblLavadoText.Name = "lblLavadoText";
-            this.lblLavadoText.Size = new System.Drawing.Size(60, 18);
+            this.lblLavadoText.Size = new System.Drawing.Size(64, 18);
             this.lblLavadoText.TabIndex = 8;
-            this.lblLavadoText.Text = "Lavado";
+            this.lblLavadoText.Text = "Lavado:";
             // 
             // lblOtrosServicios
             // 
@@ -364,7 +340,7 @@ namespace CapaPresentacion.Cajero
             this.btnFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFactura.Font = new System.Drawing.Font("Arial", 12F);
             this.btnFactura.ForeColor = System.Drawing.Color.White;
-            this.btnFactura.Location = new System.Drawing.Point(332, 463);
+            this.btnFactura.Location = new System.Drawing.Point(331, 507);
             this.btnFactura.Name = "btnFactura";
             this.btnFactura.Size = new System.Drawing.Size(100, 30);
             this.btnFactura.TabIndex = 6;
@@ -379,7 +355,7 @@ namespace CapaPresentacion.Cajero
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(439, 463);
+            this.btnCancelar.Location = new System.Drawing.Point(438, 507);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 30);
             this.btnCancelar.TabIndex = 17;
@@ -436,6 +412,17 @@ namespace CapaPresentacion.Cajero
             this.lblCI.TabIndex = 3;
             this.lblCI.Text = "Cedula";
             // 
+            // lblPrecioTotal
+            // 
+            this.lblPrecioTotal.AutoSize = true;
+            this.lblPrecioTotal.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPrecioTotal.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPrecioTotal.Location = new System.Drawing.Point(35, 193);
+            this.lblPrecioTotal.Name = "lblPrecioTotal";
+            this.lblPrecioTotal.Size = new System.Drawing.Size(54, 18);
+            this.lblPrecioTotal.TabIndex = 18;
+            this.lblPrecioTotal.Text = "Precio";
+            // 
             // Factura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -475,12 +462,10 @@ namespace CapaPresentacion.Cajero
         private TextBox txtMatricula;
         private Label lblMatricula;
         private Panel pDatos;
-        private Label label7;
         private Label txtHorasTotales;
         private Label lblHorasTotales;
         private Label lblHoraSalida;
         private Label lblHoraEntrada;
-        private Label lblPesos;
         private Label txtPrecio;
         private Label lblPrecioText;
         private Panel pDatosServicios;
@@ -500,5 +485,6 @@ namespace CapaPresentacion.Cajero
         private Button btnBuscarCi;
         private TextBox txtCi;
         private Label lblCI;
+        private Label lblPrecioTotal;
     }
 }

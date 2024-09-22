@@ -13,9 +13,10 @@ namespace CapaNegocio
     public class Parking
     {
         protected int _plaza;
-        protected int _idparking;
+        protected int _id_parking;
         protected string _estadoPlaza;
         protected int _ticket;
+        protected double _precio_parking;
         protected DateTime _horaEntrada;
         protected DateTime _horaSalida;
         protected Conexion _conexion;
@@ -28,8 +29,8 @@ namespace CapaNegocio
 
         public int IdParking
         {
-            get { return _idparking; }
-            set { _idparking = value; }
+            get { return _id_parking; }
+            set { _id_parking = value; }
         }
 
         public int Ticket
@@ -42,6 +43,12 @@ namespace CapaNegocio
         {
             get { return _estadoPlaza; }
             set { _estadoPlaza = value; }
+        }
+
+        public double precioParking
+        {
+            get { return _precio_parking; }
+            set { _precio_parking = value; }
         }
 
         public DateTime HoraEntrada
@@ -65,19 +72,25 @@ namespace CapaNegocio
         public Parking()
         {
             _plaza = 0;
-            _idparking = 0;
-            _ticket = 0;
+            _id_parking = 0;
             _estadoPlaza = "";
+            _ticket = 0;
+            _precio_parking = 0;
+            _horaEntrada = DateTime.MinValue;
+            _horaSalida = DateTime.MinValue;
             _conexion = new Conexion();
         }
 
-        public Parking(int plaza, int parking, int ticket, string estado, Conexion cn)
+        public Parking(int plaza, int idpark, string estadopla, int ticket, double preciopark, DateTime he, DateTime hs, Conexion cn)
         {
             _plaza = plaza;
-            _idparking = parking;
+            _id_parking = idpark;
+            _estadoPlaza = estadopla;
             _ticket = ticket;
-            _estadoPlaza = estado;
-            _conexion = cn;
+            _precio_parking = preciopark;
+            _horaEntrada = he;
+            _horaSalida = hs;
+            _conexion = new Conexion();
         }
 
         public DataTable ListarPlazas()

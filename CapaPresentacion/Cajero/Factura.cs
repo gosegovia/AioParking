@@ -129,78 +129,123 @@ namespace CapaPresentacion.Cajero
             v.Conexion = Program.con;
             v.Matricula = matricula;
 
-            try
+            // Realizar la búsqueda de la matrícula
+            switch (v.BuscarMatricula(ci))
             {
-                // Realizar la búsqueda de la matrícula
-                switch (v.BuscarMatricula(ci))
-                {
-                    case 0: // Vehículo encontrado
-                        txtMatricula.Enabled = false;
-                        btnBuscarMatricula.Enabled = false;
-                        pDatos.Visible = true;
-                        pDatosServicios.Visible = true;
-                        btnFactura.Visible = true;
-                        btnCancelar.Visible = true;
+                case 0: // Vehículo encontrado
+                    txtMatricula.Enabled = false;
+                    btnBuscarMatricula.Enabled = false;
+                    pDatos.Visible = true;
+                    pDatosServicios.Visible = true;
+                    btnFactura.Visible = true;
+                    btnCancelar.Visible = true;
 
-                        CapaNegocio.Servicio s = new CapaNegocio.Servicio();
-                        s.Conexion = Program.con;
+                    CapaNegocio.Servicio s = new CapaNegocio.Servicio();
+                    s.Conexion = Program.con;
 
-                        switch (s.BuscarServicios(txtMatricula.Text))
-                        {
-                            case 0: 
-                                txtAyB.Text = s.aybNombre + " $" + s.aybPrecio;
-                                txtLavado.Text = s.lavadoNombre + " $" + s.lavadoPrecio;
-                                txtCompraNeumatico.Text = s.neumaticoNombre + " / " + s.neumaticoCantidad + " x $" + s.neumaticoPrecio/s.neumaticoCantidad;
-                                break;
-                            case 1: MessageBox.Show("Error 1"); break;
-                            case 2: MessageBox.Show("Error 2"); break;
-                            case 3: MessageBox.Show("Error 3"); break;
-                            case 4: MessageBox.Show("Error 4"); break;
-                            case 5: MessageBox.Show("Error 5"); break;
-                        }
+                    switch (s.BuscarServicios(matricula))
+                    {
+                        case 0:
+                            if (s.aybNombre == "ne")
+                            {
+                                txtAyB.Text = "No aplica";
+                            }
+                            else
+                            {
+                                if (s.aybNombre == "Pack alineacion, 4 balanceos para camioneta y valvulas")
+                                {
+                                    s.aybNombre = "Pack alineacion";
+                                }
+                                txtAyB.Text = s.aybNombre + " $ " + s.aybPrecio;
+                            }
 
-                        break;
+                            if (s.lavadoNombre == "ne")
+                            {
+                                txtLavado.Text = "No aplica";
+                            }
+                            else
+                            {
+                                txtLavado.Text = s.lavadoNombre + " $ " + s.lavadoPrecio;
+                            }
 
-                    case 1: // Error de sesión
-                        MessageBox.Show("Debe logearse nuevamente.");
-                        break;
+                            if (s.neumaticoNombre == "ne")
+                            {
+                                txtCompraNeumatico.Text = "No aplica";
+                            }
+                            else
+                            {
+                                txtCompraNeumatico.Text = s.neumaticoNombre + " / " + s.neumaticoCantidad + " x $ " + s.neumaticoPrecio / s.neumaticoCantidad;
+                            }
 
-                    case 2: // Error en la ejecución de la consulta SQL
-                        MessageBox.Show("Error en la ejecución de la consulta.");
-                        break;
+                            if (s.Parking.precioParking == 0)
+                            {
+                                txtHoraEntrada.Text = "No aplica";
+                                txtHoraSalida.Text = "No aplica";
+                                txtHorasTotales.Text = "No aplica";
+                                txtPrecio.Text = "No aplica";
+                            }
+                            else
+                            {
+                                txtHoraEntrada.Text = s.Parking.HoraEntrada.ToString("HH:mm") + " hs";
+                                txtHoraSalida.Text = s.Parking.HoraSalida.ToString("HH:mm") + " hs";
+                                // Calcula la diferencia de tiempo
+                                TimeSpan horasTotales = s.Parking.HoraSalida - s.Parking.HoraEntrada;
+                                // Redondea hacia arriba las horas totales
+                                double horasRedondeadas = Math.Ceiling(horasTotales.TotalHours);
+                                // Muestra las horas totales redondeadas como un valor numérico
+                                txtHorasTotales.Text = horasRedondeadas.ToString() + " hs";
 
-                    case 3: // Vehículo no encontrado
-                        MessageBox.Show("Este vehículo no está asociado al cliente seleccionado.");
-                        break;
+                                txtPrecio.Text = "$ " + s.Parking.precioParking.ToString();
+                            }
 
-                    default: // Caso inesperado
-                        MessageBox.Show("Error desconocido.");
-                        break;
-                }
+                            double precioTotal = s.aybPrecio + s.lavadoPrecio + s.neumaticoPrecio + s.Parking.precioParking;
+                            lblPrecioTotal.Text = "Precio Total:          $ " + precioTotal;
+                            break;
+                        case 1: MessageBox.Show("Error 1"); break;
+                        case 2:
+                            MessageBox.Show("Error 2");
+                            break;
+                    }
+                    break;
+
+                case 1: // Error de sesión
+                    MessageBox.Show("Debe logearse nuevamente.");
+                    break;
+
+                case 2: // Error en la ejecución de la consulta SQL
+                    MessageBox.Show("Error en la ejecución de la consulta.");
+                    break;
+
+                case 3: // Vehículo no encontrado
+                    MessageBox.Show("Este vehículo no está asociado al cliente seleccionado.");
+                    break;
             }
-            catch (Exception ex)
-            {
-                // Manejo de excepciones generales
-                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                // Liberar el objeto Vehiculo, aunque no es estrictamente necesario
-                v = null;
-            }
+            // Liberar el objeto Vehiculo, aunque no es estrictamente necesario
+            v = null;
         }
 
         // Botón Factura
         private void btnFactura_Click(object sender, EventArgs e)
         {
+            CapaNegocio.Servicio s = new CapaNegocio.Servicio();
+            s.Conexion = Program.con;
+
+            s.BuscarServicios(txtMatricula.Text);
+            s.GenerarFacturaPDF(txtMatricula.Text);
+
             MessageBox.Show("Factura generada.");
 
+            txtCi.Enabled = true;
+            btnBuscarCi.Enabled = true;
+            txtMatricula.Enabled = true;
+            btnBuscarMatricula.Enabled = true;
+            txtCi.Text = "";
+            txtMatricula.Text = "";
+            pMatricula.Visible = false;
             pDatos.Visible = false;
             pDatosServicios.Visible = false;
             btnFactura.Visible = false;
             btnCancelar.Visible = false;
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
         } // Fin botón factura
 
         // Botón Cancelar
