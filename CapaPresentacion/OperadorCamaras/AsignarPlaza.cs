@@ -139,6 +139,7 @@ namespace CapaPresentacion.OperadorCamaras
                         btnBuscarMatricula.Enabled = false;
                         pDatos.Visible = true;
 
+                        lblPlaza.Text = "";
                         lblMarca.Text = v.NombreMarca;
                         lblTipoVehiculo.Text = v.NombreTipo;
 
@@ -249,8 +250,9 @@ namespace CapaPresentacion.OperadorCamaras
             {
                 case 0: // Se realizó sin problemas
                     MessageBox.Show("Se genero el ticket.");
-
                     p.CrearTicketPDF(matricula, ci, plaza, plaza1, fecha);
+                    p.Plaza = int.Parse(lblPlaza.Text);
+                    p.ActualizarPlaza();
 
                     txtCi.Text = "";
                     txtCi.Enabled = true;

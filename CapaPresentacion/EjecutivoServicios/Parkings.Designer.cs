@@ -37,18 +37,18 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtTicket = new System.Windows.Forms.TextBox();
             this.lblTicket = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
+            this.lblCi = new System.Windows.Forms.Label();
+            this.lblCiTexto = new System.Windows.Forms.Label();
+            this.lblMatricula = new System.Windows.Forms.Label();
+            this.lblMatriculaTexto = new System.Windows.Forms.Label();
+            this.lblPlaza = new System.Windows.Forms.Label();
             this.dtpSalida = new System.Windows.Forms.DateTimePicker();
             this.lblPlazaTexto = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.lblHoraSalida = new System.Windows.Forms.Label();
             this.lblHoraEntradaTexto = new System.Windows.Forms.Label();
-            this.lblPlaza = new System.Windows.Forms.Label();
-            this.lblMatricula = new System.Windows.Forms.Label();
-            this.lblMatriculaTexto = new System.Windows.Forms.Label();
-            this.lblCi = new System.Windows.Forms.Label();
-            this.lblCiTexto = new System.Windows.Forms.Label();
-            this.lblHoraEntrada = new System.Windows.Forms.Label();
+            this.dtpEntrada = new System.Windows.Forms.DateTimePicker();
             this.pCI.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
@@ -121,7 +121,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // 
             // pDatos
             // 
-            this.pDatos.Controls.Add(this.lblHoraEntrada);
+            this.pDatos.Controls.Add(this.dtpEntrada);
             this.pDatos.Controls.Add(this.lblCi);
             this.pDatos.Controls.Add(this.lblCiTexto);
             this.pDatos.Controls.Add(this.lblMatricula);
@@ -138,6 +138,61 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Name = "pDatos";
             this.pDatos.Size = new System.Drawing.Size(826, 350);
             this.pDatos.TabIndex = 4;
+            // 
+            // lblCi
+            // 
+            this.lblCi.AutoSize = true;
+            this.lblCi.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCi.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCi.Location = new System.Drawing.Point(372, 34);
+            this.lblCi.Name = "lblCi";
+            this.lblCi.Size = new System.Drawing.Size(20, 18);
+            this.lblCi.TabIndex = 16;
+            this.lblCi.Text = "...";
+            // 
+            // lblCiTexto
+            // 
+            this.lblCiTexto.AutoSize = true;
+            this.lblCiTexto.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCiTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCiTexto.Location = new System.Drawing.Point(267, 34);
+            this.lblCiTexto.Name = "lblCiTexto";
+            this.lblCiTexto.Size = new System.Drawing.Size(58, 18);
+            this.lblCiTexto.TabIndex = 15;
+            this.lblCiTexto.Text = "Cedula";
+            // 
+            // lblMatricula
+            // 
+            this.lblMatricula.AutoSize = true;
+            this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblMatricula.Location = new System.Drawing.Point(372, 62);
+            this.lblMatricula.Name = "lblMatricula";
+            this.lblMatricula.Size = new System.Drawing.Size(20, 18);
+            this.lblMatricula.TabIndex = 14;
+            this.lblMatricula.Text = "...";
+            // 
+            // lblMatriculaTexto
+            // 
+            this.lblMatriculaTexto.AutoSize = true;
+            this.lblMatriculaTexto.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblMatriculaTexto.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblMatriculaTexto.Location = new System.Drawing.Point(267, 62);
+            this.lblMatriculaTexto.Name = "lblMatriculaTexto";
+            this.lblMatriculaTexto.Size = new System.Drawing.Size(71, 18);
+            this.lblMatriculaTexto.TabIndex = 13;
+            this.lblMatriculaTexto.Text = "Matricula";
+            // 
+            // lblPlaza
+            // 
+            this.lblPlaza.AutoSize = true;
+            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPlaza.Location = new System.Drawing.Point(372, 155);
+            this.lblPlaza.Name = "lblPlaza";
+            this.lblPlaza.Size = new System.Drawing.Size(20, 18);
+            this.lblPlaza.TabIndex = 12;
+            this.lblPlaza.Text = "...";
             // 
             // dtpSalida
             // 
@@ -212,71 +267,13 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblHoraEntradaTexto.TabIndex = 3;
             this.lblHoraEntradaTexto.Text = "Hora entrada";
             // 
-            // lblPlaza
+            // dtpEntrada
             // 
-            this.lblPlaza.AutoSize = true;
-            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPlaza.Location = new System.Drawing.Point(372, 155);
-            this.lblPlaza.Name = "lblPlaza";
-            this.lblPlaza.Size = new System.Drawing.Size(20, 18);
-            this.lblPlaza.TabIndex = 12;
-            this.lblPlaza.Text = "...";
-            // 
-            // lblMatricula
-            // 
-            this.lblMatricula.AutoSize = true;
-            this.lblMatricula.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblMatricula.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMatricula.Location = new System.Drawing.Point(372, 62);
-            this.lblMatricula.Name = "lblMatricula";
-            this.lblMatricula.Size = new System.Drawing.Size(20, 18);
-            this.lblMatricula.TabIndex = 14;
-            this.lblMatricula.Text = "...";
-            // 
-            // lblMatriculaTexto
-            // 
-            this.lblMatriculaTexto.AutoSize = true;
-            this.lblMatriculaTexto.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblMatriculaTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMatriculaTexto.Location = new System.Drawing.Point(267, 62);
-            this.lblMatriculaTexto.Name = "lblMatriculaTexto";
-            this.lblMatriculaTexto.Size = new System.Drawing.Size(71, 18);
-            this.lblMatriculaTexto.TabIndex = 13;
-            this.lblMatriculaTexto.Text = "Matricula";
-            // 
-            // lblCi
-            // 
-            this.lblCi.AutoSize = true;
-            this.lblCi.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblCi.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCi.Location = new System.Drawing.Point(372, 34);
-            this.lblCi.Name = "lblCi";
-            this.lblCi.Size = new System.Drawing.Size(20, 18);
-            this.lblCi.TabIndex = 16;
-            this.lblCi.Text = "...";
-            // 
-            // lblCiTexto
-            // 
-            this.lblCiTexto.AutoSize = true;
-            this.lblCiTexto.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblCiTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCiTexto.Location = new System.Drawing.Point(267, 34);
-            this.lblCiTexto.Name = "lblCiTexto";
-            this.lblCiTexto.Size = new System.Drawing.Size(58, 18);
-            this.lblCiTexto.TabIndex = 15;
-            this.lblCiTexto.Text = "Cedula";
-            // 
-            // lblHoraEntrada
-            // 
-            this.lblHoraEntrada.AutoSize = true;
-            this.lblHoraEntrada.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblHoraEntrada.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblHoraEntrada.Location = new System.Drawing.Point(371, 91);
-            this.lblHoraEntrada.Name = "lblHoraEntrada";
-            this.lblHoraEntrada.Size = new System.Drawing.Size(20, 18);
-            this.lblHoraEntrada.TabIndex = 17;
-            this.lblHoraEntrada.Text = "...";
+            this.dtpEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpEntrada.Location = new System.Drawing.Point(375, 91);
+            this.dtpEntrada.Name = "dtpEntrada";
+            this.dtpEntrada.Size = new System.Drawing.Size(136, 20);
+            this.dtpEntrada.TabIndex = 18;
             // 
             // Parkings
             // 
@@ -319,6 +316,6 @@ namespace CapaPresentacion.EjecutivoServicios
         private Label lblMatriculaTexto;
         private Label lblCi;
         private Label lblCiTexto;
-        private Label lblHoraEntrada;
+        private DateTimePicker dtpEntrada;
     }
 }

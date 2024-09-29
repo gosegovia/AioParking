@@ -83,7 +83,7 @@ CREATE TABLE Factura (
   id_factura INT AUTO_INCREMENT,
   ci INT NOT NULL,
   matricula VARCHAR(10) NOT NULL,
-  factura_paga ENUM('0', '1') NOT NULL DEFAULT '0',
+  factura_paga ENUM('0', '1') NOT NULL DEFAULT '0', -- usar bool
   fecha DATETIME NOT NULL,
   PRIMARY KEY (id_factura),
   FOREIGN KEY (ci) REFERENCES Persona(ci),
@@ -660,4 +660,11 @@ FROM Factura f
 JOIN Solicita s ON f.id_factura = s.id_factura
 WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
-insert into factura ()
+select * from factura;
+
+SELECT f.id_factura
+FROM Factura f
+LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+WHERE f.factura_paga = '0' 
+  AND f.matricula = 'abc1234'
+  AND s.id_parking IS NULL;

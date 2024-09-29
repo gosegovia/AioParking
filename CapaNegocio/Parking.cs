@@ -8,6 +8,7 @@ using System.IO;
 using iTextSharp.text.pdf.draw;
 using System.Collections.Generic;
 using iTextSharp.text.pdf.codec.wmf;
+using System.Diagnostics;
 
 namespace CapaNegocio
 {
@@ -139,93 +140,6 @@ namespace CapaNegocio
             return dt;
         }
 
-        public byte ObtenerPlaza(string matricula)
-        {
-            string sql;
-            DataTable dt;
-            byte resultado = 0;
-
-            if (!_conexion.Abierta())
-            {
-                return 1; // Conexión cerrada
-            }
-
-            sql = "SELECT p.nro_plaza " +
-                  "FROM Vehiculo v " +
-                  "JOIN Posee po ON v.matricula = po.matricula " +
-                  "JOIN Factura f ON po.matricula = f.matricula " +
-                  "JOIN Solicita s ON f.id_factura = s.id_factura " +
-                  "JOIN Reserva r ON s.id_parking = r.id_parking " +
-                  "JOIN Plaza p ON r.id_plaza = p.id_plaza " +
-                  "WHERE v.matricula = @matricula;";
-
-            try
-            {
-                // Usar parámetros para evitar SQL Injection
-                dt = _conexion.EjecutarSelect(sql);
-            }
-            catch
-            {
-                return 2; // Error en la ejecución
-            }
-
-            if (dt.Rows.Count == 0)
-            {
-                return 3; // No encontrado
-            }
-            else
-            {
-                // Asumiendo que _plaza es una variable de instancia para almacenar el resultado
-                _plaza = Convert.ToByte(dt.Rows[0]["nro_plaza"]);
-            }
-
-            return resultado;
-        }
-
-        public byte GuardarParking()
-        {
-            byte resultado = 0;
-            DataTable dt;
-            string sql;
-
-            if (!_conexion.Abierta()) // La conexión está cerrada
-            {
-                return 1; // Error: Conexión cerrada
-            }
-
-            // Convertir las fechas a cadenas en el formato adecuado
-            string HoraEntradaRepair = HoraEntrada.ToString("yyyy-MM-dd HH:mm:ss");
-            string HoraSalidaRepair = HoraSalida.ToString("yyyy-MM-dd HH:mm:ss");
-
-            // Consulta para insertar en la tabla Parking
-            sql = $"INSERT INTO Parking (hora_entrada, hora_salida) VALUES ('{HoraEntradaRepair}', '{HoraSalidaRepair}');";
-
-            // Ejecutar la primera consulta para insertar en Parking
-            dt = _conexion.EjecutarSelect(sql);
-
-            // Obtener el último id_parking insertado
-            sql = "SELECT LAST_INSERT_ID();";
-
-            dt = _conexion.EjecutarSelect(sql);
-
-            if (dt != null)
-            {
-                // Obtener el valor del id_parking
-                int idParking = Convert.ToInt32(dt.Rows[0][0]);
-
-                // Consulta para insertar en la tabla Reserva
-                sql = $"INSERT INTO Reserva (id_parking, id_plaza) VALUES ({idParking}, {Plaza});";
-
-                // Ejecutar la segunda consulta para insertar en Reserva
-                _conexion.EjecutarSelect(sql);
-            }
-            else
-            {
-                resultado = 4; // Error al obtener el id_parking
-            }
-            return resultado;
-        }
-
         public byte GenerarTicket(string matricula, int ci, int plaza, int plaza1, DateTime fecha)
         {
             byte resultado = 0;
@@ -280,10 +194,19 @@ namespace CapaNegocio
 
         public void CrearTicketPDF(string matricula, int ci, int plaza, int plaza1, DateTime fecha)
         {
-            // Ruta base para el archivo PDF
-            string carpeta = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string nombreArchivo = "ticket_"+Ticket+".pdf";
-            string rutaArchivo = Path.Combine(carpeta, nombreArchivo);
+            // Ruta base para la carpeta de "tickets" dentro de Documentos
+            string carpetaBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string carpetaTickets = Path.Combine(carpetaBase, "Tickets");
+
+            // Crear la carpeta "tickets" si no existe
+            if (!Directory.Exists(carpetaTickets))
+            {
+                Directory.CreateDirectory(carpetaTickets);
+            }
+
+            // Nombre del archivo PDF
+            string nombreArchivo = "ticket_" + Ticket + ".pdf";
+            string rutaArchivo = Path.Combine(carpetaTickets, nombreArchivo);
 
             // Crear el archivo en la ruta especificada
             using (FileStream fs = new FileStream(rutaArchivo, FileMode.Create, FileAccess.Write, FileShare.None))
@@ -379,6 +302,9 @@ namespace CapaNegocio
 
                     // Cerrar el documento para finalizar la escritura
                     doc.Close();
+
+                    // Abrir el archivo PDF en el visor predeterminado
+                    Process.Start(new ProcessStartInfo(rutaArchivo) { UseShellExecute = true });
                 }
             }
         }
@@ -423,11 +349,13 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public byte GuardarParking(bool modificacion)
+        public byte GuardarParking(double precio)
         {
-            string sql;
+            string sql, sql1, sql2, sql3;
             DataTable dt;
             byte resultado = 0;
+            int existeFacturaSinParking = 0;
+            int id_factura = 0;
 
             // Verificar si la conexión está abierta
             if (!_conexion.Abierta())
@@ -435,46 +363,166 @@ namespace CapaNegocio
                 return 1; // Conexión cerrada
             }
 
-            sql = "SELECT f.factura_paga " +
-                "FROM Factura f JOIN Solicita s ON f.id_factura = s.id_factura " +
-                "WHERE f.factura_paga = '0' AND f.matricula = '" + Vehiculo.Matricula + "';";
+            // Verificar si existe una factura no pagada y sin parking asignado
+            sql = "SELECT f.id_factura " +
+                  "FROM Factura f " +
+                  "LEFT JOIN Solicita s ON f.id_factura = s.id_factura " +
+                  "WHERE f.factura_paga = '0' " +
+                  "  AND f.matricula = '" + Vehiculo.Matricula + "' " +
+                  "  AND s.id_parking IS NULL;";
 
             try
             {
-                // Ejecutar la consulta SQL para Persona
                 dt = _conexion.EjecutarSelect(sql);
             }
             catch
             {
-                // Manejar errores en las consultas
-                return 2;
+                return 2; // Error al ejecutar la consulta
             }
 
-            if (dt.Rows.Count == 0)
+            if (dt.Rows.Count > 0)
             {
-                
+                // Existe una factura pendiente sin parking
+                existeFacturaSinParking = 1;
+                id_factura = Convert.ToInt32(dt.Rows[0]["id_factura"]);
             }
 
-            if (modificacion)
+            string HoraEntradaFormateada = HoraEntrada.ToString("yyyy-MM-dd HH:mm:ss");
+            string HoraSalidaFormateada = HoraSalida.ToString("yyyy-MM-dd HH:mm:ss");
+
+            if (existeFacturaSinParking == 0)
             {
-                // Consulta para actualizar los datos del cliente
-                sql = "";
-            }
-            else
-            {
-                sql = "";
+                try
+                {
+                    // Crear una nueva factura si no existe ninguna sin parking
+                    sql = "INSERT INTO Factura (ci, matricula, factura_paga, fecha) " +
+                          "VALUES (" + Cliente.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraSalidaFormateada + "');";
+
+                    // Ejecutar la inserción
+                    int filasAfectadas = _conexion.Ejecutar(sql);
+
+                    // Verificar que se haya insertado la factura
+                    if (filasAfectadas == 0)
+                    {
+                        return 3; // Error: No se insertó la factura
+                    }
+
+                    // Obtener el ID de la factura recién generada
+                    string ultimoID = "SELECT LAST_INSERT_ID();";
+                    dt = _conexion.EjecutarSelect(ultimoID);
+
+                    // Verificar que se haya obtenido el ID
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        id_factura = Convert.ToInt32(dt.Rows[0][0]); // Obtener el id_factura recién generado
+                    }
+                    else
+                    {
+                        return 4; // Error: No se obtuvo el ID de la factura
+                    }
+                }
+                catch
+                {
+                    return 5; // Error en la inserción de la factura
+                }
             }
 
             try
             {
-                // Ejecutar la consulta SQL para Persona
-                _conexion.Ejecutar(sql);
+                // Insertar el parking
+                sql = "INSERT INTO Parking (hora_entrada, hora_salida, precio_parking) " +
+                      "VALUES('" + HoraEntradaFormateada + "', '" + HoraSalidaFormateada + "', " + precio + ");";
+
+                // Ejecutar el comando de inserción
+                int filasAfectadas = _conexion.Ejecutar(sql);
+
+                // Verificar que se haya insertado el parking
+                if (filasAfectadas == 0)
+                {
+                    return 6; // Error: No se insertó el parking
+                }
+
+                // Obtener el ID del parking recién insertado
+                string ultimoID = "SELECT LAST_INSERT_ID();";
+                dt = _conexion.EjecutarSelect(ultimoID);
+
+                // Verificar que se haya obtenido el ID
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    IdParking = Convert.ToInt32(dt.Rows[0][0]); // Obtener el id_parking recién generado
+                }
+                else
+                {
+                    return 7; // Error: No se obtuvo el ID del parking
+                }
             }
             catch
             {
-                // Manejar errores en las consultas
-                return 2; // Error en el insert o update
+                return 8; // Error en la inserción del parking
             }
+
+            try
+            {
+                // Actualizar el estado de la plaza
+                sql1 = "UPDATE Plaza " +
+                       "SET estado_plaza = 'Libre' " +
+                       "WHERE id_plaza = " + Plaza + ";";
+
+                int filasAfectadas1 = _conexion.Ejecutar(sql1);
+                if (filasAfectadas1 == 0)
+                {
+                    return 9; // Error: No se actualizó el estado de la plaza
+                }
+
+                // Insertar la reserva
+                sql2 = "INSERT INTO Reserva (id_parking, id_plaza) " +
+                       "VALUES (" + IdParking + ", " + Plaza + ");";
+
+                int filasAfectadas2 = _conexion.Ejecutar(sql2);
+                if (filasAfectadas2 == 0)
+                {
+                    return 10; // Error: No se insertó la reserva
+                }
+
+                // Asociar el parking con la factura en la tabla Solicita
+                sql3 = "INSERT INTO Solicita (id_factura, id_plaza, id_parking, precio_solicita) " +
+                       "VALUES (" + id_factura + ", " + Plaza + ", " + IdParking + ", " + precio + ");";
+
+                int filasAfectadas3 = _conexion.Ejecutar(sql3);
+                if (filasAfectadas3 == 0)
+                {
+                    return 11; // Error: No se insertó la solicitud
+                }
+            }
+            catch
+            {
+                return 12; // Error en las consultas de actualización
+            }
+
+            return resultado;
+        }
+
+
+        public byte ActualizarPlaza()
+        {
+            byte resultado = 0;
+            string sql;
+
+            if (!_conexion.Abierta()) // La conexión está cerrada
+            {
+                return 1; // Error: Conexión cerrada
+            }
+
+            // Consulta para alternar el estado de la plaza
+            sql = "UPDATE Plaza " +
+                  "SET estado_plaza = CASE " +
+                  "WHEN estado_plaza = 'Ocupada' THEN 'Libre' " +
+                  "WHEN estado_plaza = 'Libre' THEN 'Ocupada' " +
+                  "END " +
+                  "WHERE id_plaza = " + Plaza + ";";
+
+            // Ejecutar la consulta
+            _conexion.EjecutarSelect(sql);
 
             return resultado;
         }

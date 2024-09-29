@@ -9,6 +9,7 @@ using System.Data;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
+using System.Diagnostics;
 
 namespace CapaNegocio
 {
@@ -359,12 +360,13 @@ namespace CapaNegocio
                 doc.Add(new Paragraph("Gracias por elegir Aio Parking.\n", regularFont));
 
                 // Información de contacto
-                doc.Add(new Paragraph("Contacto: +598 1234 5678 | aio.parking@example.com\n", regularFont));
+                doc.Add(new Paragraph("Contacto: +598 1234 5678 | aio_parking@gmail.com\n", regularFont));
 
                 // Cerrar el documento PDF
                 doc.Close();
 
-                Console.WriteLine($"Factura generada exitosamente en: {pdfFilePath}");
+                // Abrir el archivo PDF en el visor predeterminado
+                Process.Start(new ProcessStartInfo(pdfFilePath) { UseShellExecute = true });
             }
             catch (Exception ex)
             {
