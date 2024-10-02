@@ -612,59 +612,59 @@ GRANT SELECT, INSERT, UPDATE ON Ticket TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Reserva TO 'ope'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 
-SELECT p.ci, p.matricula, m.nombre_marca, t.nombre_tipo
-FROM Posee p
-JOIN Vehiculo v ON p.matricula = v.matricula
-JOIN Marca m ON v.id_marca = m.id_marca
-JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo
-WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
+-- SELECT p.ci, p.matricula, m.nombre_marca, t.nombre_tipo
+-- FROM Posee p
+-- JOIN Vehiculo v ON p.matricula = v.matricula
+-- JOIN Marca m ON v.id_marca = m.id_marca
+-- JOIN Tipo_Vehiculo t ON t.id_tipo = v.id_tipo
+-- WHERE p.ci = 56303446 AND p.matricula = 'abc1234';
 
 -- SELECT * FROM ticket ORDER BY fecha_ticket DESC;
 
-SELECT p.ci, p.matricula, f.id_factura
-FROM Posee p
-JOIN Factura f ON f.matricula = p.matricula AND f.ci = p.ci
-WHERE p.ci = 56303446 AND p.matricula = 'abc1234' AND f.factura_paga = '0';
+-- SELECT p.ci, p.matricula, f.id_factura
+-- FROM Posee p
+-- JOIN Factura f ON f.matricula = p.matricula AND f.ci = p.ci
+-- WHERE p.ci = 56303446 AND p.matricula = 'abc1234' AND f.factura_paga = '0';
 
-SELECT ayb.nombre_ayb, h.precio_hace
-FROM Alineacion_Balanceo ayb
-JOIN Hace h ON ayb.id_ayb = h.id_ayb
-JOIN Factura f ON f.id_factura = h.id_factura
-WHERE f.factura_paga = '0';
+-- SELECT ayb.nombre_ayb, h.precio_hace
+-- FROM Alineacion_Balanceo ayb
+-- JOIN Hace h ON ayb.id_ayb = h.id_ayb
+-- JOIN Factura f ON f.id_factura = h.id_factura
+-- WHERE f.factura_paga = '0';
 
-SELECT l.nombre_lavado, u.precio_usa
-FROM Lavado l
-JOIN Usa u ON l.id_lavado = u.id_lavado
-JOIN Factura f ON f.id_factura = u.id_factura
-WHERE f.factura_paga = '0' AND f.matricula = 'cba4321';
+-- SELECT l.nombre_lavado, u.precio_usa
+-- FROM Lavado l
+-- JOIN Usa u ON l.id_lavado = u.id_lavado
+-- JOIN Factura f ON f.id_factura = u.id_factura
+-- WHERE f.factura_paga = '0' AND f.matricula = 'cba4321';
 
-SELECT n.nombre_neumatico, c.precio_compra, c.cantidad_compra
-FROM Neumatico n
-JOIN Compra c ON n.id_neumatico = c.id_neumatico
-JOIN Factura f ON f.id_factura = c.id_factura
-WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+-- SELECT n.nombre_neumatico, c.precio_compra, c.cantidad_compra
+-- FROM Neumatico n
+-- JOIN Compra c ON n.id_neumatico = c.id_neumatico
+-- JOIN Factura f ON f.id_factura = c.id_factura
+-- WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
-SELECT p.hora_entrada, p.hora_salida, s.precio_solicita
-FROM Parking p
-JOIN Reserva r ON r.id_parking = p.id_parking
-JOIN Solicita s ON s.id_parking = r.id_parking
-JOIN Factura f ON f.id_factura = s.id_factura
-WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+-- SELECT p.hora_entrada, p.hora_salida, s.precio_solicita
+-- FROM Parking p
+-- JOIN Reserva r ON r.id_parking = p.id_parking
+-- JOIN Solicita s ON s.id_parking = r.id_parking
+-- JOIN Factura f ON f.id_factura = s.id_factura
+-- WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
-SELECT matricula, ci, id_plaza, fecha_ticket 
-FROM ticket
-WHERE id_ticket = 2;
+-- SELECT matricula, ci, id_plaza, fecha_ticket 
+-- FROM ticket
+-- WHERE id_ticket = 2;
 
-SELECT f.factura_paga
-FROM Factura f
-JOIN Solicita s ON f.id_factura = s.id_factura
-WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
+-- SELECT f.factura_paga
+-- FROM Factura f
+-- JOIN Solicita s ON f.id_factura = s.id_factura
+-- WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
-select * from factura;
+-- select * from factura;
 
-SELECT f.id_factura
-FROM Factura f
-LEFT JOIN Solicita s ON f.id_factura = s.id_factura
-WHERE f.factura_paga = '0' 
-  AND f.matricula = 'abc1234'
-  AND s.id_parking IS NULL;
+-- SELECT f.id_factura
+-- FROM Factura f
+-- LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+-- WHERE f.factura_paga = '0' 
+--  AND f.matricula = 'abc1234'
+--  AND s.id_parking IS NULL;

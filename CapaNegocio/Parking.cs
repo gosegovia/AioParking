@@ -158,10 +158,10 @@ namespace CapaNegocio
                 string sql = "INSERT INTO Ticket(matricula, ci, id_plaza, fecha_ticket) VALUES " +
                     "('" + matricula + "', " + ci + ", " + plaza + ", '" + fechaFormateada + "');";
 
-                int filasAfectadas = _conexion.Ejecutar(sql);
+                bool filasAfectadas = _conexion.Ejecutar(sql);
 
                 // Verificar si la inserción fue exitosa
-                if (filasAfectadas <= 0)
+                if (!filasAfectadas)
                 {
                     return 2; // Error en la inserción del primer ticket
                 }
@@ -174,7 +174,7 @@ namespace CapaNegocio
 
                     filasAfectadas = _conexion.Ejecutar(sql);
 
-                    if (filasAfectadas <= 0)
+                    if (!filasAfectadas)
                     {
                         return 3; // Error en la inserción del segundo ticket
                     }
@@ -351,7 +351,7 @@ namespace CapaNegocio
 
         public byte GuardarParking(double precio)
         {
-            string sql, sql1, sql2, sql3;
+            string sql;
             DataTable dt;
             byte resultado = 0;
             int existeFacturaSinParking = 0;
@@ -399,10 +399,10 @@ namespace CapaNegocio
                           "VALUES (" + Cliente.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraSalidaFormateada + "');";
 
                     // Ejecutar la inserción
-                    int filasAfectadas = _conexion.Ejecutar(sql);
+                    bool filasAfectadas = _conexion.Ejecutar(sql);
 
                     // Verificar que se haya insertado la factura
-                    if (filasAfectadas == 0)
+                    if (!filasAfectadas)
                     {
                         return 3; // Error: No se insertó la factura
                     }
@@ -434,10 +434,10 @@ namespace CapaNegocio
                       "VALUES('" + HoraEntradaFormateada + "', '" + HoraSalidaFormateada + "', " + precio + ");";
 
                 // Ejecutar el comando de inserción
-                int filasAfectadas = _conexion.Ejecutar(sql);
+                bool filasAfectadas = _conexion.Ejecutar(sql);
 
                 // Verificar que se haya insertado el parking
-                if (filasAfectadas == 0)
+                if (!filasAfectadas)
                 {
                     return 6; // Error: No se insertó el parking
                 }
@@ -464,32 +464,32 @@ namespace CapaNegocio
             try
             {
                 // Actualizar el estado de la plaza
-                sql1 = "UPDATE Plaza " +
+                sql = "UPDATE Plaza " +
                        "SET estado_plaza = 'Libre' " +
                        "WHERE id_plaza = " + Plaza + ";";
 
-                int filasAfectadas1 = _conexion.Ejecutar(sql1);
-                if (filasAfectadas1 == 0)
+                bool filasAfectadas = _conexion.Ejecutar(sql);
+                if (!filasAfectadas)
                 {
                     return 9; // Error: No se actualizó el estado de la plaza
                 }
 
                 // Insertar la reserva
-                sql2 = "INSERT INTO Reserva (id_parking, id_plaza) " +
+                sql = "INSERT INTO Reserva (id_parking, id_plaza) " +
                        "VALUES (" + IdParking + ", " + Plaza + ");";
 
-                int filasAfectadas2 = _conexion.Ejecutar(sql2);
-                if (filasAfectadas2 == 0)
+                filasAfectadas = _conexion.Ejecutar(sql);
+                if (!filasAfectadas)
                 {
                     return 10; // Error: No se insertó la reserva
                 }
 
                 // Asociar el parking con la factura en la tabla Solicita
-                sql3 = "INSERT INTO Solicita (id_factura, id_plaza, id_parking, precio_solicita) " +
+                sql = "INSERT INTO Solicita (id_factura, id_plaza, id_parking, precio_solicita) " +
                        "VALUES (" + id_factura + ", " + Plaza + ", " + IdParking + ", " + precio + ");";
 
-                int filasAfectadas3 = _conexion.Ejecutar(sql3);
-                if (filasAfectadas3 == 0)
+                filasAfectadas = _conexion.Ejecutar(sql);
+                if (!filasAfectadas)
                 {
                     return 11; // Error: No se insertó la solicitud
                 }
@@ -501,7 +501,6 @@ namespace CapaNegocio
 
             return resultado;
         }
-
 
         public byte ActualizarPlaza()
         {

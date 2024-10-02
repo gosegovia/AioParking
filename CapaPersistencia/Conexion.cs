@@ -49,21 +49,21 @@ namespace CapaPersistencia
 
         }
 
-        public int Ejecutar(string sql)
+        public Boolean Ejecutar(string sql)
         {
-            int filasAfectadas = 0;
+            Boolean resultado = true;
+            object filasAfectadas;
 
             try
             {
-                _cn.Execute(sql, out object resultado);
-                filasAfectadas = Convert.ToInt32(resultado); // Convertir el objeto a int
+                _cn.Execute(sql, out filasAfectadas);
             }
             catch
             {
-                filasAfectadas = -1; // Usamos -1 para indicar un error en la ejecución
+                resultado = false;
             }
 
-            return filasAfectadas; // Retorna el número de filas afectadas
+            return (resultado);
         }
 
 

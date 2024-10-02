@@ -92,6 +92,8 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             CapaNegocio.Parking p;
 
+
+
             // Validaciones
             if (dtpEntrada.Value >= dtpSalida.Value)
             {
@@ -101,6 +103,7 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 p = new Parking();
                 p.conexion = Program.con;
+                p.Cliente.ci = Convert.ToInt32(lblCi.Text);
                 p.Vehiculo.Matricula = lblMatricula.Text;
                 p.HoraEntrada = dtpEntrada.Value;
                 p.HoraSalida = dtpSalida.Value;
