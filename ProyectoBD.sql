@@ -115,9 +115,8 @@ CREATE TABLE Parking (
   id_parking INT AUTO_INCREMENT,
   hora_entrada DATETIME NOT NULL,
   hora_salida DATETIME NOT NULL,
-  precio_parking DECIMAL(10, 2) NOT NULL DEFAULT 0,
-  PRIMARY KEY (id_parking),
-  CHECK (hora_salida IS NULL OR hora_salida > hora_entrada)
+  precio_parking DOUBLE(10, 2) NOT NULL DEFAULT 0,
+  PRIMARY KEY (id_parking)
 );
 
 CREATE TABLE Plaza (
@@ -660,7 +659,7 @@ GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 -- JOIN Solicita s ON f.id_factura = s.id_factura
 -- WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
-select * from factura;
+-- SELECT * FROM factura;
 
 -- SELECT f.id_factura
 -- FROM Factura f
@@ -679,7 +678,6 @@ select * from factura;
 -- ORDER BY fecha DESC
 -- LIMIT 10;
 
-
 -- SELECT par.hora_entrada, par.hora_salida, r.id_plaza
 -- FROM Parking par
 -- JOIN Reserva r ON r.id_parking = par.id_parking
@@ -687,20 +685,38 @@ select * from factura;
 -- JOIN Factura f ON f.id_factura = s.id_factura
 -- WHERE f.id_factura = 2;
 
-SELECT l.nombre_lavado
-FROM Lavado l
-JOIN Usa u ON u.id_lavado = l.id_lavado
-JOIN Factura f ON f.id_factura = u.id_factura
-WHERE f.id_factura = 2;
+-- SELECT l.nombre_lavado
+-- FROM Lavado l
+-- JOIN Usa u ON u.id_lavado = l.id_lavado
+-- JOIN Factura f ON f.id_factura = u.id_factura
+-- WHERE f.id_factura = 2;
 
-SELECT ayb.nombre_ayb
-FROM Alineacion_Balanceo ayb
-JOIN Hace h ON h.id_ayb = ayb.id_ayb
-JOIN Factura f ON f.id_factura = h.id_factura
-WHERE f.id_factura = 2;
+-- SELECT ayb.nombre_ayb
+-- FROM Alineacion_Balanceo ayb
+-- JOIN Hace h ON h.id_ayb = ayb.id_ayb
+-- JOIN Factura f ON f.id_factura = h.id_factura
+-- WHERE f.id_factura = 2;
 
-SELECT n.nombre_neumatico, c.cantidad_compra
-FROM Neumatico n
-JOIN Compra c ON n.id_neumatico = c.id_neumatico
-JOIN Factura f ON f.id_factura = c.id_factura
-WHERE f.id_factura = 1;
+-- SELECT n.nombre_neumatico, c.cantidad_compra
+-- FROM Neumatico n
+-- JOIN Compra c ON n.id_neumatico = c.id_neumatico
+-- JOIN Factura f ON f.id_factura = c.id_factura
+-- WHERE f.id_factura = 1;
+
+-- SELECT p.nombre, c.tipo_cliente, v.id_tipo
+-- FROM Persona p
+-- JOIN Cliente c ON c.ci = p.ci
+-- JOIN Posee po ON po.ci = c.ci
+-- JOIN Vehiculo v ON v.matricula = po.matricula
+-- WHERE c.ci=56303446 AND v.matricula = 'abc1234';
+
+-- SELECT f.id_factura
+-- FROM factura f
+-- left JOIN compra c ON c.id_factura = f.id_factura
+-- WHERE matricula = 'abc1234' AND factura_paga = 0 and c.id_neumatico is null;
+
+-- update Neumatico
+-- set stock = 20
+-- where id_neumatico = 1;
+
+-- select * from vehiculo

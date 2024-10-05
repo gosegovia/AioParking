@@ -37,7 +37,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnVolver = new System.Windows.Forms.Button();
             this.dgvVehiculo = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnEntregar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVehiculo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,28 +79,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.label1.TabIndex = 25;
             this.label1.Text = "Tabla Vehículo";
             // 
-            // btnEntregar
-            // 
-            this.btnEntregar.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnEntregar.FlatAppearance.BorderSize = 0;
-            this.btnEntregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEntregar.Font = new System.Drawing.Font("Arial", 12F);
-            this.btnEntregar.ForeColor = System.Drawing.Color.White;
-            this.btnEntregar.Location = new System.Drawing.Point(643, 484);
-            this.btnEntregar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnEntregar.Name = "btnEntregar";
-            this.btnEntregar.Size = new System.Drawing.Size(88, 25);
-            this.btnEntregar.TabIndex = 28;
-            this.btnEntregar.Text = "Entegar";
-            this.btnEntregar.UseVisualStyleBackColor = false;
-            this.btnEntregar.Click += new System.EventHandler(this.btnEntregar_Click);
-            // 
             // ListarVehiculo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 550);
-            this.Controls.Add(this.btnEntregar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvVehiculo);
             this.Controls.Add(this.label1);
@@ -122,6 +104,5 @@ namespace CapaPresentacion.EjecutivoServicios
         private Button btnVolver;
         private DataGridView dgvVehiculo;
         private Label label1;
-        private Button btnEntregar;
     }
 }

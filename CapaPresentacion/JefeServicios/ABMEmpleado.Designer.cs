@@ -59,9 +59,6 @@ namespace CapaPresentacion.JefeServicios
             this.lblApellido = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.txtContrasenia = new System.Windows.Forms.TextBox();
-            this.lblContrasenia = new System.Windows.Forms.Label();
-            this.checkBoxVer = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
@@ -151,9 +148,6 @@ namespace CapaPresentacion.JefeServicios
             // 
             // pDatos
             // 
-            this.pDatos.Controls.Add(this.checkBoxVer);
-            this.pDatos.Controls.Add(this.txtContrasenia);
-            this.pDatos.Controls.Add(this.lblContrasenia);
             this.pDatos.Controls.Add(this.btnEliminarTelefono);
             this.pDatos.Controls.Add(this.btnAgregarTelefono);
             this.pDatos.Controls.Add(this.cbTelefonos);
@@ -455,43 +449,6 @@ namespace CapaPresentacion.JefeServicios
             this.lblNombre.TabIndex = 23;
             this.lblNombre.Text = "Nombre";
             // 
-            // txtContrasenia
-            // 
-            this.txtContrasenia.BackColor = System.Drawing.Color.LightBlue;
-            this.txtContrasenia.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtContrasenia.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtContrasenia.Location = new System.Drawing.Point(515, 142);
-            this.txtContrasenia.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtContrasenia.Multiline = true;
-            this.txtContrasenia.Name = "txtContrasenia";
-            this.txtContrasenia.PasswordChar = '*';
-            this.txtContrasenia.Size = new System.Drawing.Size(180, 25);
-            this.txtContrasenia.TabIndex = 49;
-            this.txtContrasenia.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtContrasenia_KeyPress);
-            // 
-            // lblContrasenia
-            // 
-            this.lblContrasenia.AutoSize = true;
-            this.lblContrasenia.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblContrasenia.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblContrasenia.Location = new System.Drawing.Point(420, 146);
-            this.lblContrasenia.Name = "lblContrasenia";
-            this.lblContrasenia.Size = new System.Drawing.Size(89, 18);
-            this.lblContrasenia.TabIndex = 48;
-            this.lblContrasenia.Text = "Contraseña";
-            // 
-            // checkBoxVer
-            // 
-            this.checkBoxVer.AutoSize = true;
-            this.checkBoxVer.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.checkBoxVer.Location = new System.Drawing.Point(701, 138);
-            this.checkBoxVer.Name = "checkBoxVer";
-            this.checkBoxVer.Size = new System.Drawing.Size(79, 30);
-            this.checkBoxVer.TabIndex = 50;
-            this.checkBoxVer.Text = "Mostrar \r\ncontraseña";
-            this.checkBoxVer.UseVisualStyleBackColor = true;
-            this.checkBoxVer.CheckedChanged += new System.EventHandler(this.checkBoxVer_CheckedChanged);
-            // 
             // ABMEmpleado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -544,8 +501,5 @@ namespace CapaPresentacion.JefeServicios
         private ComboBox cbTelefonos;
         private Button btnEliminarTelefono;
         private Button btnAgregarTelefono;
-        private TextBox txtContrasenia;
-        private Label lblContrasenia;
-        private CheckBox checkBoxVer;
     }
 }

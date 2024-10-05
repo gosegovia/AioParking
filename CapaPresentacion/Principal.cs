@@ -6,6 +6,14 @@ namespace CapaPresentacion
 {
     public partial class Principal : Form
     {
+        private string _rol; // Campo privado
+
+        public string Rol
+        {
+            get { return _rol; } // Retorna el valor del campo
+            set { _rol = value; } // Asigna el valor al campo
+        }
+
         public Principal()
         {
             InitializeComponent();
@@ -45,15 +53,25 @@ namespace CapaPresentacion
             switch (rol)
             {
                 case 1:
-                    lblRol.Text = "Gerente"; break;
+                    lblRol.Text = "Gerente";
+                    Rol = "Gerente";
+                    break;
                 case 2:
-                    lblRol.Text = "Jefe Servicio"; break;
+                    lblRol.Text = "Jefe Servicio";
+                    Rol = "Jefe Servicio";
+                    break;
                 case 3:
-                    lblRol.Text = "Ejecutivo"; break;
+                    lblRol.Text = "Ejecutivo";
+                    Rol = "Ejecutivo";
+                    break;
                 case 4:
-                    lblRol.Text = "Cajero"; break;
+                    lblRol.Text = "Cajero";
+                    Rol = "Cajero";
+                    break;
                 case 5:
-                    lblRol.Text = "Operador"; break;
+                    lblRol.Text = "Operador";
+                    Rol = "Operador";
+                    break;
             }
 
             // Luego asignamos también el nombre y apellido de la persona

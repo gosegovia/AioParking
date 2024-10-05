@@ -57,7 +57,7 @@ namespace CapaPersistencia
             try
             {
                 _cn.Execute(sql, out filasAfectadas);
-            }
+            } 
             catch
             {
                 resultado = false;

@@ -65,6 +65,22 @@ namespace CapaPresentacion.EjecutivoServicios
                 switch (v.BuscarVehiculo(c))
                 {
                     case 0: // Encontró
+                        if (v.EstadoVehiculo == false)
+                        {
+                            // Pregunta al usuario si desea recuperar al cliente inactivo
+                            DialogResult estadoRespuesta = MessageBox.Show("¿Este vehiculo esta dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
+                            if (estadoRespuesta == DialogResult.Yes)
+                            {
+                                v.EstadoVehiculo = true; // Cambia el estado del cliente a activo
+                            }
+                            else
+                            {
+                                // Si no desea recuperar, limpia la CI y termina
+                                txtCI.Text = "";
+                                return;
+                            }
+                        }
+
                         btnBuscar.Enabled = false;
                         txtMatricula.Enabled = false;
                         pDatos.Visible = true;
@@ -106,16 +122,14 @@ namespace CapaPresentacion.EjecutivoServicios
                                 MessageBox.Show("Tipo de vehículo no reconocido");
                                 break;
                         }
-                        break;
+                    break;
 
                     case 1:
                         MessageBox.Show("Debe loguearse nuevamente");
-                        break;
+                    break;
 
-                    case 2:
-                    case 4:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persistir, avise al admin");
-                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
 
                     case 3: // No encontró
                         DialogResult respuesta = MessageBox.Show("¿Desea registrar un nuevo vehículo?", "Registro", MessageBoxButtons.YesNo);
@@ -131,7 +145,7 @@ namespace CapaPresentacion.EjecutivoServicios
                             cbTipoVehiculo.SelectedIndex = 0;
                             txtCI.Clear();
                         }
-                        break;
+                    break;
                 }
                 v = null; // Destruyo el objeto
                 c = null;
@@ -173,9 +187,6 @@ namespace CapaPresentacion.EjecutivoServicios
                 c.ci = int.Parse(txtCI.Text);
                 v.marca = cbMarca.SelectedIndex + 1;
                 v.TipoVehiculo = cbTipoVehiculo.SelectedIndex + 1;
-
-                MessageBox.Show(v.marca.ToString());
-                MessageBox.Show(v.TipoVehiculo.ToString());
 
                 switch (v.Guardar(btnEliminar.Enabled, c))
                 {

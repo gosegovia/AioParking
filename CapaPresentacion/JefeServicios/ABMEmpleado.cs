@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CapaPresentacion.JefeServicios
 {
@@ -23,6 +24,22 @@ namespace CapaPresentacion.JefeServicios
         {
             // Ocultamos el panel de datos
             pDatos.Visible = false;
+            switch (Program.frmPrincipal.Rol)
+            {
+                case "Gerente":
+                    // Limpiar todos los elementos del ComboBox
+                    cbEmpleado.Items.Clear();
+                    string[] opciones = { "Jefe Servicio", "Ejecutivo", "Cajero", "Operador" };
+                    cbEmpleado.Items.AddRange(opciones);
+                break;
+                case "Jefe Servicio":
+                    // Limpiar todos los elementos del ComboBox
+                    cbEmpleado.Items.Clear();
+                    string[] opciones1 = { "Ejecutivo", "Cajero", "Operador" };
+                    cbEmpleado.Items.AddRange(opciones1);
+                break;
+            }
+
         } // Fin de carga del formulario
 
         // VALIDACIONES
@@ -362,19 +379,5 @@ namespace CapaPresentacion.JefeServicios
             // Mostramos el formulario
             Program.frmPrincipal.mostrarListarEmpleado();
         } // Fin de botón listar
-
-        private void checkBoxVer_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!checkBoxVer.Checked)
-            {
-                // Mostrar contraseña como texto normal
-                txtContrasenia.UseSystemPasswordChar = false;
-            }
-            else
-            {
-                // Ocultar contraseña con asteriscos
-                txtContrasenia.UseSystemPasswordChar = true;
-            }
-        }
     }
 }

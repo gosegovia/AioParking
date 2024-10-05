@@ -349,7 +349,7 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public byte GuardarParking(double precio)
+        public byte GuardarParking()
         {
             string sql;
             DataTable dt;
@@ -431,15 +431,14 @@ namespace CapaNegocio
             {
                 // Insertar el parking
                 sql = "INSERT INTO Parking (hora_entrada, hora_salida, precio_parking) " +
-                      "VALUES('" + HoraEntradaFormateada + "', '" + HoraSalidaFormateada + "', " + precio + ");";
+                      "VALUES('" + HoraEntradaFormateada + "', '" + HoraSalidaFormateada + "', " + precioParking.ToString().Replace(",", ".") + ");";
 
                 // Ejecutar el comando de inserción
                 bool filasAfectadas = _conexion.Ejecutar(sql);
 
-                // Verificar que se haya insertado el parking
                 if (!filasAfectadas)
                 {
-                    return 6; // Error: No se insertó el parking
+                    return 3; // Error: No se insertó la factura
                 }
 
                 // Obtener el ID del parking recién insertado
@@ -458,7 +457,7 @@ namespace CapaNegocio
             }
             catch
             {
-                return 8; // Error en la inserción del parking
+                return 8;
             }
 
             try
@@ -486,7 +485,7 @@ namespace CapaNegocio
 
                 // Asociar el parking con la factura en la tabla Solicita
                 sql = "INSERT INTO Solicita (id_factura, id_plaza, id_parking, precio_solicita) " +
-                       "VALUES (" + id_factura + ", " + Plaza + ", " + IdParking + ", " + precio + ");";
+                       "VALUES (" + id_factura + ", " + Plaza + ", " + IdParking + ", " + precioParking.ToString().Replace(",", ".") + ");";
 
                 filasAfectadas = _conexion.Ejecutar(sql);
                 if (!filasAfectadas)
@@ -522,6 +521,76 @@ namespace CapaNegocio
 
             // Ejecutar la consulta
             _conexion.EjecutarSelect(sql);
+
+            return resultado;
+        }
+
+        public byte calcularPrecio()
+        {
+            byte resultado = 0;
+            string sql;
+
+            if (!_conexion.Abierta()) // La conexión está cerrada
+            {
+                return 1; // Error: Conexión cerrada
+            }
+
+            // Consulta para obtener el tipo de cliente y tipo de vehículo
+            sql = "SELECT p.nombre, c.tipo_cliente, v.id_tipo " +
+                  "FROM Persona p " +
+                  "JOIN Cliente c ON c.ci = p.ci " +
+                  "JOIN Posee po ON po.ci = c.ci " +
+                  "JOIN Vehiculo v ON v.matricula = po.matricula " + // Corrección aquí
+                  "WHERE c.ci=" + Cliente.ci + " AND v.matricula = '" + Vehiculo.Matricula + "';";
+
+            // Ejecutar la consulta
+            DataTable dt = _conexion.EjecutarSelect(sql);
+
+            if (dt.Rows.Count == 0) // Verificar si hay resultados
+            {
+                return 2; // Error: No se encontraron registros
+            }
+
+            Cliente.TipoCliente = Convert.ToString(dt.Rows[0]["tipo_cliente"]);
+            Vehiculo.TipoVehiculo = Convert.ToInt32(dt.Rows[0]["id_tipo"]);
+
+            double total = 0;
+            double precio = 0;
+            TimeSpan horas = HoraSalida - HoraEntrada;
+            int descuento = 0;
+
+            // Obtener el precio según el tipo de vehículo
+            switch (Vehiculo.TipoVehiculo)
+            {
+                case 1: precio = 50; break;
+                case 2: precio = 100; break;
+                case 3: precio = 120; break;
+                case 4:
+                case 5: precio = 150; break;
+            }
+
+            // Obtener el descuento según el tipo de cliente
+            switch (Cliente.TipoCliente)
+            {
+                case "Mensual": descuento = 10; break; // 10% de descuento
+                case "Sistemático": descuento = 7; break; // 7% de descuento
+                case "Eventual": descuento = 0; break; // Sin descuento
+            }
+
+            // Calcular total de horas
+            double horasTotales = horas.TotalHours; // Obtener las horas totales como decimal
+
+            // Calcular el total antes del descuento
+            precioParking = precio * horasTotales;
+
+            // Aplicar el descuento
+            if (descuento > 0)
+            {
+                precioParking = total * (1 - (descuento / 100.0)); // Aplicar el descuento
+            }
+
+            // Redondear a dos decimales
+            precioParking = Math.Round(precioParking, 2);
 
             return resultado;
         }

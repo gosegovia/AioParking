@@ -100,6 +100,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 switch (v.BuscarMatricula(ci))
                 {
                     case 0: // Vehículo encontrado
+                        mostrarDatosNeumaticos();
                         txtMatricula.Enabled = false;
                         btnBuscarMatricula.Enabled = false;
                         pDatos.Visible = true;
@@ -136,52 +137,107 @@ namespace CapaPresentacion.EjecutivoServicios
         
         } // Fin botón buscar matrícula
 
-        // Botón buscar neumático
-        private void btnBuscarNeumatico_Click(object sender, EventArgs e)
-        {
-            // Validar entrada de neumático
-            if (string.IsNullOrEmpty(txtNeumatico.Text))
-            {
-                MessageBox.Show("Debe ingresar el neumático.");
-                return;
-            }
-
-            // Simular búsqueda del neumático
-            if (txtNeumatico.Text == "1")
-            {
-                // Mostrar datos del neumático
-                lblMarca.Text = "Michelin";
-                lblPrecio.Text = "1000";
-            }
-            else
-            {
-                MessageBox.Show("El neumático no existe.");
-            }
-        } // Fin botón buscar neumático
-
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validar cantidad
-            if (string.IsNullOrEmpty(txtCantidad.Text))
-            {
-                MessageBox.Show("Debe ingresar la cantidad.");
-                return;
-            }
+            CapaNegocio.Servicio s;
 
-            // Limpiar y ocultar datos después de guardar
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
-            pDatos.Visible = false;
+            // Validaciones
+            if (Convert.ToInt32(txtCantidad.Text) > Convert.ToInt32(lblStock.Text))
+            {
+                MessageBox.Show("La cantidad es mayor al stock");
+            }
+            else
+            {
+                s = new Servicio();
+                s.Conexion = Program.con;
+
+                s.Cliente.ci = Convert.ToInt32(txtCi.Text);
+                s.Vehiculo.Matricula = txtMatricula.Text;
+
+                s.neumaticoId = Convert.ToInt32(lblID.Text);
+                s.neumaticoCantidad = Convert.ToInt32(txtCantidad.Text);
+                double precio = Convert.ToDouble(lblPrecio.Text);
+                s.neumaticoPrecio = precio * s.neumaticoCantidad;
+
+                switch (s.ventaNeumatico())
+                {
+                    case 0:
+                        MessageBox.Show("La compra de neumático se guardó correctamente!");
+
+                        txtCi.Enabled = true;
+                        txtCi.Text = "";
+                        btnBuscarCi.Enabled = true;
+                        txtMatricula.Enabled = true;
+                        txtMatricula.Text = "";
+                        btnBuscarMatricula.Enabled = true;
+                        pMatricula.Visible = false;
+                        pDatos.Visible = false;
+
+                        lblID.Text = "...";
+                        txtCantidad.Text = "";
+                        lblStock.Text = "...";
+                        lblNombre.Text = "...";
+                        lblMarca.Text = "...";
+                        lblPrecio.Text = "...";
+                        break;
+
+                    case 1:
+                        MessageBox.Show("Error al obtener la conexión.");
+                        break;
+
+                    case 2:
+                        MessageBox.Show("Error 2");
+                        break;
+
+                    case 3:
+                        MessageBox.Show("Error 3");
+                        break;
+
+                    case 4:
+                        MessageBox.Show("Error 4");
+                        break;
+
+                    case 5:
+                        MessageBox.Show("Error 5");
+                        break;
+
+                    case 6:
+                        MessageBox.Show("Error 6");
+                        break;
+
+                    case 7:
+                        MessageBox.Show("Error 7");
+                        break;
+                    case 8:
+                        MessageBox.Show("Error 8");
+                        break;
+                    case 9:
+                        MessageBox.Show("Error 9");
+                        break;
+                }
+            }
         } // Fin botón guardar
+
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            // Limpiar y restablecer el estado del formulario
+            txtCi.Enabled = true;
+            txtCi.Text = "";
+            btnBuscarCi.Enabled = true;
+            txtMatricula.Enabled = true;
             txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
+            btnBuscarMatricula.Enabled = true;
+            pMatricula.Visible = false;
             pDatos.Visible = false;
+
+            lblID.Text = "...";
+            txtCantidad.Text = "";
+            lblStock.Text = "...";
+            lblNombre.Text = "...";
+            lblMarca.Text = "...";
+            lblPrecio.Text = "...";
         } // Fin botón cancelar
 
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
@@ -225,5 +281,76 @@ namespace CapaPresentacion.EjecutivoServicios
                 btnBuscarMatricula.Focus();
             }
         }
+
+        private void mostrarDatosNeumaticos()
+        {
+            try
+            {
+                // Crear una instancia de Servicio desde la capa de negocio
+                Servicio s = new Servicio
+                {
+                    // Asegúrate de que la conexión esté asignada si es necesario
+                    Conexion = Program.con // Asumiendo que Program.con es la conexión global
+                };
+
+                // Obtener la lista de neumáticos
+                List<Servicio> neumaticos = s.ListarNeumaticos();
+
+                if (neumaticos != null && neumaticos.Count > 0)
+                {
+                    // Transformar los datos de los neumáticos para mostrarlos en el DataGridView
+                    var datosNeumaticos = neumaticos.Select(neu => new
+                    {
+                        ID = neu.neumaticoId, // ID del neumático
+                        Nombre = neu.neumaticoNombre, // Nombre del neumático
+                        Marca = neu.neumaticoMarca, // Marca del neumático
+                        Precio = neu.neumaticoPrecio.ToString("C2"), // Precio con formato de moneda
+                        Stock = neu.neumaticoCantidad // Cantidad en stock
+                    }).ToList();
+
+                    // Asignar los datos al DataGridView
+                    dgvNeumatico.DataSource = datosNeumaticos;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron neumáticos en la base de datos.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al cargar los neumáticos: " + ex.Message);
+            }
+        }
+
+        private void dgvNeumatico_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica que el índice de fila no sea negativo (esto puede pasar si se hace clic en el encabezado de columna)
+            if (e.RowIndex >= 0)
+            {
+                try
+                {
+                    // Obtener la fila seleccionada
+                    DataGridViewRow filaSeleccionada = dgvNeumatico.Rows[e.RowIndex];
+
+                    // Usar el método Convert.ChangeType para hacer la conversión de manera más segura
+                    lblID.Text = filaSeleccionada.Cells["ID"].Value.ToString();
+                    lblNombre.Text = (string)filaSeleccionada.Cells["Nombre"].Value;
+                    lblMarca.Text = (string)filaSeleccionada.Cells["Marca"].Value;
+                    lblStock.Text = filaSeleccionada.Cells["Stock"].Value.ToString();
+                    // Eliminar el símbolo de pesos si está presente
+                    lblPrecio.Text = filaSeleccionada.Cells["Precio"].Value.ToString().Replace("$", "");
+
+                }
+                catch (InvalidCastException ex)
+                {
+                    MessageBox.Show("Error de conversión de datos: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocurrió un error al obtener los datos: " + ex.Message);
+                }
+            }
+        }
+
     }
 }

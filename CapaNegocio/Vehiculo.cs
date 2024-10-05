@@ -16,6 +16,7 @@ namespace CapaNegocio
         protected int _tipoVehiculo;
         protected string _nombreTipo;
         protected string _nombreVehiculo;
+        protected bool _estadoVehiculo;
         protected Conexion _conexion;
 
         public string Matricula
@@ -54,6 +55,12 @@ namespace CapaNegocio
             set { _nombreVehiculo = value; }
         }
 
+        public bool EstadoVehiculo
+        {
+            get { return _estadoVehiculo; }
+            set { _estadoVehiculo = value; }
+        }
+
         public Conexion Conexion
         {
             set { _conexion = value; }
@@ -75,10 +82,11 @@ namespace CapaNegocio
             _tipoVehiculo = 0;
             _nombreTipo = "";
             _nombreVehiculo = "";
+            _estadoVehiculo = false;
             _conexion = new Conexion();
         }
 
-        public Vehiculo(string mat, int mar, string nommar, int tipo, string nombtipo, string nomve, Conexion cn)
+        public Vehiculo(string mat, int mar, string nommar, int tipo, string nombtipo, string nomve, bool es, Conexion cn)
         {
             _matricula = mat;
             _marca = mar;
@@ -86,6 +94,7 @@ namespace CapaNegocio
             _tipoVehiculo = tipo;
             _nombreTipo = nombtipo;
             _nombreVehiculo = nomve;
+            _estadoVehiculo = es;
             _conexion = cn;
         }
 
@@ -126,27 +135,29 @@ namespace CapaNegocio
         public byte BuscarVehiculo(Cliente c)
         {
             if (!_conexion.Abierta())
+            {
                 return 1; // Conexión cerrada
-
-            string sql = $"SELECT v.matricula, v.id_marca, v.tipo_vehiculo, p.ci FROM Vehiculo v " +
-                         $"JOIN Posee p ON v.matricula = p.matricula WHERE v.matricula = '{_matricula}'";
-
-            try
-            {
-                DataTable dt = _conexion.EjecutarSelect(sql);
-                if (dt.Rows.Count == 0)
-                    return 3; // No encontrado
-
-                DataRow row = dt.Rows[0];
-                _matricula = row["matricula"].ToString();
-                _marca = Convert.ToInt32(row["id_marca"]);
-                _tipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
-                c.ci = Convert.ToInt32(row["ci"]);
             }
-            catch
+
+            string sql = $"SELECT v.matricula, v.id_marca, v.id_tipo, v.estado_vehiculo, p.ci " +
+                         $"FROM Vehiculo v " +
+                         $"JOIN Posee p ON v.matricula = p.matricula " +
+                         $"WHERE v.matricula = '{_matricula}'";
+
+            DataTable dt = _conexion.EjecutarSelect(sql);
+
+            if (dt.Rows.Count == 0)
             {
-                return 2; // Error en la ejecución
+                return 3; // No encontrado
             }
+
+            DataRow row = dt.Rows[0];
+            _matricula = row["matricula"].ToString();
+            _marca = Convert.ToInt32(row["id_marca"]);
+            _tipoVehiculo = Convert.ToInt32(row["id_tipo"]);
+            EstadoVehiculo = Convert.ToBoolean(row["estado_vehiculo"]);
+            c.ci = Convert.ToInt32(row["ci"]);
+
             return 0; // Encontrado
         }
 
@@ -154,7 +165,7 @@ namespace CapaNegocio
         {
             // Lista para almacenar las marcas obtenidas
             var marcas = new List<Marca>();
-            string sql = "SELECT id_marca, nombre_marca FROM Marca";
+            string sql = "SELECT id_marca, nombre_marca FROM Marca order by id_marca";
 
             try
             {
@@ -182,43 +193,61 @@ namespace CapaNegocio
         public byte Guardar(bool modificacion, Cliente c)
         {
             if (!_conexion.Abierta())
+            {
                 return 1; // Conexión cerrada
+            }
 
-            string sql = modificacion
-                ? $"UPDATE Vehiculo SET id_marca = {marca}, tipo_vehiculo = {TipoVehiculo} WHERE matricula = '{Matricula}'"
-                : $"INSERT INTO Vehiculo (matricula, id_marca, tipo_vehiculo) VALUES ('{Matricula}', {marca}, {TipoVehiculo})";
+            string sql;
+            string sql1 = null; // Inicializamos sql1 como null
+
+            if (modificacion)
+            {
+                // Consulta para actualizar los datos del vehículo
+                sql = "UPDATE Vehiculo " +
+                      "SET id_marca = " + marca + ", id_tipo = " + TipoVehiculo + ", estado_vehiculo = 1 " +
+                      "WHERE matricula = '" + Matricula + "';";
+            }
+            else
+            {
+                sql = "INSERT INTO Vehiculo (matricula, id_marca, id_tipo, estado_vehiculo) VALUES " +
+                      "('" + Matricula + "', " + marca + ", " + TipoVehiculo + ", 1);";
+
+                sql1 = "INSERT INTO Posee (ci, matricula) VALUES (" + c.ci + ", '" + Matricula + "');";
+            }
 
             try
             {
+                // Ejecutar la consulta SQL para el vehículo
                 _conexion.Ejecutar(sql);
 
-                if (!modificacion)
+                // Solo ejecutamos el segundo SQL si estamos en modo alta
+                if (!modificacion && sql1 != null)
                 {
-                    sql = $"INSERT INTO Posee (ci, matricula) VALUES ({c.ci}, '{Matricula}')";
-                    _conexion.Ejecutar(sql);
+                    _conexion.Ejecutar(sql1);
                 }
             }
             catch
             {
-                return modificacion ? (byte)2 : (byte)3; // Error en ejecución de actualización o inserción
+                return 2; // Error en el insert o update
             }
 
             return 0; // Guardado correctamente
         }
 
+
         public byte Eliminar()
         {
             if (!_conexion.Abierta())
+            {
                 return 1; // Conexión cerrada
+            }
 
-            string sql = $"DELETE FROM Factura WHERE matricula = '{Matricula}';";
+            string sql = "UPDATE Vehiculo " +
+                    "SET estado_vehiculo = 0 " +
+                    "WHERE matricula = '" + Matricula + "'"; ;
 
             try
             {
-                _conexion.Ejecutar(sql);
-                sql = $"DELETE FROM Posee WHERE matricula = '{Matricula}';";
-                _conexion.Ejecutar(sql);
-                sql = $"DELETE FROM Vehiculo WHERE matricula = '{Matricula}';";
                 _conexion.Ejecutar(sql);
             }
             catch
@@ -234,11 +263,12 @@ namespace CapaNegocio
             List<Vehiculo> vehiculos = new List<Vehiculo>();
             vehiculosClientes = new Dictionary<string, int>();
 
-            string sql = "SELECT DISTINCT v.matricula, c.ci, v.tipo_vehiculo, m.nombre_marca " +
-                         "FROM Vehiculo v " +
-                         "JOIN Marca m ON v.id_marca = m.id_marca " +
-                         "JOIN Posee p ON v.matricula = p.matricula " +
-                         "JOIN Cliente c ON p.ci = c.ci;";
+            string sql = "SELECT v.matricula, c.ci, v.id_tipo, v.estado_vehiculo, m.nombre_marca " +
+             "FROM Vehiculo v " +
+             "JOIN Marca m ON v.id_marca = m.id_marca " +
+             "JOIN Posee p ON v.matricula = p.matricula " +
+             "JOIN Cliente c ON p.ci = c.ci;";
+
 
             try
             {
@@ -246,9 +276,18 @@ namespace CapaNegocio
 
                 foreach (DataRow row in dt.Rows)
                 {
+                    // Convertimos el estado del vehículo antes de evaluar
+                    bool estadoVehiculo = Convert.ToBoolean(row["estado_vehiculo"]);
+
+                    // Comprobamos si el estado del vehículo es 1 (inactivo)
+                    if (estadoVehiculo == false) // Si 'estado_vehiculo' es 0, lo ignoramos
+                    {
+                        continue; // Salta a la siguiente iteración del bucle
+                    }
+
                     string matricula = row["matricula"].ToString();
                     int ciCliente = Convert.ToInt32(row["ci"]);
-                    int tipoVehiculo = Convert.ToInt32(row["tipo_vehiculo"]);
+                    int tipoVehiculo = Convert.ToInt32(row["id_tipo"]);
                     string nombreVehiculo = ObtenerNombreVehiculo(tipoVehiculo);
 
                     vehiculos.Add(new Vehiculo
@@ -256,7 +295,8 @@ namespace CapaNegocio
                         Matricula = matricula,
                         TipoVehiculo = tipoVehiculo,
                         NombreMarca = row["nombre_marca"].ToString(),
-                        NombreVehiculo = nombreVehiculo
+                        NombreVehiculo = nombreVehiculo,
+
                     });
 
                     vehiculosClientes[matricula] = ciCliente;
@@ -274,15 +314,14 @@ namespace CapaNegocio
         {
             switch (tipoVehiculo)
             {
-                case 1: return "Auto";
-                case 2: return "Utilitario";
-                case 3: return "Moto";
-                case 4: return "Camioneta";
+                case 1: return "Moto";
+                case 2: return "Auto";
+                case 3: return "Camioneta";
+                case 4: return "Utilitario";
                 case 5: return "Camión";
                 default: return "Desconocido";
             }
         }
-
 
         public Dictionary<int, int> VehiculosActuales()
         {

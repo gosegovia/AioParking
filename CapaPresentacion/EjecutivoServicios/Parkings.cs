@@ -92,8 +92,6 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             CapaNegocio.Parking p;
 
-
-
             // Validaciones
             if (dtpEntrada.Value >= dtpSalida.Value)
             {
@@ -109,69 +107,42 @@ namespace CapaPresentacion.EjecutivoServicios
                 p.HoraSalida = dtpSalida.Value;
                 p.Plaza = Convert.ToInt32(lblPlaza.Text);
 
-                /*
-                // Calcular la duración en horas
-                TimeSpan duracion = p.HoraSalida - p.HoraEntrada;
-                double horas = duracion.TotalHours;
-                if (horas < 1)
-                {
-                    horas = 1; // Cobrar al menos una hora
-                }
-
-                // Asignar el precio según el tipo de vehículo
-                double precio = 0;
-                switch (p.Vehiculo.TipoVehiculo)
-                {
-                    case 1:
-                        precio = 50 * horas;
-                        break;
-                    case 2:
-                        precio = 100 * horas;
-                        break;
-                    case 3:
-                        precio = 120 * horas;
-                        break;
-                    case 4:
-                        precio = 150 * horas;
-                        break;
-                    case 5:
-                        precio = 150 * horas;
-                        break;
-                    default:
-                        MessageBox.Show("Tipo de vehículo no reconocido.");
-                        return;
-                }
-                */
-                double precio = 100;
-
-                switch (p.GuardarParking(precio))
+                switch (p.calcularPrecio())
                 {
                     case 0:
-                        MessageBox.Show("El parking se guardo correctamente!");
+                        switch (p.GuardarParking())
+                        {
+                            case 0:
+                                MessageBox.Show("El parking se guardo correctamente!");
 
-                        txtTicket.Enabled = true;
-                        txtTicket.Text = "";
-                        btnBuscarTicket.Enabled = true;
-                        pDatos.Visible = false;
-                        lblCi.Text = "";
-                        lblMatricula.Text = "";
-                        lblPlaza.Text = "";
+                                txtTicket.Enabled = true;
+                                txtTicket.Text = "";
+                                btnBuscarTicket.Enabled = true;
+                                pDatos.Visible = false;
+                                lblCi.Text = "";
+                                lblMatricula.Text = "";
+                                lblPlaza.Text = "";
+                                break;
+                            case 1:
+                                MessageBox.Show("Error al obtener la conexion.");
+                                break;
+                            case 2: MessageBox.Show("Error 2"); break;
+                            case 3: MessageBox.Show("Error 3"); break;
+                            case 4: MessageBox.Show("Error 4"); break;
+                            case 5: MessageBox.Show("Error 5"); break;
+                            case 6: MessageBox.Show("Error 6"); break;
+                            case 7: MessageBox.Show("Error 7"); break;
+                            case 8: MessageBox.Show("Error 8"); break;
+                            case 9: MessageBox.Show("Error 9"); break;
+                            case 10: MessageBox.Show("Error 10"); break;
+                            case 11: MessageBox.Show("Error 11"); break;
+                            case 12: MessageBox.Show("Error 12"); break;
+                        }
                         break;
-                    case 1:
-                        MessageBox.Show("Error al obtener la conexion.");
-                        break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 3: MessageBox.Show("Error 3 Error: No se insertó la factura (Filas afectadas)"); break;
-                    case 4: MessageBox.Show("Error 4 Error: No se obtuvo el ID de la factura"); break;
-                    case 5: MessageBox.Show("Error 5 Error en la inserción de la factura"); break;
-                    case 6: MessageBox.Show("Error 6 Error: No se insertó el parking (Filas afectadas)"); break;
-                    case 7: MessageBox.Show("Error 7 Error: No se obtuvo el ID del parking"); break;
-                    case 8: MessageBox.Show("Error 8 Error: en la inserción del parking"); break;
-                    case 9: MessageBox.Show("Error 9 Error: No se actualizó el estado de la plaza"); break;
-                    case 10: MessageBox.Show("Error 10 Error: No se insertó la reserva"); break;
-                    case 11: MessageBox.Show("Error 11 Error: No se insertó la solicitud"); break;
-                    case 12: MessageBox.Show("Error 12  Error: en las consultas de actualización"); break;
+                    case 1: MessageBox.Show("Error al obtener la conexion."); break;
+                    case 2: MessageBox.Show("Error 2."); break;
                 }
+
             }
         } // Fin botón guardar
 
