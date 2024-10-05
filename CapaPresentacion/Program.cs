@@ -29,6 +29,7 @@ namespace CapaPresentacion
         public static Gerente.PrecioServicios frmPrecioServicios;
         // Formulario de Cajero
         public static Cajero.Factura frmFactura;
+        public static Cajero.ListarFactura frmListarFactura;
         // Formulario de Operador de Camaras
         public static OperadorCamaras.AsignarPlaza frmAsignarPlaza;
 

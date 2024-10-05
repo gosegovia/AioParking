@@ -10,12 +10,14 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using System.Diagnostics;
+using iTextSharp.text.pdf.codec.wmf;
 
 namespace CapaNegocio
 {
     public class Servicio
     {
         protected int _factura_id;
+        protected DateTime _factura_fecha;
         protected int _lavado_id;
         protected string _lavado_nombre;
         protected double _lavado_precio;
@@ -26,6 +28,8 @@ namespace CapaNegocio
         protected string _neumatico_nombre;
         protected double _neumatico_precio;
         protected int _neumatico_cantidad;
+        protected Cliente _cliente;
+        protected Vehiculo _vehiculo;
         protected Parking _parking;
         protected Conexion _conexion;
 
@@ -33,6 +37,12 @@ namespace CapaNegocio
         {
             set { _factura_id = value; }
             get { return (_factura_id); }
+        }
+
+        public DateTime facturaFecha
+        {
+            set { _factura_fecha = value; }
+            get { return (_factura_fecha); }
         }
 
         public int lavadoId
@@ -95,6 +105,18 @@ namespace CapaNegocio
             get { return (_neumatico_cantidad); }
         }
 
+        public Cliente Cliente
+        {
+            set { _cliente = value; }
+            get { return _cliente; }
+        }
+
+        public Vehiculo Vehiculo
+        {
+            set { _vehiculo = value; }
+            get { return _vehiculo; }
+        }
+
         public Parking Parking
         {
             set { _parking = value; }
@@ -110,6 +132,7 @@ namespace CapaNegocio
         public Servicio()
         {
             _factura_id = 0;
+            _factura_fecha = DateTime.MinValue;
             _lavado_id = 0;
             _lavado_nombre = "";
             _lavado_precio = 0;
@@ -120,19 +143,24 @@ namespace CapaNegocio
             _neumatico_nombre = "";
             _neumatico_precio = 0;
             _neumatico_cantidad = 0;
+            _cliente = new Cliente();
+            _vehiculo = new Vehiculo();
             _parking = new Parking();
             _conexion = new Conexion();
         }
 
-        public Servicio(int f, int l, string lnom, double lpre, int ayb_id, string ayb_nom, double ayb_precio, int al, int bal, Parking par, Conexion cn)
+        public Servicio(int f, DateTime ffecha, int l, string lnom, double lpre, int ayb_id, string ayb_nom, double ayb_precio, int al, int bal, Cliente cli, Vehiculo ve, Parking par, Conexion cn)
         {
             _factura_id = f;
+            _factura_fecha = ffecha;
             _lavado_id = l;
             _lavado_nombre = lnom;
             _lavado_precio = lpre;
             _ayb_id = ayb_id;
             _ayb_nombre = ayb_nom;
             _ayb_precio = ayb_precio;
+            _cliente = cli;
+            _vehiculo = ve;
             _parking = par;
             _conexion = cn;
         }
@@ -372,6 +400,175 @@ namespace CapaNegocio
             {
                 Console.WriteLine("Error al generar la factura en PDF: " + ex.Message);
             }
+        }
+
+        public byte facturaPaga(int ci, string matricula)
+        {
+            byte resultado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Definir la consulta SQL
+            string sql = "UPDATE Factura " +
+                "SET factura_paga = '1' " +
+                "WHERE ci = " + ci + " " +
+                "AND matricula = '" + matricula + "' " +
+                "AND id_factura = " + facturaId + ";";
+
+            try
+            {
+                // Ejecutar la consulta y obtener los resultados en un DataTable
+                bool filasAfectadas = _conexion.Ejecutar(sql);
+
+                if (!filasAfectadas)
+                {
+                    return 3; // Error: No se insertó
+                }
+            }
+            catch
+            {
+                return 2; // Error en la ejecución de la consulta
+            }
+            return resultado;
+        }
+
+        public List<Servicio> ListarServicios()
+        {
+            List<Servicio> servicios = new List<Servicio>();
+            Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
+
+            // Verifica si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                throw new Exception("La conexión a la base de datos está cerrada.");
+            }
+
+            // Consulta SQL para obtener las facturas pagadas
+            string sql = "SELECT id_factura, ci, matricula, fecha " +
+                "FROM factura " +
+                "WHERE factura_paga = '1' " +
+                "ORDER BY fecha DESC " +
+                "LIMIT 10;";
+
+            try
+            {
+                // Ejecuta la consulta y obtiene el DataTable
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                // Procesa cada fila del DataTable
+                foreach (DataRow row in dt.Rows)
+                {
+                    int idFactura = Convert.ToInt32(row["id_factura"]);
+
+                    // Verifica si el servicio ya está en el diccionario
+                    if (!serviciosDict.ContainsKey(idFactura))
+                    {
+                        // Crear un nuevo objeto Servicio
+                        Servicio servicio = new Servicio
+                        {
+                            facturaId = idFactura,
+                            facturaFecha = Convert.ToDateTime(row["fecha"]),
+                            Cliente = new Cliente
+                            {
+                                ci = Convert.ToInt32(row["ci"])
+                            },
+                            Vehiculo = new Vehiculo
+                            {
+                                Matricula = row["matricula"].ToString()
+                            }
+                        };
+
+                        // Aquí podrías llamar a otra consulta para obtener datos de Parking
+                        string parkingSql = "SELECT par.hora_entrada, par.hora_salida, r.id_plaza " +
+                                            "FROM Parking par " +
+                                            "JOIN Reserva r ON r.id_parking = par.id_parking " +
+                                            "JOIN Solicita s ON s.id_parking = par.id_parking " +
+                                            "JOIN Factura f ON f.id_factura = s.id_factura " +
+                                            "WHERE f.id_factura = " + idFactura + ";";
+
+                        // Ejecutar la consulta de Parking
+                        DataTable parkingDt = _conexion.EjecutarSelect(parkingSql);
+                        if (parkingDt.Rows.Count > 0)
+                        {
+                            DataRow parkingRow = parkingDt.Rows[0]; // Tomamos la primera fila
+                            servicio.Parking = new Parking // Asegúrate de que Parking sea una clase
+                            {
+                                HoraEntrada = Convert.ToDateTime(parkingRow["hora_entrada"]),
+                                HoraSalida = Convert.ToDateTime(parkingRow["hora_salida"]),
+                                Plaza = Convert.ToInt32(parkingRow["id_plaza"])
+                            };
+                        }
+
+                        // Consulta para obtener el nombre del lavado
+                        string lavadoSql = "SELECT l.nombre_lavado " +
+                                           "FROM Lavado l " +
+                                           "JOIN Usa u ON u.id_lavado = l.id_lavado " +
+                                           "JOIN Factura f ON f.id_factura = u.id_factura " +
+                                           "WHERE f.id_factura = " + idFactura + ";";
+
+                        // Ejecuta la consulta y obtiene el DataTable para los lavados
+                        DataTable lavadoDt = _conexion.EjecutarSelect(lavadoSql);
+                        if (lavadoDt.Rows.Count > 0)
+                        {
+                            DataRow lavadoRow = lavadoDt.Rows[0];
+                            servicio.lavadoNombre = lavadoRow["nombre_lavado"].ToString(); // Asegúrate de que NombreLavado esté en la clase Servicio
+                        } else
+                        {
+                            servicio.lavadoNombre = "No asignado";
+                        }
+
+                        string aybSql = "SELECT ayb.nombre_ayb " +
+                            "FROM Alineacion_Balanceo ayb " +
+                            "JOIN Hace h ON h.id_ayb = ayb.id_ayb " +
+                            "JOIN Factura f ON f.id_factura = h.id_factura " +
+                            "WHERE f.id_factura = " + idFactura + ";";
+
+                        DataTable aybDt = _conexion.EjecutarSelect(aybSql);
+                        if (aybDt.Rows.Count > 0)
+                        {
+                            DataRow aybRow = aybDt.Rows[0];
+                            servicio.aybNombre = aybRow["nombre_ayb"].ToString();
+                        } else
+                        {
+                            servicio.aybNombre = "No asignado";
+                        }
+
+                        string neumaticoSql = "SELECT n.nombre_neumatico, c.cantidad_compra " +
+                            "FROM Neumatico n " +
+                            "JOIN Compra c ON n.id_neumatico = c.id_neumatico " +
+                            "JOIN Factura f ON f.id_factura = c.id_factura " +
+                            "WHERE f.id_factura = " + idFactura + ";";
+
+                        DataTable neumaticoDt = _conexion.EjecutarSelect(neumaticoSql);
+                        if (neumaticoDt.Rows.Count > 0)
+                        {
+                            DataRow neumaticoRow = neumaticoDt.Rows[0];
+                            servicio.neumaticoNombre = neumaticoRow["nombre_neumatico"].ToString();
+                            servicio.neumaticoCantidad = Convert.ToInt32(neumaticoRow["cantidad_compra"]);
+                        } else
+                        {
+                            servicio.neumaticoNombre = "No asignado";
+                        }
+
+                        // Agregar el servicio al diccionario
+                        serviciosDict[idFactura] = servicio;
+                    }
+                }
+
+                // Convierte el diccionario a lista
+                servicios = serviciosDict.Values.ToList();
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                throw new Exception("Error al listar los servicios: " + ex.Message);
+            }
+
+            return servicios;
         }
     }
 }

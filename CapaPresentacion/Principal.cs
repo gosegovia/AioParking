@@ -233,6 +233,19 @@ namespace CapaPresentacion
             Program.frmListarEmpleado.Show();
         } // Fin listar empleado
 
+        // Listar Factura
+        public void mostrarListarFactura()
+        {
+            // Creó el objeto para frmListarEmpleado 
+            Program.frmListarFactura = new Cajero.ListarFactura();
+            // Dice que frmListarEmpleado va a estar contenido como formulario dentro del formulario principal
+            Program.frmListarFactura.MdiParent = this;
+            // Ajusta el contenido de frmListarEmpleado para llenar completamente el área del formulario principal
+            Program.frmListarFactura.Dock = DockStyle.Fill;
+            // Al final mostramos el formulario
+            Program.frmListarFactura.Show();
+        } // Fin listar empleado
+
         // BOTONES    
 
         // Acceso a botonesJefeServicio

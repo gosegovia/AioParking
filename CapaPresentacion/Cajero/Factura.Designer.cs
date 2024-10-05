@@ -37,6 +37,7 @@ namespace CapaPresentacion.Cajero
             this.txtMatricula = new System.Windows.Forms.TextBox();
             this.lblMatricula = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
+            this.lblPrecioTotal = new System.Windows.Forms.Label();
             this.txtHoraSalida = new System.Windows.Forms.Label();
             this.txtHoraEntrada = new System.Windows.Forms.Label();
             this.txtPrecio = new System.Windows.Forms.Label();
@@ -57,10 +58,10 @@ namespace CapaPresentacion.Cajero
             this.btnFactura = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.pCi = new System.Windows.Forms.Panel();
+            this.btnLisarFactura = new System.Windows.Forms.Button();
             this.btnBuscarCi = new System.Windows.Forms.Button();
             this.txtCi = new System.Windows.Forms.TextBox();
             this.lblCI = new System.Windows.Forms.Label();
-            this.lblPrecioTotal = new System.Windows.Forms.Label();
             this.pMatricula.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.pDatosServicios.SuspendLayout();
@@ -145,6 +146,17 @@ namespace CapaPresentacion.Cajero
             this.pDatos.Name = "pDatos";
             this.pDatos.Size = new System.Drawing.Size(296, 249);
             this.pDatos.TabIndex = 2;
+            // 
+            // lblPrecioTotal
+            // 
+            this.lblPrecioTotal.AutoSize = true;
+            this.lblPrecioTotal.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPrecioTotal.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPrecioTotal.Location = new System.Drawing.Point(35, 193);
+            this.lblPrecioTotal.Name = "lblPrecioTotal";
+            this.lblPrecioTotal.Size = new System.Drawing.Size(54, 18);
+            this.lblPrecioTotal.TabIndex = 18;
+            this.lblPrecioTotal.Text = "Precio";
             // 
             // txtHoraSalida
             // 
@@ -365,6 +377,7 @@ namespace CapaPresentacion.Cajero
             // 
             // pCi
             // 
+            this.pCi.Controls.Add(this.btnLisarFactura);
             this.pCi.Controls.Add(this.btnBuscarCi);
             this.pCi.Controls.Add(this.txtCi);
             this.pCi.Controls.Add(this.lblCI);
@@ -373,6 +386,21 @@ namespace CapaPresentacion.Cajero
             this.pCi.Size = new System.Drawing.Size(826, 51);
             this.pCi.TabIndex = 6;
             // 
+            // btnLisarFactura
+            // 
+            this.btnLisarFactura.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnLisarFactura.FlatAppearance.BorderSize = 0;
+            this.btnLisarFactura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLisarFactura.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnLisarFactura.ForeColor = System.Drawing.Color.White;
+            this.btnLisarFactura.Location = new System.Drawing.Point(577, 11);
+            this.btnLisarFactura.Name = "btnLisarFactura";
+            this.btnLisarFactura.Size = new System.Drawing.Size(100, 25);
+            this.btnLisarFactura.TabIndex = 6;
+            this.btnLisarFactura.Text = "Listar";
+            this.btnLisarFactura.UseVisualStyleBackColor = false;
+            this.btnLisarFactura.Click += new System.EventHandler(this.btnLisarFactura_Click);
+            // 
             // btnBuscarCi
             // 
             this.btnBuscarCi.BackColor = System.Drawing.Color.DodgerBlue;
@@ -380,7 +408,7 @@ namespace CapaPresentacion.Cajero
             this.btnBuscarCi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscarCi.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscarCi.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarCi.Location = new System.Drawing.Point(527, 11);
+            this.btnBuscarCi.Location = new System.Drawing.Point(471, 11);
             this.btnBuscarCi.Name = "btnBuscarCi";
             this.btnBuscarCi.Size = new System.Drawing.Size(100, 25);
             this.btnBuscarCi.TabIndex = 5;
@@ -393,7 +421,7 @@ namespace CapaPresentacion.Cajero
             this.txtCi.BackColor = System.Drawing.Color.LightBlue;
             this.txtCi.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCi.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCi.Location = new System.Drawing.Point(338, 12);
+            this.txtCi.Location = new System.Drawing.Point(282, 12);
             this.txtCi.Multiline = true;
             this.txtCi.Name = "txtCi";
             this.txtCi.Size = new System.Drawing.Size(180, 25);
@@ -406,22 +434,11 @@ namespace CapaPresentacion.Cajero
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(252, 16);
+            this.lblCI.Location = new System.Drawing.Point(196, 16);
             this.lblCI.Name = "lblCI";
             this.lblCI.Size = new System.Drawing.Size(58, 18);
             this.lblCI.TabIndex = 3;
             this.lblCI.Text = "Cedula";
-            // 
-            // lblPrecioTotal
-            // 
-            this.lblPrecioTotal.AutoSize = true;
-            this.lblPrecioTotal.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblPrecioTotal.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioTotal.Location = new System.Drawing.Point(35, 193);
-            this.lblPrecioTotal.Name = "lblPrecioTotal";
-            this.lblPrecioTotal.Size = new System.Drawing.Size(54, 18);
-            this.lblPrecioTotal.TabIndex = 18;
-            this.lblPrecioTotal.Text = "Precio";
             // 
             // Factura
             // 
@@ -486,5 +503,6 @@ namespace CapaPresentacion.Cajero
         private TextBox txtCi;
         private Label lblCI;
         private Label lblPrecioTotal;
+        private Button btnLisarFactura;
     }
 }

@@ -584,7 +584,7 @@ GRANT SELECT ON Marca TO 'caj'@'localhost';
 GRANT SELECT ON Vehiculo TO 'caj'@'localhost';
 GRANT SELECT ON Tipo_Vehiculo TO 'caj'@'localhost';
 GRANT SELECT ON Posee TO 'caj'@'localhost';
-GRANT SELECT ON Factura TO 'caj'@'localhost';
+GRANT SELECT, UPDATE ON Factura TO 'caj'@'localhost';
 GRANT SELECT ON Neumatico TO 'caj'@'localhost';
 GRANT SELECT ON Compra TO 'caj'@'localhost';
 GRANT SELECT ON Parking TO 'caj'@'localhost';
@@ -660,7 +660,7 @@ GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 -- JOIN Solicita s ON f.id_factura = s.id_factura
 -- WHERE f.factura_paga = '0' AND f.matricula = 'abc1234';
 
--- select * from factura;
+select * from factura;
 
 -- SELECT f.id_factura
 -- FROM Factura f
@@ -668,3 +668,39 @@ GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 -- WHERE f.factura_paga = '0' 
 --  AND f.matricula = 'abc1234'
 --  AND s.id_parking IS NULL;
+
+-- UPDATE Factura
+-- SET factura_paga = '1'
+-- WHERE ci = 56303446 and id_factura = 1;
+
+-- SELECT id_factura, ci, matricula, factura_paga, fecha
+-- FROM factura
+-- WHERE factura_paga = '1'
+-- ORDER BY fecha DESC
+-- LIMIT 10;
+
+
+-- SELECT par.hora_entrada, par.hora_salida, r.id_plaza
+-- FROM Parking par
+-- JOIN Reserva r ON r.id_parking = par.id_parking
+-- JOIN Solicita s ON s.id_parking = par.id_parking
+-- JOIN Factura f ON f.id_factura = s.id_factura
+-- WHERE f.id_factura = 2;
+
+SELECT l.nombre_lavado
+FROM Lavado l
+JOIN Usa u ON u.id_lavado = l.id_lavado
+JOIN Factura f ON f.id_factura = u.id_factura
+WHERE f.id_factura = 2;
+
+SELECT ayb.nombre_ayb
+FROM Alineacion_Balanceo ayb
+JOIN Hace h ON h.id_ayb = ayb.id_ayb
+JOIN Factura f ON f.id_factura = h.id_factura
+WHERE f.id_factura = 2;
+
+SELECT n.nombre_neumatico, c.cantidad_compra
+FROM Neumatico n
+JOIN Compra c ON n.id_neumatico = c.id_neumatico
+JOIN Factura f ON f.id_factura = c.id_factura
+WHERE f.id_factura = 1;

@@ -53,6 +53,12 @@
     <Compile Include="Cajero\Factura.Designer.cs">
       <DependentUpon>Factura.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cajero\ListarFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cajero\ListarFactura.Designer.cs">
+      <DependentUpon>ListarFactura.cs</DependentUpon>
+    </Compile>
     <Compile Include="EjecutivoServicios\ABMCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,6 +148,9 @@
     <Compile Include="Validaciones.cs" />
     <EmbeddedResource Include="Cajero\Factura.resx">
       <DependentUpon>Factura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Cajero\ListarFactura.resx">
+      <DependentUpon>ListarFactura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EjecutivoServicios\ABMCliente.resx">
       <DependentUpon>ABMCliente.cs</DependentUpon>

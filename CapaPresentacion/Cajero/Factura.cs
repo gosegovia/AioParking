@@ -229,23 +229,33 @@ namespace CapaPresentacion.Cajero
         {
             CapaNegocio.Servicio s = new CapaNegocio.Servicio();
             s.Conexion = Program.con;
+            int ci = Convert.ToInt32(txtCi.Text);
+            string matricula = txtMatricula.Text;
 
-            s.BuscarServicios(txtMatricula.Text);
-            s.GenerarFacturaPDF(txtMatricula.Text);
+            s.BuscarServicios(matricula);
+            s.GenerarFacturaPDF(matricula);
 
-            MessageBox.Show("Factura generada.");
+            switch(s.facturaPaga(ci, matricula))
+            {
+                case 0:
+                    MessageBox.Show("Factura generada.");
 
-            txtCi.Enabled = true;
-            btnBuscarCi.Enabled = true;
-            txtMatricula.Enabled = true;
-            btnBuscarMatricula.Enabled = true;
-            txtCi.Text = "";
-            txtMatricula.Text = "";
-            pMatricula.Visible = false;
-            pDatos.Visible = false;
-            pDatosServicios.Visible = false;
-            btnFactura.Visible = false;
-            btnCancelar.Visible = false;
+                    txtCi.Enabled = true;
+                    btnBuscarCi.Enabled = true;
+                    txtMatricula.Enabled = true;
+                    btnBuscarMatricula.Enabled = true;
+                    txtCi.Text = "";
+                    txtMatricula.Text = "";
+                    pMatricula.Visible = false;
+                    pDatos.Visible = false;
+                    pDatosServicios.Visible = false;
+                    btnFactura.Visible = false;
+                    btnCancelar.Visible = false;
+                    break;
+                case 1: MessageBox.Show("Debe logearse nuevamente."); break;
+                case 2: MessageBox.Show("Error 1."); break;
+                case 3: MessageBox.Show("Error 2."); break;
+            }
         } // Fin botón factura
 
         // Botón Cancelar
@@ -263,5 +273,10 @@ namespace CapaPresentacion.Cajero
             btnFactura.Visible = false;
             btnCancelar.Visible = false;
         } // Fin botón cancelar
+
+        private void btnLisarFactura_Click(object sender, EventArgs e)
+        {
+            Program.frmPrincipal.mostrarListarFactura();
+        }
     }
 }
