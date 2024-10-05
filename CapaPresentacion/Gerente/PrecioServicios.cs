@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CapaNegocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -37,6 +38,27 @@ namespace CapaPresentacion.Gerente
         {
             Validaciones.validacionNumero(sender, e);
             Validaciones.validacionLongitud(sender, e, 5);
+        }
+
+        private void txtNeumatico_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarNeumatico.Focus();
+            }
+        }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionLongitud(sender, e, 20);
+        }
+
+        private void txtStock_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 3);
         }
 
         private void txtLavado_KeyPress(object sender, KeyPressEventArgs e)
@@ -80,87 +102,202 @@ namespace CapaPresentacion.Gerente
         // Botón buscar neumático
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Si el texto está vacío, solicita que ingrese el neumático nuevamente
-            if (string.IsNullOrEmpty(txtNeumatico.Text))
+            CapaNegocio.Servicio s;
+            Int32 neumatico;
+
+            // Validar que la CI sea numérica
+            if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
             {
-                MessageBox.Show("Debe ingresar la ID del neumático.");
+                MessageBox.Show("El id neumatico debe ser numerico.");
             }
             else
             {
-                // Si el neumático es igual a 1
-                if (txtNeumatico.Text == "1")
-                {
-                    // Mostrar el panel de datos
-                    pDatosNeumatico.Visible = true;
-                    // Bloquear el TextBox
-                    txtNeumatico.ReadOnly = true;
-                }
-                else
-                {
-                    // Mostrar el MessageBox con dos botones
-                    DialogResult resultado = MessageBox.Show("No existe este neumático, ¿desea ingresarlo?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                s = new Servicio();
+                s.neumaticoId = neumatico;
+                s.Conexion = Program.con; // Asigna la conexión desde el programa principal
 
-                    // Evaluar la opción seleccionada por el usuario
-                    if (resultado == DialogResult.Yes)
-                    {
-                        // El usuario seleccionó "Sí"
+                switch (s.BuscarNeumatico())
+                {
+                    case 0:
+                        if (s.neumaticoEstado == 0)
+                        {
+                            // Pregunta al usuario si desea recuperar al cliente inactivo
+                            DialogResult estadoRespuesta = MessageBox.Show("¿Este neumatico esta dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
+                            if (estadoRespuesta == DialogResult.Yes)
+                            {
+                                s.neumaticoEstado = 1; // Cambia el estado del cliente a activo
+                            }
+                            else
+                            {
+                                // Si no desea recuperar, limpia la CI y termina
+                                txtNeumatico.Text = "";
+                                return;
+                            }
+                        }
+
+                        btnBuscarNeumatico.Enabled = false;
+                        btnEliminar.Enabled = true;
+                        txtNeumatico.Enabled = false;
                         pDatosNeumatico.Visible = true;
-                    }
-                    else if (resultado == DialogResult.No)
-                    {
-                        // El usuario seleccionó "No"
-                        pDatosNeumatico.Visible = false;
-                    }
+
+                        txtNombre.Text = s.neumaticoNombre;
+                        txtPrecio.Text = s.neumaticoPrecio.ToString();
+                        txtStock.Text = s.neumaticoCantidad.ToString();
+
+                        switch (s.neumaticoMarca)
+                        {
+                            case "Michelin": cbModelo.SelectedIndex = 0; break;
+                            case "Bridgestone": cbModelo.SelectedIndex = 1; break;
+                            case "Pirelli": cbModelo.SelectedIndex = 2; break;
+                        }
+                    break;
+                    case 1: // Error de conexión
+                        MessageBox.Show("Debe logearse nuevamente");
+                        break;
+
+                    case 2: // Error en la ejecución
+                        MessageBox.Show("Error 2");
+                        break;
+                    case 3: // No encontró neumatico
+                        if (txtNeumatico.TextLength > 3)
+                        {
+                            MessageBox.Show("Formato incorrecto");
+                        }
+                        else
+                        {
+                            // Pregunta si desea dar de alta al nuevo neumatico
+                            DialogResult respuesta = MessageBox.Show("¿Desea efectuar el alta?", "Alta", MessageBoxButtons.YesNo);
+                            if (respuesta == DialogResult.Yes)
+                            {
+                                // Habilita el panel para ingresar los datos del nuevo neumatico
+                                btnBuscarNeumatico.Enabled = false;
+                                pDatosNeumatico.Visible = true;
+                                btnEliminar.Enabled = false;
+                                txtNombre.Clear();
+                                txtPrecio.Clear();
+                                txtStock.Clear();
+                                cbModelo.SelectedIndex = 0;
+                            }
+                        }
+                    break;
                 }
+                s = null;
             }
         } // Fin botón buscar neumático
 
         // Botón guardar neumático
         private void btnGuardarNeumatico_Click(object sender, EventArgs e)
         {
-            // Validación modelo
-            if (cbModelo.SelectedIndex == -1)
-            {
-                MessageBox.Show("Debe seleccionar el modelo.");
-                return; // Detener la ejecución
-            }
-            else
-            {
-                // Guardar el dato
-            }
+            CapaNegocio.Servicio s;
+            Int32 neumatico;
 
-            if (string.IsNullOrEmpty(txtPrecioNeumatico.Text))
+            // Validaciónes
+            if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
             {
-                MessageBox.Show("Debe ingresar el precio del neumático.");
-                return; // Detener la ejecución
-            }
-            else
+                MessageBox.Show("El id neumatico debe ser numerico");
+            } else
             {
-                // Guardar el dato
-            }
+                s = new Servicio();
+                s.Conexion = Program.con;
 
-            txtNeumatico.Text = "";
-            pDatosNeumatico.Visible = false;
-            txtNeumatico.ReadOnly = false;
+                s.neumaticoId = Convert.ToInt32(txtNeumatico.Text);
+                s.neumaticoNombre = txtNombre.Text;
+                s.neumaticoPrecio = Convert.ToInt32(txtPrecio.Text);
+                s.neumaticoCantidad = Convert.ToInt32(txtStock.Text);
+
+                switch (cbModelo.SelectedIndex)
+                {
+                    case 0: s.neumaticoMarca = "Michelin"; break;
+                    case 1: s.neumaticoMarca = "Bridgestone"; break;
+                    case 2: s.neumaticoMarca = "Pirelli"; break;
+                }
+
+                switch (s.GuardarNeumatico(btnEliminar.Enabled))
+                {
+                    case 0:
+                        MessageBox.Show("Se ingreso el neumatico.");
+
+                        btnBuscarNeumatico.Enabled = true;
+                        txtNeumatico.Text = "";
+                        txtNeumatico.Enabled = true;
+                        pDatosNeumatico.Visible = false;
+
+                        txtNombre.Clear();
+                        cbModelo.SelectedIndex = 0;
+                        txtPrecio.Clear();
+                        txtStock.Clear();
+                    break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                    break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                }
+            }
         } // Fin botón guardar neumático
 
         // Botón eliminar neumático
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            // Eliminar neumático
-            MessageBox.Show("Datos eliminados correctamente.");
+            CapaNegocio.Servicio s;
+            Int32 neumatico;
 
-            txtNeumatico.Text = "";
-            pDatosNeumatico.Visible = false;
-            txtNeumatico.ReadOnly = false;
+            // Verifica que el neumatico ingresada sea numérica
+            if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
+            {
+                MessageBox.Show("El id neumatico debe ser numerico.");
+            }
+            else
+            {
+                s = new Servicio();
+                s.Conexion = Program.con;
+                s.neumaticoId = neumatico;
+
+                // Pregunta al usuario si desea eliminar el cliente
+                DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea eliminar este neumatico?", "Confirmación de Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                // Si la respuesta es 'Yes', procede con la eliminación
+                if (respuesta == DialogResult.Yes)
+                {
+                    // Llama al método Eliminar() y gestiona los diferentes resultados
+                    switch (s.EliminarNeumatico())
+                    {
+                        case 0: // Eliminación exitosa
+                            MessageBox.Show("Datos eliminados correctamente.");
+
+                            btnBuscarNeumatico.Enabled = true;
+                            txtNeumatico.Text = "";
+                            txtNeumatico.Enabled = true;
+                            pDatosNeumatico.Visible = false;
+
+                            txtNombre.Clear();
+                            cbModelo.SelectedIndex = 0;
+                            txtPrecio.Clear();
+                            txtStock.Clear();
+                            break;
+                        case 1: // Conexión cerrada
+                            MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
+                            break;
+                        case 2: MessageBox.Show("Error 2."); break;
+                    }
+                }
+
+                // Libera la instancia de la clase Servicio
+                s = null;
+            }
         } // Fin botón eliminar neumático
 
         // Botón cancelar neumático
         private void btnCancelarNeumatico_Click(object sender, EventArgs e)
         {
+            btnBuscarNeumatico.Enabled = true;
             txtNeumatico.Text = "";
+            txtNeumatico.Enabled = true;
             pDatosNeumatico.Visible = false;
-            txtNeumatico.ReadOnly = false;
+
+            txtNombre.Clear();
+            cbModelo.SelectedIndex = 0;
+            txtPrecio.Clear();
+            txtStock.Clear();
         } // Fin botón cancelar neumático
 
         // Botón buscar lavado
@@ -265,6 +402,16 @@ namespace CapaPresentacion.Gerente
         } // Fin botón cancelar AyB
 
         private void txtLavado_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNeumatico_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNeumatico_TextChanged(object sender, EventArgs e)
         {
 
         }

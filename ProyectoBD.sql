@@ -96,8 +96,7 @@ CREATE TABLE Neumatico (
   marca_neumatico VARCHAR(20) NOT NULL,
   precio_neumatico DECIMAL(10, 2) NOT NULL,
   stock_neumatico INT NOT NULL,
-  estado_neumatico TINYINT NOT NULL DEFAULT 1,
-  CONSTRAINT chk_estado_neumatico CHECK (estado_neumatico IN (0, 1)),
+  estado_neumatico TINYINT NOT NULL,
   PRIMARY KEY (id_neumatico)
 );
 
@@ -325,17 +324,17 @@ insert into Posee (ci, matricula) values
 
 /* MARCA NEUMATICO */
 
-INSERT INTO Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico) VALUES
-(1, 'Pilot Sport 4', 'Michelin', 250.00, 20),
-(2, 'Potenza RE-71R', 'Bridgestone', 230.00, 10),
-(3, 'P Zero', 'Pirelli', 280.00, 31),
-(4, 'Eagle F1 Asymmetric 5', 'Pirelli', 270.00, 15),
-(5, 'Turanza T005', 'Bridgestone', 210.00, 25),
-(6, 'Primacy 4', 'Michelin', 240.00, 18),
-(7, 'SportContact 6', 'Michelin', 300.00, 12),
-(8, 'Ventus S1 evo3', 'Bringestone', 220.00, 20),
-(9, 'Ecsta PS91', 'Pirelli', 200.00, 22),
-(10, 'Dynapro AT2', 'Michelin', 180.00, 16);
+INSERT INTO Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico, estado_neumatico) VALUES
+(1, 'Pilot Sport 4', 'Michelin', 250.00, 20, 1),
+(2, 'Potenza RE-71R', 'Bridgestone', 230.00, 10, 1),
+(3, 'P Zero', 'Pirelli', 280.00, 31, 1),
+(4, 'Eagle F1 Asymmetric 5', 'Pirelli', 270.00, 15, 1),
+(5, 'Turanza T005', 'Bridgestone', 210.00, 25, 1),
+(6, 'Primacy 4', 'Michelin', 240.00, 18, 1),
+(7, 'SportContact 6', 'Michelin', 300.00, 12, 1),
+(8, 'Ventus S1 evo3', 'Bringestone', 220.00, 20, 1),
+(9, 'Ecsta PS91', 'Pirelli', 200.00, 22, 1),
+(10, 'Dynapro AT2', 'Michelin', 180.00, 16, 1);
 
 /* FACTURA */
 
@@ -719,4 +718,8 @@ GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 -- set stock = 20
 -- where id_neumatico = 1;
 
--- select * from vehiculo
+select * from vehiculo;
+
+select id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico
+from neumatico
+where id_neumatico = 2;

@@ -29,6 +29,7 @@ namespace CapaNegocio
         protected double _neumatico_precio;
         protected string _neumatico_marca;
         protected int _neumatico_cantidad;
+        protected byte _neumatico_estado;
         protected Cliente _cliente;
         protected Vehiculo _vehiculo;
         protected Parking _parking;
@@ -110,6 +111,12 @@ namespace CapaNegocio
         {
             set { _neumatico_cantidad = value; }
             get { return (_neumatico_cantidad); }
+        }
+
+        public byte neumaticoEstado
+        {
+            set {  _neumatico_estado = value; }
+            get { return (_neumatico_estado); }
         }
 
         public Cliente Cliente
@@ -760,5 +767,112 @@ namespace CapaNegocio
            
             return resultado;
         }
+
+        public byte BuscarNeumatico()
+        {
+            byte resultado = 0;
+
+            // Chequeo el estado de la conexion
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            try
+            {
+                // Consulta SQL sin parámetros (pero cuidado con inyecciones SQL)
+                string sql = "SELECT nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico, estado_neumatico " +
+                             "FROM Neumatico " +
+                             "WHERE id_neumatico = " + neumaticoId + ";"; // Usamos el ID validado
+
+                // Ejecutamos la consulta
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                if (dt.Rows.Count == 0)
+                {
+                    return 3; // No encontrado el neumatico
+                }
+
+                // Asignar valores desde la consulta
+                DataRow row = dt.Rows[0];
+                neumaticoNombre = row["nombre_neumatico"].ToString();
+                neumaticoMarca = row["marca_neumatico"].ToString();
+                neumaticoPrecio = Convert.ToInt32(row["precio_neumatico"]);
+                neumaticoCantidad = Convert.ToInt32(row["stock_neumatico"]);
+                neumaticoEstado = Convert.ToByte(row["estado_neumatico"]);
+            }
+            catch
+            {
+                return 2; // Error en la ejecución de la consulta
+            }
+            return resultado; // Todo funciono correctamente
+        }
+
+        public byte GuardarNeumatico(bool modificacion)
+        {
+            byte resultado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Definir las consultas SQL para insertar o actualizar
+            string sql;
+
+            if (modificacion)
+            {
+                // Consulta para actualizar los datos del neumático
+                sql = $"UPDATE Neumatico SET nombre_neumatico = '" + neumaticoNombre + "', " +
+                      "marca_neumatico = '" + neumaticoMarca + "', precio_neumatico = " + neumaticoPrecio + ", " +
+                      "stock_neumatico = " + neumaticoCantidad + ", estado_neumatico = 1 " +
+                      "WHERE id_neumatico = " + neumaticoId;
+            }
+            else
+            {
+                // Consulta para insertar un nuevo neumático
+                sql = "INSERT INTO Neumatico (nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico, estado_neumatico) " +
+                      "VALUES ('" + neumaticoNombre + "', '" + neumaticoMarca + "', " + neumaticoPrecio + ", " + neumaticoCantidad + ", 1)";
+            }
+
+            try
+            {
+                // Ejecutar la consulta SQL
+                _conexion.Ejecutar(sql);
+            }
+            catch
+            {
+                // Manejar errores en las consultas
+                return 2; // Error en el insert o update
+            }
+
+            return resultado; // Todo salió bien
+        }
+
+        public byte EliminarNeumatico()
+        {
+            byte resultado = 0;
+
+            // Chequeo el estado de la conexion
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Consulta para hacer borrado logico de cliente
+            string sql = $"UPDATE Neumatico SET estado_neumatico = 0 WHERE id_neumatico = " + neumaticoId;
+
+            try
+            {
+                // Ejecuto la consulta
+                _conexion.Ejecutar(sql);
+            }
+            catch
+            {
+                return 2; // Error al ejecutar la actualización
+            }
+            return resultado; // Datos obtenidos correctamente
+        } // Fin metodo para eliminar cliente
     }
 }

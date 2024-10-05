@@ -39,7 +39,7 @@ namespace CapaPresentacion.Gerente
             this.cbModelo = new System.Windows.Forms.ComboBox();
             this.btnCancelarNeumatico = new System.Windows.Forms.Button();
             this.btnGuardarNeumatico = new System.Windows.Forms.Button();
-            this.txtPrecioNeumatico = new System.Windows.Forms.TextBox();
+            this.txtPrecio = new System.Windows.Forms.TextBox();
             this.lblPrecioNeumatico = new System.Windows.Forms.Label();
             this.lblModelo = new System.Windows.Forms.Label();
             this.btnBuscarNeumatico = new System.Windows.Forms.Button();
@@ -67,6 +67,10 @@ namespace CapaPresentacion.Gerente
             this.txtPrecioAyB = new System.Windows.Forms.TextBox();
             this.lblPrecioAyB = new System.Windows.Forms.Label();
             this.lblNombreAyB = new System.Windows.Forms.Label();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtStock = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabNeumatico.SuspendLayout();
             this.pDatosNeumatico.SuspendLayout();
@@ -84,7 +88,7 @@ namespace CapaPresentacion.Gerente
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 28.2F);
             this.label1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label1.Location = new System.Drawing.Point(217, 19);
+            this.label1.Location = new System.Drawing.Point(257, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(380, 43);
             this.label1.TabIndex = 0;
@@ -96,11 +100,11 @@ namespace CapaPresentacion.Gerente
             this.tabControl1.Controls.Add(this.tabLavadero);
             this.tabControl1.Controls.Add(this.tabAyB);
             this.tabControl1.Font = new System.Drawing.Font("Arial", 12F);
-            this.tabControl1.Location = new System.Drawing.Point(9, 65);
+            this.tabControl1.Location = new System.Drawing.Point(12, 80);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(786, 345);
+            this.tabControl1.Size = new System.Drawing.Size(826, 450);
             this.tabControl1.TabIndex = 1;
             // 
             // tabNeumatico
@@ -113,24 +117,28 @@ namespace CapaPresentacion.Gerente
             this.tabNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabNeumatico.Name = "tabNeumatico";
             this.tabNeumatico.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabNeumatico.Size = new System.Drawing.Size(778, 314);
+            this.tabNeumatico.Size = new System.Drawing.Size(818, 419);
             this.tabNeumatico.TabIndex = 0;
             this.tabNeumatico.Text = "Neumático";
             this.tabNeumatico.UseVisualStyleBackColor = true;
             // 
             // pDatosNeumatico
             // 
+            this.pDatosNeumatico.Controls.Add(this.txtStock);
+            this.pDatosNeumatico.Controls.Add(this.label3);
+            this.pDatosNeumatico.Controls.Add(this.txtNombre);
+            this.pDatosNeumatico.Controls.Add(this.label2);
             this.pDatosNeumatico.Controls.Add(this.btnEliminar);
             this.pDatosNeumatico.Controls.Add(this.cbModelo);
             this.pDatosNeumatico.Controls.Add(this.btnCancelarNeumatico);
             this.pDatosNeumatico.Controls.Add(this.btnGuardarNeumatico);
-            this.pDatosNeumatico.Controls.Add(this.txtPrecioNeumatico);
+            this.pDatosNeumatico.Controls.Add(this.txtPrecio);
             this.pDatosNeumatico.Controls.Add(this.lblPrecioNeumatico);
             this.pDatosNeumatico.Controls.Add(this.lblModelo);
-            this.pDatosNeumatico.Location = new System.Drawing.Point(4, 66);
+            this.pDatosNeumatico.Location = new System.Drawing.Point(6, 66);
             this.pDatosNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosNeumatico.Name = "pDatosNeumatico";
-            this.pDatosNeumatico.Size = new System.Drawing.Size(771, 252);
+            this.pDatosNeumatico.Size = new System.Drawing.Size(806, 349);
             this.pDatosNeumatico.TabIndex = 3;
             // 
             // btnEliminar
@@ -139,7 +147,7 @@ namespace CapaPresentacion.Gerente
             this.btnEliminar.FlatAppearance.BorderSize = 0;
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(340, 99);
+            this.btnEliminar.Location = new System.Drawing.Point(364, 160);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 25);
@@ -156,7 +164,7 @@ namespace CapaPresentacion.Gerente
             "Michelin",
             "Bridgestone",
             "Pirelli"});
-            this.cbModelo.Location = new System.Drawing.Point(330, 17);
+            this.cbModelo.Location = new System.Drawing.Point(367, 48);
             this.cbModelo.Name = "cbModelo";
             this.cbModelo.Size = new System.Drawing.Size(136, 26);
             this.cbModelo.TabIndex = 9;
@@ -167,7 +175,7 @@ namespace CapaPresentacion.Gerente
             this.btnCancelarNeumatico.FlatAppearance.BorderSize = 0;
             this.btnCancelarNeumatico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarNeumatico.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarNeumatico.Location = new System.Drawing.Point(423, 99);
+            this.btnCancelarNeumatico.Location = new System.Drawing.Point(446, 160);
             this.btnCancelarNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelarNeumatico.Name = "btnCancelarNeumatico";
             this.btnCancelarNeumatico.Size = new System.Drawing.Size(85, 25);
@@ -182,7 +190,7 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarNeumatico.FlatAppearance.BorderSize = 0;
             this.btnGuardarNeumatico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarNeumatico.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarNeumatico.Location = new System.Drawing.Point(260, 99);
+            this.btnGuardarNeumatico.Location = new System.Drawing.Point(283, 160);
             this.btnGuardarNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardarNeumatico.Name = "btnGuardarNeumatico";
             this.btnGuardarNeumatico.Size = new System.Drawing.Size(75, 25);
@@ -191,23 +199,23 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarNeumatico.UseVisualStyleBackColor = false;
             this.btnGuardarNeumatico.Click += new System.EventHandler(this.btnGuardarNeumatico_Click);
             // 
-            // txtPrecioNeumatico
+            // txtPrecio
             // 
-            this.txtPrecioNeumatico.BackColor = System.Drawing.Color.LightBlue;
-            this.txtPrecioNeumatico.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecioNeumatico.Location = new System.Drawing.Point(330, 50);
-            this.txtPrecioNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtPrecioNeumatico.Multiline = true;
-            this.txtPrecioNeumatico.Name = "txtPrecioNeumatico";
-            this.txtPrecioNeumatico.Size = new System.Drawing.Size(135, 25);
-            this.txtPrecioNeumatico.TabIndex = 7;
-            this.txtPrecioNeumatico.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecio_KeyPress);
+            this.txtPrecio.BackColor = System.Drawing.Color.LightBlue;
+            this.txtPrecio.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtPrecio.Location = new System.Drawing.Point(367, 82);
+            this.txtPrecio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtPrecio.Multiline = true;
+            this.txtPrecio.Name = "txtPrecio";
+            this.txtPrecio.Size = new System.Drawing.Size(135, 25);
+            this.txtPrecio.TabIndex = 7;
+            this.txtPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPrecio_KeyPress);
             // 
             // lblPrecioNeumatico
             // 
             this.lblPrecioNeumatico.AutoSize = true;
             this.lblPrecioNeumatico.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioNeumatico.Location = new System.Drawing.Point(269, 52);
+            this.lblPrecioNeumatico.Location = new System.Drawing.Point(297, 84);
             this.lblPrecioNeumatico.Name = "lblPrecioNeumatico";
             this.lblPrecioNeumatico.Size = new System.Drawing.Size(54, 18);
             this.lblPrecioNeumatico.TabIndex = 6;
@@ -217,11 +225,11 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblModelo.AutoSize = true;
             this.lblModelo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblModelo.Location = new System.Drawing.Point(269, 20);
+            this.lblModelo.Location = new System.Drawing.Point(296, 51);
             this.lblModelo.Name = "lblModelo";
-            this.lblModelo.Size = new System.Drawing.Size(60, 18);
+            this.lblModelo.Size = new System.Drawing.Size(52, 18);
             this.lblModelo.TabIndex = 4;
-            this.lblModelo.Text = "Modelo";
+            this.lblModelo.Text = "Marca";
             // 
             // btnBuscarNeumatico
             // 
@@ -229,7 +237,7 @@ namespace CapaPresentacion.Gerente
             this.btnBuscarNeumatico.FlatAppearance.BorderSize = 0;
             this.btnBuscarNeumatico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscarNeumatico.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarNeumatico.Location = new System.Drawing.Point(460, 30);
+            this.btnBuscarNeumatico.Location = new System.Drawing.Point(512, 30);
             this.btnBuscarNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscarNeumatico.Name = "btnBuscarNeumatico";
             this.btnBuscarNeumatico.Size = new System.Drawing.Size(75, 25);
@@ -242,23 +250,26 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtNeumatico.BackColor = System.Drawing.Color.LightBlue;
             this.txtNeumatico.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNeumatico.Location = new System.Drawing.Point(319, 30);
+            this.txtNeumatico.Location = new System.Drawing.Point(371, 30);
             this.txtNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtNeumatico.Multiline = true;
             this.txtNeumatico.Name = "txtNeumatico";
             this.txtNeumatico.Size = new System.Drawing.Size(135, 25);
             this.txtNeumatico.TabIndex = 1;
+            this.txtNeumatico.TextChanged += new System.EventHandler(this.txtNeumatico_TextChanged);
+            this.txtNeumatico.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNeumatico_KeyDown);
             this.txtNeumatico.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNeumatico_KeyPress);
             // 
             // lblNeumatico
             // 
             this.lblNeumatico.AutoSize = true;
             this.lblNeumatico.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNeumatico.Location = new System.Drawing.Point(230, 33);
+            this.lblNeumatico.Location = new System.Drawing.Point(282, 33);
             this.lblNeumatico.Name = "lblNeumatico";
             this.lblNeumatico.Size = new System.Drawing.Size(83, 18);
             this.lblNeumatico.TabIndex = 0;
             this.lblNeumatico.Text = "Neumático";
+            this.lblNeumatico.Click += new System.EventHandler(this.lblNeumatico_Click);
             // 
             // tabLavadero
             // 
@@ -535,11 +546,55 @@ namespace CapaPresentacion.Gerente
             this.lblNombreAyB.TabIndex = 4;
             this.lblNombreAyB.Text = "Nombre";
             // 
+            // txtNombre
+            // 
+            this.txtNombre.BackColor = System.Drawing.Color.LightBlue;
+            this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNombre.Location = new System.Drawing.Point(367, 15);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtNombre.Multiline = true;
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(135, 25);
+            this.txtNombre.TabIndex = 12;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label2.Location = new System.Drawing.Point(296, 17);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 18);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Nombre";
+            // 
+            // txtStock
+            // 
+            this.txtStock.BackColor = System.Drawing.Color.LightBlue;
+            this.txtStock.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtStock.Location = new System.Drawing.Point(367, 114);
+            this.txtStock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtStock.Multiline = true;
+            this.txtStock.Name = "txtStock";
+            this.txtStock.Size = new System.Drawing.Size(135, 25);
+            this.txtStock.TabIndex = 14;
+            this.txtStock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStock_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label3.Location = new System.Drawing.Point(296, 116);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 18);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Stock";
+            // 
             // PrecioServicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(804, 418);
+            this.ClientSize = new System.Drawing.Size(850, 550);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -593,7 +648,7 @@ namespace CapaPresentacion.Gerente
         private Panel pDatosNeumatico;
         private Button btnCancelarNeumatico;
         private Button btnGuardarNeumatico;
-        private TextBox txtPrecioNeumatico;
+        private TextBox txtPrecio;
         private Label lblPrecioNeumatico;
         private Label lblModelo;
         private Button btnBuscarNeumatico;
@@ -603,5 +658,9 @@ namespace CapaPresentacion.Gerente
         private Button btnEliminar;
         private Label txtNombreLavado;
         private Label txtNombreAyB;
+        private TextBox txtNombre;
+        private Label label2;
+        private TextBox txtStock;
+        private Label label3;
     }
 }
