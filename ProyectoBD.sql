@@ -9,8 +9,7 @@ CREATE TABLE Persona (
   nro_puerta INT NOT NULL,
   calle VARCHAR(100) NOT NULL,
   ciudad VARCHAR(50) NOT NULL,
-  estado TINYINT DEFAULT 1,
-  CONSTRAINT chk_estado CHECK (estado IN (0, 1))
+  estado TINYINT DEFAULT 1
 );
 
 CREATE TABLE Telefono (
@@ -31,7 +30,7 @@ CREATE TABLE Rol (
   id_rol INT AUTO_INCREMENT,
   nombre_rol VARCHAR(40) NOT NULL,
   PRIMARY KEY (id_rol),
-  UNIQUE (nombre_rol) -- Restricción de unicidad en nombre_rol
+  UNIQUE (nombre_rol)
 );
 
 CREATE TABLE Empleado (
@@ -40,8 +39,7 @@ CREATE TABLE Empleado (
   usuario VARCHAR(20) NOT NULL,
   PRIMARY KEY (ci),
   FOREIGN KEY (ci) REFERENCES Persona(ci),
-  FOREIGN KEY (id_rol) REFERENCES Rol(id_rol),
-  UNIQUE (usuario) -- Restricción de unicidad en usuario
+  FOREIGN KEY (id_rol) REFERENCES Rol(id_rol)
 );
 
 CREATE TABLE Marca (
@@ -67,8 +65,7 @@ CREATE TABLE Vehiculo (
   estado_vehiculo TINYINT NOT NULL DEFAULT 1,
   PRIMARY KEY (matricula),
   FOREIGN KEY (id_marca) REFERENCES Marca(id_marca),
-  FOREIGN KEY (id_tipo) REFERENCES Tipo_Vehiculo(id_tipo),
-  CONSTRAINT chk_estado_vehiculo CHECK (estado_vehiculo IN (0, 1))
+  FOREIGN KEY (id_tipo) REFERENCES Tipo_Vehiculo(id_tipo)
 );
 
 CREATE TABLE Posee (
@@ -83,7 +80,7 @@ CREATE TABLE Factura (
   id_factura INT AUTO_INCREMENT,
   ci INT NOT NULL,
   matricula VARCHAR(10) NOT NULL,
-  factura_paga ENUM('0', '1') NOT NULL DEFAULT '0', -- usar bool
+  factura_paga ENUM('0', '1') NOT NULL,
   fecha DATETIME NOT NULL,
   PRIMARY KEY (id_factura),
   FOREIGN KEY (ci) REFERENCES Persona(ci),
@@ -114,7 +111,7 @@ CREATE TABLE Parking (
   id_parking INT AUTO_INCREMENT,
   hora_entrada DATETIME NOT NULL,
   hora_salida DATETIME NOT NULL,
-  precio_parking DOUBLE(10, 2) NOT NULL DEFAULT 0,
+  precio_parking DOUBLE NOT NULL DEFAULT 0,
   PRIMARY KEY (id_parking)
 );
 
@@ -138,7 +135,7 @@ CREATE TABLE Ticket (
     ci INT NOT NULL,
     id_plaza INT NOT NULL,
     fecha_ticket DATETIME NOT NULL,
-    PRIMARY KEY (id_ticket),
+    PRIMARY KEY (id_ticket, matricula, ci, id_plaza),
     FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula),
     FOREIGN KEY (ci) REFERENCES Cliente(ci),
     FOREIGN KEY (id_plaza) REFERENCES Plaza(id_plaza)
@@ -339,16 +336,16 @@ INSERT INTO Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, precio_n
 /* FACTURA */
 
 INSERT INTO Factura (id_factura, ci, matricula, factura_paga, fecha) VALUES
-(1, 56303446, 'abc1234', '0', '2024-08-17 14:22:45'),
-(2, 43214321, 'cba4321', '0', '2024-08-18 10:34:12'),
-(3, 32132143, 'fga1235', '0','2024-08-19 09:00:00'),
-(4, 54839454, 'das7869', '0','2024-08-20 15:45:00'),
-(5, 38765432, 'xyz5678', '0','2024-08-21 11:22:00'),
-(6, 57654321, 'uvw8765', '0','2024-08-22 13:30:00'),
-(7, 26543210, 'rst3456', '0','2024-08-23 10:15:00'),
-(8, 15432109, 'opq2345', '0','2024-08-24 16:00:00'),
-(9, 34321098, 'lmn6543', '0','2024-08-25 14:50:00'),
-(10, 43210987, 'ijk9876', '0','2024-08-26 12:10:00');
+(1, 56303446, 'abc1234', '0', '2024-10-06 14:22:45'),
+(2, 43214321, 'cba4321', '0', '2024-10-06 10:34:12'),
+(3, 32132143, 'fga1235', '0', '2024-10-06 09:00:00'),
+(4, 54839454, 'das7869', '0', '2024-10-06 15:45:00'),
+(5, 38765432, 'xyz5678', '0', '2024-10-06 11:22:00'),
+(6, 57654321, 'uvw8765', '0', '2024-10-06 13:30:00'),
+(7, 26543210, 'rst3456', '0', '2024-09-28 10:15:00'),
+(8, 15432109, 'opq2345', '0', '2024-09-18 16:00:00'),
+(9, 34321098, 'lmn6543', '0', '2024-09-25 14:50:00'),
+(10, 43210987, 'ijk9876', '0', '2024-09-29 12:10:00');
 
 /* PARKING */
 
@@ -448,14 +445,14 @@ INSERT INTO Ticket(id_ticket, matricula, ci, id_plaza, fecha_ticket) VALUES
 (1, 'abc1234', 56303446, 3, '2024-08-17 14:22:45'),
 (2, 'cba4321', 43214321, 6, '2024-08-18 10:34:12'),
 (3, 'fga1235', 32132143, 9, '2024-08-19 09:00:00'),
-(4, 'das7869', 54839454, 21, '2024-08-20 15:45:00'),
-(5, 'xyz5678', 38765432, 25, '2024-08-21 11:22:00'),
+(4, 'das7869', 54839454, 21, '2024-09-20 15:45:00'),
+(5, 'xyz5678', 38765432, 25, '2024-09-21 11:22:00'),
 (6, 'xyz5678', 38765432, 26, '2024-08-21 11:22:00'),
 (7, 'uvw8765', 57654321, 30, '2024-08-22 13:30:00'),
 (8, 'rst3456', 26543210, 40, '2024-08-23 10:15:00'),
 (9, 'rst3456', 26543210, 41, '2024-08-23 10:15:00'),
-(10, 'opq2345', 15432109, 43, '2024-08-24 16:00:00'),
-(11, 'lmn6543', 34321098, 52, '2024-08-25 14:50:00'),
+(10, 'opq2345', 15432109, 43, '2024-09-24 16:00:00'),
+(11, 'lmn6543', 34321098, 52, '2024-09-25 14:50:00'),
 (12, 'ijk9876', 43210987, 53, '2024-08-26 12:10:00');
 
 /* SOLICITA */
@@ -540,6 +537,7 @@ GRANT SELECT, INSERT, UPDATE ON Empleado TO 'jefe'@'localhost';
 GRANT SELECT ON Marca TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'jefe'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'jefe'@'localhost';
 GRANT SELECT ON Neumatico TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Compra TO 'jefe'@'localhost';
@@ -561,6 +559,7 @@ GRANT SELECT ON Empleado TO 'eje'@'localhost';
 GRANT SELECT ON Marca TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'eje'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'eje'@'localhost';
 GRANT SELECT ON Neumatico TO 'eje'@'localhost';
 GRANT SELECT, INSERT, UPDATE ON Compra TO 'eje'@'localhost';
@@ -603,12 +602,8 @@ GRANT SELECT ON Marca TO 'ope'@'localhost';
 GRANT SELECT ON Vehiculo TO 'ope'@'localhost';
 GRANT SELECT ON Tipo_Vehiculo TO 'ope'@'localhost';
 GRANT SELECT ON Posee TO 'ope'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Factura TO 'ope'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Parking TO 'ope'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Plaza TO 'ope'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Ticket TO 'ope'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Reserva TO 'ope'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
+GRANT SELECT ON Plaza TO 'ope'@'localhost';
+GRANT SELECT, INSERT ON Ticket TO 'ope'@'localhost';
 
 -- SELECT p.ci, p.matricula, m.nombre_marca, t.nombre_tipo
 -- FROM Posee p
@@ -718,8 +713,69 @@ GRANT SELECT, INSERT, UPDATE ON Solicita TO 'ope'@'localhost';
 -- set stock = 20
 -- where id_neumatico = 1;
 
-select * from vehiculo;
+-- select * from vehiculo;
 
-select id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico
-from neumatico
-where id_neumatico = 2;
+-- select id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico
+-- from neumatico
+-- where id_neumatico = 2;
+
+-- CONSULTAS SQL 
+
+-- CONSULTA 1
+SELECT id_factura, ci, matricula, factura_paga, fecha 
+FROM Factura
+WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+
+-- CONSULTA 2 -- COALESCA devuelve 0 si no encuentra
+SELECT f.ci, 
+       SUM(COALESCE(s.precio_solicita, 0) + 
+           COALESCE(c.precio_compra * c.cantidad_compra, 0) + 
+           COALESCE(h.precio_hace, 0) + 
+           COALESCE(u.precio_usa, 0)) AS total_gastado
+FROM Factura f
+LEFT JOIN Solicita s ON s.id_factura = f.id_factura
+LEFT JOIN Compra c ON c.id_factura = f.id_factura
+LEFT JOIN Hace h ON h.id_factura = f.id_factura
+LEFT JOIN Usa u ON u.id_factura = f.id_factura
+WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+GROUP BY f.ci
+ORDER BY total_gastado DESC
+LIMIT 5;
+
+-- CONSULTA 3
+SELECT f.matricula, COUNT(u.id_factura) AS total_lavados
+FROM Factura f
+JOIN Usa u ON f.id_factura = u.id_factura
+WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+GROUP BY f.matricula
+ORDER BY total_lavados DESC
+LIMIT 5;
+
+-- CONSULTA 4
+SELECT s.id_plaza, COUNT(s.id_plaza) AS total_usos
+FROM Solicita s
+GROUP BY s.id_plaza
+ORDER BY total_usos DESC
+LIMIT 1;
+
+-- CONSULTA 5
+SELECT 'Lavado' AS servicio, nombre_lavado AS nombre, precio_lavado AS precio
+FROM Lavado
+UNION ALL
+SELECT 'Alineación y Balanceo' AS servicio, nombre_ayb AS nombre, precio_ayb AS precio
+FROM Alineacion_Balanceo
+UNION ALL
+SELECT 'Neumático' AS servicio, CONCAT(nombre_neumatico, ' - ', marca_neumatico) AS nombre, precio_neumatico AS precio
+FROM Neumatico;
+
+-- CONSULTA 6
+SELECT nombre_neumatico, marca_neumatico, stock_neumatico
+FROM Neumatico
+WHERE estado_neumatico = 1
+ORDER BY marca_neumatico DESC;
+
+
+
+
+
+
