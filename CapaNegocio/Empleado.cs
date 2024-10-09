@@ -297,25 +297,30 @@ namespace CapaNegocio
             return resultado;
         } // Fin Método guardar
 
-        public List<Empleado> ListarEmpleado()
+        public List<Empleado> ListarEmpleados(int numeroPagina, int tamanioPagina)
         {
             List<Empleado> empleados = new List<Empleado>();
             Dictionary<int, Empleado> empleadosDict = new Dictionary<int, Empleado>();
-            DataTable dt;
 
-            // Consulta SQL para obtener los empleados y sus teléfonos
-            string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario, t.telefono " +
-                         "FROM Persona p " +
-                         "JOIN Empleado e ON p.ci = e.ci " +
-                         "JOIN Telefono t ON p.ci = t.ci " +
-                         "WHERE p.estado = 1;";
+            if (!_conexion.Abierta())
+            {
+                throw new Exception("La conexión a la base de datos está cerrada.");
+            }
+
+            // Consulta SQL para listar empleados con paginación
+            string sql = $@"
+                SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario, t.telefono
+                FROM Persona p
+                JOIN Empleado e ON p.ci = e.ci
+                JOIN Telefono t ON p.ci = t.ci
+                WHERE p.estado = 1
+                ORDER BY p.ci
+                LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
 
             try
             {
-                // Ejecuta la consulta y obtiene el resultado en un DataTable
-                dt = _conexion.EjecutarSelect(sql);
+                DataTable dt = _conexion.EjecutarSelect(sql);
 
-                // Recorre las filas del DataTable
                 foreach (DataRow row in dt.Rows)
                 {
                     int ci = Convert.ToInt32(row["ci"]);
@@ -323,27 +328,25 @@ namespace CapaNegocio
                     // Verifica si el empleado ya está en el diccionario
                     if (!empleadosDict.ContainsKey(ci))
                     {
-                        // Crea un nuevo empleado y lo agrega al diccionario
                         empleadosDict[ci] = new Empleado
                         {
                             ci = ci,
-                            nombre = Convert.ToString(row["nombre"]),
-                            apellido = Convert.ToString(row["apellido"]),
+                            nombre = row["nombre"].ToString(),
+                            apellido = row["apellido"].ToString(),
                             nroPuerta = Convert.ToInt32(row["nro_puerta"]),
-                            calle = Convert.ToString(row["calle"]),
-                            ciudad = Convert.ToString(row["ciudad"]),
+                            calle = row["calle"].ToString(),
+                            ciudad = row["ciudad"].ToString(),
                             estado = Convert.ToSByte(row["estado"]),
-                            Telefonos = new List<string>(),
-                            usuario = Convert.ToString(row["usuario"]),
-                            rol = Convert.ToInt32(row["id_rol"])
+                            usuario = row["usuario"].ToString(),
+                            rol = Convert.ToInt32(row["id_rol"]),
+                            Telefonos = new List<string>()
                         };
                     }
 
                     // Agrega el teléfono al empleado existente
-                    empleadosDict[ci].Telefonos.Add(Convert.ToString(row["telefono"]));
+                    empleadosDict[ci].Telefonos.Add(row["telefono"].ToString());
                 }
 
-                // Convierte el diccionario a una lista
                 empleados = empleadosDict.Values.ToList();
             }
             catch (Exception ex)
@@ -352,40 +355,6 @@ namespace CapaNegocio
             }
 
             return empleados;
-        }
-
-        public byte CrearEmpleado(string usuario, string contrasenia)
-        {
-            byte resultado = 0;
-            string sql;
-
-            // Verificar si la conexión está abierta
-            if (!_conexion.Abierta())
-            {
-                resultado = 1; // Conexión cerrada
-            }
-            else
-            {
-                // SQL para actualizar el estado de la persona a 0 (eliminar lógicamente)
-                sql = "CREATE USER '" + usuario + "'@'localhost' IDENTIFIED BY '" + contrasenia + "';";
-
-                try
-                {
-                    // Ejecutar la consulta y verificar si se modificaron registros
-                    object filasAfectadas = _conexion.Ejecutar(sql);
-
-                    if (filasAfectadas == null)
-                    {
-                        resultado = 3; // No se modificaron registros, posible CI inexistente
-                    }
-
-                }
-                catch
-                {
-                    return 2; // Error en la ejecución
-                }
-            }
-            return resultado;
         }
     }
 }

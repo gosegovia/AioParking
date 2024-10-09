@@ -34,6 +34,10 @@ namespace CapaPresentacion.JefeServicios
             this.lblEmpleados = new System.Windows.Forms.Label();
             this.dgvEmpleado = new System.Windows.Forms.DataGridView();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.btnResetear = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.txtCI = new System.Windows.Forms.TextBox();
+            this.lblCI = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpleado)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,7 +49,7 @@ namespace CapaPresentacion.JefeServicios
             this.lblEmpleados.AutoSize = true;
             this.lblEmpleados.Font = new System.Drawing.Font("Arial", 28.2F);
             this.lblEmpleados.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblEmpleados.Location = new System.Drawing.Point(264, 30);
+            this.lblEmpleados.Location = new System.Drawing.Point(285, 30);
             this.lblEmpleados.Name = "lblEmpleados";
             this.lblEmpleados.Size = new System.Drawing.Size(314, 43);
             this.lblEmpleados.TabIndex = 1;
@@ -55,10 +59,10 @@ namespace CapaPresentacion.JefeServicios
             // 
             this.dgvEmpleado.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvEmpleado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEmpleado.Location = new System.Drawing.Point(12, 95);
+            this.dgvEmpleado.Location = new System.Drawing.Point(12, 148);
             this.dgvEmpleado.Name = "dgvEmpleado";
             this.dgvEmpleado.RowTemplate.Height = 25;
-            this.dgvEmpleado.Size = new System.Drawing.Size(779, 312);
+            this.dgvEmpleado.Size = new System.Drawing.Size(826, 361);
             this.dgvEmpleado.TabIndex = 2;
             // 
             // btnVolver
@@ -68,7 +72,7 @@ namespace CapaPresentacion.JefeServicios
             this.btnVolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVolver.Font = new System.Drawing.Font("Arial", 12F);
             this.btnVolver.ForeColor = System.Drawing.Color.White;
-            this.btnVolver.Location = new System.Drawing.Point(703, 412);
+            this.btnVolver.Location = new System.Drawing.Point(750, 514);
             this.btnVolver.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(88, 25);
@@ -77,11 +81,70 @@ namespace CapaPresentacion.JefeServicios
             this.btnVolver.UseVisualStyleBackColor = false;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
+            // btnResetear
+            // 
+            this.btnResetear.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnResetear.FlatAppearance.BorderSize = 0;
+            this.btnResetear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnResetear.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnResetear.ForeColor = System.Drawing.Color.White;
+            this.btnResetear.Location = new System.Drawing.Point(515, 97);
+            this.btnResetear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnResetear.Name = "btnResetear";
+            this.btnResetear.Size = new System.Drawing.Size(91, 25);
+            this.btnResetear.TabIndex = 32;
+            this.btnResetear.Text = "Actualizar";
+            this.btnResetear.UseVisualStyleBackColor = false;
+            this.btnResetear.Click += new System.EventHandler(this.btnResetear_Click);
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscar.FlatAppearance.BorderSize = 0;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnBuscar.ForeColor = System.Drawing.Color.White;
+            this.btnBuscar.Location = new System.Drawing.Point(434, 97);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 25);
+            this.btnBuscar.TabIndex = 31;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // txtCI
+            // 
+            this.txtCI.BackColor = System.Drawing.Color.LightBlue;
+            this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtCI.Location = new System.Drawing.Point(292, 97);
+            this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCI.Multiline = true;
+            this.txtCI.Name = "txtCI";
+            this.txtCI.Size = new System.Drawing.Size(135, 25);
+            this.txtCI.TabIndex = 30;
+            // 
+            // lblCI
+            // 
+            this.lblCI.AutoSize = true;
+            this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCI.Location = new System.Drawing.Point(266, 101);
+            this.lblCI.Name = "lblCI";
+            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.TabIndex = 29;
+            this.lblCI.Text = "CI";
+            // 
             // ListarEmpleado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 499);
+            this.ClientSize = new System.Drawing.Size(850, 550);
+            this.Controls.Add(this.btnResetear);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.txtCI);
+            this.Controls.Add(this.lblCI);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvEmpleado);
             this.Controls.Add(this.lblEmpleados);
@@ -102,5 +165,9 @@ namespace CapaPresentacion.JefeServicios
         private Label lblEmpleados;
         private DataGridView dgvEmpleado;
         private Button btnVolver;
+        private Button btnResetear;
+        private Button btnBuscar;
+        private TextBox txtCI;
+        private Label lblCI;
     }
 }

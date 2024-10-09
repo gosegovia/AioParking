@@ -1,7 +1,9 @@
-﻿using CapaPersistencia;
+﻿using ADODB;
+using CapaPersistencia;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -17,6 +19,7 @@ namespace CapaNegocio
         protected string _nombreTipo;
         protected string _nombreVehiculo;
         protected bool _estadoVehiculo;
+        protected Cliente _cliente;
         protected Conexion _conexion;
 
         public string Matricula
@@ -61,6 +64,12 @@ namespace CapaNegocio
             set { _estadoVehiculo = value; }
         }
 
+        public Cliente Cliente
+        {
+            set { _cliente = value; }
+            get { return _cliente; }
+        }
+
         public Conexion Conexion
         {
             set { _conexion = value; }
@@ -83,10 +92,11 @@ namespace CapaNegocio
             _nombreTipo = "";
             _nombreVehiculo = "";
             _estadoVehiculo = false;
+            _cliente = new Cliente();
             _conexion = new Conexion();
         }
 
-        public Vehiculo(string mat, int mar, string nommar, int tipo, string nombtipo, string nomve, bool es, Conexion cn)
+        public Vehiculo(string mat, int mar, string nommar, int tipo, string nombtipo, string nomve, bool es, Cliente cli, Conexion cn)
         {
             _matricula = mat;
             _marca = mar;
@@ -95,6 +105,7 @@ namespace CapaNegocio
             _nombreTipo = nombtipo;
             _nombreVehiculo = nomve;
             _estadoVehiculo = es;
+            _cliente = cli;
             _conexion = cn;
         }
 
@@ -132,7 +143,7 @@ namespace CapaNegocio
             return 0; // Encontrado
         }
 
-        public byte BuscarVehiculo(Cliente c)
+        public byte BuscarVehiculo()
         {
             if (!_conexion.Abierta())
             {
@@ -142,7 +153,7 @@ namespace CapaNegocio
             string sql = $"SELECT v.matricula, v.id_marca, v.id_tipo, v.estado_vehiculo, p.ci " +
                          $"FROM Vehiculo v " +
                          $"JOIN Posee p ON v.matricula = p.matricula " +
-                         $"WHERE v.matricula = '{_matricula}'";
+                         $"WHERE v.matricula = '{Matricula}'";
 
             DataTable dt = _conexion.EjecutarSelect(sql);
 
@@ -152,11 +163,11 @@ namespace CapaNegocio
             }
 
             DataRow row = dt.Rows[0];
-            _matricula = row["matricula"].ToString();
-            _marca = Convert.ToInt32(row["id_marca"]);
-            _tipoVehiculo = Convert.ToInt32(row["id_tipo"]);
+            Matricula = row["matricula"].ToString();
+            marca = Convert.ToInt32(row["id_marca"]);
+            TipoVehiculo = Convert.ToInt32(row["id_tipo"]);
             EstadoVehiculo = Convert.ToBoolean(row["estado_vehiculo"]);
-            c.ci = Convert.ToInt32(row["ci"]);
+            Cliente.ci = Convert.ToInt32(row["ci"]);
 
             return 0; // Encontrado
         }
@@ -258,17 +269,26 @@ namespace CapaNegocio
             return 0; // Eliminado correctamente
         }
 
-        public List<Vehiculo> ListarVehiculo(out Dictionary<string, int> vehiculosClientes)
+        public List<Vehiculo> ListarVehiculo(int numeroPagina, int tamanioPagina, out Dictionary<string, int> vehiculosClientes)
         {
             List<Vehiculo> vehiculos = new List<Vehiculo>();
             vehiculosClientes = new Dictionary<string, int>();
 
-            string sql = "SELECT v.matricula, c.ci, v.id_tipo, v.estado_vehiculo, m.nombre_marca " +
-             "FROM Vehiculo v " +
-             "JOIN Marca m ON v.id_marca = m.id_marca " +
-             "JOIN Posee p ON v.matricula = p.matricula " +
-             "JOIN Cliente c ON p.ci = c.ci;";
+            if (!_conexion.Abierta())
+            {
+                throw new Exception("La conexión a la base de datos está cerrada.");
+            }
 
+            // Consulta SQL para listar vehículos con paginación
+            string sql = $@"
+        SELECT v.matricula, c.ci, v.id_tipo, v.estado_vehiculo, m.nombre_marca 
+        FROM Vehiculo v 
+        JOIN Marca m ON v.id_marca = m.id_marca 
+        JOIN Posee p ON v.matricula = p.matricula 
+        JOIN Cliente c ON p.ci = c.ci 
+        WHERE v.estado_vehiculo = 1
+        ORDER BY v.matricula
+        LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
 
             try
             {
@@ -279,10 +299,10 @@ namespace CapaNegocio
                     // Convertimos el estado del vehículo antes de evaluar
                     bool estadoVehiculo = Convert.ToBoolean(row["estado_vehiculo"]);
 
-                    // Comprobamos si el estado del vehículo es 1 (inactivo)
-                    if (estadoVehiculo == false) // Si 'estado_vehiculo' es 0, lo ignoramos
+                    // Comprobamos si el estado del vehículo es 1 (activo)
+                    if (!estadoVehiculo)
                     {
-                        continue; // Salta a la siguiente iteración del bucle
+                        continue; // Si no está activo, saltamos al siguiente
                     }
 
                     string matricula = row["matricula"].ToString();
@@ -296,7 +316,6 @@ namespace CapaNegocio
                         TipoVehiculo = tipoVehiculo,
                         NombreMarca = row["nombre_marca"].ToString(),
                         NombreVehiculo = nombreVehiculo,
-
                     });
 
                     vehiculosClientes[matricula] = ciCliente;
@@ -309,6 +328,7 @@ namespace CapaNegocio
 
             return vehiculos;
         }
+
 
         private string ObtenerNombreVehiculo(int tipoVehiculo)
         {

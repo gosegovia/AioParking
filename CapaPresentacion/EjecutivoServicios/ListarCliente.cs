@@ -8,35 +8,75 @@ namespace CapaPresentacion.EjecutivoServicios
 {
     public partial class ListarCliente : Form
     {
+        private int _currentPage = 0;
+        private const int PageSize = 15; // Número de clientes que se cargan por página
+        private List<Cliente> _clientesCargados = new List<Cliente>();
+
         public ListarCliente()
         {
             InitializeComponent();
         }
 
-        // Carga del formulario
         private void ListarCliente_Load(object sender, EventArgs e)
+        {
+            // Forzar a que aparezcan ambos scrollbars
+            dgvCliente.ScrollBars = ScrollBars.Both;
+
+            // Cargar la primera tanda de clientes
+            CargarClientes();
+
+            // Asignar el evento de Scroll para detectar cuando llegar al final del DataGridView
+            dgvCliente.Scroll += new ScrollEventHandler(DataGridView_Scroll);
+        }
+
+        private void txtCI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscar.Focus();
+            }
+        }
+
+        private void txtCI_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 8);
+        }
+
+        private void DataGridView_Scroll(object sender, ScrollEventArgs e)
+        {
+            // Verificar si se llegó al final de las filas visibles
+            if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
+            {
+                if (dgvCliente.Rows.Count > 0 &&
+                    dgvCliente.FirstDisplayedScrollingRowIndex + dgvCliente.DisplayedRowCount(false) >= dgvCliente.Rows.Count)
+                {
+                    // Si se llega al final, cargar más clientes
+                    CargarClientes();
+                }
+            }
+        }
+
+        private void CargarClientes()
         {
             try
             {
-                // Crear una instancia de Cliente desde la capa de negocio
                 Cliente c = new Cliente
                 {
-                    // Asegúrate de que la conexión esté asignada si es necesario
-                    conexion = Program.con // Asumiendo que Program.con es la conexión global
+                    conexion = Program.con
                 };
 
-                // Obtener la lista de clientes
-                List<Cliente> clientes = c.ListarClientes();
+                // Llamar al método de paginación
+                List<Cliente> nuevosClientes = c.ListarClientes(_currentPage, PageSize);
 
-                if (clientes != null && clientes.Count > 0)
+                if (nuevosClientes != null && nuevosClientes.Count > 0)
                 {
-                    // Filtrar los clientes para excluir aquellos con estado = 0
-                    var clientesFiltrados = clientes.Where(cl => cl.estado != 0).ToList();
+                    _clientesCargados.AddRange(nuevosClientes);
 
-                    if (clientesFiltrados.Count > 0)
-                    {
-                        // Transformar los datos de los clientes para mostrarlos en el DataGridView
-                        var datosClientes = clientesFiltrados.Select(cl => new
+                    var datosClientes = _clientesCargados
+                        .Where(cl => cl.estado != 0)
+                        .Select(cl => new
                         {
                             CI = cl.ci,
                             Nombre = cl.nombre,
@@ -45,18 +85,16 @@ namespace CapaPresentacion.EjecutivoServicios
                             Calle = cl.calle,
                             Ciudad = cl.ciudad,
                             Tipo_Cliente = cl.TipoCliente,
-                            Telefonos = string.Join(", ", cl.Telefonos) // Concatenar los teléfonos
+                            Telefonos = string.Join(", ", cl.Telefonos)
                         }).ToList();
 
-                        // Asignar los datos al DataGridView
-                        dgvCliente.DataSource = datosClientes;
-                    }
-                    else
-                    {
-                        MessageBox.Show("No se encontraron clientes activos en la base de datos.");
-                    }
+                    // Actualizamos el DataSource con todos los clientes cargados hasta ahora
+                    dgvCliente.DataSource = null; // Desenlazamos la fuente actual
+                    dgvCliente.DataSource = datosClientes; // Asignamos la nueva lista actualizada
+
+                    _currentPage++; // Avanzar a la siguiente página para cargar más datos en el futuro
                 }
-                else
+                else if (_currentPage == 0)
                 {
                     MessageBox.Show("No se encontraron clientes en la base de datos.");
                 }
@@ -67,13 +105,81 @@ namespace CapaPresentacion.EjecutivoServicios
             }
         }
 
-
-
-        // Botón volver
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            // Cerrar la ventana
             this.Close();
-        } // Fin botón volver
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string cedulaBuscada = txtCI.Text.Trim();
+
+            if (string.IsNullOrEmpty(cedulaBuscada))
+            {
+                MessageBox.Show("Por favor, ingrese una cédula para buscar.");
+                return;
+            }
+
+            // Crear una instancia de Cliente
+            Cliente c = new Cliente { conexion = Program.con };
+
+            // Asignar la cédula a buscar
+            c.ci = Convert.ToInt32(cedulaBuscada);
+
+            // Llamar al método Buscar
+            byte resultado = c.Buscar();
+
+            switch (resultado)
+            {
+                case 0: // Todo funcionó correctamente
+                    var datosClientes = new List<object>
+            {
+                new
+                {
+                    CI = c.ci,
+                    Nombre = c.nombre,
+                    Apellido = c.apellido,
+                    NumeroPuerta = c.nroPuerta,
+                    Calle = c.calle,
+                    Ciudad = c.ciudad,
+                    Tipo_Cliente = c.TipoCliente,
+                    Telefonos = string.Join(", ", c.Telefonos)
+                }
+            };
+
+                    dgvCliente.DataSource = null; // Resetear el DataGridView
+                    dgvCliente.DataSource = datosClientes; // Asignar el cliente encontrado
+                    break;
+
+                case 1:
+                    MessageBox.Show("La conexión a la base de datos está cerrada.");
+                    break;
+
+                case 2:
+                    MessageBox.Show("Error en la ejecución de la consulta.");
+                    break;
+
+                case 3:
+                    MessageBox.Show("No se encontró un cliente con esa cédula.");
+                    break;
+
+                default:
+                    MessageBox.Show("Error desconocido.");
+                    break;
+            }
+        }
+
+        private void btnResetear_Click(object sender, EventArgs e)
+        {
+            // Limpiar el campo de búsqueda
+            txtCI.Clear();
+
+            // Resetear la lista de clientes cargados y la página actual
+            _clientesCargados.Clear();
+            _currentPage = 0;
+
+            // Volver a cargar todos los clientes
+            CargarClientes();
+        }
     }
 }

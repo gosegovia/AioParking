@@ -48,7 +48,6 @@ namespace CapaPresentacion.EjecutivoServicios
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             CapaNegocio.Vehiculo v;
-            CapaNegocio.Cliente c;
             string matricula = txtMatricula.Text.Trim();
 
             if (string.IsNullOrEmpty(matricula))
@@ -57,12 +56,11 @@ namespace CapaPresentacion.EjecutivoServicios
             }
             else
             {
-                c = new Cliente();
                 v = new Vehiculo();
                 v.Conexion = Program.con;
                 v.Matricula = matricula;
 
-                switch (v.BuscarVehiculo(c))
+                switch (v.BuscarVehiculo())
                 {
                     case 0: // Encontró
                         if (v.EstadoVehiculo == false)
@@ -87,7 +85,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         btnEliminar.Enabled = true;
 
                         txtMatricula.Text = v.Matricula;
-                        txtCI.Text = c.ci.ToString();
+                        txtCI.Text = v.Cliente.ci.ToString();
 
                         // Seleccionar marca
                         for (int i = 0; i < cbMarca.Items.Count; i++)
@@ -148,7 +146,6 @@ namespace CapaPresentacion.EjecutivoServicios
                     break;
                 }
                 v = null; // Destruyo el objeto
-                c = null;
             }
         }
 

@@ -303,36 +303,36 @@ namespace CapaNegocio
         }
 
 
-        public List<Cliente> ListarClientes()
+        public List<Cliente> ListarClientes(int numeroPagina, int tamanioPagina)
         {
             List<Cliente> clientes = new List<Cliente>();
             Dictionary<int, Cliente> clientesDict = new Dictionary<int, Cliente>();
 
-            // Verifica si la conexión está abierta
             if (!_conexion.Abierta())
             {
                 throw new Exception("La conexión a la base de datos está cerrada.");
             }
 
-            string sql = "SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente " +
-                         "FROM Persona p " +
-                         "JOIN Telefono t ON p.ci = t.ci " +
-                         "JOIN Cliente c ON p.ci = c.ci";
+            // Consulta paginada
+            string sql = $@"
+                        SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, t.telefono, c.tipo_cliente
+                        FROM Persona p
+                        JOIN Telefono t ON p.ci = t.ci
+                        JOIN Cliente c ON p.ci = c.ci
+                        ORDER BY p.ci
+                        LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina}";
+
 
             try
             {
-                // Ejecuta la consulta y obtiene el DataTable
                 DataTable dt = _conexion.EjecutarSelect(sql);
 
-                // Procesa cada fila del DataTable
                 foreach (DataRow row in dt.Rows)
                 {
                     int ci = Convert.ToInt32(row["ci"]);
 
-                    // Verifica si el cliente ya está en el diccionario
                     if (!clientesDict.ContainsKey(ci))
                     {
-                        // Crear un nuevo cliente y agregarlo al diccionario
                         clientesDict[ci] = new Cliente
                         {
                             _ci = ci,
@@ -347,16 +347,13 @@ namespace CapaNegocio
                         };
                     }
 
-                    // Agregar el teléfono al cliente existente
                     clientesDict[ci]._telefonos.Add(row["telefono"].ToString());
                 }
 
-                // Convierte el diccionario a lista
                 clientes = clientesDict.Values.ToList();
             }
             catch (Exception ex)
             {
-                // Manejo de errores
                 throw new Exception("Error al listar los clientes: " + ex.Message);
             }
 

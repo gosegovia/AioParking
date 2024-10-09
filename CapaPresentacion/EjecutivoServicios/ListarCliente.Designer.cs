@@ -37,6 +37,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.label1 = new System.Windows.Forms.Label();
             this.dgvCliente = new System.Windows.Forms.DataGridView();
             this.btnVolver = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.txtCI = new System.Windows.Forms.TextBox();
+            this.lblCI = new System.Windows.Forms.Label();
+            this.btnResetear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCliente)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,11 +61,12 @@ namespace CapaPresentacion.EjecutivoServicios
             // dgvCliente
             // 
             this.dgvCliente.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvCliente.Location = new System.Drawing.Point(12, 84);
+            this.dgvCliente.Location = new System.Drawing.Point(12, 148);
             this.dgvCliente.Name = "dgvCliente";
             this.dgvCliente.RowTemplate.Height = 25;
-            this.dgvCliente.Size = new System.Drawing.Size(820, 425);
+            this.dgvCliente.Size = new System.Drawing.Size(820, 346);
             this.dgvCliente.TabIndex = 2;
+            this.dgvCliente.Scroll += new System.Windows.Forms.ScrollEventHandler(this.DataGridView_Scroll);
             // 
             // btnVolver
             // 
@@ -79,11 +84,72 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnVolver.UseVisualStyleBackColor = false;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
+            // btnBuscar
+            // 
+            this.btnBuscar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscar.FlatAppearance.BorderSize = 0;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnBuscar.ForeColor = System.Drawing.Color.White;
+            this.btnBuscar.Location = new System.Drawing.Point(416, 98);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 25);
+            this.btnBuscar.TabIndex = 27;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // txtCI
+            // 
+            this.txtCI.BackColor = System.Drawing.Color.LightBlue;
+            this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtCI.Location = new System.Drawing.Point(274, 98);
+            this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCI.Multiline = true;
+            this.txtCI.Name = "txtCI";
+            this.txtCI.Size = new System.Drawing.Size(135, 25);
+            this.txtCI.TabIndex = 26;
+            this.txtCI.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCI_KeyDown);
+            this.txtCI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCI_KeyPress);
+            // 
+            // lblCI
+            // 
+            this.lblCI.AutoSize = true;
+            this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCI.Location = new System.Drawing.Point(248, 102);
+            this.lblCI.Name = "lblCI";
+            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.TabIndex = 25;
+            this.lblCI.Text = "CI";
+            // 
+            // btnResetear
+            // 
+            this.btnResetear.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnResetear.FlatAppearance.BorderSize = 0;
+            this.btnResetear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnResetear.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnResetear.ForeColor = System.Drawing.Color.White;
+            this.btnResetear.Location = new System.Drawing.Point(497, 98);
+            this.btnResetear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnResetear.Name = "btnResetear";
+            this.btnResetear.Size = new System.Drawing.Size(91, 25);
+            this.btnResetear.TabIndex = 28;
+            this.btnResetear.Text = "Actualizar";
+            this.btnResetear.UseVisualStyleBackColor = false;
+            this.btnResetear.Click += new System.EventHandler(this.btnResetear_Click);
+            // 
             // ListarCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 550);
+            this.Controls.Add(this.btnResetear);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.txtCI);
+            this.Controls.Add(this.lblCI);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvCliente);
             this.Controls.Add(this.label1);
@@ -104,5 +170,9 @@ namespace CapaPresentacion.EjecutivoServicios
         private Label label1;
         private DataGridView dgvCliente;
         private Button btnVolver;
+        private Button btnBuscar;
+        private TextBox txtCI;
+        private Label lblCI;
+        private Button btnResetear;
     }
 }
