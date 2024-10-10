@@ -8,9 +8,9 @@ namespace CapaPresentacion.EjecutivoServicios
 {
     public partial class ListarVehiculo : Form
     {
-        private List<Vehiculo> _vehiculosCargados = new List<Vehiculo>();
-        private int _currentPage = 0;
-        private const int PageSize = 15; // Ajusta según sea necesario
+        private List<Vehiculo> _vehiculosCargados = new List<Vehiculo>(); // Lista de vehículos cargados
+        private int _currentPage = 0; // Página actual
+        private const int PageSize = 13; // Tamaño de página (puedes ajustarlo según sea necesario)
 
         public ListarVehiculo()
         {
@@ -19,28 +19,45 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void ListarVehiculo_Load(object sender, EventArgs e)
         {
-            // Forzar a que aparezcan ambos scrollbars
+            // Forzar que ambos scrollbars aparezcan
             dgvVehiculo.ScrollBars = ScrollBars.Both;
 
             // Cargar la primera tanda de vehículos
-            CargarVehiculos(_currentPage, PageSize);
+            CargarVehiculos();
+
+            // Asignar el evento de scroll para detectar cuando llegar al final del DataGridView
+            dgvVehiculo.Scroll += new ScrollEventHandler(DataGridView_Scroll);
         }
 
+        private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscar.Focus();
+            }
+        }
+
+        private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Validaciones.validacionTextoNumero(sender, e);
+            Validaciones.validacionLongitud(sender, e, 10);
+        }
         private void DataGridView_Scroll(object sender, ScrollEventArgs e)
         {
+            // Verificar si se llegó al final de las filas visibles
             if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
             {
-                // Verificar si se llegó al final de las filas visibles
                 if (dgvVehiculo.Rows.Count > 0 &&
                     dgvVehiculo.FirstDisplayedScrollingRowIndex + dgvVehiculo.DisplayedRowCount(false) >= dgvVehiculo.Rows.Count)
                 {
-                    // Cargar más vehículos solo si hay más por cargar
-                    CargarVehiculos(_currentPage + 1, PageSize); // Cargar la siguiente página
+                    // Si se llega al final, cargar más vehículos
+                    CargarVehiculos();
                 }
             }
         }
 
-        private void CargarVehiculos(int numeroPagina, int tamanioPagina)
+        private void CargarVehiculos()
         {
             try
             {
@@ -49,52 +66,37 @@ namespace CapaPresentacion.EjecutivoServicios
                     Conexion = Program.con
                 };
 
+                // Llamar al método de paginación en el objeto Vehiculo
                 Dictionary<string, int> vehiculosClientes;
-                List<Vehiculo> nuevosVehiculos = v.ListarVehiculo(numeroPagina, tamanioPagina, out vehiculosClientes);
+                List<Vehiculo> nuevosVehiculos = v.ListarVehiculo(_currentPage, PageSize, out vehiculosClientes);
 
                 if (nuevosVehiculos != null && nuevosVehiculos.Count > 0)
                 {
-                    // Cargar vehículos en tu DataGridView
-                    var datosVehiculos = nuevosVehiculos.Select(ve => new
+                    _vehiculosCargados.AddRange(nuevosVehiculos);
+
+                    var datosVehiculos = _vehiculosCargados.Select(ve => new
                     {
                         Matricula = ve.Matricula,
-                        Ci = vehiculosClientes.ContainsKey(ve.Matricula) ? vehiculosClientes[ve.Matricula] : 0,
+                        Ci = ve.Cliente?.ci ?? 0, // Cliente (ci)
                         TipoVehiculo = ve.NombreVehiculo,
-                        Marca = ve.NombreMarca
+                        Marca = ve.NombreMarca,
                     }).ToList();
 
-                    // Actualizamos el DataSource con todos los vehículos cargados hasta ahora
-                    _vehiculosCargados.AddRange(nuevosVehiculos); // Agregar nuevos vehículos a la lista
-                    dgvVehiculo.DataSource = null; // Desenlazamos la fuente actual
-                    dgvVehiculo.DataSource = _vehiculosCargados.Select(ve => new
-                    {
-                        Matricula = ve.Matricula,
-                        Ci = vehiculosClientes.ContainsKey(ve.Matricula) ? vehiculosClientes[ve.Matricula] : 0,
-                        TipoVehiculo = ve.NombreVehiculo,
-                        Marca = ve.NombreMarca
-                    }).ToList(); // Asignamos todos los vehículos cargados hasta ahora
+                    // Actualizar el DataGridView con todos los vehículos cargados hasta ahora
+                    dgvVehiculo.DataSource = null;
+                    dgvVehiculo.DataSource = datosVehiculos;
 
-                    _currentPage++; // Incrementar la página después de cargar
+                    _currentPage++; // Incrementar página para futuras cargas
                 }
-                else
+                else if (_currentPage == 0)
                 {
-                    // No hay más vehículos para cargar
-                    MessageBox.Show("No hay más vehículos para cargar.");
+                    MessageBox.Show("No se encontraron vehículos en la base de datos.");
                 }
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                MessageBox.Show("Error en el desplazamiento: " + ex.Message);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ocurrió un error al cargar los vehículos: " + ex.Message);
             }
-        }
-
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -107,13 +109,12 @@ namespace CapaPresentacion.EjecutivoServicios
                 return;
             }
 
-            // Crear una instancia de Vehiculo
             Vehiculo v = new Vehiculo { Conexion = Program.con };
 
             // Asignar la matrícula a buscar
             v.Matricula = matriculaBuscada;
 
-            // Llamar al método Buscar (esto debe implementarse en tu clase Vehiculo)
+            // Llamar al método Buscar en la clase Vehiculo
             byte resultado = v.BuscarVehiculo();
 
             switch (resultado)
@@ -124,14 +125,14 @@ namespace CapaPresentacion.EjecutivoServicios
                         new
                         {
                             Matricula = v.Matricula,
-                            Ci = v.Cliente?.ci ?? 0, // Debes implementar lógica para obtener el CI correspondiente
-                            TipoVehiculo = v.NombreVehiculo,
+                            Ci = v.Cliente?.ci ?? 0,
+                            TipoVehiculo = v.NombreTipo,
                             Marca = v.NombreMarca
                         }
                     };
 
                     dgvVehiculo.DataSource = null; // Resetear el DataGridView
-                    dgvVehiculo.DataSource = datosVehiculo; // Asignar el vehículo encontrado
+                    dgvVehiculo.DataSource = datosVehiculo; // Mostrar el vehículo encontrado
                     break;
 
                 case 1:
@@ -162,7 +163,12 @@ namespace CapaPresentacion.EjecutivoServicios
             _currentPage = 0;
 
             // Volver a cargar todos los vehículos
-            CargarVehiculos(_currentPage, PageSize);
+            CargarVehiculos();
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close(); // Cerrar la ventana actual
         }
     }
 }

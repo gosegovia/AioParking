@@ -63,10 +63,10 @@ namespace CapaPresentacion.EjecutivoServicios
             // dgvVehiculo
             // 
             this.dgvVehiculo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvVehiculo.Location = new System.Drawing.Point(252, 156);
+            this.dgvVehiculo.Location = new System.Drawing.Point(226, 156);
             this.dgvVehiculo.Name = "dgvVehiculo";
             this.dgvVehiculo.RowTemplate.Height = 25;
-            this.dgvVehiculo.Size = new System.Drawing.Size(442, 334);
+            this.dgvVehiculo.Size = new System.Drawing.Size(484, 334);
             this.dgvVehiculo.TabIndex = 26;
             this.dgvVehiculo.Scroll += new System.Windows.Forms.ScrollEventHandler(this.DataGridView_Scroll);
             // 
@@ -95,6 +95,8 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtMatricula.Name = "txtMatricula";
             this.txtMatricula.Size = new System.Drawing.Size(135, 25);
             this.txtMatricula.TabIndex = 29;
+            this.txtMatricula.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMatricula_KeyDown);
+            this.txtMatricula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMatricula_KeyPress);
             // 
             // btnBuscar
             // 

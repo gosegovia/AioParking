@@ -150,9 +150,11 @@ namespace CapaNegocio
                 return 1; // Conexión cerrada
             }
 
-            string sql = $"SELECT v.matricula, v.id_marca, v.id_tipo, v.estado_vehiculo, p.ci " +
+            string sql = $"SELECT v.matricula, v.id_marca, v.id_tipo, v.estado_vehiculo, p.ci, m.nombre_marca, tv.nombre_tipo " +
                          $"FROM Vehiculo v " +
                          $"JOIN Posee p ON v.matricula = p.matricula " +
+                         $"JOIN Marca m ON v.id_marca = m.id_marca " +
+                         $"JOIN Tipo_Vehiculo tv ON v.id_tipo = tv.id_tipo " +
                          $"WHERE v.matricula = '{Matricula}'";
 
             DataTable dt = _conexion.EjecutarSelect(sql);
@@ -165,7 +167,9 @@ namespace CapaNegocio
             DataRow row = dt.Rows[0];
             Matricula = row["matricula"].ToString();
             marca = Convert.ToInt32(row["id_marca"]);
+            NombreMarca = row["nombre_marca"].ToString();
             TipoVehiculo = Convert.ToInt32(row["id_tipo"]);
+            NombreTipo = row["nombre_tipo"].ToString();
             EstadoVehiculo = Convert.ToBoolean(row["estado_vehiculo"]);
             Cliente.ci = Convert.ToInt32(row["ci"]);
 
@@ -281,14 +285,14 @@ namespace CapaNegocio
 
             // Consulta SQL para listar vehículos con paginación
             string sql = $@"
-        SELECT v.matricula, c.ci, v.id_tipo, v.estado_vehiculo, m.nombre_marca 
-        FROM Vehiculo v 
-        JOIN Marca m ON v.id_marca = m.id_marca 
-        JOIN Posee p ON v.matricula = p.matricula 
-        JOIN Cliente c ON p.ci = c.ci 
-        WHERE v.estado_vehiculo = 1
-        ORDER BY v.matricula
-        LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
+                SELECT v.matricula, c.ci, v.id_tipo, v.estado_vehiculo, m.nombre_marca 
+                FROM Vehiculo v 
+                JOIN Marca m ON v.id_marca = m.id_marca 
+                JOIN Posee p ON v.matricula = p.matricula 
+                JOIN Cliente c ON p.ci = c.ci 
+                WHERE v.estado_vehiculo = 1
+                ORDER BY v.matricula
+                LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
 
             try
             {
@@ -310,12 +314,19 @@ namespace CapaNegocio
                     int tipoVehiculo = Convert.ToInt32(row["id_tipo"]);
                     string nombreVehiculo = ObtenerNombreVehiculo(tipoVehiculo);
 
+                    // Crear instancia del cliente
+                    Cliente cliente = new Cliente
+                    {
+                        ci = ciCliente // Asignar el CI del cliente
+                    };
+
                     vehiculos.Add(new Vehiculo
                     {
                         Matricula = matricula,
                         TipoVehiculo = tipoVehiculo,
                         NombreMarca = row["nombre_marca"].ToString(),
                         NombreVehiculo = nombreVehiculo,
+                        Cliente = cliente // Asignar el cliente al vehículo
                     });
 
                     vehiculosClientes[matricula] = ciCliente;
@@ -328,7 +339,6 @@ namespace CapaNegocio
 
             return vehiculos;
         }
-
 
         private string ObtenerNombreVehiculo(int tipoVehiculo)
         {
