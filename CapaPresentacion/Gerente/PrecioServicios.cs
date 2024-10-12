@@ -108,7 +108,7 @@ namespace CapaPresentacion.Gerente
         // Botón buscar neumático
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Servicio s;
+            CapaNegocio.Neumatico n;
             Int32 neumatico;
 
             // Validar que la CI sea numérica
@@ -118,20 +118,20 @@ namespace CapaPresentacion.Gerente
             }
             else
             {
-                s = new Servicio();
-                s.neumaticoId = neumatico;
-                s.Conexion = Program.con; // Asigna la conexión desde el programa principal
+                n = new Neumatico();
+                n.neumaticoId = neumatico;
+                n.Conexion = Program.con; // Asigna la conexión desde el programa principal
 
-                switch (s.BuscarNeumatico())
+                switch (n.BuscarNeumatico())
                 {
                     case 0:
-                        if (s.neumaticoEstado == 0)
+                        if (n.neumaticoEstado == 0)
                         {
                             // Pregunta al usuario si desea recuperar al cliente inactivo
                             DialogResult estadoRespuesta = MessageBox.Show("¿Este neumatico esta dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
                             if (estadoRespuesta == DialogResult.Yes)
                             {
-                                s.neumaticoEstado = 1; // Cambia el estado del cliente a activo
+                                n.neumaticoEstado = 1; // Cambia el estado del cliente a activo
                             }
                             else
                             {
@@ -146,11 +146,11 @@ namespace CapaPresentacion.Gerente
                         txtNeumatico.Enabled = false;
                         pDatosNeumatico.Visible = true;
 
-                        txtNombre.Text = s.neumaticoNombre;
-                        txtPrecio.Text = s.neumaticoPrecio.ToString();
-                        txtStock.Text = s.neumaticoCantidad.ToString();
+                        txtNombre.Text = n.neumaticoNombre;
+                        txtPrecio.Text = n.neumaticoPrecio.ToString();
+                        txtStock.Text = n.neumaticoCantidad.ToString();
 
-                        switch (s.neumaticoMarca)
+                        switch (n.neumaticoMarca)
                         {
                             case "Michelin": cbModelo.SelectedIndex = 0; break;
                             case "Bridgestone": cbModelo.SelectedIndex = 1; break;
@@ -187,14 +187,14 @@ namespace CapaPresentacion.Gerente
                         }
                     break;
                 }
-                s = null;
+                n = null;
             }
         } // Fin botón buscar neumático
 
         // Botón guardar neumático
         private void btnGuardarNeumatico_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Servicio s;
+            CapaNegocio.Neumatico n;
             Int32 neumatico;
 
             // Validaciónes
@@ -203,22 +203,22 @@ namespace CapaPresentacion.Gerente
                 MessageBox.Show("El id neumatico debe ser numerico");
             } else
             {
-                s = new Servicio();
-                s.Conexion = Program.con;
+                n = new Neumatico();
+                n.Conexion = Program.con;
 
-                s.neumaticoId = Convert.ToInt32(txtNeumatico.Text);
-                s.neumaticoNombre = txtNombre.Text;
-                s.neumaticoPrecio = Convert.ToInt32(txtPrecio.Text);
-                s.neumaticoCantidad = Convert.ToInt32(txtStock.Text);
+                n.neumaticoId = Convert.ToInt32(txtNeumatico.Text);
+                n.neumaticoNombre = txtNombre.Text;
+                n.neumaticoPrecio = Convert.ToInt32(txtPrecio.Text);
+                n.neumaticoCantidad = Convert.ToInt32(txtStock.Text);
 
                 switch (cbModelo.SelectedIndex)
                 {
-                    case 0: s.neumaticoMarca = "Michelin"; break;
-                    case 1: s.neumaticoMarca = "Bridgestone"; break;
-                    case 2: s.neumaticoMarca = "Pirelli"; break;
+                    case 0: n.neumaticoMarca = "Michelin"; break;
+                    case 1: n.neumaticoMarca = "Bridgestone"; break;
+                    case 2: n.neumaticoMarca = "Pirelli"; break;
                 }
 
-                switch (s.GuardarNeumatico(btnEliminar.Enabled))
+                switch (n.GuardarNeumatico(btnEliminar.Enabled))
                 {
                     case 0:
                         MessageBox.Show("Se ingreso el neumatico.");
@@ -244,7 +244,7 @@ namespace CapaPresentacion.Gerente
         // Botón eliminar neumático
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Servicio s;
+            CapaNegocio.Neumatico n;
             Int32 neumatico;
 
             // Verifica que el neumatico ingresada sea numérica
@@ -254,9 +254,9 @@ namespace CapaPresentacion.Gerente
             }
             else
             {
-                s = new Servicio();
-                s.Conexion = Program.con;
-                s.neumaticoId = neumatico;
+                n = new Neumatico();
+                n.Conexion = Program.con;
+                n.neumaticoId = neumatico;
 
                 // Pregunta al usuario si desea eliminar el cliente
                 DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea eliminar este neumatico?", "Confirmación de Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -265,7 +265,7 @@ namespace CapaPresentacion.Gerente
                 if (respuesta == DialogResult.Yes)
                 {
                     // Llama al método Eliminar() y gestiona los diferentes resultados
-                    switch (s.EliminarNeumatico())
+                    switch (n.EliminarNeumatico())
                     {
                         case 0: // Eliminación exitosa
                             MessageBox.Show("Datos eliminados correctamente.");
@@ -288,7 +288,7 @@ namespace CapaPresentacion.Gerente
                 }
 
                 // Libera la instancia de la clase Servicio
-                s = null;
+                n = null;
             }
         } // Fin botón eliminar neumático
 

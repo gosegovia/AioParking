@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace CapaPresentacion.Cajero
 {
-    public partial class Factura : Form
+    public partial class Facturas : Form
     {
-        public Factura()
+        public Facturas()
         {
             InitializeComponent();
         }
@@ -140,44 +140,44 @@ namespace CapaPresentacion.Cajero
                     btnFactura.Visible = true;
                     btnCancelar.Visible = true;
 
-                    CapaNegocio.Servicio s = new CapaNegocio.Servicio();
-                    s.Conexion = Program.con;
+                    CapaNegocio.Factura f = new CapaNegocio.Factura();
+                    f.Conexion = Program.con;
 
-                    switch (s.BuscarServicios(matricula))
+                    switch (f.BuscarServicios(matricula))
                     {
                         case 0:
-                            if (s.AlineacionBalanceo.aybNombre == "ne")
+                            if (f.AlineacionBalanceo.aybNombre == "ne")
                             {
                                 txtAyB.Text = "No aplica";
                             }
                             else
                             {
-                                if (s.AlineacionBalanceo.aybNombre == "Pack alineacion, 4 balanceos para camioneta y valvulas")
+                                if (f.AlineacionBalanceo.aybNombre == "Pack alineacion, 4 balanceos para camioneta y valvulas")
                                 {
-                                    s.AlineacionBalanceo.aybNombre = "Pack alineacion";
+                                    f.AlineacionBalanceo.aybNombre = "Pack alineacion";
                                 }
-                                txtAyB.Text = s.AlineacionBalanceo.aybNombre + " $ " + s.AlineacionBalanceo.aybPrecio;
+                                txtAyB.Text = f.AlineacionBalanceo.aybNombre + " $ " + f.AlineacionBalanceo.aybPrecio;
                             }
 
-                            if (s.Lavado.LavadoNombre == "ne")
+                            if (f.Lavado.LavadoNombre == "ne")
                             {
                                 txtLavado.Text = "No aplica";
                             }
                             else
                             {
-                                txtLavado.Text = s.Lavado.LavadoNombre + " $ " + s.Lavado.LavadoPrecio;
+                                txtLavado.Text = f.Lavado.LavadoNombre + " $ " + f.Lavado.LavadoPrecio;
                             }
 
-                            if (s.neumaticoNombre == "ne")
+                            if (f.Neumatico.neumaticoNombre == "ne")
                             {
                                 txtCompraNeumatico.Text = "No aplica";
                             }
                             else
                             {
-                                txtCompraNeumatico.Text = s.neumaticoNombre + " / " + s.neumaticoCantidad + " x $ " + s.neumaticoPrecio / s.neumaticoCantidad;
+                                txtCompraNeumatico.Text = f.Neumatico.neumaticoNombre + " / " + f.Neumatico.neumaticoCantidad + " x $ " + f.Neumatico.neumaticoPrecio / f.Neumatico.neumaticoCantidad;
                             }
 
-                            if (s.Parking.precioParking == 0)
+                            if (f.Parking.precioParking == 0)
                             {
                                 txtHoraEntrada.Text = "No aplica";
                                 txtHoraSalida.Text = "No aplica";
@@ -186,19 +186,19 @@ namespace CapaPresentacion.Cajero
                             }
                             else
                             {
-                                txtHoraEntrada.Text = s.Parking.HoraEntrada.ToString("HH:mm") + " hs";
-                                txtHoraSalida.Text = s.Parking.HoraSalida.ToString("HH:mm") + " hs";
+                                txtHoraEntrada.Text = f.Parking.HoraEntrada.ToString("HH:mm") + " hs";
+                                txtHoraSalida.Text = f.Parking.HoraSalida.ToString("HH:mm") + " hs";
                                 // Calcula la diferencia de tiempo
-                                TimeSpan horasTotales = s.Parking.HoraSalida - s.Parking.HoraEntrada;
+                                TimeSpan horasTotales = f.Parking.HoraSalida - f.Parking.HoraEntrada;
                                 // Redondea hacia arriba las horas totales
                                 double horasRedondeadas = Math.Ceiling(horasTotales.TotalHours);
                                 // Muestra las horas totales redondeadas como un valor numérico
                                 txtHorasTotales.Text = horasRedondeadas.ToString() + " hs";
 
-                                txtPrecio.Text = "$ " + s.Parking.precioParking.ToString();
+                                txtPrecio.Text = "$ " + f.Parking.precioParking.ToString();
                             }
 
-                            double precioTotal = s.AlineacionBalanceo.aybPrecio + s.Lavado.LavadoPrecio + s.neumaticoPrecio + s.Parking.precioParking;
+                            double precioTotal = f.AlineacionBalanceo.aybPrecio + f.Lavado.LavadoPrecio + f.Neumatico.neumaticoPrecio + f.Parking.precioParking;
                             lblPrecioTotal.Text = "Precio Total:          $ " + precioTotal;
                             break;
                         case 1: MessageBox.Show("Error 1"); break;
@@ -227,15 +227,15 @@ namespace CapaPresentacion.Cajero
         // Botón Factura
         private void btnFactura_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Servicio s = new CapaNegocio.Servicio();
-            s.Conexion = Program.con;
+            Factura f = new Factura();
+            f.Conexion = Program.con;
             int ci = Convert.ToInt32(txtCi.Text);
             string matricula = txtMatricula.Text;
 
-            s.BuscarServicios(matricula);
-            s.GenerarFacturaPDF(matricula);
+            f.BuscarServicios(matricula);
+            f.GenerarFacturaPDF(matricula);
 
-            switch(s.facturaPaga(ci, matricula))
+            switch(f.facturaPaga(ci, matricula))
             {
                 case 0:
                     MessageBox.Show("Factura generada.");

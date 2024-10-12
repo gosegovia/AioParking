@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace CapaPresentacion.Cajero
 {
-    partial class Factura
+    partial class Facturas
     {
         /// <summary>
         /// Required designer variable.

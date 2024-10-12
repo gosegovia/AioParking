@@ -137,6 +137,8 @@ namespace CapaPresentacion.EjecutivoServicios
                     {
                         mostrarDatosAyB();
                     }
+                    rbLavado.Enabled = false;
+                    rbAYB.Enabled = false;
                     txtMatricula.Enabled = false;
                     btnBuscarMatricula.Enabled = false;
                     pDatos.Visible = true;
@@ -162,33 +164,45 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            
+            Lavado l = new Lavado();
+            l.Conexion = Program.con;
+            int ci = Convert.ToInt32(txtCi.Text);
 
-            // Limpiar los campos después de guardar
-            txtMatricula.Text = "";
-            txtMatricula.ReadOnly = false;
-            pDatos.Visible = false;
-        } // Fin botón guardar
+            if (lblID.Text == "6")
+            {
+                // Llamar al método y obtener el resultado y la fecha
+                var (resultado, fecha) = l.UsoLavadoGratis(ci);
 
-        // Botón eliminar
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Se eliminaron los datos");
+                switch (resultado)
+                {
+                    case 0:
+                        MessageBox.Show("El cliente ya utilizó el lavado gratis, el día " + fecha?.ToString("d"));
+                        break;
 
-            // Limpiar los campos
-            txtMatricula.Text = "";
-            txtMatricula.Enabled = true;
-            btnBuscarMatricula.Enabled = true;
-            pDatos.Visible = false;
-        } // Fin botón eliminar
+                    case 1:
+                        MessageBox.Show("Error al obtener la conexión.");
+                        break;
+
+                    case 2:
+                        MessageBox.Show("Error en la consulta.");
+                        break;
+                }
+            }
+        }
 
         // Botón cancelar
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             // Limpiar los campos
+            rbLavado.Enabled = true;
+            rbAYB.Enabled = true;
+            txtCi.Text = "";
+            txtCi.Enabled = true;
+            btnBuscarCi.Enabled = true;
             txtMatricula.Text = "";
             txtMatricula.Enabled = true;
             btnBuscarMatricula.Enabled = true;
+            pMatricula.Visible = false;
             pDatos.Visible = false;
         } // Fin botón cancelar
 

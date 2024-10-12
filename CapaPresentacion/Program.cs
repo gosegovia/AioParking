@@ -28,8 +28,8 @@ namespace CapaPresentacion
         // Formulario de Gerentes
         public static Gerente.PrecioServicios frmPrecioServicios;
         // Formulario de Cajero
-        public static Cajero.Factura frmFactura;
-        public static Cajero.ListarFactura frmListarFactura;
+        public static Cajero.Facturas frmFactura;
+        public static Cajero.ListarFacturas frmListarFactura;
         // Formulario de Operador de Camaras
         public static OperadorCamaras.AsignarPlaza frmAsignarPlaza;
 
@@ -112,6 +112,8 @@ namespace CapaPresentacion
                             frmPrincipal.mostrarMenu();
                             // Muestro el menú inicial
                             frmPrincipal.menuInicial();
+                            // Doy permiso a sus botones
+                            frmPrincipal.botonesGerente();
                             // Muestro el rol, nombre y apellido del empleado
                             frmPrincipal.datosEmpleado(rol, nombre, apellido);
                             break;

@@ -14,22 +14,17 @@ using iTextSharp.text.pdf.codec.wmf;
 
 namespace CapaNegocio
 {
-    public class Servicio
+    public class Factura
     {
         protected int _factura_id;
         protected DateTime _factura_fecha;
-        protected int _neumatico_id;
-        protected string _neumatico_nombre;
-        protected double _neumatico_precio;
-        protected string _neumatico_marca;
-        protected int _neumatico_cantidad;
-        protected byte _neumatico_estado;
         protected Cliente _cliente;
         protected Empleado _empleado;
         protected Vehiculo _vehiculo;
         protected Parking _parking;
         protected Lavado _lavado;
         protected AlineacionBalanceo _alineacionBalanceo;
+        protected Neumatico _neumatico;
         protected Conexion _conexion;
 
         public int facturaId
@@ -42,42 +37,6 @@ namespace CapaNegocio
         {
             set { _factura_fecha = value; }
             get { return (_factura_fecha); }
-        }
-
-        public int neumaticoId
-        {
-            set { _neumatico_id = value; }
-            get { return (_neumatico_id); }
-        }
-
-        public string neumaticoNombre
-        {
-            set { _neumatico_nombre = value; }
-            get { return (_neumatico_nombre); }
-        }
-
-        public double neumaticoPrecio
-        {
-            set { _neumatico_precio = value; }
-            get { return (_neumatico_precio); }
-        }
-
-        public string neumaticoMarca
-        {
-            set { _neumatico_marca = value; }
-            get { return (_neumatico_marca); }
-        }
-
-        public int neumaticoCantidad
-        {
-            set { _neumatico_cantidad = value; }
-            get { return (_neumatico_cantidad); }
-        }
-
-        public byte neumaticoEstado
-        {
-            set {  _neumatico_estado = value; }
-            get { return (_neumatico_estado); }
         }
 
         public Cliente Cliente
@@ -116,41 +75,36 @@ namespace CapaNegocio
             get { return _alineacionBalanceo; }
         }
 
+        public Neumatico Neumatico
+        {
+            set { _neumatico = value; }
+            get { return _neumatico; }
+        }
+
         public Conexion Conexion
         {
             set { _conexion = value; }
             get { return _conexion; }
         }
 
-        public Servicio()
+        public Factura()
         {
             _factura_id = 0;
             _factura_fecha = DateTime.MinValue;
-            _neumatico_id = 0;
-            _neumatico_nombre = "";
-            _neumatico_precio = 0;
-            _neumatico_marca = "";
-            _neumatico_cantidad = 0;
             _cliente = new Cliente();
             _empleado = new Empleado();
             _vehiculo = new Vehiculo();
             _parking = new Parking();
             _lavado = new Lavado();
             _alineacionBalanceo = new AlineacionBalanceo();
+            _neumatico = new Neumatico();
             _conexion = new Conexion();
         }
 
-        public Servicio(int f, DateTime ffecha,
-            int neu_id, string neu_nom, double neu_pre, string neu_mar, int neu_cant,
-            Cliente cli, Empleado emp, Vehiculo ve, Parking par, Lavado lav, AlineacionBalanceo ayb, Conexion cn)
-        {
+        public Factura(int f, DateTime ffecha, Cliente cli, Empleado emp, Vehiculo ve, Parking par, Lavado lav, AlineacionBalanceo ayb, Neumatico neu, Conexion cn)
+        { 
             _factura_id = f;
             _factura_fecha = ffecha;
-            _neumatico_id = neu_id;
-            _neumatico_nombre = neu_nom;
-            _neumatico_precio = neu_pre;
-            _neumatico_marca = neu_mar;
-            _neumatico_cantidad = neu_cant;
 
             _cliente = cli;
             _empleado = emp;
@@ -158,6 +112,7 @@ namespace CapaNegocio
             _parking = par;
             _lavado = lav;
             _alineacionBalanceo = ayb;
+            _neumatico = neu;
             _conexion = cn;
         }
 
@@ -227,13 +182,13 @@ namespace CapaNegocio
                 if (dt.Rows.Count != 0)
                 {
                     row = dt.Rows[0];
-                    neumaticoNombre = row["nombre_neumatico"].ToString();
-                    neumaticoPrecio = Convert.ToDouble(row["precio_compra"]);
-                    neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
+                    Neumatico.neumaticoNombre = row["nombre_neumatico"].ToString();
+                    Neumatico.neumaticoPrecio = Convert.ToDouble(row["precio_compra"]);
+                    Neumatico.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
                     facturaId = Convert.ToInt32(row["id_factura"]);
                 } else
                 {
-                    neumaticoNombre = "ne";
+                    Neumatico.neumaticoNombre = "ne";
                 }
 
                 sql = "SELECT p.hora_entrada, p.hora_salida, s.precio_solicita, f.id_factura " +
@@ -357,12 +312,12 @@ namespace CapaNegocio
                 }
 
                 // Neumáticos
-                if (neumaticoNombre != "ne")
+                if (Neumatico.neumaticoNombre != "ne")
                 {
-                    double precioNeumaticoTotal = (neumaticoPrecio/ neumaticoCantidad) * neumaticoCantidad;
-                    table.AddCell(new Phrase($"{neumaticoNombre}", regularFont));
-                    table.AddCell(new Phrase($"{neumaticoCantidad}", regularFont));
-                    table.AddCell(new Phrase($"${(neumaticoPrecio / neumaticoCantidad)}", regularFont));
+                    double precioNeumaticoTotal = (Neumatico.neumaticoPrecio / Neumatico.neumaticoCantidad) * Neumatico.neumaticoCantidad;
+                    table.AddCell(new Phrase($"{Neumatico.neumaticoNombre}", regularFont));
+                    table.AddCell(new Phrase($"{Neumatico.neumaticoCantidad}", regularFont));
+                    table.AddCell(new Phrase($"${(Neumatico.neumaticoPrecio / Neumatico.neumaticoCantidad)}", regularFont));
                     table.AddCell(new Phrase($"${precioNeumaticoTotal}", regularFont));
                     precioTotal += precioNeumaticoTotal;
                 }
@@ -432,10 +387,10 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public List<Servicio> ListarServicios(int numeroPagina, int tamanioPagina)
+        public List<Factura> ListarServicios(int numeroPagina, int tamanioPagina, int? ciCliente = null, bool? facturaPaga = null)
         {
-            List<Servicio> servicios = new List<Servicio>();
-            Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
+            List<Factura> servicios = new List<Factura>();
+            Dictionary<int, Factura> serviciosDict = new Dictionary<int, Factura>();
 
             // Verifica si la conexión está abierta
             if (!_conexion.Abierta())
@@ -443,25 +398,39 @@ namespace CapaNegocio
                 throw new Exception("La conexión a la base de datos está cerrada.");
             }
 
-            // Consulta SQL unificada con LEFT JOIN para traer los diferentes servicios
+            // Consulta SQL base
             string sql = $@"
-                SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
-               par.hora_entrada, par.hora_salida, r.id_plaza,
-               l.nombre_lavado,
-               ayb.nombre_ayb,
-               n.nombre_neumatico, c.cantidad_compra
-               FROM Factura f
-               LEFT JOIN Solicita s ON f.id_factura = s.id_factura
-               LEFT JOIN Parking par ON s.id_parking = par.id_parking
-               LEFT JOIN Reserva r ON r.id_parking = par.id_parking
-               LEFT JOIN Usa u ON u.id_factura = f.id_factura
-               LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
-               LEFT JOIN Hace h ON h.id_factura = f.id_factura
-               LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
-               LEFT JOIN Compra c ON c.id_factura = f.id_factura
-               LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
-               ORDER BY f.fecha DESC
-               LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
+    SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+           par.hora_entrada, par.hora_salida, r.id_plaza,
+           l.nombre_lavado,
+           ayb.nombre_ayb,
+           n.nombre_neumatico, c.cantidad_compra
+    FROM Factura f
+    LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+    LEFT JOIN Parking par ON s.id_parking = par.id_parking
+    LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+    LEFT JOIN Usa u ON u.id_factura = f.id_factura
+    LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+    LEFT JOIN Hace h ON h.id_factura = f.id_factura
+    LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+    LEFT JOIN Compra c ON c.id_factura = f.id_factura
+    LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+    WHERE 1 = 1";
+
+            // Agrega filtros según los parámetros opcionales
+            if (ciCliente.HasValue)
+            {
+                sql += $" AND f.ci_cliente = {ciCliente.Value}";
+            }
+
+            // Modificación para aplicar el filtro de factura pagada
+            if (facturaPaga.HasValue)
+            {
+                sql += $" AND f.factura_paga = {(facturaPaga.Value ? 1 : 0)}";
+            }
+
+            // Ordena por fecha y paginación
+            sql += $" ORDER BY f.fecha DESC LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
 
             try
             {
@@ -476,8 +445,8 @@ namespace CapaNegocio
                     // Verifica si el servicio ya está en el diccionario
                     if (!serviciosDict.ContainsKey(idFactura))
                     {
-                        // Crear un nuevo objeto Servicio
-                        Servicio servicio = new Servicio
+                        // Crear un nuevo objeto Factura
+                        Factura servicio = new Factura
                         {
                             facturaId = idFactura,
                             facturaFecha = Convert.ToDateTime(row["fecha"]),
@@ -494,6 +463,10 @@ namespace CapaNegocio
                             {
                                 Matricula = row["matricula"].ToString()
                             },
+                            // Inicializa Lavado, AlineacionBalanceo y Neumatico
+                            Lavado = new Lavado(),
+                            AlineacionBalanceo = new AlineacionBalanceo(),
+                            Neumatico = new Neumatico()
                         };
 
                         // Agregar al diccionario
@@ -501,7 +474,7 @@ namespace CapaNegocio
                     }
 
                     // Agrega información de Parking, Lavado, Alineación/Balanceo y Neumáticos, si existen
-                    Servicio currentService = serviciosDict[idFactura];
+                    Factura currentService = serviciosDict[idFactura];
 
                     // Parking
                     if (!DBNull.Value.Equals(row["hora_entrada"]) && !DBNull.Value.Equals(row["hora_salida"]))
@@ -527,13 +500,13 @@ namespace CapaNegocio
                     // Neumáticos
                     if (!DBNull.Value.Equals(row["nombre_neumatico"]) && !DBNull.Value.Equals(row["cantidad_compra"]))
                     {
-                        currentService.neumaticoNombre = row["nombre_neumatico"].ToString();
-                        currentService.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
+                        currentService.Neumatico.neumaticoNombre = row["nombre_neumatico"].ToString();
+                        currentService.Neumatico.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
                     }
                     else
                     {
-                        currentService.neumaticoNombre = "No asignado";
-                        currentService.neumaticoCantidad = 0;
+                        currentService.Neumatico.neumaticoNombre = "No asignado";
+                        currentService.Neumatico.neumaticoCantidad = 0;
                     }
                 }
 
@@ -549,294 +522,6 @@ namespace CapaNegocio
             return servicios;
         }
 
-        public List<Servicio> ListarServiciosPorCi(int ciCliente)
-        {
-            List<Servicio> servicios = new List<Servicio>();
-            Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
-
-            // Verifica si la conexión está abierta
-            if (!_conexion.Abierta())
-            {
-                throw new Exception("La conexión a la base de datos está cerrada.");
-            }
-
-            // Consulta SQL unificada con LEFT JOIN para traer los diferentes servicios
-            string sql = $@"
-                SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
-               par.hora_entrada, par.hora_salida, r.id_plaza,
-               l.nombre_lavado,
-               ayb.nombre_ayb,
-               n.nombre_neumatico, c.cantidad_compra
-               FROM Factura f
-               LEFT JOIN Solicita s ON f.id_factura = s.id_factura
-               LEFT JOIN Parking par ON s.id_parking = par.id_parking
-               LEFT JOIN Reserva r ON r.id_parking = par.id_parking
-               LEFT JOIN Usa u ON u.id_factura = f.id_factura
-               LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
-               LEFT JOIN Hace h ON h.id_factura = f.id_factura
-               LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
-               LEFT JOIN Compra c ON c.id_factura = f.id_factura
-               LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
-               WHERE f.ci_cliente = {ciCliente}
-               ORDER BY f.fecha DESC
-               LIMIT 10;";
-
-            try
-            {
-                // Ejecuta la consulta y obtiene el DataTable
-                DataTable dt = _conexion.EjecutarSelect(sql);
-
-                // Procesa cada fila del DataTable
-                foreach (DataRow row in dt.Rows)
-                {
-                    int idFactura = Convert.ToInt32(row["id_factura"]);
-
-                    // Verifica si el servicio ya está en el diccionario
-                    if (!serviciosDict.ContainsKey(idFactura))
-                    {
-                        // Crear un nuevo objeto Servicio
-                        Servicio servicio = new Servicio
-                        {
-                            facturaId = idFactura,
-                            facturaFecha = Convert.ToDateTime(row["fecha"]),
-                            Cliente = new Cliente
-                            {
-                                ci = Convert.ToInt32(row["ci_cliente"]),
-                                Telefonos = new List<string>() // Si hay varios teléfonos asociados
-                            },
-                            Empleado = new Empleado
-                            {
-                                ci = Convert.ToInt32(row["ci_empleado"])
-                            },
-                            Vehiculo = new Vehiculo
-                            {
-                                Matricula = row["matricula"].ToString()
-                            },
-                        };
-
-                        // Agregar al diccionario
-                        serviciosDict[idFactura] = servicio;
-                    }
-
-                    // Agrega información de Parking, Lavado, Alineación/Balanceo y Neumáticos, si existen
-                    Servicio currentService = serviciosDict[idFactura];
-
-                    // Parking
-                    if (!DBNull.Value.Equals(row["hora_entrada"]) && !DBNull.Value.Equals(row["hora_salida"]))
-                    {
-                        currentService.Parking = new Parking
-                        {
-                            HoraEntrada = Convert.ToDateTime(row["hora_entrada"]),
-                            HoraSalida = Convert.ToDateTime(row["hora_salida"]),
-                            Plaza = Convert.ToInt32(row["id_plaza"])
-                        };
-                    }
-
-                    // Lavado
-                    currentService.Lavado.LavadoNombre = row["nombre_lavado"] != DBNull.Value
-                        ? row["nombre_lavado"].ToString()
-                        : "No asignado";
-
-                    // Alineación y Balanceo
-                    currentService.AlineacionBalanceo.aybNombre = row["nombre_ayb"] != DBNull.Value
-                        ? row["nombre_ayb"].ToString()
-                        : "No asignado";
-
-                    // Neumáticos
-                    if (!DBNull.Value.Equals(row["nombre_neumatico"]) && !DBNull.Value.Equals(row["cantidad_compra"]))
-                    {
-                        currentService.neumaticoNombre = row["nombre_neumatico"].ToString();
-                        currentService.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
-                    }
-                    else
-                    {
-                        currentService.neumaticoNombre = "No asignado";
-                        currentService.neumaticoCantidad = 0;
-                    }
-                }
-
-                // Convierte el diccionario a lista
-                servicios = serviciosDict.Values.ToList();
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores
-                throw new Exception("Error al listar los servicios: " + ex.Message);
-            }
-
-            return servicios;
-        }
-
-        public List<Servicio> ListarServiciosPagos()
-        {
-            List<Servicio> servicios = new List<Servicio>();
-            Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
-
-            // Verifica si la conexión está abierta
-            if (!_conexion.Abierta())
-            {
-                throw new Exception("La conexión a la base de datos está cerrada.");
-            }
-
-            // Consulta SQL unificada con LEFT JOIN para traer los diferentes servicios
-            string sql = $@"
-                SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
-               par.hora_entrada, par.hora_salida, r.id_plaza,
-               l.nombre_lavado,
-               ayb.nombre_ayb,
-               n.nombre_neumatico, c.cantidad_compra
-               FROM Factura f
-               LEFT JOIN Solicita s ON f.id_factura = s.id_factura
-               LEFT JOIN Parking par ON s.id_parking = par.id_parking
-               LEFT JOIN Reserva r ON r.id_parking = par.id_parking
-               LEFT JOIN Usa u ON u.id_factura = f.id_factura
-               LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
-               LEFT JOIN Hace h ON h.id_factura = f.id_factura
-               LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
-               LEFT JOIN Compra c ON c.id_factura = f.id_factura
-               LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
-               WHERE f.factura_paga = 1
-               ORDER BY f.fecha DESC
-               LIMIT 10;";
-
-            try
-            {
-                // Ejecuta la consulta y obtiene el DataTable
-                DataTable dt = _conexion.EjecutarSelect(sql);
-
-                // Procesa cada fila del DataTable
-                foreach (DataRow row in dt.Rows)
-                {
-                    int idFactura = Convert.ToInt32(row["id_factura"]);
-
-                    // Verifica si el servicio ya está en el diccionario
-                    if (!serviciosDict.ContainsKey(idFactura))
-                    {
-                        // Crear un nuevo objeto Servicio
-                        Servicio servicio = new Servicio
-                        {
-                            facturaId = idFactura,
-                            facturaFecha = Convert.ToDateTime(row["fecha"]),
-                            Cliente = new Cliente
-                            {
-                                ci = Convert.ToInt32(row["ci_cliente"]),
-                                Telefonos = new List<string>() // Si hay varios teléfonos asociados
-                            },
-                            Empleado = new Empleado
-                            {
-                                ci = Convert.ToInt32(row["ci_empleado"])
-                            },
-                            Vehiculo = new Vehiculo
-                            {
-                                Matricula = row["matricula"].ToString()
-                            },
-                        };
-
-                        // Agregar al diccionario
-                        serviciosDict[idFactura] = servicio;
-                    }
-
-                    // Agrega información de Parking, Lavado, Alineación/Balanceo y Neumáticos, si existen
-                    Servicio currentService = serviciosDict[idFactura];
-
-                    // Parking
-                    if (!DBNull.Value.Equals(row["hora_entrada"]) && !DBNull.Value.Equals(row["hora_salida"]))
-                    {
-                        currentService.Parking = new Parking
-                        {
-                            HoraEntrada = Convert.ToDateTime(row["hora_entrada"]),
-                            HoraSalida = Convert.ToDateTime(row["hora_salida"]),
-                            Plaza = Convert.ToInt32(row["id_plaza"])
-                        };
-                    }
-
-                    // Lavado
-                    currentService.Lavado.LavadoNombre = row["nombre_lavado"] != DBNull.Value
-                        ? row["nombre_lavado"].ToString()
-                        : "No asignado";
-
-                    // Alineación y Balanceo
-                    currentService.AlineacionBalanceo.aybNombre = row["nombre_ayb"] != DBNull.Value
-                        ? row["nombre_ayb"].ToString()
-                        : "No asignado";
-
-                    // Neumáticos
-                    if (!DBNull.Value.Equals(row["nombre_neumatico"]) && !DBNull.Value.Equals(row["cantidad_compra"]))
-                    {
-                        currentService.neumaticoNombre = row["nombre_neumatico"].ToString();
-                        currentService.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
-                    }
-                    else
-                    {
-                        currentService.neumaticoNombre = "No asignado";
-                        currentService.neumaticoCantidad = 0;
-                    }
-                }
-
-                // Convierte el diccionario a lista
-                servicios = serviciosDict.Values.ToList();
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores
-                throw new Exception("Error al listar los servicios: " + ex.Message);
-            }
-
-            return servicios;
-        }
-
-        public List<Servicio> ListarNeumaticos()
-        {
-            // Lista para almacenar los servicios/neumáticos
-            List<Servicio> servicio = new List<Servicio>();
-            Dictionary<int, Servicio> servicioDict = new Dictionary<int, Servicio>();
-
-            // Verifica si la conexión está abierta
-            if (!_conexion.Abierta())
-            {
-                throw new Exception("La conexión a la base de datos está cerrada.");
-            }
-
-            // Consulta SQL para obtener los detalles de los neumáticos
-            string sql = "SELECT id_neumatico, nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico " +
-                         "FROM Neumatico;";
-
-            try
-            {
-                // Ejecuta la consulta y obtiene el DataTable
-                DataTable dt = _conexion.EjecutarSelect(sql);
-
-                // Procesa cada fila del DataTable
-                foreach (DataRow row in dt.Rows)
-                {
-                    int idNeumatico = Convert.ToInt32(row["id_neumatico"]);
-
-                    // Verifica si el neumático ya está en el diccionario
-                    if (!servicioDict.ContainsKey(idNeumatico))
-                    {
-                        // Crear un nuevo servicio (neumático) y agregarlo al diccionario
-                        servicioDict[idNeumatico] = new Servicio
-                        {
-                            neumaticoId = idNeumatico,
-                            neumaticoNombre = row["nombre_neumatico"].ToString(),
-                            neumaticoMarca = row["marca_neumatico"].ToString(),
-                            neumaticoPrecio = Convert.ToDouble(row["precio_neumatico"]),
-                            neumaticoCantidad = Convert.ToInt32(row["stock_neumatico"])
-                        };
-                    }
-                }
-
-                // Convierte el diccionario a una lista de servicios
-                servicio = servicioDict.Values.ToList();
-            }
-            catch (Exception ex)
-            {
-                // Manejo de errores
-                throw new Exception("Error al listar los neumáticos: " + ex.Message);
-            }
-
-            return servicio;
-        }
 
         public byte ventaNeumatico()
         {
@@ -917,7 +602,7 @@ namespace CapaNegocio
             {
                 // Insertar el parking
                 sql = "INSERT INTO Compra(id_factura, id_neumatico, precio_compra, cantidad_compra) " +
-                    "VALUES (" + facturaId + ", " + neumaticoId + ", " + neumaticoPrecio.ToString().Replace(",", ".") + ", " + neumaticoCantidad + ");";
+                    "VALUES (" + facturaId + ", " + Neumatico.neumaticoId + ", " + Neumatico.neumaticoPrecio.ToString().Replace(",", ".") + ", " + Neumatico.neumaticoCantidad + ");";
 
                 // Ejecutar el comando de inserción
                 bool filasAfectadas = _conexion.Ejecutar(sql);
@@ -935,8 +620,8 @@ namespace CapaNegocio
             try
             {
                 sql = "UPDATE Neumatico " +
-                "SET stock_neumatico = stock_neumatico - " + neumaticoCantidad + " " +
-                "WHERE id_neumatico = " + neumaticoId + ";";
+                "SET stock_neumatico = stock_neumatico - " + Neumatico.neumaticoCantidad + " " +
+                "WHERE id_neumatico = " + Neumatico.neumaticoId + ";";
 
                 // Ejecutar el comando de inserción
                 bool filasAfectadas = _conexion.Ejecutar(sql);
@@ -953,112 +638,5 @@ namespace CapaNegocio
            
             return resultado;
         }
-
-        public byte BuscarNeumatico()
-        {
-            byte resultado = 0;
-
-            // Chequeo el estado de la conexion
-            if (!_conexion.Abierta())
-            {
-                return 1; // Conexión cerrada
-            }
-
-            try
-            {
-                // Consulta SQL sin parámetros (pero cuidado con inyecciones SQL)
-                string sql = "SELECT nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico, estado_neumatico " +
-                             "FROM Neumatico " +
-                             "WHERE id_neumatico = " + neumaticoId + ";"; // Usamos el ID validado
-
-                // Ejecutamos la consulta
-                DataTable dt = _conexion.EjecutarSelect(sql);
-
-                if (dt.Rows.Count == 0)
-                {
-                    return 3; // No encontrado el neumatico
-                }
-
-                // Asignar valores desde la consulta
-                DataRow row = dt.Rows[0];
-                neumaticoNombre = row["nombre_neumatico"].ToString();
-                neumaticoMarca = row["marca_neumatico"].ToString();
-                neumaticoPrecio = Convert.ToInt32(row["precio_neumatico"]);
-                neumaticoCantidad = Convert.ToInt32(row["stock_neumatico"]);
-                neumaticoEstado = Convert.ToByte(row["estado_neumatico"]);
-            }
-            catch
-            {
-                return 2; // Error en la ejecución de la consulta
-            }
-            return resultado; // Todo funciono correctamente
-        }
-
-        public byte GuardarNeumatico(bool modificacion)
-        {
-            byte resultado = 0;
-
-            // Verificar si la conexión está abierta
-            if (!_conexion.Abierta())
-            {
-                return 1; // Conexión cerrada
-            }
-
-            // Definir las consultas SQL para insertar o actualizar
-            string sql;
-
-            if (modificacion)
-            {
-                // Consulta para actualizar los datos del neumático
-                sql = $"UPDATE Neumatico SET nombre_neumatico = '" + neumaticoNombre + "', " +
-                      "marca_neumatico = '" + neumaticoMarca + "', precio_neumatico = " + neumaticoPrecio + ", " +
-                      "stock_neumatico = " + neumaticoCantidad + ", estado_neumatico = 1 " +
-                      "WHERE id_neumatico = " + neumaticoId;
-            }
-            else
-            {
-                // Consulta para insertar un nuevo neumático
-                sql = "INSERT INTO Neumatico (nombre_neumatico, marca_neumatico, precio_neumatico, stock_neumatico, estado_neumatico) " +
-                      "VALUES ('" + neumaticoNombre + "', '" + neumaticoMarca + "', " + neumaticoPrecio + ", " + neumaticoCantidad + ", 1)";
-            }
-
-            try
-            {
-                // Ejecutar la consulta SQL
-                _conexion.Ejecutar(sql);
-            }
-            catch
-            {
-                // Manejar errores en las consultas
-                return 2; // Error en el insert o update
-            }
-
-            return resultado; // Todo salió bien
-        }
-
-        public byte EliminarNeumatico()
-        {
-            byte resultado = 0;
-
-            // Chequeo el estado de la conexion
-            if (!_conexion.Abierta())
-            {
-                return 1; // Conexión cerrada
-            }
-
-            // Consulta para hacer borrado logico de cliente
-            string sql = $"UPDATE Neumatico SET estado_neumatico = 0 WHERE id_neumatico = " + neumaticoId;
-
-            try
-            {
-                // Ejecuto la consulta
-                _conexion.Ejecutar(sql);
-            }
-            catch
-            {
-                return 2; // Error al ejecutar la actualización
-            }
-            return resultado; // Datos obtenidos correctamente
-        } // Fin metodo para eliminar cliente
     }
 }

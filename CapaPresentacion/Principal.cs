@@ -112,7 +112,7 @@ namespace CapaPresentacion
             // Muestro el panel izquierdo pero no los botones
             pIzquierda.Visible = true; pBotones.Visible = false;
             // Creó el objeto para frmFactura
-            Program.frmFactura = new Cajero.Factura();
+            Program.frmFactura = new Cajero.Facturas();
             // Dice que frmFactura va a estar contenido como formulario dentro del formulario principal
             Program.frmFactura.MdiParent = this;
             // Ajusta el contenido de frmFactura para llenar completamente el área del formulario principal
@@ -255,7 +255,7 @@ namespace CapaPresentacion
         public void mostrarListarFactura()
         {
             // Creó el objeto para frmListarEmpleado 
-            Program.frmListarFactura = new Cajero.ListarFactura();
+            Program.frmListarFactura = new Cajero.ListarFacturas();
             // Dice que frmListarEmpleado va a estar contenido como formulario dentro del formulario principal
             Program.frmListarFactura.MdiParent = this;
             // Ajusta el contenido de frmListarEmpleado para llenar completamente el área del formulario principal
@@ -282,6 +282,12 @@ namespace CapaPresentacion
             btnPrecio.Visible = !btnPrecio.Visible;
             btnEmpleados.Visible = !btnEmpleados.Visible;
         } // Fin acceso a botonesEjecutivo
+
+        public void botonesGerente()
+        {
+            btnPrecio.Visible = !btnPrecio.Visible;
+            btnEmpleados.Visible = !btnEmpleados.Visible;
+        }
         
         // Botón para cerrar la aplicación
         private void lblCerrar_Click(object sender, EventArgs e)

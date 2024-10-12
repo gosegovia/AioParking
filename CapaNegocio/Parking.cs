@@ -501,6 +501,45 @@ namespace CapaNegocio
             return resultado;
         }
 
+        public byte EstadoAuto()
+        {
+            byte resultado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Definir la consulta SQL
+            string sql = "SELECT u.id_factura, f.fecha " +
+                         "FROM Usa u " +
+                         "JOIN Factura f ON u.id_factura = f.id_factura " +
+                         "WHERE u.id_lavado = 6 " +
+                         $"AND f.ci_cliente = {ci} " +
+                         "AND f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);";
+
+            try
+            {
+                // Ejecutar la consulta SQL y obtener el resultado
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                // Validar si se encontraron registros
+                if (dt.Rows.Count != 0)
+                {
+                    DataRow row = dt.Rows[0];
+                    LavadoId = Convert.ToInt32(row["id_factura"]);
+                    fechaLavado = Convert.ToDateTime(row["fecha"]);
+                }
+            }
+            catch
+            {
+                return 2;
+            }
+
+            return resultado;
+        }
+
         public byte ActualizarPlaza()
         {
             byte resultado = 0;

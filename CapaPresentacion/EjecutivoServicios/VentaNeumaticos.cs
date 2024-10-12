@@ -140,7 +140,7 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Servicio s;
+            CapaNegocio.Factura s;
 
             // Validaciones
             if (Convert.ToInt32(txtCantidad.Text) > Convert.ToInt32(lblStock.Text))
@@ -149,16 +149,16 @@ namespace CapaPresentacion.EjecutivoServicios
             }
             else
             {
-                s = new Servicio();
+                s = new Factura();
                 s.Conexion = Program.con;
 
                 s.Cliente.ci = Convert.ToInt32(txtCi.Text);
                 s.Vehiculo.Matricula = txtMatricula.Text;
 
-                s.neumaticoId = Convert.ToInt32(lblID.Text);
-                s.neumaticoCantidad = Convert.ToInt32(txtCantidad.Text);
+                s.Neumatico.neumaticoId = Convert.ToInt32(lblID.Text);
+                s.Neumatico.neumaticoCantidad = Convert.ToInt32(txtCantidad.Text);
                 double precio = Convert.ToDouble(lblPrecio.Text);
-                s.neumaticoPrecio = precio * s.neumaticoCantidad;
+                s.Neumatico.neumaticoPrecio = precio * s.Neumatico.neumaticoCantidad;
 
                 switch (s.ventaNeumatico())
                 {
@@ -281,14 +281,14 @@ namespace CapaPresentacion.EjecutivoServicios
             try
             {
                 // Crear una instancia de Servicio desde la capa de negocio
-                Servicio s = new Servicio
+                Neumatico n = new Neumatico
                 {
                     // Asegúrate de que la conexión esté asignada si es necesario
                     Conexion = Program.con // Asumiendo que Program.con es la conexión global
                 };
 
                 // Obtener la lista de neumáticos
-                List<Servicio> neumaticos = s.ListarNeumaticos();
+                List<Neumatico> neumaticos = n.ListarNeumaticos();
 
                 if (neumaticos != null && neumaticos.Count > 0)
                 {

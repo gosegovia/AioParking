@@ -2,7 +2,7 @@
 
 namespace CapaPresentacion.Cajero
 {
-    partial class ListarFactura
+    partial class ListarFacturas
     {
         /// <summary>
         /// Required designer variable.

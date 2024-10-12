@@ -47,17 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cajero\Factura.cs">
+    <Compile Include="Cajero\Facturas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cajero\Factura.Designer.cs">
-      <DependentUpon>Factura.cs</DependentUpon>
+    <Compile Include="Cajero\Facturas.Designer.cs">
+      <DependentUpon>Facturas.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cajero\ListarFactura.cs">
+    <Compile Include="Cajero\ListarFacturas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cajero\ListarFactura.Designer.cs">
-      <DependentUpon>ListarFactura.cs</DependentUpon>
+    <Compile Include="Cajero\ListarFacturas.Designer.cs">
+      <DependentUpon>ListarFacturas.cs</DependentUpon>
     </Compile>
     <Compile Include="EjecutivoServicios\ABMCliente.cs">
       <SubType>Form</SubType>
@@ -146,11 +146,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones.cs" />
-    <EmbeddedResource Include="Cajero\Factura.resx">
-      <DependentUpon>Factura.cs</DependentUpon>
+    <EmbeddedResource Include="Cajero\Facturas.resx">
+      <DependentUpon>Facturas.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cajero\ListarFactura.resx">
-      <DependentUpon>ListarFactura.cs</DependentUpon>
+    <EmbeddedResource Include="Cajero\ListarFacturas.resx">
+      <DependentUpon>ListarFacturas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EjecutivoServicios\ABMCliente.resx">
       <DependentUpon>ABMCliente.cs</DependentUpon>
