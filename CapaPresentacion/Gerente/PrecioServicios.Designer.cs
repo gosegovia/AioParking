@@ -35,6 +35,10 @@ namespace CapaPresentacion.Gerente
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabNeumatico = new System.Windows.Forms.TabPage();
             this.pDatosNeumatico = new System.Windows.Forms.Panel();
+            this.txtStock = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.cbModelo = new System.Windows.Forms.ComboBox();
             this.btnCancelarNeumatico = new System.Windows.Forms.Button();
@@ -47,7 +51,7 @@ namespace CapaPresentacion.Gerente
             this.lblNeumatico = new System.Windows.Forms.Label();
             this.tabLavadero = new System.Windows.Forms.TabPage();
             this.pDatosLavado = new System.Windows.Forms.Panel();
-            this.txtNombreLavado = new System.Windows.Forms.Label();
+            this.lblNombreLavado = new System.Windows.Forms.Label();
             this.btnCancelarLavado = new System.Windows.Forms.Button();
             this.btnGuardarLavado = new System.Windows.Forms.Button();
             this.txtPrecioLavado = new System.Windows.Forms.TextBox();
@@ -61,16 +65,12 @@ namespace CapaPresentacion.Gerente
             this.txtAyB = new System.Windows.Forms.TextBox();
             this.lblAyB = new System.Windows.Forms.Label();
             this.pDatosAyB = new System.Windows.Forms.Panel();
-            this.txtNombreAyB = new System.Windows.Forms.Label();
+            this.lblNombreAyB = new System.Windows.Forms.Label();
             this.btnCancelarAyB = new System.Windows.Forms.Button();
             this.btnGuardarAyB = new System.Windows.Forms.Button();
             this.txtPrecioAyB = new System.Windows.Forms.TextBox();
             this.lblPrecioAyB = new System.Windows.Forms.Label();
-            this.lblNombreAyB = new System.Windows.Forms.Label();
-            this.txtNombre = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtStock = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblNombreAyBText = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabNeumatico.SuspendLayout();
             this.pDatosNeumatico.SuspendLayout();
@@ -140,6 +140,50 @@ namespace CapaPresentacion.Gerente
             this.pDatosNeumatico.Name = "pDatosNeumatico";
             this.pDatosNeumatico.Size = new System.Drawing.Size(806, 349);
             this.pDatosNeumatico.TabIndex = 3;
+            // 
+            // txtStock
+            // 
+            this.txtStock.BackColor = System.Drawing.Color.LightBlue;
+            this.txtStock.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtStock.Location = new System.Drawing.Point(367, 114);
+            this.txtStock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtStock.Multiline = true;
+            this.txtStock.Name = "txtStock";
+            this.txtStock.Size = new System.Drawing.Size(135, 25);
+            this.txtStock.TabIndex = 14;
+            this.txtStock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStock_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label3.Location = new System.Drawing.Point(296, 116);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 18);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Stock";
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.BackColor = System.Drawing.Color.LightBlue;
+            this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtNombre.Location = new System.Drawing.Point(367, 15);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtNombre.Multiline = true;
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(135, 25);
+            this.txtNombre.TabIndex = 12;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label2.Location = new System.Drawing.Point(296, 17);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(64, 18);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Nombre";
             // 
             // btnEliminar
             // 
@@ -256,7 +300,6 @@ namespace CapaPresentacion.Gerente
             this.txtNeumatico.Name = "txtNeumatico";
             this.txtNeumatico.Size = new System.Drawing.Size(135, 25);
             this.txtNeumatico.TabIndex = 1;
-            this.txtNeumatico.TextChanged += new System.EventHandler(this.txtNeumatico_TextChanged);
             this.txtNeumatico.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNeumatico_KeyDown);
             this.txtNeumatico.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNeumatico_KeyPress);
             // 
@@ -269,7 +312,6 @@ namespace CapaPresentacion.Gerente
             this.lblNeumatico.Size = new System.Drawing.Size(83, 18);
             this.lblNeumatico.TabIndex = 0;
             this.lblNeumatico.Text = "Neumático";
-            this.lblNeumatico.Click += new System.EventHandler(this.lblNeumatico_Click);
             // 
             // tabLavadero
             // 
@@ -280,14 +322,14 @@ namespace CapaPresentacion.Gerente
             this.tabLavadero.Location = new System.Drawing.Point(4, 27);
             this.tabLavadero.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabLavadero.Name = "tabLavadero";
-            this.tabLavadero.Size = new System.Drawing.Size(778, 314);
+            this.tabLavadero.Size = new System.Drawing.Size(818, 419);
             this.tabLavadero.TabIndex = 2;
             this.tabLavadero.Text = "Lavadero";
             this.tabLavadero.UseVisualStyleBackColor = true;
             // 
             // pDatosLavado
             // 
-            this.pDatosLavado.Controls.Add(this.txtNombreLavado);
+            this.pDatosLavado.Controls.Add(this.lblNombreLavado);
             this.pDatosLavado.Controls.Add(this.btnCancelarLavado);
             this.pDatosLavado.Controls.Add(this.btnGuardarLavado);
             this.pDatosLavado.Controls.Add(this.txtPrecioLavado);
@@ -296,18 +338,18 @@ namespace CapaPresentacion.Gerente
             this.pDatosLavado.Location = new System.Drawing.Point(4, 66);
             this.pDatosLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosLavado.Name = "pDatosLavado";
-            this.pDatosLavado.Size = new System.Drawing.Size(771, 252);
+            this.pDatosLavado.Size = new System.Drawing.Size(811, 252);
             this.pDatosLavado.TabIndex = 6;
             // 
-            // txtNombreLavado
+            // lblNombreLavado
             // 
-            this.txtNombreLavado.AutoSize = true;
-            this.txtNombreLavado.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtNombreLavado.Location = new System.Drawing.Point(330, 20);
-            this.txtNombreLavado.Name = "txtNombreLavado";
-            this.txtNombreLavado.Size = new System.Drawing.Size(28, 18);
-            this.txtNombreLavado.TabIndex = 9;
-            this.txtNombreLavado.Text = ".....";
+            this.lblNombreLavado.AutoSize = true;
+            this.lblNombreLavado.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblNombreLavado.Location = new System.Drawing.Point(335, 20);
+            this.lblNombreLavado.Name = "lblNombreLavado";
+            this.lblNombreLavado.Size = new System.Drawing.Size(28, 18);
+            this.lblNombreLavado.TabIndex = 9;
+            this.lblNombreLavado.Text = ".....";
             // 
             // btnCancelarLavado
             // 
@@ -315,10 +357,10 @@ namespace CapaPresentacion.Gerente
             this.btnCancelarLavado.FlatAppearance.BorderSize = 0;
             this.btnCancelarLavado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarLavado.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarLavado.Location = new System.Drawing.Point(380, 89);
+            this.btnCancelarLavado.Location = new System.Drawing.Point(373, 99);
             this.btnCancelarLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelarLavado.Name = "btnCancelarLavado";
-            this.btnCancelarLavado.Size = new System.Drawing.Size(75, 25);
+            this.btnCancelarLavado.Size = new System.Drawing.Size(90, 25);
             this.btnCancelarLavado.TabIndex = 8;
             this.btnCancelarLavado.Text = "Cancelar";
             this.btnCancelarLavado.UseVisualStyleBackColor = false;
@@ -330,7 +372,7 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarLavado.FlatAppearance.BorderSize = 0;
             this.btnGuardarLavado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarLavado.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarLavado.Location = new System.Drawing.Point(291, 89);
+            this.btnGuardarLavado.Location = new System.Drawing.Point(292, 99);
             this.btnGuardarLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardarLavado.Name = "btnGuardarLavado";
             this.btnGuardarLavado.Size = new System.Drawing.Size(75, 25);
@@ -343,7 +385,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtPrecioLavado.BackColor = System.Drawing.Color.LightBlue;
             this.txtPrecioLavado.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecioLavado.Location = new System.Drawing.Point(330, 50);
+            this.txtPrecioLavado.Location = new System.Drawing.Point(335, 50);
             this.txtPrecioLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPrecioLavado.Multiline = true;
             this.txtPrecioLavado.Name = "txtPrecioLavado";
@@ -355,7 +397,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblPracioLavado.AutoSize = true;
             this.lblPracioLavado.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPracioLavado.Location = new System.Drawing.Point(269, 53);
+            this.lblPracioLavado.Location = new System.Drawing.Point(262, 53);
             this.lblPracioLavado.Name = "lblPracioLavado";
             this.lblPracioLavado.Size = new System.Drawing.Size(54, 18);
             this.lblPracioLavado.TabIndex = 6;
@@ -365,11 +407,11 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombre.Location = new System.Drawing.Point(269, 20);
+            this.lblNombre.Location = new System.Drawing.Point(262, 20);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(64, 18);
+            this.lblNombre.Size = new System.Drawing.Size(68, 18);
             this.lblNombre.TabIndex = 4;
-            this.lblNombre.Text = "Nombre";
+            this.lblNombre.Text = "Nombre:";
             // 
             // btnBuscarLavado
             // 
@@ -396,7 +438,7 @@ namespace CapaPresentacion.Gerente
             this.txtLavado.Name = "txtLavado";
             this.txtLavado.Size = new System.Drawing.Size(135, 25);
             this.txtLavado.TabIndex = 4;
-            this.txtLavado.TextChanged += new System.EventHandler(this.txtLavado_TextChanged);
+            this.txtLavado.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLavado_KeyDown);
             this.txtLavado.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLavado_KeyPress);
             // 
             // lblLavado
@@ -418,7 +460,7 @@ namespace CapaPresentacion.Gerente
             this.tabAyB.Location = new System.Drawing.Point(4, 27);
             this.tabAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabAyB.Name = "tabAyB";
-            this.tabAyB.Size = new System.Drawing.Size(778, 314);
+            this.tabAyB.Size = new System.Drawing.Size(818, 419);
             this.tabAyB.TabIndex = 3;
             this.tabAyB.Text = "Alineación y Balanceo";
             this.tabAyB.UseVisualStyleBackColor = true;
@@ -429,7 +471,7 @@ namespace CapaPresentacion.Gerente
             this.btnBuscarAyB.FlatAppearance.BorderSize = 0;
             this.btnBuscarAyB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscarAyB.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarAyB.Location = new System.Drawing.Point(462, 30);
+            this.btnBuscarAyB.Location = new System.Drawing.Point(547, 30);
             this.btnBuscarAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscarAyB.Name = "btnBuscarAyB";
             this.btnBuscarAyB.Size = new System.Drawing.Size(75, 25);
@@ -442,19 +484,20 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtAyB.BackColor = System.Drawing.Color.LightBlue;
             this.txtAyB.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtAyB.Location = new System.Drawing.Point(319, 30);
+            this.txtAyB.Location = new System.Drawing.Point(404, 30);
             this.txtAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtAyB.Multiline = true;
             this.txtAyB.Name = "txtAyB";
             this.txtAyB.Size = new System.Drawing.Size(135, 25);
             this.txtAyB.TabIndex = 5;
+            this.txtAyB.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAyB_KeyDown);
             this.txtAyB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAyB_KeyPress);
             // 
             // lblAyB
             // 
             this.lblAyB.AutoSize = true;
             this.lblAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblAyB.Location = new System.Drawing.Point(144, 33);
+            this.lblAyB.Location = new System.Drawing.Point(229, 33);
             this.lblAyB.Name = "lblAyB";
             this.lblAyB.Size = new System.Drawing.Size(162, 18);
             this.lblAyB.TabIndex = 4;
@@ -462,27 +505,27 @@ namespace CapaPresentacion.Gerente
             // 
             // pDatosAyB
             // 
-            this.pDatosAyB.Controls.Add(this.txtNombreAyB);
+            this.pDatosAyB.Controls.Add(this.lblNombreAyB);
             this.pDatosAyB.Controls.Add(this.btnCancelarAyB);
             this.pDatosAyB.Controls.Add(this.btnGuardarAyB);
             this.pDatosAyB.Controls.Add(this.txtPrecioAyB);
             this.pDatosAyB.Controls.Add(this.lblPrecioAyB);
-            this.pDatosAyB.Controls.Add(this.lblNombreAyB);
+            this.pDatosAyB.Controls.Add(this.lblNombreAyBText);
             this.pDatosAyB.Location = new System.Drawing.Point(4, 66);
             this.pDatosAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosAyB.Name = "pDatosAyB";
-            this.pDatosAyB.Size = new System.Drawing.Size(771, 252);
+            this.pDatosAyB.Size = new System.Drawing.Size(811, 252);
             this.pDatosAyB.TabIndex = 7;
             // 
-            // txtNombreAyB
+            // lblNombreAyB
             // 
-            this.txtNombreAyB.AutoSize = true;
-            this.txtNombreAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.txtNombreAyB.Location = new System.Drawing.Point(330, 20);
-            this.txtNombreAyB.Name = "txtNombreAyB";
-            this.txtNombreAyB.Size = new System.Drawing.Size(28, 18);
-            this.txtNombreAyB.TabIndex = 9;
-            this.txtNombreAyB.Text = ".....";
+            this.lblNombreAyB.AutoSize = true;
+            this.lblNombreAyB.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblNombreAyB.Location = new System.Drawing.Point(391, 20);
+            this.lblNombreAyB.Name = "lblNombreAyB";
+            this.lblNombreAyB.Size = new System.Drawing.Size(28, 18);
+            this.lblNombreAyB.TabIndex = 9;
+            this.lblNombreAyB.Text = ".....";
             // 
             // btnCancelarAyB
             // 
@@ -490,7 +533,7 @@ namespace CapaPresentacion.Gerente
             this.btnCancelarAyB.FlatAppearance.BorderSize = 0;
             this.btnCancelarAyB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarAyB.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarAyB.Location = new System.Drawing.Point(380, 89);
+            this.btnCancelarAyB.Location = new System.Drawing.Point(440, 109);
             this.btnCancelarAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelarAyB.Name = "btnCancelarAyB";
             this.btnCancelarAyB.Size = new System.Drawing.Size(85, 25);
@@ -505,7 +548,7 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarAyB.FlatAppearance.BorderSize = 0;
             this.btnGuardarAyB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarAyB.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarAyB.Location = new System.Drawing.Point(291, 89);
+            this.btnGuardarAyB.Location = new System.Drawing.Point(351, 109);
             this.btnGuardarAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardarAyB.Name = "btnGuardarAyB";
             this.btnGuardarAyB.Size = new System.Drawing.Size(75, 25);
@@ -518,7 +561,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtPrecioAyB.BackColor = System.Drawing.Color.LightBlue;
             this.txtPrecioAyB.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecioAyB.Location = new System.Drawing.Point(330, 50);
+            this.txtPrecioAyB.Location = new System.Drawing.Point(391, 50);
             this.txtPrecioAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPrecioAyB.Multiline = true;
             this.txtPrecioAyB.Name = "txtPrecioAyB";
@@ -530,65 +573,21 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblPrecioAyB.AutoSize = true;
             this.lblPrecioAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioAyB.Location = new System.Drawing.Point(269, 52);
+            this.lblPrecioAyB.Location = new System.Drawing.Point(324, 52);
             this.lblPrecioAyB.Name = "lblPrecioAyB";
             this.lblPrecioAyB.Size = new System.Drawing.Size(54, 18);
             this.lblPrecioAyB.TabIndex = 6;
             this.lblPrecioAyB.Text = "Precio";
             // 
-            // lblNombreAyB
+            // lblNombreAyBText
             // 
-            this.lblNombreAyB.AutoSize = true;
-            this.lblNombreAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombreAyB.Location = new System.Drawing.Point(262, 20);
-            this.lblNombreAyB.Name = "lblNombreAyB";
-            this.lblNombreAyB.Size = new System.Drawing.Size(64, 18);
-            this.lblNombreAyB.TabIndex = 4;
-            this.lblNombreAyB.Text = "Nombre";
-            // 
-            // txtNombre
-            // 
-            this.txtNombre.BackColor = System.Drawing.Color.LightBlue;
-            this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNombre.Location = new System.Drawing.Point(367, 15);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtNombre.Multiline = true;
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(135, 25);
-            this.txtNombre.TabIndex = 12;
-            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label2.Location = new System.Drawing.Point(296, 17);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 18);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "Nombre";
-            // 
-            // txtStock
-            // 
-            this.txtStock.BackColor = System.Drawing.Color.LightBlue;
-            this.txtStock.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtStock.Location = new System.Drawing.Point(367, 114);
-            this.txtStock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtStock.Multiline = true;
-            this.txtStock.Name = "txtStock";
-            this.txtStock.Size = new System.Drawing.Size(135, 25);
-            this.txtStock.TabIndex = 14;
-            this.txtStock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtStock_KeyPress);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label3.Location = new System.Drawing.Point(296, 116);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 18);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Stock";
+            this.lblNombreAyBText.AutoSize = true;
+            this.lblNombreAyBText.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblNombreAyBText.Location = new System.Drawing.Point(323, 20);
+            this.lblNombreAyBText.Name = "lblNombreAyBText";
+            this.lblNombreAyBText.Size = new System.Drawing.Size(64, 18);
+            this.lblNombreAyBText.TabIndex = 4;
+            this.lblNombreAyBText.Text = "Nombre";
             // 
             // PrecioServicios
             // 
@@ -644,7 +643,7 @@ namespace CapaPresentacion.Gerente
         private Button btnGuardarAyB;
         private TextBox txtPrecioAyB;
         private Label lblPrecioAyB;
-        private Label lblNombreAyB;
+        private Label lblNombreAyBText;
         private Panel pDatosNeumatico;
         private Button btnCancelarNeumatico;
         private Button btnGuardarNeumatico;
@@ -656,8 +655,8 @@ namespace CapaPresentacion.Gerente
         private Label lblNeumatico;
         private ComboBox cbModelo;
         private Button btnEliminar;
-        private Label txtNombreLavado;
-        private Label txtNombreAyB;
+        private Label lblNombreLavado;
+        private Label lblNombreAyB;
         private TextBox txtNombre;
         private Label label2;
         private TextBox txtStock;

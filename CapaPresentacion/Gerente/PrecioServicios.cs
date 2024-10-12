@@ -37,7 +37,7 @@ namespace CapaPresentacion.Gerente
         private void txtNeumatico_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitud(sender, e, 5);
+            Validaciones.validacionLongitud(sender, e, 2);
         }
 
         private void txtNeumatico_KeyDown(object sender, KeyEventArgs e)
@@ -67,34 +67,40 @@ namespace CapaPresentacion.Gerente
             Validaciones.validacionLongitud(sender, e, 5);
         }
 
-        private void txtNombreLavado_KeyPress(object sender, KeyPressEventArgs e)
+        private void txtLavado_KeyDown(object sender, KeyEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
-            Validaciones.validacionLongitud(sender, e, 20);
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarLavado.Focus();
+            }
         }
 
         private void txtPrecioLavado_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitud(sender, e, 5);
+            Validaciones.validacionLongitud(sender, e, 8);
         }
 
         private void txtAyB_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitud(sender, e, 5);
-        }
-
-        private void txtNombreAyB_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.validacionTexto(sender, e);
-            Validaciones.validacionLongitud(sender, e, 50);
+            Validaciones.validacionLongitud(sender, e, 3);
         }
 
         private void txtPrecioAyB_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
             Validaciones.validacionLongitud(sender, e, 10);
+        }
+
+        private void txtAyB_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscarAyB.Focus();
+            }
         }
 
         // FIN VALIDACIONES
@@ -303,117 +309,197 @@ namespace CapaPresentacion.Gerente
         // Botón buscar lavado
         private void btnBuscarLavado_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtLavado.Text))
+            CapaNegocio.Lavado l;
+            Int32 lavado;
+
+            // Validar que la CI sea numérica
+            if (!Int32.TryParse(txtLavado.Text, out lavado))
             {
-                MessageBox.Show("Debe ingresar la ID del lavado.");
+                MessageBox.Show("El id lavado debe ser numerico.");
             }
             else
             {
-                // Si el lavado es 1
-                if (txtLavado.Text == "1")
+                l = new Lavado();
+                l.LavadoId = lavado;
+                l.Conexion = Program.con; // Asigna la conexión desde el programa principal
+
+                switch (l.BuscarLavado())
                 {
-                    // Mostrar los datos
-                    pDatosLavado.Visible = true;
-                    // Bloquear el TextBox
-                    txtLavado.ReadOnly = true;
+                    case 0:
+                        btnBuscarLavado.Enabled = false;
+                        txtLavado.Enabled = false;
+                        pDatosLavado.Visible = true;
+
+                        lblNombreLavado.Text = l.LavadoNombre.ToString();
+                        txtPrecioLavado.Text = l.LavadoPrecio.ToString();
+                        break;
+                    case 1: // Error de conexión
+                        MessageBox.Show("Debe logearse nuevamente");
+                        break;
+
+                    case 2: // Error en la ejecución
+                        MessageBox.Show("Error 2");
+                        break;
+                    case 3: // No encontró lavado
+                        if (txtNeumatico.TextLength > 2)
+                        {
+                            MessageBox.Show("Formato incorrecto");
+                        }
+                        break;
                 }
-                else
-                {
-                    // Si no existe, mostrar un mensaje
-                    MessageBox.Show("No existe ese servicio.");
-                }
+                l = null;
             }
         } // Fin botón buscar lavado
 
         // Botón guardar lavado
         private void btnGuardarLavado_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtPrecioLavado.Text))
+            CapaNegocio.Lavado l;
+            Int32 lavado;
+
+            // Validaciónes
+            if (!Int32.TryParse(txtLavado.Text, out lavado))
             {
-                MessageBox.Show("Debe ingresar el precio del lavado.");
-                return; // Detener la ejecución
+                MessageBox.Show("El id lavado debe ser numerico.");
             }
             else
             {
-                // Guardar el dato
-            }
+                l = new Lavado();
+                l.Conexion = Program.con;
 
-            txtLavado.Text = "";
-            pDatosLavado.Visible = false;
-            txtLavado.ReadOnly = false;
+                l.LavadoId = Convert.ToInt32(txtLavado.Text);
+                l.LavadoPrecio = Convert.ToDouble(txtPrecioLavado.Text);
+
+                switch (l.ActualizarLavado())
+                {
+                    case 0:
+                        MessageBox.Show("Se actualizo el precio del lavado!");
+
+                        txtLavado.Text = "";
+                        txtLavado.Enabled = true;
+                        btnBuscarLavado.Enabled = true;
+                        pDatosLavado.Visible = false;
+
+                        lblNombreLavado.Text = "";
+                        txtPrecioLavado.Clear();
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                }
+            }
         } // Fin botón guardar lavado
 
         // Botón cancelar lavado
         private void btnCancelarLavado_Click(object sender, EventArgs e)
         {
             txtLavado.Text = "";
+            txtLavado.Enabled = true;
+            btnBuscarLavado.Enabled = true;
             pDatosLavado.Visible = false;
-            txtLavado.ReadOnly = false;
+
+            lblNombreLavado.Text = "";
+            txtPrecioLavado.Clear();
         } // Fin botón cancelar lavado
 
         // Botón buscar AyB
         private void btnBuscarAyB_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtAyB.Text))
+            CapaNegocio.AlineacionBalanceo ayb;
+            Int32 aybid;
+
+            // Validar que la CI sea numérica
+            if (!Int32.TryParse(txtAyB.Text, out aybid))
             {
-                MessageBox.Show("Debe ingresar la ID de alineación y balanceo.");
+                MessageBox.Show("El id alineacion y balanceo debe ser numerico.");
             }
             else
             {
-                // Si AyB es 1
-                if (txtAyB.Text == "1")
+                ayb = new AlineacionBalanceo();
+                ayb.aybId = aybid;
+                ayb.Conexion = Program.con; // Asigna la conexión desde el programa principal
+
+                switch (ayb.BuscarAyB())
                 {
-                    // Mostrar los datos
-                    pDatosAyB.Visible = true;
-                    txtAyB.ReadOnly = true;
+                    case 0:
+                        btnBuscarAyB.Enabled = false;
+                        txtAyB.Enabled = false;
+                        pDatosAyB.Visible = true;
+
+                        lblNombreAyB.Text = ayb.aybNombre.ToString();
+                        txtPrecioAyB.Text = ayb.aybPrecio.ToString();
+                        break;
+                    case 1: // Error de conexión
+                        MessageBox.Show("Debe logearse nuevamente");
+                        break;
+
+                    case 2: // Error en la ejecución
+                        MessageBox.Show("Error 2");
+                        break;
+                    case 3: // No encontró lavado
+                        if (txtAyB.TextLength > 2)
+                        {
+                            MessageBox.Show("Formato incorrecto");
+                        }
+                        break;
                 }
-                else
-                {
-                    // Si no existe, mostrar un mensaje
-                    MessageBox.Show("No existe ese servicio.");
-                }
+                ayb = null;
             }
         } // Fin botón buscar AyB
 
         // Botón guardar AyB
         private void btnGuardarAyB_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtPrecioAyB.Text))
+            CapaNegocio.AlineacionBalanceo ayb;
+            Int32 aybid;
+
+            // Validaciónes
+            if (!Int32.TryParse(txtAyB.Text, out aybid))
             {
-                MessageBox.Show("Debe ingresar el precio de alineación y balanceo.");
-                return; // Detener la ejecución
+                MessageBox.Show("El id alineacion balanceo debe ser numerico.");
             }
             else
             {
-                // Guardar el dato
-            }
+                ayb = new AlineacionBalanceo();
+                ayb.Conexion = Program.con;
 
-            txtAyB.Text = "";
-            pDatosAyB.Visible = false;
-            txtAyB.ReadOnly = false;
+                ayb.aybId = Convert.ToInt32(txtAyB.Text);
+                ayb.aybPrecio = Convert.ToDouble(txtPrecioAyB.Text);
+
+                switch (ayb.ActualizarAyB())
+                {
+                    case 0:
+                        MessageBox.Show("Se actualizo el precio de alineacion/balanceo!");
+
+                        txtAyB.Text = "";
+                        txtAyB.Enabled = true;
+                        btnBuscarAyB.Enabled = true;
+                        pDatosAyB.Visible = false;
+
+                        lblNombreAyB.Text = "";
+                        txtPrecioAyB.Clear();
+                        break;
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                        break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                }
+            }
         } // Fin botón guardar AyB
 
         // Botón cancelar AyB
         private void btnCancelarAyB_Click(object sender, EventArgs e)
         {
             txtAyB.Text = "";
+            txtAyB.Enabled = true;
+            btnBuscarAyB.Enabled = true;
             pDatosAyB.Visible = false;
-            txtAyB.ReadOnly = false;
+
+            lblNombreAyB.Text = "";
+            txtPrecioAyB.Clear();
         } // Fin botón cancelar AyB
-
-        private void txtLavado_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lblNeumatico_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtNeumatico_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

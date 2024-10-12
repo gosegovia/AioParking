@@ -18,12 +18,6 @@ namespace CapaNegocio
     {
         protected int _factura_id;
         protected DateTime _factura_fecha;
-        protected int _lavado_id;
-        protected string _lavado_nombre;
-        protected double _lavado_precio;
-        protected int _ayb_id;
-        protected string _ayb_nombre;
-        protected double _ayb_precio;
         protected int _neumatico_id;
         protected string _neumatico_nombre;
         protected double _neumatico_precio;
@@ -34,6 +28,8 @@ namespace CapaNegocio
         protected Empleado _empleado;
         protected Vehiculo _vehiculo;
         protected Parking _parking;
+        protected Lavado _lavado;
+        protected AlineacionBalanceo _alineacionBalanceo;
         protected Conexion _conexion;
 
         public int facturaId
@@ -46,42 +42,6 @@ namespace CapaNegocio
         {
             set { _factura_fecha = value; }
             get { return (_factura_fecha); }
-        }
-
-        public int lavadoId
-        {
-            set { _lavado_id = value; } 
-            get { return (_lavado_id); }
-        }
-
-        public string lavadoNombre
-        {
-            set { _lavado_nombre = value; }
-            get { return (_lavado_nombre); }
-        }
-
-        public double lavadoPrecio
-        {
-            set { _lavado_precio = value; }
-            get { return (_lavado_precio); }
-        }
-
-        public int aybId
-        {
-            set { _ayb_id = value; }
-            get { return (_ayb_id); }
-        }
-
-        public string aybNombre
-        {
-            set { _ayb_nombre = value; }
-            get { return (_ayb_nombre); }
-        }
-
-        public double aybPrecio
-        {
-            set { _ayb_precio= value; }
-            get { return (_ayb_precio); }
         }
 
         public int neumaticoId
@@ -144,6 +104,18 @@ namespace CapaNegocio
             get { return _parking; }
         }
 
+        public Lavado Lavado
+        {
+            set { _lavado = value; }
+            get { return _lavado; }
+        }
+
+        public AlineacionBalanceo AlineacionBalanceo
+        {
+            set { _alineacionBalanceo = value; }
+            get { return _alineacionBalanceo; }
+        }
+
         public Conexion Conexion
         {
             set { _conexion = value; }
@@ -154,12 +126,6 @@ namespace CapaNegocio
         {
             _factura_id = 0;
             _factura_fecha = DateTime.MinValue;
-            _lavado_id = 0;
-            _lavado_nombre = "";
-            _lavado_precio = 0;
-            _ayb_id = 0;
-            _ayb_nombre = "";
-            _ayb_precio = 0;
             _neumatico_id = 0;
             _neumatico_nombre = "";
             _neumatico_precio = 0;
@@ -169,26 +135,17 @@ namespace CapaNegocio
             _empleado = new Empleado();
             _vehiculo = new Vehiculo();
             _parking = new Parking();
+            _lavado = new Lavado();
+            _alineacionBalanceo = new AlineacionBalanceo();
             _conexion = new Conexion();
         }
 
         public Servicio(int f, DateTime ffecha,
-            int l, string lnom, double lpre,
-            int ayb_id, string ayb_nom, double ayb_precio,
             int neu_id, string neu_nom, double neu_pre, string neu_mar, int neu_cant,
-            Cliente cli, Empleado emp, Vehiculo ve, Parking par, Conexion cn)
+            Cliente cli, Empleado emp, Vehiculo ve, Parking par, Lavado lav, AlineacionBalanceo ayb, Conexion cn)
         {
             _factura_id = f;
             _factura_fecha = ffecha;
-
-            _lavado_id = l;
-            _lavado_nombre = lnom;
-            _lavado_precio = lpre;
-
-            _ayb_id = ayb_id;
-            _ayb_nombre = ayb_nom;
-            _ayb_precio = ayb_precio;
-
             _neumatico_id = neu_id;
             _neumatico_nombre = neu_nom;
             _neumatico_precio = neu_pre;
@@ -199,6 +156,8 @@ namespace CapaNegocio
             _empleado = emp;
             _vehiculo = ve;
             _parking = par;
+            _lavado = lav;
+            _alineacionBalanceo = ayb;
             _conexion = cn;
         }
 
@@ -230,12 +189,12 @@ namespace CapaNegocio
                 {
                     // Asignar valores desde la consulta
                     row = dt.Rows[0];
-                    aybNombre = row["nombre_ayb"].ToString();
-                    aybPrecio = Convert.ToDouble(row["precio_hace"]);
+                    AlineacionBalanceo.aybNombre = row["nombre_ayb"].ToString();
+                    AlineacionBalanceo.aybPrecio = Convert.ToDouble(row["precio_hace"]);
                     facturaId = Convert.ToInt32(row["id_factura"]);
                 } else
                 {
-                    aybNombre = "ne";
+                    AlineacionBalanceo.aybNombre = "ne";
                 }
 
                 sql = "SELECT l.nombre_lavado, u.precio_usa, f.id_factura " +
@@ -249,12 +208,12 @@ namespace CapaNegocio
                 if (dt.Rows.Count != 0)
                 {
                     row = dt.Rows[0];
-                    lavadoNombre = row["nombre_lavado"].ToString();
-                    lavadoPrecio = Convert.ToDouble(row["precio_usa"]);
+                    Lavado.LavadoNombre = row["nombre_lavado"].ToString();
+                    Lavado.LavadoPrecio = Convert.ToDouble(row["precio_usa"]);
                     facturaId = Convert.ToInt32(row["id_factura"]);
                 } else
                 {
-                    lavadoNombre = "ne";
+                    Lavado.LavadoNombre = "ne";
                 }
 
                 sql = "SELECT n.nombre_neumatico, c.precio_compra, c.cantidad_compra, f.id_factura " +
@@ -378,23 +337,23 @@ namespace CapaNegocio
                 }
 
                 // Alineación y Balanceo
-                if (aybNombre != "ne")
+                if (AlineacionBalanceo.aybNombre != "ne")
                 {
-                    table.AddCell(new Phrase($"{aybNombre}", regularFont));
+                    table.AddCell(new Phrase($"{AlineacionBalanceo.aybNombre}", regularFont));
                     table.AddCell(new Phrase("1", regularFont)); // Cantidad siempre será 1 para servicios
-                    table.AddCell(new Phrase($"${aybPrecio}", regularFont));
-                    table.AddCell(new Phrase($"${aybPrecio}", regularFont));
-                    precioTotal += aybPrecio;
+                    table.AddCell(new Phrase($"${AlineacionBalanceo.aybPrecio}", regularFont));
+                    table.AddCell(new Phrase($"${AlineacionBalanceo.aybPrecio}", regularFont));
+                    precioTotal += AlineacionBalanceo.aybPrecio;
                 }
 
                 // Lavado
-                if (lavadoNombre != "ne")
+                if (Lavado.LavadoNombre != "ne")
                 {
-                    table.AddCell(new Phrase($"{lavadoNombre}", regularFont));
+                    table.AddCell(new Phrase($"{Lavado.LavadoNombre}", regularFont));
                     table.AddCell(new Phrase("1", regularFont));
-                    table.AddCell(new Phrase($"${lavadoPrecio}", regularFont));
-                    table.AddCell(new Phrase($"${lavadoPrecio}", regularFont));
-                    precioTotal += lavadoPrecio;
+                    table.AddCell(new Phrase($"${Lavado.LavadoPrecio}", regularFont));
+                    table.AddCell(new Phrase($"${Lavado.LavadoPrecio}", regularFont));
+                    precioTotal += Lavado.LavadoPrecio;
                 }
 
                 // Neumáticos
@@ -473,7 +432,7 @@ namespace CapaNegocio
             return resultado;
         }
 
-        public List<Servicio> ListarServicios()
+        public List<Servicio> ListarServicios(int numeroPagina, int tamanioPagina)
         {
             List<Servicio> servicios = new List<Servicio>();
             Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
@@ -484,10 +443,25 @@ namespace CapaNegocio
                 throw new Exception("La conexión a la base de datos está cerrada.");
             }
 
-            // Consulta SQL para obtener las facturas pagadas
-            string sql = "SELECT id_factura, ci_cliente, ci_empleado, matricula, fecha " +
-                "FROM Factura " +
-                "ORDER BY fecha DESC;";
+            // Consulta SQL unificada con LEFT JOIN para traer los diferentes servicios
+            string sql = $@"
+                SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+               par.hora_entrada, par.hora_salida, r.id_plaza,
+               l.nombre_lavado,
+               ayb.nombre_ayb,
+               n.nombre_neumatico, c.cantidad_compra
+               FROM Factura f
+               LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+               LEFT JOIN Parking par ON s.id_parking = par.id_parking
+               LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+               LEFT JOIN Usa u ON u.id_factura = f.id_factura
+               LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+               LEFT JOIN Hace h ON h.id_factura = f.id_factura
+               LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+               LEFT JOIN Compra c ON c.id_factura = f.id_factura
+               LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+               ORDER BY f.fecha DESC
+               LIMIT {tamanioPagina} OFFSET {numeroPagina * tamanioPagina};";
 
             try
             {
@@ -509,7 +483,8 @@ namespace CapaNegocio
                             facturaFecha = Convert.ToDateTime(row["fecha"]),
                             Cliente = new Cliente
                             {
-                                ci = Convert.ToInt32(row["ci_cliente"])
+                                ci = Convert.ToInt32(row["ci_cliente"]),
+                                Telefonos = new List<string>() // Si hay varios teléfonos asociados
                             },
                             Empleado = new Empleado
                             {
@@ -518,83 +493,283 @@ namespace CapaNegocio
                             Vehiculo = new Vehiculo
                             {
                                 Matricula = row["matricula"].ToString()
-                            }
+                            },
                         };
 
-                        // Aquí podrías llamar a otra consulta para obtener datos de Parking
-                        string parkingSql = "SELECT par.hora_entrada, par.hora_salida, r.id_plaza " +
-                                            "FROM Parking par " +
-                                            "JOIN Reserva r ON r.id_parking = par.id_parking " +
-                                            "JOIN Solicita s ON s.id_parking = par.id_parking " +
-                                            "JOIN Factura f ON f.id_factura = s.id_factura " +
-                                            "WHERE f.id_factura = " + idFactura + ";";
-
-                        // Ejecutar la consulta de Parking
-                        DataTable parkingDt = _conexion.EjecutarSelect(parkingSql);
-                        if (parkingDt.Rows.Count > 0)
-                        {
-                            DataRow parkingRow = parkingDt.Rows[0]; // Tomamos la primera fila
-                            servicio.Parking = new Parking // Asegúrate de que Parking sea una clase
-                            {
-                                HoraEntrada = Convert.ToDateTime(parkingRow["hora_entrada"]),
-                                HoraSalida = Convert.ToDateTime(parkingRow["hora_salida"]),
-                                Plaza = Convert.ToInt32(parkingRow["id_plaza"])
-                            };
-                        }
-
-                        // Consulta para obtener el nombre del lavado
-                        string lavadoSql = "SELECT l.nombre_lavado " +
-                                           "FROM Lavado l " +
-                                           "JOIN Usa u ON u.id_lavado = l.id_lavado " +
-                                           "JOIN Factura f ON f.id_factura = u.id_factura " +
-                                           "WHERE f.id_factura = " + idFactura + ";";
-
-                        // Ejecuta la consulta y obtiene el DataTable para los lavados
-                        DataTable lavadoDt = _conexion.EjecutarSelect(lavadoSql);
-                        if (lavadoDt.Rows.Count > 0)
-                        {
-                            DataRow lavadoRow = lavadoDt.Rows[0];
-                            servicio.lavadoNombre = lavadoRow["nombre_lavado"].ToString(); // Asegúrate de que NombreLavado esté en la clase Servicio
-                        } else
-                        {
-                            servicio.lavadoNombre = "No asignado";
-                        }
-
-                        string aybSql = "SELECT ayb.nombre_ayb " +
-                            "FROM Alineacion_Balanceo ayb " +
-                            "JOIN Hace h ON h.id_ayb = ayb.id_ayb " +
-                            "JOIN Factura f ON f.id_factura = h.id_factura " +
-                            "WHERE f.id_factura = " + idFactura + ";";
-
-                        DataTable aybDt = _conexion.EjecutarSelect(aybSql);
-                        if (aybDt.Rows.Count > 0)
-                        {
-                            DataRow aybRow = aybDt.Rows[0];
-                            servicio.aybNombre = aybRow["nombre_ayb"].ToString();
-                        } else
-                        {
-                            servicio.aybNombre = "No asignado";
-                        }
-
-                        string neumaticoSql = "SELECT n.nombre_neumatico, c.cantidad_compra " +
-                            "FROM Neumatico n " +
-                            "JOIN Compra c ON n.id_neumatico = c.id_neumatico " +
-                            "JOIN Factura f ON f.id_factura = c.id_factura " +
-                            "WHERE f.id_factura = " + idFactura + ";";
-
-                        DataTable neumaticoDt = _conexion.EjecutarSelect(neumaticoSql);
-                        if (neumaticoDt.Rows.Count > 0)
-                        {
-                            DataRow neumaticoRow = neumaticoDt.Rows[0];
-                            servicio.neumaticoNombre = neumaticoRow["nombre_neumatico"].ToString();
-                            servicio.neumaticoCantidad = Convert.ToInt32(neumaticoRow["cantidad_compra"]);
-                        } else
-                        {
-                            servicio.neumaticoNombre = "No asignado";
-                        }
-
-                        // Agregar el servicio al diccionario
+                        // Agregar al diccionario
                         serviciosDict[idFactura] = servicio;
+                    }
+
+                    // Agrega información de Parking, Lavado, Alineación/Balanceo y Neumáticos, si existen
+                    Servicio currentService = serviciosDict[idFactura];
+
+                    // Parking
+                    if (!DBNull.Value.Equals(row["hora_entrada"]) && !DBNull.Value.Equals(row["hora_salida"]))
+                    {
+                        currentService.Parking = new Parking
+                        {
+                            HoraEntrada = Convert.ToDateTime(row["hora_entrada"]),
+                            HoraSalida = Convert.ToDateTime(row["hora_salida"]),
+                            Plaza = Convert.ToInt32(row["id_plaza"])
+                        };
+                    }
+
+                    // Lavado
+                    currentService.Lavado.LavadoNombre = row["nombre_lavado"] != DBNull.Value
+                        ? row["nombre_lavado"].ToString()
+                        : "No asignado";
+
+                    // Alineación y Balanceo
+                    currentService.AlineacionBalanceo.aybNombre = row["nombre_ayb"] != DBNull.Value
+                        ? row["nombre_ayb"].ToString()
+                        : "No asignado";
+
+                    // Neumáticos
+                    if (!DBNull.Value.Equals(row["nombre_neumatico"]) && !DBNull.Value.Equals(row["cantidad_compra"]))
+                    {
+                        currentService.neumaticoNombre = row["nombre_neumatico"].ToString();
+                        currentService.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
+                    }
+                    else
+                    {
+                        currentService.neumaticoNombre = "No asignado";
+                        currentService.neumaticoCantidad = 0;
+                    }
+                }
+
+                // Convierte el diccionario a lista
+                servicios = serviciosDict.Values.ToList();
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                throw new Exception("Error al listar los servicios: " + ex.Message);
+            }
+
+            return servicios;
+        }
+
+        public List<Servicio> ListarServiciosPorCi(int ciCliente)
+        {
+            List<Servicio> servicios = new List<Servicio>();
+            Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
+
+            // Verifica si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                throw new Exception("La conexión a la base de datos está cerrada.");
+            }
+
+            // Consulta SQL unificada con LEFT JOIN para traer los diferentes servicios
+            string sql = $@"
+                SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+               par.hora_entrada, par.hora_salida, r.id_plaza,
+               l.nombre_lavado,
+               ayb.nombre_ayb,
+               n.nombre_neumatico, c.cantidad_compra
+               FROM Factura f
+               LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+               LEFT JOIN Parking par ON s.id_parking = par.id_parking
+               LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+               LEFT JOIN Usa u ON u.id_factura = f.id_factura
+               LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+               LEFT JOIN Hace h ON h.id_factura = f.id_factura
+               LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+               LEFT JOIN Compra c ON c.id_factura = f.id_factura
+               LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+               WHERE f.ci_cliente = {ciCliente}
+               ORDER BY f.fecha DESC
+               LIMIT 10;";
+
+            try
+            {
+                // Ejecuta la consulta y obtiene el DataTable
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                // Procesa cada fila del DataTable
+                foreach (DataRow row in dt.Rows)
+                {
+                    int idFactura = Convert.ToInt32(row["id_factura"]);
+
+                    // Verifica si el servicio ya está en el diccionario
+                    if (!serviciosDict.ContainsKey(idFactura))
+                    {
+                        // Crear un nuevo objeto Servicio
+                        Servicio servicio = new Servicio
+                        {
+                            facturaId = idFactura,
+                            facturaFecha = Convert.ToDateTime(row["fecha"]),
+                            Cliente = new Cliente
+                            {
+                                ci = Convert.ToInt32(row["ci_cliente"]),
+                                Telefonos = new List<string>() // Si hay varios teléfonos asociados
+                            },
+                            Empleado = new Empleado
+                            {
+                                ci = Convert.ToInt32(row["ci_empleado"])
+                            },
+                            Vehiculo = new Vehiculo
+                            {
+                                Matricula = row["matricula"].ToString()
+                            },
+                        };
+
+                        // Agregar al diccionario
+                        serviciosDict[idFactura] = servicio;
+                    }
+
+                    // Agrega información de Parking, Lavado, Alineación/Balanceo y Neumáticos, si existen
+                    Servicio currentService = serviciosDict[idFactura];
+
+                    // Parking
+                    if (!DBNull.Value.Equals(row["hora_entrada"]) && !DBNull.Value.Equals(row["hora_salida"]))
+                    {
+                        currentService.Parking = new Parking
+                        {
+                            HoraEntrada = Convert.ToDateTime(row["hora_entrada"]),
+                            HoraSalida = Convert.ToDateTime(row["hora_salida"]),
+                            Plaza = Convert.ToInt32(row["id_plaza"])
+                        };
+                    }
+
+                    // Lavado
+                    currentService.Lavado.LavadoNombre = row["nombre_lavado"] != DBNull.Value
+                        ? row["nombre_lavado"].ToString()
+                        : "No asignado";
+
+                    // Alineación y Balanceo
+                    currentService.AlineacionBalanceo.aybNombre = row["nombre_ayb"] != DBNull.Value
+                        ? row["nombre_ayb"].ToString()
+                        : "No asignado";
+
+                    // Neumáticos
+                    if (!DBNull.Value.Equals(row["nombre_neumatico"]) && !DBNull.Value.Equals(row["cantidad_compra"]))
+                    {
+                        currentService.neumaticoNombre = row["nombre_neumatico"].ToString();
+                        currentService.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
+                    }
+                    else
+                    {
+                        currentService.neumaticoNombre = "No asignado";
+                        currentService.neumaticoCantidad = 0;
+                    }
+                }
+
+                // Convierte el diccionario a lista
+                servicios = serviciosDict.Values.ToList();
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                throw new Exception("Error al listar los servicios: " + ex.Message);
+            }
+
+            return servicios;
+        }
+
+        public List<Servicio> ListarServiciosPagos()
+        {
+            List<Servicio> servicios = new List<Servicio>();
+            Dictionary<int, Servicio> serviciosDict = new Dictionary<int, Servicio>();
+
+            // Verifica si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                throw new Exception("La conexión a la base de datos está cerrada.");
+            }
+
+            // Consulta SQL unificada con LEFT JOIN para traer los diferentes servicios
+            string sql = $@"
+                SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+               par.hora_entrada, par.hora_salida, r.id_plaza,
+               l.nombre_lavado,
+               ayb.nombre_ayb,
+               n.nombre_neumatico, c.cantidad_compra
+               FROM Factura f
+               LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+               LEFT JOIN Parking par ON s.id_parking = par.id_parking
+               LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+               LEFT JOIN Usa u ON u.id_factura = f.id_factura
+               LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+               LEFT JOIN Hace h ON h.id_factura = f.id_factura
+               LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+               LEFT JOIN Compra c ON c.id_factura = f.id_factura
+               LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+               WHERE f.factura_paga = 1
+               ORDER BY f.fecha DESC
+               LIMIT 10;";
+
+            try
+            {
+                // Ejecuta la consulta y obtiene el DataTable
+                DataTable dt = _conexion.EjecutarSelect(sql);
+
+                // Procesa cada fila del DataTable
+                foreach (DataRow row in dt.Rows)
+                {
+                    int idFactura = Convert.ToInt32(row["id_factura"]);
+
+                    // Verifica si el servicio ya está en el diccionario
+                    if (!serviciosDict.ContainsKey(idFactura))
+                    {
+                        // Crear un nuevo objeto Servicio
+                        Servicio servicio = new Servicio
+                        {
+                            facturaId = idFactura,
+                            facturaFecha = Convert.ToDateTime(row["fecha"]),
+                            Cliente = new Cliente
+                            {
+                                ci = Convert.ToInt32(row["ci_cliente"]),
+                                Telefonos = new List<string>() // Si hay varios teléfonos asociados
+                            },
+                            Empleado = new Empleado
+                            {
+                                ci = Convert.ToInt32(row["ci_empleado"])
+                            },
+                            Vehiculo = new Vehiculo
+                            {
+                                Matricula = row["matricula"].ToString()
+                            },
+                        };
+
+                        // Agregar al diccionario
+                        serviciosDict[idFactura] = servicio;
+                    }
+
+                    // Agrega información de Parking, Lavado, Alineación/Balanceo y Neumáticos, si existen
+                    Servicio currentService = serviciosDict[idFactura];
+
+                    // Parking
+                    if (!DBNull.Value.Equals(row["hora_entrada"]) && !DBNull.Value.Equals(row["hora_salida"]))
+                    {
+                        currentService.Parking = new Parking
+                        {
+                            HoraEntrada = Convert.ToDateTime(row["hora_entrada"]),
+                            HoraSalida = Convert.ToDateTime(row["hora_salida"]),
+                            Plaza = Convert.ToInt32(row["id_plaza"])
+                        };
+                    }
+
+                    // Lavado
+                    currentService.Lavado.LavadoNombre = row["nombre_lavado"] != DBNull.Value
+                        ? row["nombre_lavado"].ToString()
+                        : "No asignado";
+
+                    // Alineación y Balanceo
+                    currentService.AlineacionBalanceo.aybNombre = row["nombre_ayb"] != DBNull.Value
+                        ? row["nombre_ayb"].ToString()
+                        : "No asignado";
+
+                    // Neumáticos
+                    if (!DBNull.Value.Equals(row["nombre_neumatico"]) && !DBNull.Value.Equals(row["cantidad_compra"]))
+                    {
+                        currentService.neumaticoNombre = row["nombre_neumatico"].ToString();
+                        currentService.neumaticoCantidad = Convert.ToInt32(row["cantidad_compra"]);
+                    }
+                    else
+                    {
+                        currentService.neumaticoNombre = "No asignado";
+                        currentService.neumaticoCantidad = 0;
                     }
                 }
 

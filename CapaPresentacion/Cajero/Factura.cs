@@ -146,26 +146,26 @@ namespace CapaPresentacion.Cajero
                     switch (s.BuscarServicios(matricula))
                     {
                         case 0:
-                            if (s.aybNombre == "ne")
+                            if (s.AlineacionBalanceo.aybNombre == "ne")
                             {
                                 txtAyB.Text = "No aplica";
                             }
                             else
                             {
-                                if (s.aybNombre == "Pack alineacion, 4 balanceos para camioneta y valvulas")
+                                if (s.AlineacionBalanceo.aybNombre == "Pack alineacion, 4 balanceos para camioneta y valvulas")
                                 {
-                                    s.aybNombre = "Pack alineacion";
+                                    s.AlineacionBalanceo.aybNombre = "Pack alineacion";
                                 }
-                                txtAyB.Text = s.aybNombre + " $ " + s.aybPrecio;
+                                txtAyB.Text = s.AlineacionBalanceo.aybNombre + " $ " + s.AlineacionBalanceo.aybPrecio;
                             }
 
-                            if (s.lavadoNombre == "ne")
+                            if (s.Lavado.LavadoNombre == "ne")
                             {
                                 txtLavado.Text = "No aplica";
                             }
                             else
                             {
-                                txtLavado.Text = s.lavadoNombre + " $ " + s.lavadoPrecio;
+                                txtLavado.Text = s.Lavado.LavadoNombre + " $ " + s.Lavado.LavadoPrecio;
                             }
 
                             if (s.neumaticoNombre == "ne")
@@ -198,7 +198,7 @@ namespace CapaPresentacion.Cajero
                                 txtPrecio.Text = "$ " + s.Parking.precioParking.ToString();
                             }
 
-                            double precioTotal = s.aybPrecio + s.lavadoPrecio + s.neumaticoPrecio + s.Parking.precioParking;
+                            double precioTotal = s.AlineacionBalanceo.aybPrecio + s.Lavado.LavadoPrecio + s.neumaticoPrecio + s.Parking.precioParking;
                             lblPrecioTotal.Text = "Precio Total:          $ " + precioTotal;
                             break;
                         case 1: MessageBox.Show("Error 1"); break;

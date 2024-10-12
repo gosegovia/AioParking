@@ -246,12 +246,6 @@ namespace CapaPresentacion.EjecutivoServicios
             Validaciones.validacionLongitud(sender, e, 10);
         }
 
-        private void txtNeumatico_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitud(sender, e, 5);
-        }
-
         private void txtCantidad_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
@@ -351,6 +345,5 @@ namespace CapaPresentacion.EjecutivoServicios
                 }
             }
         }
-
     }
 }

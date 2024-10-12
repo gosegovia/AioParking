@@ -725,13 +725,13 @@ INSERT INTO Factura (id_factura, ci_cliente, ci_empleado, matricula, factura_pag
 INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
 (2, '2024-10-06 08:00:00', '2024-10-06 10:00:00', 50),
 (16, '2024-10-08 08:00:00', '2024-10-08 09:00:00', 50),
-(17, '2024-10-11 07:00:00', '2024-10-11 11:00:00', 50);
+(17, '2024-10-11 07:00:00', '2024-10-13 11:00:00', 50);
 INSERT INTO Reserva (id_parking, id_plaza) VALUES
 (2, 9),
 (16, 8),
 (17, 4);
 INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES 
-(1, 9, 2, 400.00),
+(2, 9, 2, 400.00),
 (16, 8, 16, 500.00),
 (17, 4, 17, 450.00);
 /* USA-LAVADO */
@@ -834,6 +834,7 @@ GRANT SELECT ON Rol TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Empleado TO 'jefe'@'%';
 GRANT SELECT ON Marca TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Tipo_Vehiculo TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'jefe'@'%';
@@ -856,6 +857,7 @@ GRANT SELECT ON Rol TO 'eje'@'%';
 GRANT SELECT ON Empleado TO 'eje'@'%';
 GRANT SELECT ON Marca TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Tipo_Vehiculo TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Ticket TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'eje'@'%';
@@ -1074,3 +1076,18 @@ FLUSH PRIVILEGES;
 -- FROM Neumatico
 -- WHERE estado_neumatico = 1
 -- ORDER BY marca_neumatico DESC;
+
+SELECT v.id_tipo, COUNT(*) AS Cantidad
+FROM Vehiculo v
+JOIN Factura f ON v.matricula = f.matricula
+JOIN Solicita s ON f.id_factura = s.id_factura
+JOIN Parking p ON s.id_parking = p.id_parking
+JOIN Reserva r ON p.id_parking = r.id_parking
+JOIN Plaza pla ON r.id_plaza = pla.id_plaza
+WHERE p.hora_salida > NOW();
+
+SELECT id_lavado, nombre_lavado, precio_lavado
+FROM Lavado
+WHERE id_lavado = 1;
+
+select * from Lavado;

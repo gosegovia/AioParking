@@ -35,11 +35,11 @@ namespace CapaPresentacion
                 var vehiculosPorTipo = v.VehiculosActuales();
 
                 // Asignar los valores a las etiquetas basándose en el tipo de vehículo
-                lblCantAutos.Text = vehiculosPorTipo.ContainsKey(1) ? vehiculosPorTipo[1].ToString() : "0";
-                lblCantUtilitarios.Text = vehiculosPorTipo.ContainsKey(2) ? vehiculosPorTipo[2].ToString() : "0";
-                lblCantMotos.Text = vehiculosPorTipo.ContainsKey(3) ? vehiculosPorTipo[3].ToString() : "0";
-                lblCantCamionetas.Text = vehiculosPorTipo.ContainsKey(4) ? vehiculosPorTipo[4].ToString() : "0";
-                lblCantCamiones.Text = vehiculosPorTipo.ContainsKey(5) ? vehiculosPorTipo[5].ToString() : "0";
+                lblCantMotos.Text = vehiculosPorTipo.ContainsKey(1) ? vehiculosPorTipo[1].ToString() : "0";
+                lblCantAutos.Text = vehiculosPorTipo.ContainsKey(2) ? vehiculosPorTipo[2].ToString() : "0";
+                lblCantCamionetas.Text = vehiculosPorTipo.ContainsKey(3) ? vehiculosPorTipo[3].ToString() : "0";
+                lblCantCamiones.Text = vehiculosPorTipo.ContainsKey(4) ? vehiculosPorTipo[4].ToString() : "0";
+                lblCantUtilitarios.Text = vehiculosPorTipo.ContainsKey(5) ? vehiculosPorTipo[5].ToString() : "0";
 
                 // Calcular el total de vehículos
                 int totalVehiculos = vehiculosPorTipo.Values.Sum();

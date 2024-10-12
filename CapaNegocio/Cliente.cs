@@ -92,7 +92,7 @@ namespace CapaNegocio
             _nro_puerta = 0;
             _estado = 0;
             _telefonos = new List<string>();
-            _conexion = new Conexion();  // Iniciar la conexión de la clase persistencia
+            _conexion = new Conexion();
             _tipoCliente = "";
         }
 
@@ -107,7 +107,7 @@ namespace CapaNegocio
             _nro_puerta = np;
             _estado = estado;
             _telefonos = tel;
-            _conexion = cn;  // Usar la nueva clase Conexion
+            _conexion = cn;
             _tipoCliente = tc;
         }
 

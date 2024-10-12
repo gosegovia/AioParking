@@ -33,9 +33,11 @@ namespace CapaPresentacion.Cajero
             this.label1 = new System.Windows.Forms.Label();
             this.dgvServicios = new System.Windows.Forms.DataGridView();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.btnBuscarCi = new System.Windows.Forms.Button();
-            this.txtCi = new System.Windows.Forms.TextBox();
-            this.lblCi = new System.Windows.Forms.Label();
+            this.btnResetear = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.txtCI = new System.Windows.Forms.TextBox();
+            this.lblCI = new System.Windows.Forms.Label();
+            this.cbPaga = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServicios)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,6 +63,7 @@ namespace CapaPresentacion.Cajero
             this.dgvServicios.RowTemplate.Height = 25;
             this.dgvServicios.Size = new System.Drawing.Size(820, 351);
             this.dgvServicios.TabIndex = 2;
+            this.dgvServicios.Scroll += new System.Windows.Forms.ScrollEventHandler(this.DataGridView_Scroll);
             // 
             // btnVolver
             // 
@@ -78,53 +81,84 @@ namespace CapaPresentacion.Cajero
             this.btnVolver.UseVisualStyleBackColor = false;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
-            // btnBuscarCi
+            // btnResetear
             // 
-            this.btnBuscarCi.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnBuscarCi.FlatAppearance.BorderSize = 0;
-            this.btnBuscarCi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBuscarCi.Font = new System.Drawing.Font("Arial", 12F);
-            this.btnBuscarCi.ForeColor = System.Drawing.Color.White;
-            this.btnBuscarCi.Location = new System.Drawing.Point(482, 101);
-            this.btnBuscarCi.Name = "btnBuscarCi";
-            this.btnBuscarCi.Size = new System.Drawing.Size(100, 25);
-            this.btnBuscarCi.TabIndex = 27;
-            this.btnBuscarCi.Text = "Buscar";
-            this.btnBuscarCi.UseVisualStyleBackColor = false;
-            this.btnBuscarCi.Click += new System.EventHandler(this.btnBuscarCi_Click);
+            this.btnResetear.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnResetear.FlatAppearance.BorderSize = 0;
+            this.btnResetear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnResetear.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnResetear.ForeColor = System.Drawing.Color.White;
+            this.btnResetear.Location = new System.Drawing.Point(462, 101);
+            this.btnResetear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnResetear.Name = "btnResetear";
+            this.btnResetear.Size = new System.Drawing.Size(91, 25);
+            this.btnResetear.TabIndex = 32;
+            this.btnResetear.Text = "Actualizar";
+            this.btnResetear.UseVisualStyleBackColor = false;
+            this.btnResetear.Click += new System.EventHandler(this.btnResetear_Click);
             // 
-            // txtCi
+            // btnBuscar
             // 
-            this.txtCi.BackColor = System.Drawing.Color.LightBlue;
-            this.txtCi.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtCi.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCi.Location = new System.Drawing.Point(293, 101);
-            this.txtCi.Multiline = true;
-            this.txtCi.Name = "txtCi";
-            this.txtCi.Size = new System.Drawing.Size(180, 25);
-            this.txtCi.TabIndex = 26;
-            this.txtCi.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCi_KeyDown);
-            this.txtCi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCi_KeyPress);
+            this.btnBuscar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscar.FlatAppearance.BorderSize = 0;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
+            this.btnBuscar.ForeColor = System.Drawing.Color.White;
+            this.btnBuscar.Location = new System.Drawing.Point(381, 101);
+            this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 25);
+            this.btnBuscar.TabIndex = 31;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscarCi_Click);
             // 
-            // lblCi
+            // txtCI
             // 
-            this.lblCi.AutoSize = true;
-            this.lblCi.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblCi.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCi.Location = new System.Drawing.Point(255, 105);
-            this.lblCi.Name = "lblCi";
-            this.lblCi.Size = new System.Drawing.Size(24, 18);
-            this.lblCi.TabIndex = 25;
-            this.lblCi.Text = "Ci";
+            this.txtCI.BackColor = System.Drawing.Color.LightBlue;
+            this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.txtCI.Location = new System.Drawing.Point(239, 101);
+            this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtCI.Multiline = true;
+            this.txtCI.Name = "txtCI";
+            this.txtCI.Size = new System.Drawing.Size(135, 25);
+            this.txtCI.TabIndex = 30;
+            this.txtCI.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCi_KeyDown);
+            this.txtCI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCi_KeyPress);
+            // 
+            // lblCI
+            // 
+            this.lblCI.AutoSize = true;
+            this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblCI.Location = new System.Drawing.Point(213, 105);
+            this.lblCI.Name = "lblCI";
+            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.TabIndex = 29;
+            this.lblCI.Text = "CI";
+            // 
+            // cbPaga
+            // 
+            this.cbPaga.AutoSize = true;
+            this.cbPaga.Location = new System.Drawing.Point(559, 102);
+            this.cbPaga.Name = "cbPaga";
+            this.cbPaga.Size = new System.Drawing.Size(130, 22);
+            this.cbPaga.TabIndex = 33;
+            this.cbPaga.Text = "Mostrar Pagas";
+            this.cbPaga.UseVisualStyleBackColor = true;
+            this.cbPaga.CheckedChanged += new System.EventHandler(this.cbPaga_CheckedChanged);
             // 
             // ListarFactura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 550);
-            this.Controls.Add(this.btnBuscarCi);
-            this.Controls.Add(this.txtCi);
-            this.Controls.Add(this.lblCi);
+            this.Controls.Add(this.cbPaga);
+            this.Controls.Add(this.btnResetear);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.txtCI);
+            this.Controls.Add(this.lblCI);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.dgvServicios);
             this.Controls.Add(this.label1);
@@ -145,8 +179,10 @@ namespace CapaPresentacion.Cajero
         private Label label1;
         private DataGridView dgvServicios;
         private Button btnVolver;
-        private Button btnBuscarCi;
-        private TextBox txtCi;
-        private Label lblCi;
+        private Button btnResetear;
+        private Button btnBuscar;
+        private TextBox txtCI;
+        private Label lblCI;
+        private CheckBox cbPaga;
     }
 }
