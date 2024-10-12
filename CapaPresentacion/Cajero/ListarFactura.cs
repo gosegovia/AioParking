@@ -71,7 +71,8 @@ namespace CapaPresentacion.Cajero
                     var datosServicios = servicios.Select(serv => new
                     {
                         Factura = serv.facturaId,
-                        CI = serv.Cliente.ci, // CI del cliente relacionado
+                        CI_Cliente = serv.Cliente.ci, // CI del cliente relacionado
+                        CI_Empleado = serv.Empleado.ci,
                         Matricula = serv.Vehiculo.Matricula, // Matrícula del vehículo relacionado
                         Fecha = serv.facturaFecha.ToString("dd/MM/yyyy HH:mm"), // Formato de fecha
                         HoraEntrada = serv.Parking.HoraEntrada.ToString("HH:mm"),

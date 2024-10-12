@@ -78,12 +78,14 @@ CREATE TABLE Posee (
 
 CREATE TABLE Factura (
   id_factura INT AUTO_INCREMENT,
-  ci INT NOT NULL,
+  ci_cliente INT NOT NULL,
+  ci_empleado INT NOT NULL,
   matricula VARCHAR(10) NOT NULL,
   factura_paga ENUM('0', '1') NOT NULL,
   fecha DATETIME NOT NULL,
   PRIMARY KEY (id_factura),
-  FOREIGN KEY (ci) REFERENCES Persona(ci),
+  FOREIGN KEY (ci_cliente) REFERENCES Cliente(ci),
+  FOREIGN KEY (ci_empleado) REFERENCES Empleado(ci),
   FOREIGN KEY (matricula) REFERENCES Vehiculo(matricula)
 );
 
@@ -179,7 +181,6 @@ CREATE TABLE Hace (
   id_factura INT NOT NULL,
   id_ayb INT NOT NULL,
   precio_hace DECIMAL(10, 2) NOT NULL,
-  cantidad_hace INT NOT NULL,
   PRIMARY KEY (id_factura, id_ayb),
   FOREIGN KEY (id_factura) REFERENCES Factura(id_factura),
   FOREIGN KEY (id_ayb) REFERENCES Alineacion_Balanceo(id_ayb)
@@ -587,34 +588,6 @@ INSERT INTO Neumatico (id_neumatico, nombre_neumatico, marca_neumatico, precio_n
 (9, 'Ecsta PS91', 'Pirelli', 200.00, 22, 1),
 (10, 'Dynapro AT2', 'Michelin', 180.00, 16, 1);
 
-/* FACTURA */
-
-INSERT INTO Factura (id_factura, ci, matricula, factura_paga, fecha) VALUES
-(1, 56303446, 'abc1234', '0', '2024-10-06 14:22:45'),
-(2, 43214321, 'cba4321', '0', '2024-10-06 10:34:12'),
-(3, 32132143, 'fga1235', '0', '2024-10-06 09:00:00'),
-(4, 54839454, 'das7869', '0', '2024-10-06 15:45:00'),
-(5, 38765432, 'xyz5678', '0', '2024-10-06 11:22:00'),
-(6, 57654321, 'uvw8765', '0', '2024-10-06 13:30:00'),
-(7, 26543210, 'rst3456', '0', '2024-09-28 10:15:00'),
-(8, 15432109, 'opq2345', '0', '2024-09-18 16:00:00'),
-(9, 34321098, 'lmn6543', '0', '2024-09-25 14:50:00'),
-(10, 43210987, 'ijk9876', '0', '2024-09-29 12:10:00');
-
-/* PARKING */
-
-INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
-(1, '2024-08-19 08:00:00', '2024-08-19 10:00:00', 50),
-(2, '2024-08-19 09:00:00', '2024-08-19 11:45:00', 100),
-(3, '2024-08-19 11:00:00', '2024-08-19 13:30:00', 50),
-(4, '2024-08-19 12:00:00', '2024-08-19 14:00:00', 120),
-(5, '2024-08-19 13:00:00', '2024-08-19 15:15:00', 100),
-(6, '2024-08-19 14:00:00', '2024-08-19 16:30:00', 125),
-(7, '2024-08-19 15:00:00', '2024-08-19 17:00:00', 100),
-(8, '2024-08-19 16:00:00', '2024-08-19 18:30:00', 50),
-(9, '2024-08-19 17:00:00', '2024-08-19 19:00:00', 150),
-(10, '2024-08-19 18:00:00', '2024-08-19 20:00:00', 120);
-
 /* PLAZA */
 
 INSERT INTO Plaza (id_plaza, estado_plaza) VALUES
@@ -679,11 +652,121 @@ INSERT INTO Plaza (id_plaza, estado_plaza) VALUES
 (59, 'Libre'),
 (60, 'Libre');
 
-/* RESERVA */
+/* LAVADO */
 
+INSERT INTO Lavado(id_lavado, nombre_lavado, precio_lavado) VALUES
+(1, 'Moto', 200.00),
+(2, 'Auto', 400.00),
+(3, 'Camioneta', 460.00),
+(4, 'Pequenio camion', 500.00),
+(5, 'Pequenio utilitario', 500.00),
+(6, 'Lavado gratis', 0.00);
+
+/* ALINEACION Y BALANCEO */
+
+INSERT INTO Alineacion_Balanceo(id_ayb, nombre_ayb, precio_ayb) VALUES
+(1, 'Montaje neumatico', 200.00),
+(2, 'Alineacion 1 tren desde R17', 1850.00),
+(3, 'Alineacion', 1650.00),
+(4, 'Balanceo auto y valvula', 385.00),
+(5, 'Alineacion 2 trenes', 2475.00),
+(6, 'Pack alineacion, 4 balanceos para camioneta y valvulas', 3510),
+(7, 'Balanceo de camioneta y valvula', 415);
+
+/* FACTURAS abc1234 */
+INSERT INTO Factura (id_factura, ci_cliente, ci_empleado, matricula, factura_paga, fecha) VALUES
+(1, 56303446, 53459384, 'abc1234', '1', '2024-10-06 14:00:00'),
+(11, 56303446, 53459384, 'abc1234', '1', '2024-10-07 10:00:00'),
+(12, 56303446, 53459384, 'abc1234', '1', '2024-10-08 13:00:00'),
+(13, 56303446, 53459384, 'abc1234', '1', '2024-10-09 12:00:00'),
+(14, 56303446, 53459384, 'abc1234', '1', '2024-10-10 09:00:00'),
+(15, 56303446, 53459384, 'abc1234', '0', '2024-10-11 09:00:00');
+INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
+(1, '2024-10-06 08:00:00', '2024-10-06 10:00:00', 50),
+(11, '2024-10-07 08:00:00', '2024-10-07 09:00:00', 50),
+(12, '2024-10-08 07:00:00', '2024-10-08 11:00:00', 50),
+(13, '2024-10-09 07:00:00', '2024-10-09 13:00:00', 50),
+(14, '2024-10-10 08:00:00', '2024-10-10 10:00:00', 50),
+(15, '2024-10-11 08:00:00', '2024-10-11 11:00:00', 50);
 INSERT INTO Reserva (id_parking, id_plaza) VALUES
 (1, 3),
-(2, 6),
+(11, 5),
+(12, 2),
+(13, 3),
+(14, 4),
+(15, 2);
+INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES 
+(1, 3, 1, 500.00),
+(11, 5, 1, 500.00),
+(12, 2, 1, 500.00),
+(13, 3, 1, 500.00),
+(14, 4, 1, 500.00),
+(15, 2, 1, 500.00);
+/* USA-LAVADO */
+INSERT INTO Usa(id_factura, id_lavado, precio_usa) VALUES
+(1, 1, 200.00),
+(11, 1, 200.00),
+(13, 6, 200.00),
+(15, 1, 200.00);
+/* HACE-ALINEACION/BALANCEO */
+INSERT INTO Hace(id_factura, id_ayb, precio_hace) VALUES
+(1, 5, 2475.00),
+(11, 1, 200.00),
+(13, 7, 415.00);
+/* COMPRA-NEUMATICO */
+INSERT INTO Compra(id_factura, id_neumatico, precio_compra, cantidad_compra) 
+VALUES (15, 1, 1000.00, 4);
+
+/* FACTURAS cba4321 */
+INSERT INTO Factura (id_factura, ci_cliente, ci_empleado, matricula, factura_paga, fecha) VALUES
+(2, 43214321, 53459384, 'cba4321', '1', '2024-10-06 09:48:00'),
+(16, 43214321, 53459384, 'cba4321', '1', '2024-10-08 10:15:00'),
+(17, 43214321, 53459384, 'cba4321', '0', '2024-10-11 10:30:00');
+INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
+(2, '2024-10-06 08:00:00', '2024-10-06 10:00:00', 50),
+(16, '2024-10-08 08:00:00', '2024-10-08 09:00:00', 50),
+(17, '2024-10-11 07:00:00', '2024-10-11 11:00:00', 50);
+INSERT INTO Reserva (id_parking, id_plaza) VALUES
+(2, 9),
+(16, 8),
+(17, 4);
+INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES 
+(1, 9, 2, 400.00),
+(16, 8, 16, 500.00),
+(17, 4, 17, 450.00);
+/* USA-LAVADO */
+INSERT INTO Usa(id_factura, id_lavado, precio_usa) VALUES
+(2, 1, 200.00);
+/* HACE-ALINEACION/BALANCEO */
+INSERT INTO Hace(id_factura, id_ayb, precio_hace) VALUES
+(16, 1, 200.00);
+
+/* FACTURA */
+
+INSERT INTO Factura (id_factura, ci_cliente, ci_empleado, matricula, factura_paga, fecha) VALUES
+(3, 32132143, 53459384, 'fga1235', '0', '2024-10-06 09:00:00'),
+(4, 54839454, 53459384, 'das7869', '0', '2024-10-06 15:45:00'),
+(5, 38765432, 53459384, 'xyz5678', '0', '2024-10-06 11:22:00'),
+(6, 57654321, 53459384, 'uvw8765', '0', '2024-10-06 13:30:00'),
+(7, 26543210, 53459384, 'rst3456', '0', '2024-09-28 10:15:00'),
+(8, 15432109, 53459384, 'opq2345', '0', '2024-09-18 16:00:00'),
+(9, 34321098, 53459384, 'lmn6543', '0', '2024-09-25 14:50:00'),
+(10, 43210987, 53459384, 'ijk9876', '0', '2024-09-29 12:10:00');
+
+/* PARKING */
+
+INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
+(3, '2024-08-19 11:00:00', '2024-08-19 13:30:00', 50),
+(4, '2024-08-19 12:00:00', '2024-08-19 14:00:00', 120),
+(5, '2024-08-19 13:00:00', '2024-08-19 15:15:00', 100),
+(6, '2024-08-19 14:00:00', '2024-08-19 16:30:00', 125),
+(7, '2024-08-19 15:00:00', '2024-08-19 17:00:00', 100),
+(8, '2024-08-19 16:00:00', '2024-08-19 18:30:00', 50),
+(9, '2024-08-19 17:00:00', '2024-08-19 19:00:00', 150),
+(10, '2024-08-19 18:00:00', '2024-08-19 20:00:00', 120);
+
+/* RESERVA */
+INSERT INTO Reserva (id_parking, id_plaza) VALUES
 (3, 9),
 (4, 21),
 (5, 25),
@@ -712,8 +795,6 @@ INSERT INTO Ticket (id_ticket, matricula, ci, id_plaza, fecha_ticket) VALUES
 /* SOLICITA */
 
 INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES 
-(1, 3, 1, 500.00),
-(2, 6, 2, 200.00),
 (3, 9, 3, 300.00),
 (4, 21, 4, 100.00),
 (5, 25, 5, 500.00),
@@ -723,141 +804,107 @@ INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES
 (9, 52, 9, 700.00),
 (10, 53, 10, 900.00);
 
-/* LAVADO */
-
-INSERT INTO Lavado(id_lavado, nombre_lavado, precio_lavado) VALUES
-(1, 'Moto', 200.00),
-(2, 'Auto', 400.00),
-(3, 'Camioneta', 460.00),
-(4, 'Pequenio camion', 500.00),
-(5, 'Pequenio utilitario', 500.00),
-(6, 'Lavado gratis', 0.00);
-
-/* ALINEACION Y BALANCEO */
-
-INSERT INTO Alineacion_Balanceo(id_ayb, nombre_ayb, precio_ayb) VALUES
-(1, 'Montaje neumatico', 200.00),
-(2, 'Alineacion 1 tren desde R17', 1850.00),
-(3, 'Alineacion', 1650.00),
-(4, 'Balanceo auto y valvula', 385.00),
-(5, 'Alineacion 2 trenes', 2475.00),
-(6, 'Pack alineacion, 4 balanceos para camioneta y valvulas', 3510),
-(7, 'Balanceo de camioneta y valvula', 415);
-
-/* COMPRA */
-
-INSERT INTO Compra(id_factura, id_neumatico, precio_compra, cantidad_compra) 
-VALUES (1, 1, 1000.00, 4);
-
-/* HACE */
-
-INSERT INTO Hace(id_factura, id_ayb, precio_hace, cantidad_hace) 
-VALUES (1, 5, 2475.00, 1);
-
-/* USA */
-
-INSERT INTO Usa(id_factura, id_lavado, precio_usa) VALUES 
-(1, 1, 200.00),
-(2, 6, 0.00);
-
 /* USUARIOS DEL SISTEMA */
 
 -- Borrar empleados si existen
-DROP USER IF EXISTS 'ger'@'localhost';
-DROP USER IF EXISTS 'jefe'@'localhost';
-DROP USER IF EXISTS 'eje'@'localhost';
-DROP USER IF EXISTS 'caj'@'localhost';
-DROP USER IF EXISTS 'ope'@'localhost';
+DROP USER IF EXISTS 'ger'@'%';
+DROP USER IF EXISTS 'jefe'@'%';
+DROP USER IF EXISTS 'eje'@'%';
+DROP USER IF EXISTS 'caj'@'%';
+DROP USER IF EXISTS 'ope'@'%';
 
 /* ----- USUARIOS ----- */
 
-CREATE USER 'ger'@'localhost' IDENTIFIED BY '123';
-CREATE USER 'jefe'@'localhost' IDENTIFIED BY '123';
-CREATE USER 'eje'@'localhost' IDENTIFIED BY '123';
-CREATE USER 'caj'@'localhost' IDENTIFIED BY '123';
-CREATE USER 'ope'@'localhost' IDENTIFIED BY '123';
+CREATE USER 'ger'@'%' IDENTIFIED BY '123';
+CREATE USER 'jefe'@'%' IDENTIFIED BY '123';
+CREATE USER 'eje'@'%' IDENTIFIED BY '123';
+CREATE USER 'caj'@'%' IDENTIFIED BY '123';
+CREATE USER 'ope'@'%' IDENTIFIED BY '123';
 
 -- Doy permiso a los usuarios segun lo necesiten
 
 -- Gerente
-GRANT ALL PRIVILEGES ON ProyectoBD.* TO 'ger'@'localhost';
+GRANT ALL PRIVILEGES ON ProyectoBD.* TO 'ger'@'%';
 
 -- Jefe de servicios
-GRANT SELECT, INSERT, UPDATE ON Persona TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE ON Telefono TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Cliente TO 'jefe'@'localhost';
-GRANT SELECT ON Rol TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Empleado TO 'jefe'@'localhost';
-GRANT SELECT ON Marca TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Posee TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Factura TO 'jefe'@'localhost';
-GRANT SELECT ON Neumatico TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Compra TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Parking TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Plaza TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Reserva TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Solicita TO 'jefe'@'localhost';
-GRANT SELECT ON Lavado TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Usa TO 'jefe'@'localhost';
-GRANT SELECT ON Alineacion_Balanceo TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Hace TO 'jefe'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON Persona TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON Telefono TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Cliente TO 'jefe'@'%';
+GRANT SELECT ON Rol TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Empleado TO 'jefe'@'%';
+GRANT SELECT ON Marca TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Posee TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Factura TO 'jefe'@'%';
+GRANT SELECT ON Neumatico TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Compra TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Parking TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Plaza TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Reserva TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Solicita TO 'jefe'@'%';
+GRANT SELECT ON Lavado TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Usa TO 'jefe'@'%';
+GRANT SELECT ON Alineacion_Balanceo TO 'jefe'@'%';
+GRANT SELECT, INSERT, UPDATE ON Hace TO 'jefe'@'%';
 
 -- Ejecutivo de servicios
-GRANT SELECT, INSERT, UPDATE ON Persona TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE ON Telefono TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Cliente TO 'eje'@'localhost';
-GRANT SELECT ON Rol TO 'eje'@'localhost';
-GRANT SELECT ON Empleado TO 'eje'@'localhost';
-GRANT SELECT ON Marca TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Posee TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Factura TO 'eje'@'localhost';
-GRANT SELECT ON Neumatico TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Compra TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Parking TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Plaza TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Reserva TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Solicita TO 'eje'@'localhost';
-GRANT SELECT ON Lavado TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Usa TO 'eje'@'localhost';
-GRANT SELECT ON Alineacion_Balanceo TO 'eje'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON Hace TO 'eje'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON Persona TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON Telefono TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Cliente TO 'eje'@'%';
+GRANT SELECT ON Rol TO 'eje'@'%';
+GRANT SELECT ON Empleado TO 'eje'@'%';
+GRANT SELECT ON Marca TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Vehiculo TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Posee TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Ticket TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Factura TO 'eje'@'%';
+GRANT SELECT ON Neumatico TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Compra TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Parking TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Plaza TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Reserva TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Solicita TO 'eje'@'%';
+GRANT SELECT ON Lavado TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Usa TO 'eje'@'%';
+GRANT SELECT ON Alineacion_Balanceo TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Hace TO 'eje'@'%';
 
 -- Cajero
-GRANT SELECT ON Persona TO 'caj'@'localhost';
-GRANT SELECT ON Cliente TO 'caj'@'localhost';
-GRANT SELECT ON Rol TO 'caj'@'localhost';
-GRANT SELECT ON Empleado TO 'caj'@'localhost';
-GRANT SELECT ON Marca TO 'caj'@'localhost';
-GRANT SELECT ON Vehiculo TO 'caj'@'localhost';
-GRANT SELECT ON Tipo_Vehiculo TO 'caj'@'localhost';
-GRANT SELECT ON Posee TO 'caj'@'localhost';
-GRANT SELECT, UPDATE ON Factura TO 'caj'@'localhost';
-GRANT SELECT ON Neumatico TO 'caj'@'localhost';
-GRANT SELECT ON Compra TO 'caj'@'localhost';
-GRANT SELECT ON Parking TO 'caj'@'localhost';
-GRANT SELECT ON Plaza TO 'caj'@'localhost';
-GRANT SELECT ON Reserva TO 'caj'@'localhost';
-GRANT SELECT ON Solicita TO 'caj'@'localhost';
-GRANT SELECT ON Lavado TO 'caj'@'localhost';
-GRANT SELECT ON Usa TO 'caj'@'localhost';
-GRANT SELECT ON Alineacion_Balanceo TO 'caj'@'localhost';
-GRANT SELECT ON Hace TO 'caj'@'localhost';
 
--- Operador de camaras y respaldo
-GRANT SELECT ON Persona TO 'ope'@'localhost';
-GRANT SELECT ON Cliente TO 'ope'@'localhost';
-GRANT SELECT ON Rol TO 'ope'@'localhost';
-GRANT SELECT ON Empleado TO 'ope'@'localhost';
-GRANT SELECT ON Marca TO 'ope'@'localhost';
-GRANT SELECT ON Vehiculo TO 'ope'@'localhost';
-GRANT SELECT ON Tipo_Vehiculo TO 'ope'@'localhost';
-GRANT SELECT ON Posee TO 'ope'@'localhost';
-GRANT SELECT ON Plaza TO 'ope'@'localhost';
-GRANT SELECT, INSERT ON Ticket TO 'ope'@'localhost';
+GRANT SELECT ON Persona TO 'caj'@'%';
+GRANT SELECT ON Cliente TO 'caj'@'%';
+GRANT SELECT ON Rol TO 'caj'@'%';
+GRANT SELECT ON Empleado TO 'caj'@'%';
+GRANT SELECT ON Marca TO 'caj'@'%';
+GRANT SELECT ON Vehiculo TO 'caj'@'%';
+GRANT SELECT ON Tipo_Vehiculo TO 'caj'@'%';
+GRANT SELECT ON Posee TO 'caj'@'%';
+GRANT SELECT, UPDATE ON Factura TO 'caj'@'%';
+GRANT SELECT ON Neumatico TO 'caj'@'%';
+GRANT SELECT ON Compra TO 'caj'@'%';
+GRANT SELECT ON Parking TO 'caj'@'%';
+GRANT SELECT ON Plaza TO 'caj'@'%';
+GRANT SELECT ON Reserva TO 'caj'@'%';
+GRANT SELECT ON Solicita TO 'caj'@'%';
+GRANT SELECT ON Lavado TO 'caj'@'%';
+GRANT SELECT ON Usa TO 'caj'@'%';
+GRANT SELECT ON Alineacion_Balanceo TO 'caj'@'%';
+GRANT SELECT ON Hace TO 'caj'@'%';
+
+-- Operador de cámaras y respaldo
+GRANT SELECT ON Persona TO 'ope'@'%';
+GRANT SELECT ON Cliente TO 'ope'@'%';
+GRANT SELECT ON Rol TO 'ope'@'%';
+GRANT SELECT ON Empleado TO 'ope'@'%';
+GRANT SELECT ON Marca TO 'ope'@'%';
+GRANT SELECT ON Vehiculo TO 'ope'@'%';
+GRANT SELECT ON Tipo_Vehiculo TO 'ope'@'%';
+GRANT SELECT ON Posee TO 'ope'@'%';
+GRANT SELECT ON Plaza TO 'ope'@'%';
+GRANT SELECT, INSERT ON Ticket TO 'ope'@'%';
+
+FLUSH PRIVILEGES;
 
 -- SELECT p.ci, p.matricula, m.nombre_marca, t.nombre_tipo
 -- FROM Posee p
@@ -976,59 +1023,54 @@ GRANT SELECT, INSERT ON Ticket TO 'ope'@'localhost';
 -- CONSULTAS SQL 
 
 -- CONSULTA 1
-SELECT id_factura, ci, matricula, factura_paga, fecha 
-FROM Factura
-WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+-- SELECT id_factura, ci, matricula, factura_paga, fecha 
+-- FROM Factura
+-- WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
 
 -- CONSULTA 2 -- COALESCA devuelve 0 si no encuentra
-SELECT f.ci, 
-       SUM(COALESCE(s.precio_solicita, 0) + 
-           COALESCE(c.precio_compra * c.cantidad_compra, 0) + 
-           COALESCE(h.precio_hace, 0) + 
-           COALESCE(u.precio_usa, 0)) AS total_gastado
-FROM Factura f
-LEFT JOIN Solicita s ON s.id_factura = f.id_factura
-LEFT JOIN Compra c ON c.id_factura = f.id_factura
-LEFT JOIN Hace h ON h.id_factura = f.id_factura
-LEFT JOIN Usa u ON u.id_factura = f.id_factura
-WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
-GROUP BY f.ci
-ORDER BY total_gastado DESC
-LIMIT 5;
+-- SELECT f.ci, 
+--       SUM(COALESCE(s.precio_solicita, 0) + 
+--           COALESCE(c.precio_compra * c.cantidad_compra, 0) + 
+--           COALESCE(h.precio_hace, 0) + 
+--           COALESCE(u.precio_usa, 0)) AS total_gastado
+-- FROM Factura f
+-- LEFT JOIN Solicita s ON s.id_factura = f.id_factura
+-- LEFT JOIN Compra c ON c.id_factura = f.id_factura
+-- LEFT JOIN Hace h ON h.id_factura = f.id_factura
+-- LEFT JOIN Usa u ON u.id_factura = f.id_factura
+-- WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+-- GROUP BY f.ci
+-- ORDER BY total_gastado DESC
+-- LIMIT 5;
 
 -- CONSULTA 3
-SELECT f.matricula, COUNT(u.id_factura) AS total_lavados
-FROM Factura f
-JOIN Usa u ON f.id_factura = u.id_factura
-WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
-GROUP BY f.matricula
-ORDER BY total_lavados DESC
-LIMIT 5;
+-- SELECT f.matricula, COUNT(u.id_factura) AS total_lavados
+-- FROM Factura f
+-- JOIN Usa u ON f.id_factura = u.id_factura
+-- WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
+-- GROUP BY f.matricula
+-- ORDER BY total_lavados DESC
+-- LIMIT 5;
 
 -- CONSULTA 4
-SELECT s.id_plaza, COUNT(s.id_plaza) AS total_usos
-FROM Solicita s
-GROUP BY s.id_plaza
-ORDER BY total_usos DESC
-LIMIT 1;
+-- SELECT s.id_plaza, COUNT(s.id_plaza) AS total_usos
+-- FROM Solicita s
+-- GROUP BY s.id_plaza
+-- ORDER BY total_usos DESC
+-- LIMIT 1;
 
 -- CONSULTA 5
-SELECT 'Lavado' AS servicio, nombre_lavado AS nombre, precio_lavado AS precio
-FROM Lavado
-UNION ALL
-SELECT 'Alineación y Balanceo' AS servicio, nombre_ayb AS nombre, precio_ayb AS precio
-FROM Alineacion_Balanceo
-UNION ALL
-SELECT 'Neumático' AS servicio, CONCAT(nombre_neumatico, ' - ', marca_neumatico) AS nombre, precio_neumatico AS precio
-FROM Neumatico;
+-- SELECT 'Lavado' AS servicio, nombre_lavado AS nombre, precio_lavado AS precio
+-- FROM Lavado
+-- UNION ALL
+-- SELECT 'Alineación y Balanceo' AS servicio, nombre_ayb AS nombre, precio_ayb AS precio
+-- FROM Alineacion_Balanceo
+-- UNION ALL
+-- SELECT 'Neumático' AS servicio, CONCAT(nombre_neumatico, ' - ', marca_neumatico) AS nombre, precio_neumatico AS precio
+-- FROM Neumatico;
 
 -- CONSULTA 6
-SELECT nombre_neumatico, marca_neumatico, stock_neumatico
-FROM Neumatico
-WHERE estado_neumatico = 1
-ORDER BY marca_neumatico DESC;
-
-
-
-
-
+-- SELECT nombre_neumatico, marca_neumatico, stock_neumatico
+-- FROM Neumatico
+-- WHERE estado_neumatico = 1
+-- ORDER BY marca_neumatico DESC;

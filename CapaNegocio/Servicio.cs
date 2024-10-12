@@ -31,6 +31,7 @@ namespace CapaNegocio
         protected int _neumatico_cantidad;
         protected byte _neumatico_estado;
         protected Cliente _cliente;
+        protected Empleado _empleado;
         protected Vehiculo _vehiculo;
         protected Parking _parking;
         protected Conexion _conexion;
@@ -125,6 +126,12 @@ namespace CapaNegocio
             get { return _cliente; }
         }
 
+        public Empleado Empleado
+        {
+            set { _empleado = value; }
+            get { return _empleado; }
+        }
+
         public Vehiculo Vehiculo
         {
             set { _vehiculo = value; }
@@ -159,6 +166,7 @@ namespace CapaNegocio
             _neumatico_marca = "";
             _neumatico_cantidad = 0;
             _cliente = new Cliente();
+            _empleado = new Empleado();
             _vehiculo = new Vehiculo();
             _parking = new Parking();
             _conexion = new Conexion();
@@ -168,7 +176,7 @@ namespace CapaNegocio
             int l, string lnom, double lpre,
             int ayb_id, string ayb_nom, double ayb_precio,
             int neu_id, string neu_nom, double neu_pre, string neu_mar, int neu_cant,
-            Cliente cli, Vehiculo ve, Parking par, Conexion cn)
+            Cliente cli, Empleado emp, Vehiculo ve, Parking par, Conexion cn)
         {
             _factura_id = f;
             _factura_fecha = ffecha;
@@ -188,6 +196,7 @@ namespace CapaNegocio
             _neumatico_cantidad = neu_cant;
 
             _cliente = cli;
+            _empleado = emp;
             _vehiculo = ve;
             _parking = par;
             _conexion = cn;
@@ -476,11 +485,9 @@ namespace CapaNegocio
             }
 
             // Consulta SQL para obtener las facturas pagadas
-            string sql = "SELECT id_factura, ci, matricula, fecha " +
-                "FROM factura " +
-                "WHERE factura_paga = '1' " +
-                "ORDER BY fecha DESC " +
-                "LIMIT 10;";
+            string sql = "SELECT id_factura, ci_cliente, ci_empleado, matricula, fecha " +
+                "FROM Factura " +
+                "ORDER BY fecha DESC;";
 
             try
             {
@@ -502,7 +509,11 @@ namespace CapaNegocio
                             facturaFecha = Convert.ToDateTime(row["fecha"]),
                             Cliente = new Cliente
                             {
-                                ci = Convert.ToInt32(row["ci"])
+                                ci = Convert.ToInt32(row["ci_cliente"])
+                            },
+                            Empleado = new Empleado
+                            {
+                                ci = Convert.ToInt32(row["ci_empleado"])
                             },
                             Vehiculo = new Vehiculo
                             {
