@@ -22,6 +22,7 @@ namespace CapaNegocio
         protected DateTime _horaEntrada;
         protected DateTime _horaSalida;
         protected Cliente _cliente;
+        protected Empleado _empleado;
         protected Vehiculo _vehiculo;
         protected Conexion _conexion;
 
@@ -73,6 +74,12 @@ namespace CapaNegocio
             get { return (_cliente); }
         }
 
+        public Empleado Empleado
+        {
+            set { _empleado = value; }
+            get { return (_empleado); }
+        }
+
         public Vehiculo Vehiculo
         {
             set { _vehiculo = value; }
@@ -95,11 +102,12 @@ namespace CapaNegocio
             _horaEntrada = DateTime.MinValue;
             _horaSalida = DateTime.MinValue;
             _cliente = new Cliente();
+            _empleado = new Empleado();
             _vehiculo = new Vehiculo();
             _conexion = new Conexion();
         }
 
-        public Parking(int plaza, int idpark, string estadopla, int ticket, double preciopark, DateTime he, DateTime hs, Cliente cli, Vehiculo ve, Conexion cn)
+        public Parking(int plaza, int idpark, string estadopla, int ticket, double preciopark, DateTime he, DateTime hs, Cliente cli, Empleado emp, Vehiculo ve, Conexion cn)
         {
             _plaza = plaza;
             _id_parking = idpark;
@@ -109,6 +117,7 @@ namespace CapaNegocio
             _horaEntrada = he;
             _horaSalida = hs;
             _cliente = cli;
+            _empleado = emp;
             _vehiculo = ve;
             _conexion = cn;
         }
@@ -321,7 +330,7 @@ namespace CapaNegocio
             }
 
             sql = "SELECT matricula, ci, id_plaza, fecha_ticket " +
-                "FROM ticket " +
+                "FROM Ticket " +
                 "WHERE id_ticket = " + Ticket + ";";
 
             dt = _conexion.EjecutarSelect(sql);
@@ -395,8 +404,8 @@ namespace CapaNegocio
                 try
                 {
                     // Crear una nueva factura si no existe ninguna sin parking
-                    sql = "INSERT INTO Factura (ci, matricula, factura_paga, fecha) " +
-                          "VALUES (" + Cliente.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraSalidaFormateada + "');";
+                    sql = "INSERT INTO Factura (ci_cliente, ci_empleado, matricula, factura_paga, fecha) " +
+                          "VALUES (" + Cliente.ci + ", " + Empleado.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraSalidaFormateada + "');";
 
                     // Ejecutar la inserción
                     bool filasAfectadas = _conexion.Ejecutar(sql);
@@ -512,31 +521,30 @@ namespace CapaNegocio
             }
 
             // Definir la consulta SQL
-            string sql = "SELECT u.id_factura, f.fecha " +
-                         "FROM Usa u " +
-                         "JOIN Factura f ON u.id_factura = f.id_factura " +
-                         "WHERE u.id_lavado = 6 " +
-                         $"AND f.ci_cliente = {ci} " +
-                         "AND f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);";
+            string sql = "SELECT f.fecha, pla.id_plaza " +
+                "FROM Factura f " +
+                "JOIN Solicita s ON f.id_factura = s.id_factura " +
+                "JOIN Parking p ON p.id_parking = s.id_parking " +
+                "JOIN Reserva r ON r.id_parking = s.id_parking " +
+                "JOIN Plaza pla ON pla.id_plaza = r.id_plaza " +
+                $"WHERE f.matricula = '{Vehiculo.Matricula}' " +
+                "AND f.factura_paga = '0';";
 
-            try
+            
+            // Ejecutar la consulta SQL y obtener el resultado
+            DataTable dt = _conexion.EjecutarSelect(sql);
+
+            // Validar si se encontraron registros
+            if (dt.Rows.Count == 0)
             {
-                // Ejecutar la consulta SQL y obtener el resultado
-                DataTable dt = _conexion.EjecutarSelect(sql);
-
-                // Validar si se encontraron registros
-                if (dt.Rows.Count != 0)
-                {
-                    DataRow row = dt.Rows[0];
-                    LavadoId = Convert.ToInt32(row["id_factura"]);
-                    fechaLavado = Convert.ToDateTime(row["fecha"]);
-                }
+                return 3;
             }
-            catch
+            else
             {
-                return 2;
+                DataRow row = dt.Rows[0];
+                HoraSalida = Convert.ToDateTime(row["fecha"]);
+                Plaza = Convert.ToInt32(row["id_plaza"]);
             }
-
             return resultado;
         }
 

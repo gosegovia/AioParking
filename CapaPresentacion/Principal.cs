@@ -7,11 +7,18 @@ namespace CapaPresentacion
     public partial class Principal : Form
     {
         private string _rol; // Campo privado
+        private int _ci_empleado; // Campo privado
 
         public string Rol
         {
             get { return _rol; } // Retorna el valor del campo
             set { _rol = value; } // Asigna el valor al campo
+        }
+
+        public int CiEmpleado
+        {
+            get { return _ci_empleado; } // Retorna el valor del campo
+            set { _ci_empleado = value; } // Asigna el valor al campo
         }
 
         public Principal()
@@ -46,7 +53,7 @@ namespace CapaPresentacion
         } // Fin OcultarMenu
 
         // Método para mostrar los datos de empleados
-        public void datosEmpleado(int rol, string nom, string ape)
+        public void datosEmpleado(int rol, int ci, string nom, string ape)
         {
             // Obtenemos el rol que están de los números del 1-5
             // Y según su número le asignamos el nombre
@@ -76,6 +83,7 @@ namespace CapaPresentacion
 
             // Luego asignamos también el nombre y apellido de la persona
             lblPersona.Text = nom + " " + ape;
+            CiEmpleado = ci;
         } // fin de mostrar datos empleados
 
         // Inicio menuInicial
@@ -285,8 +293,8 @@ namespace CapaPresentacion
 
         public void botonesGerente()
         {
-            btnPrecio.Visible = !btnPrecio.Visible;
-            btnEmpleados.Visible = !btnEmpleados.Visible;
+            btnPrecio.Visible = true;
+            btnEmpleados.Visible = true;
         }
         
         // Botón para cerrar la aplicación

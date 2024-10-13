@@ -365,8 +365,8 @@ namespace CapaNegocio
 
             // Definir la consulta SQL
             string sql = "UPDATE Factura " +
-                "SET factura_paga = '1' " +
-                "WHERE ci = " + ci + " " +
+                "SET factura_paga = 1 " +
+                "WHERE ci_cliente = " + ci + " " +
                 "AND matricula = '" + matricula + "' " +
                 "AND id_factura = " + facturaId + ";";
 
@@ -400,22 +400,22 @@ namespace CapaNegocio
 
             // Consulta SQL base
             string sql = $@"
-    SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
-           par.hora_entrada, par.hora_salida, r.id_plaza,
-           l.nombre_lavado,
-           ayb.nombre_ayb,
-           n.nombre_neumatico, c.cantidad_compra
-    FROM Factura f
-    LEFT JOIN Solicita s ON f.id_factura = s.id_factura
-    LEFT JOIN Parking par ON s.id_parking = par.id_parking
-    LEFT JOIN Reserva r ON r.id_parking = par.id_parking
-    LEFT JOIN Usa u ON u.id_factura = f.id_factura
-    LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
-    LEFT JOIN Hace h ON h.id_factura = f.id_factura
-    LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
-    LEFT JOIN Compra c ON c.id_factura = f.id_factura
-    LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
-    WHERE 1 = 1";
+            SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+            par.hora_entrada, par.hora_salida, r.id_plaza,
+            l.nombre_lavado,
+            ayb.nombre_ayb,
+            n.nombre_neumatico, c.cantidad_compra
+            FROM Factura f
+            LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+            LEFT JOIN Parking par ON s.id_parking = par.id_parking
+            LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+            LEFT JOIN Usa u ON u.id_factura = f.id_factura
+            LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+            LEFT JOIN Hace h ON h.id_factura = f.id_factura
+            LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+            LEFT JOIN Compra c ON c.id_factura = f.id_factura
+            LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+            WHERE 1 = 1";
 
             // Agrega filtros según los parámetros opcionales
             if (ciCliente.HasValue)
@@ -522,20 +522,17 @@ namespace CapaNegocio
             return servicios;
         }
 
-
         public byte ventaNeumatico()
         {
             byte resultado = 0;
             DataTable dt;
             int existeFacturaSinNeumatico = 0;
 
-            // Verificar si la conexión está abierta
             if (!_conexion.Abierta())
             {
                 return 1; // Conexión cerrada
             }
 
-            // Definir la consulta SQL para buscar por CI
             string sql = "SELECT f.id_factura " +
                 "FROM Factura f " +
                 "LEFT JOIN Compra c ON c.id_factura = f.id_factura " +
@@ -554,7 +551,6 @@ namespace CapaNegocio
 
             if (dt.Rows.Count > 0)
             {
-                // Existe una factura pendiente sin parking
                 existeFacturaSinNeumatico = 1;
                 facturaId = Convert.ToInt32(dt.Rows[0]["id_factura"]);
             }
@@ -565,27 +561,22 @@ namespace CapaNegocio
             {
                 try
                 {
-                    // Crear una nueva factura si no existe ninguna sin parking
-                    sql = "INSERT INTO Factura (ci, matricula, factura_paga, fecha) " +
-                          "VALUES (" + Cliente.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraFormateada + "');";
+                    sql = "INSERT INTO Factura (ci_cliente, ci_empleado, matricula, factura_paga, fecha) " +
+                          "VALUES (" + Cliente.ci + ", " + Empleado.ci + ", '" + Vehiculo.Matricula + "', 0, '" + HoraFormateada + "');";
 
-                    // Ejecutar la inserción
                     bool filasAfectadas = _conexion.Ejecutar(sql);
 
-                    // Verificar que se haya insertado la factura
                     if (!filasAfectadas)
                     {
                         return 3; // Error: No se insertó la factura
                     }
 
-                    // Obtener el ID de la factura recién generada
                     string ultimoID = "SELECT LAST_INSERT_ID();";
                     dt = _conexion.EjecutarSelect(ultimoID);
 
-                    // Verificar que se haya obtenido el ID
                     if (dt != null && dt.Rows.Count > 0)
                     {
-                        facturaId = Convert.ToInt32(dt.Rows[0][0]); // Obtener el id_factura recién generado
+                        facturaId = Convert.ToInt32(dt.Rows[0][0]);
                     }
                     else
                     {
@@ -600,43 +591,220 @@ namespace CapaNegocio
 
             try
             {
-                // Insertar el parking
                 sql = "INSERT INTO Compra(id_factura, id_neumatico, precio_compra, cantidad_compra) " +
                     "VALUES (" + facturaId + ", " + Neumatico.neumaticoId + ", " + Neumatico.neumaticoPrecio.ToString().Replace(",", ".") + ", " + Neumatico.neumaticoCantidad + ");";
 
-                // Ejecutar el comando de inserción
                 bool filasAfectadas = _conexion.Ejecutar(sql);
 
                 if (!filasAfectadas)
                 {
-                    return 6; // Error: No se insertó la factura
+                    return 6; // Error: No se insertó la compra
                 }
             }
             catch
             {
-                return 7;
+                return 7; // Error al insertar compra
             }
 
             try
             {
                 sql = "UPDATE Neumatico " +
-                "SET stock_neumatico = stock_neumatico - " + Neumatico.neumaticoCantidad + " " +
-                "WHERE id_neumatico = " + Neumatico.neumaticoId + ";";
+                    "SET stock_neumatico = stock_neumatico - " + Neumatico.neumaticoCantidad + " " +
+                    "WHERE id_neumatico = " + Neumatico.neumaticoId + ";";
 
-                // Ejecutar el comando de inserción
                 bool filasAfectadas = _conexion.Ejecutar(sql);
 
                 if (!filasAfectadas)
                 {
-                    return 6; // Error: No se insertó la factura
+                    return 8; // Error: No se actualizó el stock de neumático
+                }
+            }
+            catch
+            {
+                return 9; // Error al actualizar stock de neumático
+            }
+
+            return resultado;
+        }
+
+
+        public byte ventaLavado()
+        {
+            byte resultado = 0;
+            DataTable dt;
+            int existeFacturaSinLavado = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Consulta SQL corregida
+            string sql = "SELECT f.id_factura " +
+                         "FROM Factura f " +
+                         "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
+                         "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
+                         "AND f.factura_paga = 0 " +
+                         "AND u.id_lavado IS NULL;";
+
+            try
+            {
+                dt = _conexion.EjecutarSelect(sql);
+            }
+            catch
+            {
+                return 2; // Error al ejecutar la consulta
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+                existeFacturaSinLavado = 1;
+                facturaId = Convert.ToInt32(dt.Rows[0]["id_factura"]);
+            }
+
+            string HoraFormateada = facturaFecha.ToString("yyyy-MM-dd HH:mm:ss");
+
+            if (existeFacturaSinLavado == 0)
+            {
+                try
+                {
+                    sql = "INSERT INTO Factura (ci_cliente, ci_empleado, matricula, factura_paga, fecha) " +
+                          "VALUES (" + Cliente.ci + ", " + Empleado.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraFormateada + "');";
+
+                    bool filasAfectadas = _conexion.Ejecutar(sql);
+
+                    if (!filasAfectadas)
+                    {
+                        return 3; // Error: No se insertó la factura
+                    }
+
+                    string ultimoID = "SELECT LAST_INSERT_ID();";
+                    dt = _conexion.EjecutarSelect(ultimoID);
+
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        facturaId = Convert.ToInt32(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 4; // Error: No se obtuvo el ID de la factura
+                    }
+                }
+                catch
+                {
+                    return 5; // Error en la inserción de la factura
+                }
+            }
+
+            try
+            {
+                sql = "INSERT INTO Usa(id_factura, id_lavado, precio_usa) " +
+                      "VALUES (" + facturaId + ", " + Lavado.LavadoId + ", " + Lavado.LavadoPrecio.ToString().Replace(",", ".") + ");";
+
+                bool filasAfectadas = _conexion.Ejecutar(sql);
+
+                if (!filasAfectadas)
+                {
+                    return 6; // Error: No se insertó el uso del lavado
                 }
             }
             catch
             {
                 return 7;
             }
-           
-            return resultado;
+
+            return resultado; // Retornar 0 si todo salió bien
+        }
+
+        public byte ventaAlineacionBalanceo()
+        {
+            byte resultado = 0;
+            DataTable dt;
+            int existeFacturaSinAyB = 0;
+
+            // Verificar si la conexión está abierta
+            if (!_conexion.Abierta())
+            {
+                return 1; // Conexión cerrada
+            }
+
+            // Consulta SQL corregida
+            string sql = "SELECT f.id_factura " +
+                         "FROM Factura f " +
+                         "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
+                         "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
+                         "AND f.factura_paga = 0 " +
+                         "AND u.id_lavado IS NULL;";
+
+            try
+            {
+                dt = _conexion.EjecutarSelect(sql);
+            }
+            catch
+            {
+                return 2; // Error al ejecutar la consulta
+            }
+
+            if (dt.Rows.Count > 0)
+            {
+                existeFacturaSinAyB = 1;
+                facturaId = Convert.ToInt32(dt.Rows[0]["id_factura"]);
+            }
+
+            string HoraFormateada = facturaFecha.ToString("yyyy-MM-dd HH:mm:ss");
+
+            if (existeFacturaSinAyB == 0)
+            {
+                try
+                {
+                    sql = "INSERT INTO Factura (ci_cliente, ci_empleado, matricula, factura_paga, fecha) " +
+                          "VALUES (" + Cliente.ci + ", " + Empleado.ci + ", '" + Vehiculo.Matricula + "', '0', '" + HoraFormateada + "');";
+
+                    bool filasAfectadas = _conexion.Ejecutar(sql);
+
+                    if (!filasAfectadas)
+                    {
+                        return 3; // Error: No se insertó la factura
+                    }
+
+                    string ultimoID = "SELECT LAST_INSERT_ID();";
+                    dt = _conexion.EjecutarSelect(ultimoID);
+
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        facturaId = Convert.ToInt32(dt.Rows[0][0]);
+                    }
+                    else
+                    {
+                        return 4; // Error: No se obtuvo el ID de la factura
+                    }
+                }
+                catch
+                {
+                    return 5; // Error en la inserción de la factura
+                }
+            }
+
+            try
+            {
+                sql = "INSERT INTO Hace(id_factura, id_ayb, precio_hace) " +
+                  "VALUES (" + facturaId + ", " + AlineacionBalanceo.aybId + ", " +
+                  AlineacionBalanceo.aybPrecio + ");";
+
+                bool filasAfectadas = _conexion.Ejecutar(sql);
+
+                if (!filasAfectadas)
+                {
+                    return 6; // Error: No se insertó el uso del lavado
+                }
+            }
+            catch
+            {
+                return 7;
+            }
+
+            return resultado; // Retornar 0 si todo salió bien
         }
     }
 }

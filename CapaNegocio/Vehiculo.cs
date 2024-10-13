@@ -366,7 +366,8 @@ namespace CapaNegocio
                 "JOIN Parking p ON s.id_parking = p.id_parking " +
                 "JOIN Reserva r ON p.id_parking = r.id_parking " +
                 "JOIN Plaza pla ON r.id_plaza = pla.id_plaza " +
-                "WHERE p.hora_salida > NOW();";
+                "WHERE f.factura_paga = 0 AND p.hora_salida > NOW() " +
+                "GROUP BY v.id_tipo;";
 
             try
             {

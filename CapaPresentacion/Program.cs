@@ -57,6 +57,7 @@ namespace CapaPresentacion
             // Guardamos el rol que obtengamos
             byte rol = 0;
             // Guardamos el nombre y el apellido
+            int ci;
             string nombre = null;
             string apellido = null;
 
@@ -73,7 +74,7 @@ namespace CapaPresentacion
                 * Utilizando la condición que si el usuario que ingresamos al logearnos
                 * existe en la tabla empleado se va a complir toda la condicion
                */
-                sql = "SELECT Empleado.id_rol, Persona.nombre, Persona.apellido " +
+                sql = "SELECT Empleado.id_rol, Persona.ci, Persona.nombre, Persona.apellido " +
                              "FROM Empleado " +
                              "JOIN Persona ON Empleado.ci = Persona.ci " +
                              "WHERE Empleado.usuario = '" + usuario + "'";
@@ -100,8 +101,9 @@ namespace CapaPresentacion
                     // Cambiamos el tipo de dato a byte
                     rol = Convert.ToByte(dt.Rows[0][0]);
                     // Obtenemos el nombre y apellido
-                    nombre = Convert.ToString(dt.Rows[0][1]);
-                    apellido = Convert.ToString(dt.Rows[0][2]);
+                    ci = Convert.ToInt32(dt.Rows[0][1]);
+                    nombre = Convert.ToString(dt.Rows[0][2]);
+                    apellido = Convert.ToString(dt.Rows[0][3]);
 
                     
                     // Según el rol de el cliente mostramos lo que necesite
@@ -115,7 +117,7 @@ namespace CapaPresentacion
                             // Doy permiso a sus botones
                             frmPrincipal.botonesGerente();
                             // Muestro el rol, nombre y apellido del empleado
-                            frmPrincipal.datosEmpleado(rol, nombre, apellido);
+                            frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
                         case 2: // Jefe de Servicios
                             // Muestro el menú izquierda
@@ -125,7 +127,7 @@ namespace CapaPresentacion
                             // Doy permiso a sus botones
                             frmPrincipal.botonesJefeServicio();
                             // Muestro el rol, nombre y apellido del empleado
-                            frmPrincipal.datosEmpleado(rol, nombre, apellido);
+                            frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
                         case 3: // Ejecutivo de Servicios
                             // Muestro el menú izquierda
@@ -135,19 +137,19 @@ namespace CapaPresentacion
                             // Doy permiso a sus botones
                             frmPrincipal.botonesEjecutivo();
                             // Muestro el rol, nombre y apellido del empleado
-                            frmPrincipal.datosEmpleado(rol, nombre, apellido);
+                            frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
                         case 4: // Cajero
                             // Muestro el formulario a el menú cajero
                             frmPrincipal.menuCajero();
                             // Muestro el rol, nombre y apellido del empleado
-                            frmPrincipal.datosEmpleado(rol, nombre, apellido);
+                            frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
                         case 5: // Operador de camaras
                             // Muestro el formulario a el menú op cámara
                             frmPrincipal.menuOpCamara();
                             // Muestro el rol, nombre y apellido del empleado
-                            frmPrincipal.datosEmpleado(rol, nombre, apellido);
+                            frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
                     }
                 }

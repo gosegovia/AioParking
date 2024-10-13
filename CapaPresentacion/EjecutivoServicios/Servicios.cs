@@ -164,28 +164,119 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            Lavado l = new Lavado();
-            l.Conexion = Program.con;
-            int ci = Convert.ToInt32(txtCi.Text);
-
-            if (lblID.Text == "6")
+            if(rbLavado.Checked)
             {
-                // Llamar al método y obtener el resultado y la fecha
-                var (resultado, fecha) = l.UsoLavadoGratis(ci);
+                Lavado l = new Lavado();
+                l.Conexion = Program.con;
+                int ci = Convert.ToInt32(txtCi.Text);
 
-                switch (resultado)
+                if (lblID.Text == "6")
+                {
+                    // Llamar al método y obtener el resultado y la fecha
+                    var (resultado, fecha) = l.UsoLavadoGratis(ci);
+
+                    switch (resultado)
+                    {
+                        case 0:
+                            MessageBox.Show("El cliente ya utilizó el lavado gratis, el día " + fecha?.ToString("d"));
+                            break;
+
+                        case 1:
+                            MessageBox.Show("Error al obtener la conexión.");
+                            break;
+
+                        case 2:
+                            MessageBox.Show("Error en la consulta.");
+                            break;
+                    }
+                }
+
+                Factura f = new Factura();
+                f.Conexion = Program.con;
+                f.Cliente.ci = Convert.ToInt32(txtCi.Text);
+                // Ci del empleado
+                f.Empleado.ci = Program.frmPrincipal.CiEmpleado;
+                f.Vehiculo.Matricula = Convert.ToString(txtMatricula.Text);
+                f.Lavado.LavadoId = Convert.ToInt32(lblID.Text);
+                f.Lavado.LavadoPrecio = Convert.ToDouble(lblPrecio.Text);
+                f.facturaFecha = DateTime.Now;
+
+                switch (f.ventaLavado())
                 {
                     case 0:
-                        MessageBox.Show("El cliente ya utilizó el lavado gratis, el día " + fecha?.ToString("d"));
-                        break;
+                        MessageBox.Show("La compra de lavado se guardó correctamente!");
 
-                    case 1:
-                        MessageBox.Show("Error al obtener la conexión.");
-                        break;
+                        // Limpiar los campos
+                        rbLavado.Enabled = true;
+                        rbAYB.Enabled = true;
+                        txtCi.Text = "";
+                        txtCi.Enabled = true;
+                        btnBuscarCi.Enabled = true;
+                        txtMatricula.Text = "";
+                        txtMatricula.Enabled = true;
+                        btnBuscarMatricula.Enabled = true;
+                        pMatricula.Visible = false;
+                        pDatos.Visible = false;
 
-                    case 2:
-                        MessageBox.Show("Error en la consulta.");
+                        lblID.Text = "...";
+                        lblNombre.Text = "...";
+                        lblPrecio.Text = "...";
                         break;
+                    case 1: MessageBox.Show("Error al obtener la conexión."); break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
+                    case 5: MessageBox.Show("Error 5"); break;
+                    case 6: MessageBox.Show("Error 6"); break;
+                    case 7: MessageBox.Show("Error 7"); break;
+                }
+            }
+            
+            if (rbAYB.Checked)
+            {
+                Factura f = new Factura();
+                f.Conexion = Program.con;
+                f.Cliente.ci = Convert.ToInt32(txtCi.Text);
+                // Ci del empleado
+                f.Empleado.ci = Program.frmPrincipal.CiEmpleado;
+                f.Vehiculo.Matricula = Convert.ToString(txtMatricula.Text);
+
+                f.AlineacionBalanceo.aybId = Convert.ToInt32(lblID.Text);
+                f.AlineacionBalanceo.aybPrecio = Convert.ToDouble(lblPrecio.Text);
+                f.facturaFecha = DateTime.Now;
+
+                switch (f.ventaLavado())
+                {
+                    case 0:
+                        MessageBox.Show("La compra de alineacion o balanceo se guardó correctamente!");
+
+                        // Limpiar los campos
+                        rbLavado.Enabled = true;
+                        rbAYB.Enabled = true;
+                        txtCi.Text = "";
+                        txtCi.Enabled = true;
+                        btnBuscarCi.Enabled = true;
+                        txtMatricula.Text = "";
+                        txtMatricula.Enabled = true;
+                        btnBuscarMatricula.Enabled = true;
+                        pMatricula.Visible = false;
+                        pDatos.Visible = false;
+
+                        lblID.Text = "...";
+                        lblNombre.Text = "...";
+                        lblPrecio.Text = "...";
+                        break;
+                    case 1: MessageBox.Show("Error al obtener la conexión."); break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                    case 4: MessageBox.Show("Error 4"); break;
+                    case 5: MessageBox.Show("Error 5"); break;
+                    case 6:
+                        MessageBox.Show(f.AlineacionBalanceo.aybId.ToString());
+                        MessageBox.Show(f.AlineacionBalanceo.aybPrecio.ToString());
+                        MessageBox.Show("Error 6");
+                        break;
+                    case 7: MessageBox.Show("Error 7"); break;
                 }
             }
         }
@@ -204,6 +295,10 @@ namespace CapaPresentacion.EjecutivoServicios
             btnBuscarMatricula.Enabled = true;
             pMatricula.Visible = false;
             pDatos.Visible = false;
+
+            lblID.Text = "...";
+            lblNombre.Text = "...";
+            lblPrecio.Text = "...";
         } // Fin botón cancelar
 
         private void mostrarDatosLavado()
@@ -295,6 +390,10 @@ namespace CapaPresentacion.EjecutivoServicios
                     // Usar el método Convert.ChangeType para hacer la conversión de manera más segura
                     lblID.Text = filaSeleccionada.Cells["ID"].Value.ToString();
                     lblNombre.Text = (string)filaSeleccionada.Cells["Nombre"].Value;
+                    if (rbAYB.Checked == true && lblID.Text == "6")
+                    {
+                        lblNombre.Text = "Pack alineacion, 4 balanceos";
+                    }
                     // Eliminar el símbolo de pesos si está presente
                     lblPrecio.Text = filaSeleccionada.Cells["Precio"].Value.ToString().Replace("$", "");
 

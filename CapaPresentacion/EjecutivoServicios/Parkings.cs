@@ -102,6 +102,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 p = new Parking();
                 p.conexion = Program.con;
                 p.Cliente.ci = Convert.ToInt32(lblCi.Text);
+                p.Empleado.ci = Program.frmPrincipal.CiEmpleado;
                 p.Vehiculo.Matricula = lblMatricula.Text;
                 p.HoraEntrada = dtpEntrada.Value;
                 p.HoraSalida = dtpSalida.Value;

@@ -129,6 +129,41 @@ namespace CapaPresentacion.OperadorCamaras
             v.Conexion = Program.con;
             v.Matricula = matricula;
 
+            Parking p = new Parking();
+            p.Vehiculo.Matricula = matricula;
+            p.conexion = Program.con;
+
+            switch (p.EstadoAuto())
+            {
+                case 0: // Vehículo encontrado en el parking
+                    string fecha = p.HoraSalida.ToString("dd/MM/yyyy HH:mm:ss");
+                    int plaza = p.Plaza;
+                    MessageBox.Show($"El vehículo ya se encuentra en el parking, fecha: {fecha} y está en la plaza {plaza}!");
+
+                    // Limpiar y habilitar campos
+                    txtCi.Text = "";
+                    txtCi.Focus();
+                    txtCi.Enabled = true;
+                    btnBuscarCi.Enabled = true;
+                    txtMatricula.Text = "";
+                    txtMatricula.Enabled = true;
+                    btnBuscarMatricula.Enabled = true;
+
+                    pMatricula.Visible = false;
+                    pDatos.Visible = false;
+                    return; // Salir después de mostrar el mensaje
+
+                case 1: // Conexión cerrada
+                    MessageBox.Show("Debe logearse nuevamente.");
+                    break;
+
+                case 2: // Error
+                    MessageBox.Show("Error: no se pudieron obtener los datos.");
+                    break;
+                case 3:
+                    break;
+            }
+
             try
             {
                 // Realizar la búsqueda de la matrícula

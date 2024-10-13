@@ -153,8 +153,9 @@ namespace CapaPresentacion.EjecutivoServicios
                 s.Conexion = Program.con;
 
                 s.Cliente.ci = Convert.ToInt32(txtCi.Text);
+                s.Empleado.ci = Program.frmPrincipal.CiEmpleado;
                 s.Vehiculo.Matricula = txtMatricula.Text;
-
+                
                 s.Neumatico.neumaticoId = Convert.ToInt32(lblID.Text);
                 s.Neumatico.neumaticoCantidad = Convert.ToInt32(txtCantidad.Text);
                 double precio = Convert.ToDouble(lblPrecio.Text);

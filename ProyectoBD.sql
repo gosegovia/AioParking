@@ -81,7 +81,7 @@ CREATE TABLE Factura (
   ci_cliente INT NOT NULL,
   ci_empleado INT NOT NULL,
   matricula VARCHAR(10) NOT NULL,
-  factura_paga ENUM('0', '1') NOT NULL,
+  factura_paga BOOL NOT NULL,
   fecha DATETIME NOT NULL,
   PRIMARY KEY (id_factura),
   FOREIGN KEY (ci_cliente) REFERENCES Cliente(ci),
@@ -697,17 +697,17 @@ INSERT INTO Reserva (id_parking, id_plaza) VALUES
 (15, 2);
 INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES 
 (1, 3, 1, 500.00),
-(11, 5, 1, 500.00),
-(12, 2, 1, 500.00),
-(13, 3, 1, 500.00),
-(14, 4, 1, 500.00),
-(15, 2, 1, 500.00);
+(11, 5, 11, 500.00),
+(12, 2, 12, 500.00),
+(13, 3, 13, 500.00),
+(14, 4, 14, 500.00),
+(15, 2, 15, 500.00);
 /* USA-LAVADO */
 INSERT INTO Usa(id_factura, id_lavado, precio_usa) VALUES
 (1, 1, 200.00),
 (11, 1, 200.00),
 (13, 6, 200.00),
-(15, 1, 200.00);
+(12, 1, 200.00);
 /* HACE-ALINEACION/BALANCEO */
 INSERT INTO Hace(id_factura, id_ayb, precio_hace) VALUES
 (1, 5, 2475.00),
@@ -838,7 +838,7 @@ GRANT SELECT, INSERT, UPDATE ON Tipo_Vehiculo TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Ticket TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'jefe'@'%';
-GRANT SELECT ON Neumatico TO 'jefe'@'%';
+GRANT SELECT, UPDATE ON Neumatico TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Compra TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Parking TO 'jefe'@'%';
 GRANT SELECT, INSERT, UPDATE ON Plaza TO 'jefe'@'%';
@@ -861,14 +861,13 @@ GRANT SELECT, INSERT, UPDATE ON Tipo_Vehiculo TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Posee TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Ticket TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Factura TO 'eje'@'%';
-GRANT SELECT ON Neumatico TO 'eje'@'%';
+GRANT SELECT, UPDATE ON Neumatico TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Compra TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Parking TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Plaza TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Reserva TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Solicita TO 'eje'@'%';
 GRANT SELECT ON Lavado TO 'eje'@'%';
-GRANT SELECT, INSERT, UPDATE ON Usa TO 'eje'@'%';
 GRANT SELECT ON Alineacion_Balanceo TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Hace TO 'eje'@'%';
 
@@ -901,9 +900,13 @@ GRANT SELECT ON Rol TO 'ope'@'%';
 GRANT SELECT ON Empleado TO 'ope'@'%';
 GRANT SELECT ON Marca TO 'ope'@'%';
 GRANT SELECT ON Vehiculo TO 'ope'@'%';
+GRANT SELECT ON Factura TO 'ope'@'%';
+GRANT SELECT ON Solicita TO 'ope'@'%';
+GRANT SELECT ON Reserva TO 'ope'@'%';
+GRANT SELECT ON Parking TO 'ope'@'%';
 GRANT SELECT ON Tipo_Vehiculo TO 'ope'@'%';
 GRANT SELECT ON Posee TO 'ope'@'%';
-GRANT SELECT ON Plaza TO 'ope'@'%';
+GRANT SELECT, UPDATE ON Plaza TO 'ope'@'%';
 GRANT SELECT, INSERT ON Ticket TO 'ope'@'%';
 
 FLUSH PRIVILEGES;
@@ -1077,6 +1080,7 @@ FLUSH PRIVILEGES;
 -- WHERE estado_neumatico = 1
 -- ORDER BY marca_neumatico DESC;
 
+/*
 SELECT v.id_tipo, COUNT(*) AS Cantidad
 FROM Vehiculo v
 JOIN Factura f ON v.matricula = f.matricula
@@ -1091,3 +1095,39 @@ FROM Lavado
 WHERE id_lavado = 1;
 
 select * from Lavado;
+
+SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+       par.hora_entrada, par.hora_salida, r.id_plaza,
+       l.nombre_lavado,
+       ayb.nombre_ayb,
+       n.nombre_neumatico, c.cantidad_compra
+FROM Factura f
+LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+LEFT JOIN Parking par ON s.id_parking = par.id_parking
+LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+LEFT JOIN Usa u ON u.id_factura = f.id_factura
+LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+LEFT JOIN Hace h ON h.id_factura = f.id_factura
+LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+LEFT JOIN Compra c ON c.id_factura = f.id_factura
+LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+order by f.id_factura;
+
+SELECT u.id_factura, f.fecha
+FROM Usa u
+JOIN Factura f ON u.id_factura = f.id_factura
+WHERE u.id_lavado = 6 
+    AND f.ci_cliente = 56303446
+    AND f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+
+SELECT f.fecha, pla.id_plaza
+FROM Factura f
+JOIN Solicita s ON f.id_factura = s.id_factura
+JOIN Parking p ON p.id_parking = s.id_parking
+JOIN Reserva r ON r.id_parking = s.id_parking
+JOIN Plaza pla ON pla.id_plaza = r.id_plaza
+WHERE f.matricula = 'abc1234'
+AND f.factura_paga = '0';
+
+select * from Usa;
+*/

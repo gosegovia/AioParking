@@ -253,8 +253,8 @@ namespace CapaPresentacion.Cajero
                     btnCancelar.Visible = false;
                     break;
                 case 1: MessageBox.Show("Debe logearse nuevamente."); break;
-                case 2: MessageBox.Show("Error 1."); break;
-                case 3: MessageBox.Show("Error 2."); break;
+                case 2: MessageBox.Show("Error 2."); break;
+                case 3: MessageBox.Show("Error 3."); break;
             }
         } // Fin botón factura
 
