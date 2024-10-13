@@ -732,10 +732,10 @@ namespace CapaNegocio
             // Consulta SQL corregida
             string sql = "SELECT f.id_factura " +
                          "FROM Factura f " +
-                         "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
+                         "LEFT JOIN Hace h ON h.id_factura = f.id_factura " +
                          "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
                          "AND f.factura_paga = 0 " +
-                         "AND u.id_lavado IS NULL;";
+                         "AND h.id_ayb IS NULL;";
 
             try
             {

@@ -245,7 +245,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 f.AlineacionBalanceo.aybPrecio = Convert.ToDouble(lblPrecio.Text);
                 f.facturaFecha = DateTime.Now;
 
-                switch (f.ventaLavado())
+                switch (f.ventaAlineacionBalanceo())
                 {
                     case 0:
                         MessageBox.Show("La compra de alineacion o balanceo se guardó correctamente!");
@@ -272,8 +272,6 @@ namespace CapaPresentacion.EjecutivoServicios
                     case 4: MessageBox.Show("Error 4"); break;
                     case 5: MessageBox.Show("Error 5"); break;
                     case 6:
-                        MessageBox.Show(f.AlineacionBalanceo.aybId.ToString());
-                        MessageBox.Show(f.AlineacionBalanceo.aybPrecio.ToString());
                         MessageBox.Show("Error 6");
                         break;
                     case 7: MessageBox.Show("Error 7"); break;
