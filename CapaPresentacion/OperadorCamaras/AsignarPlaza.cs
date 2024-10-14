@@ -186,6 +186,8 @@ namespace CapaPresentacion.OperadorCamaras
                                 conexion = Program.con
                             };
 
+                            estiloTabla();
+
                             // Obtener la lista de plazas
                             DataTable dt = parkingNegocio.ListarPlazas();
 
@@ -409,6 +411,35 @@ namespace CapaPresentacion.OperadorCamaras
         {
             Validaciones.validacionNumero(sender, e);
             Validaciones.validacionLongitud(sender, e, 8);
+        }
+
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvPlaza.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvPlaza.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvPlaza.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvPlaza.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvPlaza.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvPlaza.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvPlaza.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvPlaza.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvPlaza.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvPlaza.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvPlaza.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvPlaza.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
         }
     }
 }

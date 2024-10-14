@@ -50,6 +50,7 @@ namespace CapaPresentacion.JefeServicios
 
         private void CargarEmpleados()
         {
+            estiloTabla();
             try
             {
                 // Cambia el nombre de la variable para evitar conflictos
@@ -175,5 +176,33 @@ namespace CapaPresentacion.JefeServicios
             CargarEmpleados();
         }
 
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvEmpleado.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvEmpleado.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvEmpleado.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvEmpleado.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvEmpleado.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvEmpleado.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvEmpleado.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvEmpleado.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvEmpleado.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvEmpleado.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvEmpleado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvEmpleado.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+        }
     }
 }

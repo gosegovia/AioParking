@@ -172,7 +172,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblID.AutoSize = true;
             this.lblID.Font = new System.Drawing.Font("Arial", 12F);
             this.lblID.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblID.Location = new System.Drawing.Point(97, 28);
+            this.lblID.Location = new System.Drawing.Point(118, 84);
             this.lblID.Name = "lblID";
             this.lblID.Size = new System.Drawing.Size(28, 18);
             this.lblID.TabIndex = 30;
@@ -183,7 +183,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 12F);
             this.label4.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label4.Location = new System.Drawing.Point(13, 28);
+            this.label4.Location = new System.Drawing.Point(46, 84);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(23, 18);
             this.label4.TabIndex = 29;
@@ -192,10 +192,10 @@ namespace CapaPresentacion.EjecutivoServicios
             // dgvServicio
             // 
             this.dgvServicio.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvServicio.Location = new System.Drawing.Point(397, 28);
+            this.dgvServicio.Location = new System.Drawing.Point(393, 37);
             this.dgvServicio.Name = "dgvServicio";
             this.dgvServicio.RowTemplate.Height = 25;
-            this.dgvServicio.Size = new System.Drawing.Size(426, 221);
+            this.dgvServicio.Size = new System.Drawing.Size(396, 201);
             this.dgvServicio.TabIndex = 28;
             this.dgvServicio.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServicios_CellClick);
             // 
@@ -204,7 +204,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Arial", 12F);
             this.lblNombre.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombre.Location = new System.Drawing.Point(97, 67);
+            this.lblNombre.Location = new System.Drawing.Point(118, 123);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(28, 18);
             this.lblNombre.TabIndex = 27;
@@ -215,7 +215,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 12F);
             this.label2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label2.Location = new System.Drawing.Point(12, 67);
+            this.label2.Location = new System.Drawing.Point(45, 123);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 18);
             this.label2.TabIndex = 26;
@@ -226,7 +226,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblSignoPeso.AutoSize = true;
             this.lblSignoPeso.Font = new System.Drawing.Font("Arial", 12F);
             this.lblSignoPeso.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblSignoPeso.Location = new System.Drawing.Point(94, 100);
+            this.lblSignoPeso.Location = new System.Drawing.Point(115, 156);
             this.lblSignoPeso.Name = "lblSignoPeso";
             this.lblSignoPeso.Size = new System.Drawing.Size(17, 18);
             this.lblSignoPeso.TabIndex = 25;
@@ -237,7 +237,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblPrecio.AutoSize = true;
             this.lblPrecio.Font = new System.Drawing.Font("Arial", 12F);
             this.lblPrecio.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecio.Location = new System.Drawing.Point(106, 100);
+            this.lblPrecio.Location = new System.Drawing.Point(127, 156);
             this.lblPrecio.Name = "lblPrecio";
             this.lblPrecio.Size = new System.Drawing.Size(28, 18);
             this.lblPrecio.TabIndex = 24;
@@ -248,7 +248,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblPrecioTexto.AutoSize = true;
             this.lblPrecioTexto.Font = new System.Drawing.Font("Arial", 12F);
             this.lblPrecioTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioTexto.Location = new System.Drawing.Point(12, 100);
+            this.lblPrecioTexto.Location = new System.Drawing.Point(45, 156);
             this.lblPrecioTexto.Name = "lblPrecioTexto";
             this.lblPrecioTexto.Size = new System.Drawing.Size(54, 18);
             this.lblPrecioTexto.TabIndex = 23;

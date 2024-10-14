@@ -1,6 +1,7 @@
 ﻿using CapaNegocio;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -60,6 +61,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void CargarClientes()
         {
+            estiloTabla();
             try
             {
                 Cliente c = new Cliente
@@ -180,6 +182,35 @@ namespace CapaPresentacion.EjecutivoServicios
 
             // Volver a cargar todos los clientes
             CargarClientes();
+        }
+
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvCliente.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvCliente.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvCliente.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvCliente.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvCliente.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvCliente.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvCliente.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvCliente.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvCliente.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvCliente.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvCliente.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvCliente.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
         }
     }
 }

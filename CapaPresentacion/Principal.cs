@@ -287,8 +287,8 @@ namespace CapaPresentacion
         {
             /* Cambio los estados para que cuando el jefe de servicios entre a la aplicación
              tenga solo los botones que él necesita */
-            btnPrecio.Visible = !btnPrecio.Visible;
-            btnEmpleados.Visible = !btnEmpleados.Visible;
+            btnPrecio.Visible = false;
+            btnEmpleados.Visible = true;
         } // Fin acceso a botonesEjecutivo
 
         public void botonesGerente()

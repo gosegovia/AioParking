@@ -63,10 +63,10 @@ namespace CapaPresentacion.EjecutivoServicios
             // dgvVehiculo
             // 
             this.dgvVehiculo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvVehiculo.Location = new System.Drawing.Point(226, 156);
+            this.dgvVehiculo.Location = new System.Drawing.Point(223, 156);
             this.dgvVehiculo.Name = "dgvVehiculo";
             this.dgvVehiculo.RowTemplate.Height = 25;
-            this.dgvVehiculo.Size = new System.Drawing.Size(484, 334);
+            this.dgvVehiculo.Size = new System.Drawing.Size(491, 334);
             this.dgvVehiculo.TabIndex = 26;
             this.dgvVehiculo.Scroll += new System.Windows.Forms.ScrollEventHandler(this.DataGridView_Scroll);
             // 

@@ -496,7 +496,7 @@ INSERT INTO Vehiculo (matricula, id_marca, id_tipo, estado_vehiculo) VALUES
 ('xyz5678', 1, 4, 1),
 ('uvw8765', 2, 2, 1),
 ('rst3456', 3, 4, 1),
-('opq2345', 5, 2, 1),
+('opq2345', 5, 5, 1),
 ('lmn6543', 8, 3, 1),
 ('ijk9876', 12, 3, 1),
 ('nop1357', 14, 1, 1),
@@ -670,7 +670,7 @@ INSERT INTO Alineacion_Balanceo(id_ayb, nombre_ayb, precio_ayb) VALUES
 (3, 'Alineacion', 1650.00),
 (4, 'Balanceo auto y valvula', 385.00),
 (5, 'Alineacion 2 trenes', 2475.00),
-(6, 'Pack alineacion, 4 balanceos para camioneta y valvulas', 3510),
+(6, 'Alineacion + 4 balanceos + valvulas', 3510),
 (7, 'Balanceo de camioneta y valvula', 415);
 
 /* FACTURAS abc1234 */
@@ -692,7 +692,7 @@ INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALU
 (15, '2024-10-25 08:00:00', '2024-10-25 11:00:00', 50);
 
 /* RESERVA */
-INSERT INTO Reserva (id_parking, id_plaza) VALUES
+INSERT INTO Reserva(id_parking, id_plaza) VALUES
 (1, 3),
 (11, 5),
 (12, 2),
@@ -708,24 +708,20 @@ INSERT INTO Solicita(id_factura, id_plaza, id_parking, precio_solicita) VALUES
 (13, 3, 13, 500.00),
 (14, 4, 14, 500.00),
 (15, 2, 15, 500.00);
-
 /* USA-LAVADO */
 INSERT INTO Usa(id_factura, id_lavado, precio_usa) VALUES
 (1, 1, 200.00),
 (11, 1, 200.00),
 (13, 6, 200.00),
 (12, 1, 200.00);
-
 /* HACE-ALINEACION/BALANCEO */
 INSERT INTO Hace(id_factura, id_ayb, precio_hace) VALUES
 (1, 5, 2475.00),
 (11, 1, 200.00),
 (13, 7, 415.00);
-
 /* COMPRA-NEUMATICO */
 INSERT INTO Compra(id_factura, id_neumatico, precio_compra, cantidad_compra) 
 VALUES (15, 1, 1000.00, 4);
-
 
 /* FACTURAS cba4321 */
 INSERT INTO Factura (id_factura, ci_cliente, ci_empleado, matricula, factura_paga, fecha) VALUES
@@ -764,16 +760,15 @@ INSERT INTO Factura (id_factura, ci_cliente, ci_empleado, matricula, factura_pag
 (10, 43210987, 53459384, 'ijk9876', '0', '2024-09-29 12:10:00');
 
 /* PARKING */
-
 INSERT INTO Parking (id_parking, hora_entrada, hora_salida, precio_parking) VALUES
-(3, '2024-08-19 11:00:00', '2024-08-19 13:30:00', 50),
-(4, '2024-08-19 12:00:00', '2024-08-19 14:00:00', 120),
-(5, '2024-08-19 13:00:00', '2024-08-19 15:15:00', 100),
-(6, '2024-08-19 14:00:00', '2024-08-19 16:30:00', 125),
-(7, '2024-08-19 15:00:00', '2024-08-19 17:00:00', 100),
-(8, '2024-08-19 16:00:00', '2024-08-19 18:30:00', 50),
-(9, '2024-08-19 17:00:00', '2024-08-19 19:00:00', 150),
-(10, '2024-08-19 18:00:00', '2024-08-19 20:00:00', 120);
+(3, '2024-10-20 11:00:00', '2024-10-20 13:30:00', 50),
+(4, '2024-10-20 12:00:00', '2024-10-20 14:00:00', 120),
+(5, '2024-10-20 13:00:00', '2024-10-20 15:15:00', 100),
+(6, '2024-10-20 14:00:00', '2024-10-20 16:30:00', 125),
+(7, '2024-10-20 15:00:00', '2024-10-20 17:00:00', 100),
+(8, '2024-10-20 16:00:00', '2024-10-20 18:30:00', 50),
+(9, '2024-10-20 17:00:00', '2024-10-20 19:00:00', 150),
+(10, '2024-10-20 18:00:00', '2024-10-20 20:00:00', 120);
 
 /* RESERVA */
 INSERT INTO Reserva (id_parking, id_plaza) VALUES
@@ -1138,9 +1133,8 @@ JOIN Reserva r ON r.id_parking = s.id_parking
 JOIN Plaza pla ON pla.id_plaza = r.id_plaza
 WHERE f.matricula = 'abc1234'
 AND f.factura_paga = '0';
-
-select * from Usa;
 */
+select * from Hace;
 
 SELECT v.id_tipo, COUNT(*) AS Cantidad
 FROM Vehiculo v
@@ -1149,4 +1143,6 @@ JOIN Solicita s ON f.id_factura = s.id_factura
 JOIN Parking p ON s.id_parking = p.id_parking
 JOIN Reserva r ON p.id_parking = r.id_parking
 JOIN Plaza pla ON r.id_plaza = pla.id_plaza
-WHERE f.factura_paga = '0' AND p.hora_salida > NOW();
+WHERE f.factura_paga = '0' AND p.hora_salida > NOW()
+GROUP BY v.id_tipo;
+

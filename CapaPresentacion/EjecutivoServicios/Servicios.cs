@@ -301,6 +301,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void mostrarDatosLavado()
         {
+            estiloTabla();
             try
             {
                 // Crear una instancia de Lavado desde la capa de negocio
@@ -339,6 +340,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void mostrarDatosAyB()
         {
+            estiloTabla();
             try
             {
                 // Crear una instancia de Lavado desde la capa de negocio
@@ -388,10 +390,6 @@ namespace CapaPresentacion.EjecutivoServicios
                     // Usar el método Convert.ChangeType para hacer la conversión de manera más segura
                     lblID.Text = filaSeleccionada.Cells["ID"].Value.ToString();
                     lblNombre.Text = (string)filaSeleccionada.Cells["Nombre"].Value;
-                    if (rbAYB.Checked == true && lblID.Text == "6")
-                    {
-                        lblNombre.Text = "Pack alineacion, 4 balanceos";
-                    }
                     // Eliminar el símbolo de pesos si está presente
                     lblPrecio.Text = filaSeleccionada.Cells["Precio"].Value.ToString().Replace("$", "");
 
@@ -405,6 +403,35 @@ namespace CapaPresentacion.EjecutivoServicios
                     MessageBox.Show("Ocurrió un error al obtener los datos: " + ex.Message);
                 }
             }
+        }
+
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvServicio.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvServicio.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvServicio.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvServicio.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvServicio.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvServicio.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvServicio.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvServicio.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvServicio.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvServicio.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvServicio.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvServicio.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
         }
     }
 }

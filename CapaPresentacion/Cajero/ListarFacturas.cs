@@ -1,6 +1,7 @@
 ﻿using CapaNegocio;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -61,6 +62,7 @@ namespace CapaPresentacion.Cajero
 
         private void CargarServicios(int? ciCliente = null, bool? facturaPaga = null)
         {
+            estiloTabla();
             try
             {
                 // Crear un objeto de Factura
@@ -133,7 +135,9 @@ namespace CapaPresentacion.Cajero
                     return;
                 }
 
-                ReiniciarCargaServicios();
+                // Limpiar los servicios cargados y reiniciar la página
+                _serviciosCargados.Clear();
+                _currentPage = 0;
 
                 // Verificar si el CheckBox de pago está marcado
                 bool? facturaPaga = cbPaga.Checked ? (bool?)true : null;
@@ -193,6 +197,35 @@ namespace CapaPresentacion.Cajero
             // Limpiar los servicios cargados y reiniciar la página
             _serviciosCargados.Clear();
             _currentPage = 0;
+        }
+
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvServicios.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvServicios.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvServicios.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvServicios.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvServicios.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvServicios.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvServicios.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvServicios.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvServicios.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvServicios.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvServicios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvServicios.DefaultCellStyle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
         }
     }
 }
