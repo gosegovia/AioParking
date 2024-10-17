@@ -59,7 +59,7 @@ namespace CapaPresentacion.EjecutivoServicios
         private void cbTelefonos_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionNumero(sender, e);
-            Validaciones.validacionLongitudCB(sender, e, 10);
+            Validaciones.validacionLongitudCB(sender, e, 9);
         }
 
         private void txtCI_KeyDown(object sender, KeyEventArgs e)

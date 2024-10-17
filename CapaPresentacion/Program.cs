@@ -109,23 +109,15 @@ namespace CapaPresentacion
                     // Según el rol de el cliente mostramos lo que necesite
                     switch (rol)
                     {
-                        case 1: // Gerente
-                            // Muestro el menú izquierda
-                            frmPrincipal.mostrarMenu();
-                            // Muestro el menú inicial
-                            frmPrincipal.menuInicial();
-                            // Doy permiso a sus botones
-                            frmPrincipal.botonesGerente();
+                        case 1: // Operador de camaras
+                            // Muestro el formulario a el menú op cámara
+                            frmPrincipal.menuOpCamara();
                             // Muestro el rol, nombre y apellido del empleado
                             frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
-                        case 2: // Jefe de Servicios
-                            // Muestro el menú izquierda
-                            frmPrincipal.mostrarMenu();
-                            // Muestro el menú inicial
-                            frmPrincipal.menuInicial();
-                            // Doy permiso a sus botones
-                            frmPrincipal.botonesJefeServicio();
+                        case 2: // Cajero
+                            // Muestro el formulario a el menú cajero
+                            frmPrincipal.menuCajero();
                             // Muestro el rol, nombre y apellido del empleado
                             frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
@@ -139,15 +131,23 @@ namespace CapaPresentacion
                             // Muestro el rol, nombre y apellido del empleado
                             frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
-                        case 4: // Cajero
-                            // Muestro el formulario a el menú cajero
-                            frmPrincipal.menuCajero();
+                        case 4: // Jefe de Servicios
+                            // Muestro el menú izquierda
+                            frmPrincipal.mostrarMenu();
+                            // Muestro el menú inicial
+                            frmPrincipal.menuInicial();
+                            // Doy permiso a sus botones
+                            frmPrincipal.botonesJefeServicio();
                             // Muestro el rol, nombre y apellido del empleado
                             frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;
-                        case 5: // Operador de camaras
-                            // Muestro el formulario a el menú op cámara
-                            frmPrincipal.menuOpCamara();
+                        case 5: // Gerente
+                            // Muestro el menú izquierda
+                            frmPrincipal.mostrarMenu();
+                            // Muestro el menú inicial
+                            frmPrincipal.menuInicial();
+                            // Doy permiso a sus botones
+                            frmPrincipal.botonesGerente();
                             // Muestro el rol, nombre y apellido del empleado
                             frmPrincipal.datosEmpleado(rol, ci, nombre, apellido);
                             break;

@@ -24,18 +24,15 @@ namespace CapaPresentacion.JefeServicios
         {
             // Ocultamos el panel de datos
             pDatos.Visible = false;
+            cbEmpleado.Items.Clear();
             switch (Program.frmPrincipal.Rol)
             {
                 case "Gerente":
-                    // Limpiar todos los elementos del ComboBox
-                    cbEmpleado.Items.Clear();
-                    string[] opciones = { "Jefe Servicio", "Ejecutivo", "Cajero", "Operador" };
+                    string[] opciones = { "Operador", "Cajero", "Ejecutivo", "Jefe Servicio" };
                     cbEmpleado.Items.AddRange(opciones);
                 break;
                 case "Jefe Servicio":
-                    // Limpiar todos los elementos del ComboBox
-                    cbEmpleado.Items.Clear();
-                    string[] opciones1 = { "Ejecutivo", "Cajero", "Operador" };
+                    string[] opciones1 = { "Operador", "Cajero", "Ejecutivo" };
                     cbEmpleado.Items.AddRange(opciones1);
                 break;
             }

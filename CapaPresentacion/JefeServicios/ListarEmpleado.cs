@@ -76,7 +76,7 @@ namespace CapaPresentacion.JefeServicios
                             NumeroPuerta = emp.nroPuerta,
                             Calle = emp.calle,
                             Ciudad = emp.ciudad,
-                            Rol = emp.rol,
+                            Rol = emp.Rol_Nombre,
                             Usuario = emp.usuario,
                             Telefonos = string.Join(", ", emp.Telefonos)
                         }).ToList();

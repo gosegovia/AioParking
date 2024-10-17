@@ -60,24 +60,24 @@ namespace CapaPresentacion
             switch (rol)
             {
                 case 1:
-                    lblRol.Text = "Gerente";
-                    Rol = "Gerente";
+                    lblRol.Text = "Operador";
+                    Rol = "Operador";
                     break;
                 case 2:
-                    lblRol.Text = "Jefe Servicio";
-                    Rol = "Jefe Servicio";
+                    lblRol.Text = "Cajero";
+                    Rol = "Cajero";
                     break;
                 case 3:
                     lblRol.Text = "Ejecutivo";
                     Rol = "Ejecutivo";
                     break;
                 case 4:
-                    lblRol.Text = "Cajero";
-                    Rol = "Cajero";
+                    lblRol.Text = "Jefe Servicio";
+                    Rol = "Jefe Servicio";
                     break;
                 case 5:
-                    lblRol.Text = "Operador";
-                    Rol = "Operador";
+                    lblRol.Text = "Gerente";
+                    Rol = "Gerente";
                     break;
             }
 
@@ -279,7 +279,8 @@ namespace CapaPresentacion
         {
             /* Cambio los estados para que cuando el jefe de servicios entre a la aplicación
              tenga solo los botones que él necesita */
-            btnPrecio.Visible = !btnPrecio.Visible;
+            btnEmpleados.Visible = true;
+            btnPrecio.Visible = true;
         } // Fin acceso a botonesJefeServicio
 
         // Acceso a botonesEjecutivo
@@ -288,7 +289,7 @@ namespace CapaPresentacion
             /* Cambio los estados para que cuando el jefe de servicios entre a la aplicación
              tenga solo los botones que él necesita */
             btnPrecio.Visible = false;
-            btnEmpleados.Visible = true;
+            btnEmpleados.Visible = false;
         } // Fin acceso a botonesEjecutivo
 
         public void botonesGerente()

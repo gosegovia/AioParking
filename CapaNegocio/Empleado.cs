@@ -21,6 +21,7 @@ namespace CapaNegocio
         protected Conexion _conexion;
         protected string _usuario;
         protected int _rol;
+        protected string _nombre_rol;
 
         public int ci
         {
@@ -88,6 +89,12 @@ namespace CapaNegocio
             get { return (_rol); }
         }
 
+        public string Rol_Nombre
+        {
+            set { _nombre_rol = value; }
+            get { return (_nombre_rol); }
+        }
+
         public Empleado()
         {
             _ci = 0;
@@ -101,9 +108,10 @@ namespace CapaNegocio
             _conexion = new Conexion();  // Iniciar la conexión de la clase persistencia
             _usuario = "";
             _rol = 0;
+            _nombre_rol = "";
         }
 
-        public Empleado(int ci, string nom, string ape, string calle, string ciudad, int np, sbyte estado, List<string> tel, Conexion cn, string tc, string user, int rol)
+        public Empleado(int ci, string nom, string ape, string calle, string ciudad, int np, sbyte estado, List<string> tel, Conexion cn, string tc, string user, int rol, string nrol)
         {
             _ci = ci;
             _nombre = nom;
@@ -116,6 +124,7 @@ namespace CapaNegocio
             _conexion = cn;
             _usuario = user;
             _rol = rol;
+            _nombre_rol = nrol;
         }
 
         public byte BuscarEmpleado()
@@ -309,9 +318,10 @@ namespace CapaNegocio
 
             // Consulta SQL para listar empleados con paginación
             string sql = $@"
-                SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, e.id_rol, e.usuario, t.telefono
+                SELECT p.ci, p.nombre, p.apellido, p.nro_puerta, p.calle, p.ciudad, p.estado, r.nombre_rol, e.usuario, t.telefono
                 FROM Persona p
                 JOIN Empleado e ON p.ci = e.ci
+                JOIN Rol r ON r.id_rol = e.id_rol
                 JOIN Telefono t ON p.ci = t.ci
                 WHERE p.estado = 1
                 ORDER BY p.ci
@@ -338,7 +348,7 @@ namespace CapaNegocio
                             ciudad = row["ciudad"].ToString(),
                             estado = Convert.ToSByte(row["estado"]),
                             usuario = row["usuario"].ToString(),
-                            rol = Convert.ToInt32(row["id_rol"]),
+                            Rol_Nombre = row["nombre_rol"].ToString(),
                             Telefonos = new List<string>()
                         };
                     }

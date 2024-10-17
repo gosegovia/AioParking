@@ -195,7 +195,7 @@ namespace CapaPresentacion.OperadorCamaras
                             if (dt != null && dt.Rows.Count > 0)
                             {
                                 // Mostrar los datos recuperados para depuración
-                                Console.WriteLine($"Número de filas recuperadas: {dt.Rows.Count}");
+                                Console.WriteLine($"Numero de filas recuperadas: {dt.Rows.Count}");
 
                                 // Configurar el DataGridView para mostrar las plazas
                                 dgvPlaza.AutoGenerateColumns = true;
@@ -341,7 +341,7 @@ namespace CapaPresentacion.OperadorCamaras
                 if (row.Cells["Estado Plaza"].Value.ToString() == "Libre")
                 {
                     // Obtiene el número de la plaza
-                    int numPlaza = Convert.ToInt32(row.Cells["Número Plaza"].Value);
+                    int numPlaza = Convert.ToInt32(row.Cells["Numero Plaza"].Value);
 
                     if ((numPlaza >= 1 && numPlaza <= 20) && lblTipoVehiculo.Text.Trim() == "Moto")
                     {

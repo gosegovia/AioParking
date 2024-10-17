@@ -37,6 +37,10 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtMatricula = new System.Windows.Forms.TextBox();
             this.lblMatricula = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
+            this.lblID = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblStock = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.dgvNeumatico = new System.Windows.Forms.DataGridView();
             this.lblNombre = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -53,10 +57,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnBuscarCi = new System.Windows.Forms.Button();
             this.txtCi = new System.Windows.Forms.TextBox();
             this.lblCi = new System.Windows.Forms.Label();
-            this.lblStock = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblID = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.pMatricula.SuspendLayout();
             this.pDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).BeginInit();
@@ -150,16 +150,60 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Location = new System.Drawing.Point(9, 197);
             this.pDatos.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatos.Name = "pDatos";
-            this.pDatos.Size = new System.Drawing.Size(800, 342);
+            this.pDatos.Size = new System.Drawing.Size(829, 342);
             this.pDatos.TabIndex = 2;
+            // 
+            // lblID
+            // 
+            this.lblID.AutoSize = true;
+            this.lblID.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblID.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblID.Location = new System.Drawing.Point(115, 52);
+            this.lblID.Name = "lblID";
+            this.lblID.Size = new System.Drawing.Size(28, 18);
+            this.lblID.TabIndex = 22;
+            this.lblID.Text = ".....";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Arial", 12F);
+            this.label4.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label4.Location = new System.Drawing.Point(31, 52);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 18);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "ID";
+            // 
+            // lblStock
+            // 
+            this.lblStock.AutoSize = true;
+            this.lblStock.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblStock.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblStock.Location = new System.Drawing.Point(115, 121);
+            this.lblStock.Name = "lblStock";
+            this.lblStock.Size = new System.Drawing.Size(28, 18);
+            this.lblStock.TabIndex = 20;
+            this.lblStock.Text = ".....";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 12F);
+            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label3.Location = new System.Drawing.Point(31, 121);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 18);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Stock";
             // 
             // dgvNeumatico
             // 
             this.dgvNeumatico.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvNeumatico.Location = new System.Drawing.Point(365, 41);
+            this.dgvNeumatico.Location = new System.Drawing.Point(355, 41);
             this.dgvNeumatico.Name = "dgvNeumatico";
             this.dgvNeumatico.RowTemplate.Height = 25;
-            this.dgvNeumatico.Size = new System.Drawing.Size(410, 221);
+            this.dgvNeumatico.Size = new System.Drawing.Size(459, 221);
             this.dgvNeumatico.TabIndex = 18;
             this.dgvNeumatico.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNeumatico_CellClick);
             // 
@@ -168,7 +212,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Arial", 12F);
             this.lblNombre.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombre.Location = new System.Drawing.Point(148, 150);
+            this.lblNombre.Location = new System.Drawing.Point(115, 150);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(28, 18);
             this.lblNombre.TabIndex = 17;
@@ -179,7 +223,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial", 12F);
             this.label2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label2.Location = new System.Drawing.Point(64, 150);
+            this.label2.Location = new System.Drawing.Point(31, 150);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 18);
             this.label2.TabIndex = 16;
@@ -190,7 +234,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblSignoPeso.AutoSize = true;
             this.lblSignoPeso.Font = new System.Drawing.Font("Arial", 12F);
             this.lblSignoPeso.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblSignoPeso.Location = new System.Drawing.Point(146, 214);
+            this.lblSignoPeso.Location = new System.Drawing.Point(113, 214);
             this.lblSignoPeso.Name = "lblSignoPeso";
             this.lblSignoPeso.Size = new System.Drawing.Size(17, 18);
             this.lblSignoPeso.TabIndex = 15;
@@ -201,7 +245,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblPrecio.AutoSize = true;
             this.lblPrecio.Font = new System.Drawing.Font("Arial", 12F);
             this.lblPrecio.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecio.Location = new System.Drawing.Point(158, 214);
+            this.lblPrecio.Location = new System.Drawing.Point(125, 214);
             this.lblPrecio.Name = "lblPrecio";
             this.lblPrecio.Size = new System.Drawing.Size(28, 18);
             this.lblPrecio.TabIndex = 14;
@@ -212,7 +256,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblMarca.AutoSize = true;
             this.lblMarca.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMarca.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMarca.Location = new System.Drawing.Point(146, 180);
+            this.lblMarca.Location = new System.Drawing.Point(113, 180);
             this.lblMarca.Name = "lblMarca";
             this.lblMarca.Size = new System.Drawing.Size(28, 18);
             this.lblMarca.TabIndex = 13;
@@ -255,7 +299,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblPrecioTexto.AutoSize = true;
             this.lblPrecioTexto.Font = new System.Drawing.Font("Arial", 12F);
             this.lblPrecioTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioTexto.Location = new System.Drawing.Point(64, 214);
+            this.lblPrecioTexto.Location = new System.Drawing.Point(31, 214);
             this.lblPrecioTexto.Name = "lblPrecioTexto";
             this.lblPrecioTexto.Size = new System.Drawing.Size(54, 18);
             this.lblPrecioTexto.TabIndex = 8;
@@ -266,7 +310,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblMarcaTexto.AutoSize = true;
             this.lblMarcaTexto.Font = new System.Drawing.Font("Arial", 12F);
             this.lblMarcaTexto.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblMarcaTexto.Location = new System.Drawing.Point(64, 180);
+            this.lblMarcaTexto.Location = new System.Drawing.Point(31, 180);
             this.lblMarcaTexto.Name = "lblMarcaTexto";
             this.lblMarcaTexto.Size = new System.Drawing.Size(52, 18);
             this.lblMarcaTexto.TabIndex = 6;
@@ -277,7 +321,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCantidad.BackColor = System.Drawing.Color.LightBlue;
             this.txtCantidad.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCantidad.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCantidad.Location = new System.Drawing.Point(146, 85);
+            this.txtCantidad.Location = new System.Drawing.Point(113, 85);
             this.txtCantidad.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCantidad.Multiline = true;
             this.txtCantidad.Name = "txtCantidad";
@@ -290,7 +334,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCantidad.AutoSize = true;
             this.lblCantidad.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCantidad.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCantidad.Location = new System.Drawing.Point(64, 87);
+            this.lblCantidad.Location = new System.Drawing.Point(31, 87);
             this.lblCantidad.Name = "lblCantidad";
             this.lblCantidad.Size = new System.Drawing.Size(72, 18);
             this.lblCantidad.TabIndex = 3;
@@ -347,50 +391,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCi.Size = new System.Drawing.Size(58, 18);
             this.lblCi.TabIndex = 0;
             this.lblCi.Text = "Cedula";
-            // 
-            // lblStock
-            // 
-            this.lblStock.AutoSize = true;
-            this.lblStock.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblStock.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblStock.Location = new System.Drawing.Point(148, 121);
-            this.lblStock.Name = "lblStock";
-            this.lblStock.Size = new System.Drawing.Size(28, 18);
-            this.lblStock.TabIndex = 20;
-            this.lblStock.Text = ".....";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 12F);
-            this.label3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label3.Location = new System.Drawing.Point(64, 121);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 18);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "Stock";
-            // 
-            // lblID
-            // 
-            this.lblID.AutoSize = true;
-            this.lblID.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblID.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblID.Location = new System.Drawing.Point(148, 52);
-            this.lblID.Name = "lblID";
-            this.lblID.Size = new System.Drawing.Size(28, 18);
-            this.lblID.TabIndex = 22;
-            this.lblID.Text = ".....";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial", 12F);
-            this.label4.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label4.Location = new System.Drawing.Point(64, 52);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 18);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "ID";
             // 
             // VentaNeumaticos
             // 

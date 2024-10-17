@@ -126,7 +126,7 @@ namespace CapaNegocio
         {
             // Crear una nueva instancia de DataTable para almacenar los resultados.
             DataTable dt = new DataTable();
-            string sql = "SELECT id_plaza AS 'Número Plaza', estado_plaza AS 'Estado Plaza' FROM Plaza"; // Consulta SQL simplificada con alias.
+            string sql = "SELECT id_plaza AS 'Numero Plaza', estado_plaza AS 'Estado Plaza' FROM Plaza"; // Consulta SQL simplificada con alias.
 
             try
             {
@@ -438,16 +438,18 @@ namespace CapaNegocio
 
             try
             {
+                string precioParkingStr = precioParking.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
                 // Insertar el parking
                 sql = "INSERT INTO Parking (hora_entrada, hora_salida, precio_parking) " +
-                      "VALUES('" + HoraEntradaFormateada + "', '" + HoraSalidaFormateada + "', " + precioParking.ToString().Replace(",", ".") + ");";
+                      "VALUES('" + HoraEntradaFormateada + "', '" + HoraSalidaFormateada + "', " + precioParkingStr + ");";
 
                 // Ejecutar el comando de inserción
                 bool filasAfectadas = _conexion.Ejecutar(sql);
 
                 if (!filasAfectadas)
                 {
-                    return 3; // Error: No se insertó la factura
+                    return 6; // Error: No se insertó la factura
                 }
 
                 // Obtener el ID del parking recién insertado
@@ -575,9 +577,12 @@ namespace CapaNegocio
         public byte calcularPrecio()
         {
             byte resultado = 0;
+            double precio = 0;
+            TimeSpan horas;
+            int descuento = 0;
             string sql;
 
-            if (!_conexion.Abierta()) // La conexión está cerrada
+            if (!_conexion.Abierta()) // Verifica si la conexión está cerrada
             {
                 return 1; // Error: Conexión cerrada
             }
@@ -587,7 +592,7 @@ namespace CapaNegocio
                   "FROM Persona p " +
                   "JOIN Cliente c ON c.ci = p.ci " +
                   "JOIN Posee po ON po.ci = c.ci " +
-                  "JOIN Vehiculo v ON v.matricula = po.matricula " + // Corrección aquí
+                  "JOIN Vehiculo v ON v.matricula = po.matricula " +
                   "WHERE c.ci=" + Cliente.ci + " AND v.matricula = '" + Vehiculo.Matricula + "';";
 
             // Ejecutar la consulta
@@ -601,10 +606,9 @@ namespace CapaNegocio
             Cliente.TipoCliente = Convert.ToString(dt.Rows[0]["tipo_cliente"]);
             Vehiculo.TipoVehiculo = Convert.ToInt32(dt.Rows[0]["id_tipo"]);
 
-            double total = 0;
-            double precio = 0;
-            TimeSpan horas = HoraSalida - HoraEntrada;
-            int descuento = 0;
+            precio = 0;
+            horas = HoraSalida - HoraEntrada;
+            descuento = 0;
 
             // Obtener el precio según el tipo de vehículo
             switch (Vehiculo.TipoVehiculo)
@@ -628,18 +632,18 @@ namespace CapaNegocio
             double horasTotales = horas.TotalHours; // Obtener las horas totales como decimal
 
             // Calcular el total antes del descuento
-            precioParking = precio * horasTotales;
+            precioParking = precio * horasTotales; // Se calculan las horas
 
             // Aplicar el descuento
             if (descuento > 0)
             {
-                precioParking = total * (1 - (descuento / 100.0)); // Aplicar el descuento
+                precioParking = precioParking * (1 - (descuento / 100.0)); // Aplicar el descuento sobre precioParking
             }
 
             // Redondear a dos decimales
             precioParking = Math.Round(precioParking, 2);
 
-            return resultado;
+            return resultado; // Devuelve 0 si no hay errores
         }
     }
 }

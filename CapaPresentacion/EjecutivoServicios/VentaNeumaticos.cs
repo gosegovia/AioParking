@@ -279,6 +279,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void mostrarDatosNeumaticos()
         {
+            estiloTabla();
             try
             {
                 // Crear una instancia de Servicio desde la capa de negocio
@@ -299,7 +300,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         ID = neu.neumaticoId, // ID del neumático
                         Nombre = neu.neumaticoNombre, // Nombre del neumático
                         Marca = neu.neumaticoMarca, // Marca del neumático
-                        Precio = neu.neumaticoPrecio.ToString("C2"), // Precio con formato de moneda
+                        Precio = neu.neumaticoPrecio, // Precio con formato de moneda
                         Stock = neu.neumaticoCantidad // Cantidad en stock
                     }).ToList();
 
@@ -345,6 +346,35 @@ namespace CapaPresentacion.EjecutivoServicios
                     MessageBox.Show("Ocurrió un error al obtener los datos: " + ex.Message);
                 }
             }
+        }
+
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvNeumatico.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvNeumatico.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvNeumatico.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvNeumatico.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvNeumatico.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvNeumatico.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvNeumatico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvNeumatico.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
         }
     }
 }
