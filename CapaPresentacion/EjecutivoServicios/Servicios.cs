@@ -321,7 +321,7 @@ namespace CapaPresentacion.EjecutivoServicios
                     {
                         ID = lav.LavadoId,
                         Nombre = lav.LavadoNombre,
-                        Precio = lav.LavadoPrecio.ToString("C2")
+                        Precio = lav.LavadoPrecio
                     }).ToList();
 
                     // Asignar los datos al DataGridView
@@ -360,7 +360,7 @@ namespace CapaPresentacion.EjecutivoServicios
                     {
                         ID = aybdata.aybId,
                         Nombre = aybdata.aybNombre,
-                        Precio = aybdata.aybPrecio.ToString("C2")
+                        Precio = aybdata.aybPrecio
                     }).ToList();
 
                     // Asignar los datos al DataGridView
