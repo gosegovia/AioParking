@@ -22,11 +22,37 @@ namespace CapaPresentacion.EjecutivoServicios
             InitializeComponent();
         }
 
+        // Carga del Formulario
+        private void ABMVehiculos_Load(object sender, EventArgs e)
+        {
+            // Ocultamos el panel de datos
+            pDatos.Visible = false;
+            CargarMarcas();
+
+            // Deshabilitar el menú contextual en los text box
+            txtMatricula.ContextMenuStrip = new ContextMenuStrip();
+        } // Fin de carga del formulario
+
         // VALIDACIONES
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
         {
             Validaciones.validacionTextoNumero(sender, e);
             Validaciones.validacionLongitud(sender, e, 10);
+        }
+
+        private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscar.Focus();
+            }
+
+            // Detectar si se está intentando pegar con Ctrl + V
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                e.SuppressKeyPress = true; // Evita que el pegado ocurra
+            }
         }
 
         private void txtCI_KeyPress(object sender, KeyPressEventArgs e)
@@ -36,14 +62,6 @@ namespace CapaPresentacion.EjecutivoServicios
         }
 
         // FIN VALIDACIONES
-
-        // Carga del Formulario
-        private void ABMVehiculos_Load(object sender, EventArgs e)
-        {
-            // Ocultamos el panel de datos
-            pDatos.Visible = false;
-            CargarMarcas();
-        } // Fin de carga del formulario
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
@@ -153,7 +171,6 @@ namespace CapaPresentacion.EjecutivoServicios
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             CapaNegocio.Vehiculo v;
-            CapaNegocio.Cliente c;
             string matricula = txtMatricula.Text.Trim();
 
             if (string.IsNullOrEmpty(matricula))
@@ -176,16 +193,15 @@ namespace CapaPresentacion.EjecutivoServicios
                 return; // Detener la ejecución si el tipo de vehículo no es válido
             } else
             {
-                c = new Cliente();
                 v = new Vehiculo();
 
                 v.Conexion = Program.con;
                 v.Matricula = txtMatricula.Text;
-                c.ci = int.Parse(txtCI.Text);
+                v.Cliente.ci = int.Parse(txtCI.Text);
                 v.marca = cbMarca.SelectedIndex + 1;
                 v.TipoVehiculo = cbTipoVehiculo.SelectedIndex + 1;
 
-                switch (v.Guardar(btnEliminar.Enabled, c))
+                switch (v.Guardar(btnEliminar.Enabled))
                 {
                     case 0:
                         MessageBox.Show("Se ingreso el vehiculo.");
@@ -201,7 +217,6 @@ namespace CapaPresentacion.EjecutivoServicios
                     case 2: MessageBox.Show("Error 2"); break;
                     case 3: MessageBox.Show("Error 3"); break;
                 }
-                c = null;
                 v = null;
             }
         } // Fin botón guardar
@@ -285,15 +300,6 @@ namespace CapaPresentacion.EjecutivoServicios
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar las marcas: " + ex.Message);
-            }
-        }
-
-        private void txtMatricula_KeyDown(object sender, KeyEventArgs e)
-        {
-           if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
-                btnBuscar.Focus();
             }
         }
     }

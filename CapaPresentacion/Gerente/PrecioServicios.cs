@@ -25,6 +25,10 @@ namespace CapaPresentacion.Gerente
             pDatosNeumatico.Visible = false;
             pDatosLavado.Visible = false;
             pDatosAyB.Visible = false;
+
+            mostrarDatosNeumaticos();
+            mostrarDatosLavado();
+            mostrarDatosAyB();
         } // Fin carga del formulario
 
         // VALIDACIONES
@@ -222,6 +226,7 @@ namespace CapaPresentacion.Gerente
                 {
                     case 0:
                         MessageBox.Show("Se ingreso el neumatico.");
+                        mostrarDatosNeumaticos();
 
                         btnBuscarNeumatico.Enabled = true;
                         txtNeumatico.Text = "";
@@ -306,6 +311,76 @@ namespace CapaPresentacion.Gerente
             txtStock.Clear();
         } // Fin botón cancelar neumático
 
+        private void mostrarDatosNeumaticos()
+        {
+            estiloTabla();
+            try
+            {
+                // Crear una instancia de Servicio desde la capa de negocio
+                Neumatico n = new Neumatico
+                {
+                    // Asegúrate de que la conexión esté asignada si es necesario
+                    Conexion = Program.con // Asumiendo que Program.con es la conexión global
+                };
+
+                // Obtener la lista de neumáticos
+                List<Neumatico> neumaticos = n.ListarNeumaticos();
+
+                if (neumaticos != null && neumaticos.Count > 0)
+                {
+                    // Transformar los datos de los neumáticos para mostrarlos en el DataGridView
+                    var datosNeumaticos = neumaticos.Select(neu => new
+                    {
+                        ID = neu.neumaticoId, // ID del neumático
+                        Nombre = neu.neumaticoNombre, // Nombre del neumático
+                        Marca = neu.neumaticoMarca, // Marca del neumático
+                        Precio = neu.neumaticoPrecio, // Precio con formato de moneda
+                        Stock = neu.neumaticoCantidad // Cantidad en stock
+                    }).ToList();
+
+                    // Asignar los datos al DataGridView
+                    dgvNeumatico.DataSource = datosNeumaticos;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron neumáticos en la base de datos.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al cargar los neumáticos: " + ex.Message);
+            }
+        }
+
+        public void estiloTabla()
+        {
+            // Fondo gris claro para las filas
+            dgvNeumatico.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvNeumatico.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvNeumatico.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvNeumatico.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvNeumatico.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvNeumatico.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvNeumatico.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvNeumatico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvNeumatico.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+        }
+
         // Botón buscar lavado
         private void btnBuscarLavado_Click(object sender, EventArgs e)
         {
@@ -373,6 +448,7 @@ namespace CapaPresentacion.Gerente
                 switch (l.ActualizarLavado())
                 {
                     case 0:
+                        mostrarDatosLavado();
                         MessageBox.Show("Se actualizo el precio del lavado!");
 
                         txtLavado.Text = "";
@@ -403,6 +479,74 @@ namespace CapaPresentacion.Gerente
             lblNombreLavado.Text = "";
             txtPrecioLavado.Clear();
         } // Fin botón cancelar lavado
+
+        private void mostrarDatosLavado()
+        {
+            estiloTabla1();
+            try
+            {
+                // Crear una instancia de Lavado desde la capa de negocio
+                Lavado l = new Lavado
+                {
+                    // Asegúrate de que la conexión esté asignada si es necesario
+                    Conexion = Program.con // Asumiendo que Program.con es la conexión global
+                };
+
+                // Obtener la lista de lavados
+                List<Lavado> lavados = l.ListarLavados();
+
+                if (lavados != null && lavados.Count > 0)
+                {
+                    // Transformar los datos de los lavados para mostrarlos en el DataGridView
+                    var datosLavados = lavados.Select(lav => new
+                    {
+                        ID = lav.LavadoId,
+                        Nombre = lav.LavadoNombre,
+                        Precio = lav.LavadoPrecio.ToString("C2")
+                    }).ToList();
+
+                    // Asignar los datos al DataGridView
+                    dgvLavado.DataSource = datosLavados;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron lavados en la base de datos.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al cargar los lavados: " + ex.Message);
+            }
+        }
+
+        public void estiloTabla1()
+        {
+            // Fondo gris claro para las filas
+            dgvLavado.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvLavado.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvLavado.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvLavado.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvLavado.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvLavado.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvLavado.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvLavado.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvLavado.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvLavado.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvLavado.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvLavado.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+        }
 
         // Botón buscar AyB
         private void btnBuscarAyB_Click(object sender, EventArgs e)
@@ -472,6 +616,7 @@ namespace CapaPresentacion.Gerente
                 {
                     case 0:
                         MessageBox.Show("Se actualizo el precio de alineacion/balanceo!");
+                        mostrarDatosAyB();
 
                         txtAyB.Text = "";
                         txtAyB.Enabled = true;
@@ -501,5 +646,73 @@ namespace CapaPresentacion.Gerente
             lblNombreAyB.Text = "";
             txtPrecioAyB.Clear();
         } // Fin botón cancelar AyB
+
+        private void mostrarDatosAyB()
+        {
+            estiloTabla2();
+            try
+            {
+                // Crear una instancia de Lavado desde la capa de negocio
+                AlineacionBalanceo ayb = new AlineacionBalanceo
+                {
+                    // Asegúrate de que la conexión esté asignada si es necesario
+                    Conexion = Program.con // Asumiendo que Program.con es la conexión global
+                };
+
+                // Obtener la lista de lavados
+                List<AlineacionBalanceo> ayblist = ayb.ListarAyB();
+
+                if (ayblist != null && ayblist.Count > 0)
+                {
+                    // Transformar los datos de los lavados para mostrarlos en el DataGridView
+                    var datosAyB = ayblist.Select(aybdata => new
+                    {
+                        ID = aybdata.aybId,
+                        Nombre = aybdata.aybNombre,
+                        Precio = aybdata.aybPrecio.ToString("C2")
+                    }).ToList();
+
+                    // Asignar los datos al DataGridView
+                    dgvServicio.DataSource = datosAyB;
+                }
+                else
+                {
+                    MessageBox.Show("No se encontraron alineacion/balanceo en la base de datos.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al cargar los datos: " + ex.Message);
+            }
+        }
+
+        public void estiloTabla2()
+        {
+            // Fondo gris claro para las filas
+            dgvServicio.RowsDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240); // Color gris claro
+            dgvServicio.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255); // Blanco
+
+            // Fondo celeste suave para el encabezado
+            dgvServicio.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(173, 216, 230); // Celeste claro
+            dgvServicio.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black; // Texto negro
+            dgvServicio.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold); // Fuente en negrita
+
+            // Mostrar solo líneas en el medio (entre celdas)
+            dgvServicio.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvServicio.GridColor = Color.Gray; // Color de las líneas
+
+            // Color de la celda seleccionada
+            dgvServicio.DefaultCellStyle.SelectionBackColor = Color.LightSkyBlue; // Color azul pastel
+            dgvServicio.DefaultCellStyle.SelectionForeColor = Color.Black; // Texto negro en la selección
+
+            // Alinear texto al centro en la cabecera
+            dgvServicio.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // Ajuste de tamaño de columnas según el texto del encabezado
+            dgvServicio.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
+            dgvServicio.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+        }
     }
 }

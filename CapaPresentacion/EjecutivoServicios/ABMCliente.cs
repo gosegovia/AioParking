@@ -17,6 +17,9 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             // Oculto los datos para que solo ingrese la cédula
             pDatos.Visible = false;
+
+            // Deshabilitar el menú contextual en los text box
+            txtCI.ContextMenuStrip = new ContextMenuStrip();
         }
 
         // VALIDACIONES
@@ -24,6 +27,21 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             Validaciones.validacionNumero(sender, e);
             Validaciones.validacionLongitud(sender, e, 8);
+        }
+
+        private void txtCI_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
+                btnBuscar.Focus();
+            }
+
+            // Detectar si se está intentando pegar con Ctrl + V
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                e.SuppressKeyPress = true; // Evita que el pegado ocurra
+            }
         }
 
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
@@ -60,15 +78,6 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             Validaciones.validacionNumero(sender, e);
             Validaciones.validacionLongitudCB(sender, e, 9);
-        }
-
-        private void txtCI_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                e.SuppressKeyPress = true; // Evitar que el Enter inserte una nueva línea
-                btnBuscar.Focus();
-            }
         }
 
         private void btnAgregarTelefono_Click(object sender, EventArgs e)
@@ -167,7 +176,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         cbTelefonos.Items.Clear();
                         foreach (string tel in c.Telefonos)
                         {
-                            telefono = "0" + tel;
+                            telefono = tel;
                             cbTelefonos.Items.Add(telefono);
                         }
                         cbTelefonos.SelectedIndex = 0; // Selecciona el primer teléfono

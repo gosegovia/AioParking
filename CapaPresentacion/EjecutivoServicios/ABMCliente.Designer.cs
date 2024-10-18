@@ -344,7 +344,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.cbTipoCliente.FormattingEnabled = true;
             this.cbTipoCliente.Items.AddRange(new object[] {
             "Mensual",
-            "Sistemático",
+            "Sistematico",
             "Eventual"});
             this.cbTipoCliente.Location = new System.Drawing.Point(208, 134);
             this.cbTipoCliente.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);

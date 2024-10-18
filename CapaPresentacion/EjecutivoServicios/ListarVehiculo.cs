@@ -118,11 +118,16 @@ namespace CapaPresentacion.EjecutivoServicios
 
             // Llamar al método Buscar en la clase Vehiculo
             byte resultado = v.BuscarVehiculo();
-
-            switch (resultado)
+            
+            if (!v.EstadoVehiculo)
             {
-                case 0: // Todo funcionó correctamente
-                    var datosVehiculo = new List<object>
+                MessageBox.Show("No existe este vehiculo.");
+            } else
+            {
+                switch (resultado)
+                {
+                    case 0: // Todo funcionó correctamente
+                        var datosVehiculo = new List<object>
                     {
                         new
                         {
@@ -133,25 +138,26 @@ namespace CapaPresentacion.EjecutivoServicios
                         }
                     };
 
-                    dgvVehiculo.DataSource = null; // Resetear el DataGridView
-                    dgvVehiculo.DataSource = datosVehiculo; // Mostrar el vehículo encontrado
-                    break;
+                        dgvVehiculo.DataSource = null; // Resetear el DataGridView
+                        dgvVehiculo.DataSource = datosVehiculo; // Mostrar el vehículo encontrado
+                        break;
 
-                case 1:
-                    MessageBox.Show("La conexión a la base de datos está cerrada.");
-                    break;
+                    case 1:
+                        MessageBox.Show("La conexión a la base de datos está cerrada.");
+                        break;
 
-                case 2:
-                    MessageBox.Show("Error en la ejecución de la consulta.");
-                    break;
+                    case 2:
+                        MessageBox.Show("Error en la ejecución de la consulta.");
+                        break;
 
-                case 3:
-                    MessageBox.Show("No se encontró un vehículo con esa matrícula.");
-                    break;
+                    case 3:
+                        MessageBox.Show("No se encontró un vehículo con esa matrícula.");
+                        break;
 
-                default:
-                    MessageBox.Show("Error desconocido.");
-                    break;
+                    default:
+                        MessageBox.Show("Error desconocido.");
+                        break;
+                }
             }
         }
 

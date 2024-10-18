@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Threading;
 using System.Windows.Forms;
 using CapaPersistencia;
 
@@ -36,14 +37,25 @@ namespace CapaPresentacion
         // Creamos la coneccion con la base de datos
         public static Conexion con = new Conexion();
 
+        // Para que no haya mas de una aplicacion iniciada
+        static Mutex mutex = new Mutex(true, "{CapaPresentacion}");
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            frmPrincipal = new Principal();
-            Application.Run(frmPrincipal);
+            if (mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                frmPrincipal = new Principal();
+                Application.Run(frmPrincipal);
+
+                mutex.ReleaseMutex();
+            } else
+            {
+                MessageBox.Show("La aplicación ya está en ejecución.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         // Método para saber que tipo de usuario ingreso al programa y dar permisos

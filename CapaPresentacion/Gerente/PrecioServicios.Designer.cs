@@ -71,6 +71,9 @@ namespace CapaPresentacion.Gerente
             this.txtPrecioAyB = new System.Windows.Forms.TextBox();
             this.lblPrecioAyB = new System.Windows.Forms.Label();
             this.lblNombreAyBText = new System.Windows.Forms.Label();
+            this.dgvNeumatico = new System.Windows.Forms.DataGridView();
+            this.dgvLavado = new System.Windows.Forms.DataGridView();
+            this.dgvServicio = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabNeumatico.SuspendLayout();
             this.pDatosNeumatico.SuspendLayout();
@@ -78,6 +81,9 @@ namespace CapaPresentacion.Gerente
             this.pDatosLavado.SuspendLayout();
             this.tabAyB.SuspendLayout();
             this.pDatosAyB.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLavado)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServicio)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -109,6 +115,7 @@ namespace CapaPresentacion.Gerente
             // 
             // tabNeumatico
             // 
+            this.tabNeumatico.Controls.Add(this.dgvNeumatico);
             this.tabNeumatico.Controls.Add(this.pDatosNeumatico);
             this.tabNeumatico.Controls.Add(this.btnBuscarNeumatico);
             this.tabNeumatico.Controls.Add(this.txtNeumatico);
@@ -135,17 +142,17 @@ namespace CapaPresentacion.Gerente
             this.pDatosNeumatico.Controls.Add(this.txtPrecio);
             this.pDatosNeumatico.Controls.Add(this.lblPrecioNeumatico);
             this.pDatosNeumatico.Controls.Add(this.lblModelo);
-            this.pDatosNeumatico.Location = new System.Drawing.Point(6, 66);
+            this.pDatosNeumatico.Location = new System.Drawing.Point(22, 85);
             this.pDatosNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosNeumatico.Name = "pDatosNeumatico";
-            this.pDatosNeumatico.Size = new System.Drawing.Size(806, 349);
+            this.pDatosNeumatico.Size = new System.Drawing.Size(293, 308);
             this.pDatosNeumatico.TabIndex = 3;
             // 
             // txtStock
             // 
             this.txtStock.BackColor = System.Drawing.Color.LightBlue;
             this.txtStock.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtStock.Location = new System.Drawing.Point(367, 114);
+            this.txtStock.Location = new System.Drawing.Point(109, 118);
             this.txtStock.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtStock.Multiline = true;
             this.txtStock.Name = "txtStock";
@@ -157,7 +164,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label3.Location = new System.Drawing.Point(296, 116);
+            this.label3.Location = new System.Drawing.Point(38, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 18);
             this.label3.TabIndex = 13;
@@ -167,7 +174,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtNombre.BackColor = System.Drawing.Color.LightBlue;
             this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNombre.Location = new System.Drawing.Point(367, 15);
+            this.txtNombre.Location = new System.Drawing.Point(109, 19);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtNombre.Multiline = true;
             this.txtNombre.Name = "txtNombre";
@@ -179,7 +186,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label2.Location = new System.Drawing.Point(296, 17);
+            this.label2.Location = new System.Drawing.Point(38, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(64, 18);
             this.label2.TabIndex = 11;
@@ -191,7 +198,7 @@ namespace CapaPresentacion.Gerente
             this.btnEliminar.FlatAppearance.BorderSize = 0;
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(364, 160);
+            this.btnEliminar.Location = new System.Drawing.Point(106, 164);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(75, 25);
@@ -208,7 +215,7 @@ namespace CapaPresentacion.Gerente
             "Michelin",
             "Bridgestone",
             "Pirelli"});
-            this.cbModelo.Location = new System.Drawing.Point(367, 48);
+            this.cbModelo.Location = new System.Drawing.Point(109, 52);
             this.cbModelo.Name = "cbModelo";
             this.cbModelo.Size = new System.Drawing.Size(136, 26);
             this.cbModelo.TabIndex = 9;
@@ -219,7 +226,7 @@ namespace CapaPresentacion.Gerente
             this.btnCancelarNeumatico.FlatAppearance.BorderSize = 0;
             this.btnCancelarNeumatico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarNeumatico.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarNeumatico.Location = new System.Drawing.Point(446, 160);
+            this.btnCancelarNeumatico.Location = new System.Drawing.Point(188, 164);
             this.btnCancelarNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelarNeumatico.Name = "btnCancelarNeumatico";
             this.btnCancelarNeumatico.Size = new System.Drawing.Size(85, 25);
@@ -234,7 +241,7 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarNeumatico.FlatAppearance.BorderSize = 0;
             this.btnGuardarNeumatico.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarNeumatico.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarNeumatico.Location = new System.Drawing.Point(283, 160);
+            this.btnGuardarNeumatico.Location = new System.Drawing.Point(25, 164);
             this.btnGuardarNeumatico.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardarNeumatico.Name = "btnGuardarNeumatico";
             this.btnGuardarNeumatico.Size = new System.Drawing.Size(75, 25);
@@ -247,7 +254,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtPrecio.BackColor = System.Drawing.Color.LightBlue;
             this.txtPrecio.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecio.Location = new System.Drawing.Point(367, 82);
+            this.txtPrecio.Location = new System.Drawing.Point(109, 86);
             this.txtPrecio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPrecio.Multiline = true;
             this.txtPrecio.Name = "txtPrecio";
@@ -259,7 +266,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblPrecioNeumatico.AutoSize = true;
             this.lblPrecioNeumatico.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioNeumatico.Location = new System.Drawing.Point(297, 84);
+            this.lblPrecioNeumatico.Location = new System.Drawing.Point(39, 88);
             this.lblPrecioNeumatico.Name = "lblPrecioNeumatico";
             this.lblPrecioNeumatico.Size = new System.Drawing.Size(54, 18);
             this.lblPrecioNeumatico.TabIndex = 6;
@@ -269,7 +276,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblModelo.AutoSize = true;
             this.lblModelo.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblModelo.Location = new System.Drawing.Point(296, 51);
+            this.lblModelo.Location = new System.Drawing.Point(38, 55);
             this.lblModelo.Name = "lblModelo";
             this.lblModelo.Size = new System.Drawing.Size(52, 18);
             this.lblModelo.TabIndex = 4;
@@ -315,6 +322,7 @@ namespace CapaPresentacion.Gerente
             // 
             // tabLavadero
             // 
+            this.tabLavadero.Controls.Add(this.dgvLavado);
             this.tabLavadero.Controls.Add(this.pDatosLavado);
             this.tabLavadero.Controls.Add(this.btnBuscarLavado);
             this.tabLavadero.Controls.Add(this.txtLavado);
@@ -335,17 +343,17 @@ namespace CapaPresentacion.Gerente
             this.pDatosLavado.Controls.Add(this.txtPrecioLavado);
             this.pDatosLavado.Controls.Add(this.lblPracioLavado);
             this.pDatosLavado.Controls.Add(this.lblNombre);
-            this.pDatosLavado.Location = new System.Drawing.Point(4, 66);
+            this.pDatosLavado.Location = new System.Drawing.Point(106, 84);
             this.pDatosLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosLavado.Name = "pDatosLavado";
-            this.pDatosLavado.Size = new System.Drawing.Size(811, 252);
+            this.pDatosLavado.Size = new System.Drawing.Size(237, 252);
             this.pDatosLavado.TabIndex = 6;
             // 
             // lblNombreLavado
             // 
             this.lblNombreLavado.AutoSize = true;
             this.lblNombreLavado.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombreLavado.Location = new System.Drawing.Point(335, 20);
+            this.lblNombreLavado.Location = new System.Drawing.Point(86, 21);
             this.lblNombreLavado.Name = "lblNombreLavado";
             this.lblNombreLavado.Size = new System.Drawing.Size(28, 18);
             this.lblNombreLavado.TabIndex = 9;
@@ -357,7 +365,7 @@ namespace CapaPresentacion.Gerente
             this.btnCancelarLavado.FlatAppearance.BorderSize = 0;
             this.btnCancelarLavado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarLavado.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarLavado.Location = new System.Drawing.Point(373, 99);
+            this.btnCancelarLavado.Location = new System.Drawing.Point(124, 100);
             this.btnCancelarLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelarLavado.Name = "btnCancelarLavado";
             this.btnCancelarLavado.Size = new System.Drawing.Size(90, 25);
@@ -372,7 +380,7 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarLavado.FlatAppearance.BorderSize = 0;
             this.btnGuardarLavado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarLavado.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarLavado.Location = new System.Drawing.Point(292, 99);
+            this.btnGuardarLavado.Location = new System.Drawing.Point(43, 100);
             this.btnGuardarLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardarLavado.Name = "btnGuardarLavado";
             this.btnGuardarLavado.Size = new System.Drawing.Size(75, 25);
@@ -385,7 +393,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtPrecioLavado.BackColor = System.Drawing.Color.LightBlue;
             this.txtPrecioLavado.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecioLavado.Location = new System.Drawing.Point(335, 50);
+            this.txtPrecioLavado.Location = new System.Drawing.Point(86, 51);
             this.txtPrecioLavado.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPrecioLavado.Multiline = true;
             this.txtPrecioLavado.Name = "txtPrecioLavado";
@@ -397,7 +405,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblPracioLavado.AutoSize = true;
             this.lblPracioLavado.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPracioLavado.Location = new System.Drawing.Point(262, 53);
+            this.lblPracioLavado.Location = new System.Drawing.Point(13, 54);
             this.lblPracioLavado.Name = "lblPracioLavado";
             this.lblPracioLavado.Size = new System.Drawing.Size(54, 18);
             this.lblPracioLavado.TabIndex = 6;
@@ -407,7 +415,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombre.Location = new System.Drawing.Point(262, 20);
+            this.lblNombre.Location = new System.Drawing.Point(13, 21);
             this.lblNombre.Name = "lblNombre";
             this.lblNombre.Size = new System.Drawing.Size(68, 18);
             this.lblNombre.TabIndex = 4;
@@ -453,6 +461,7 @@ namespace CapaPresentacion.Gerente
             // 
             // tabAyB
             // 
+            this.tabAyB.Controls.Add(this.dgvServicio);
             this.tabAyB.Controls.Add(this.btnBuscarAyB);
             this.tabAyB.Controls.Add(this.txtAyB);
             this.tabAyB.Controls.Add(this.lblAyB);
@@ -511,17 +520,17 @@ namespace CapaPresentacion.Gerente
             this.pDatosAyB.Controls.Add(this.txtPrecioAyB);
             this.pDatosAyB.Controls.Add(this.lblPrecioAyB);
             this.pDatosAyB.Controls.Add(this.lblNombreAyBText);
-            this.pDatosAyB.Location = new System.Drawing.Point(4, 66);
+            this.pDatosAyB.Location = new System.Drawing.Point(112, 91);
             this.pDatosAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosAyB.Name = "pDatosAyB";
-            this.pDatosAyB.Size = new System.Drawing.Size(811, 252);
+            this.pDatosAyB.Size = new System.Drawing.Size(238, 252);
             this.pDatosAyB.TabIndex = 7;
             // 
             // lblNombreAyB
             // 
             this.lblNombreAyB.AutoSize = true;
             this.lblNombreAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombreAyB.Location = new System.Drawing.Point(391, 20);
+            this.lblNombreAyB.Location = new System.Drawing.Point(82, 14);
             this.lblNombreAyB.Name = "lblNombreAyB";
             this.lblNombreAyB.Size = new System.Drawing.Size(28, 18);
             this.lblNombreAyB.TabIndex = 9;
@@ -533,7 +542,7 @@ namespace CapaPresentacion.Gerente
             this.btnCancelarAyB.FlatAppearance.BorderSize = 0;
             this.btnCancelarAyB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelarAyB.ForeColor = System.Drawing.Color.White;
-            this.btnCancelarAyB.Location = new System.Drawing.Point(440, 109);
+            this.btnCancelarAyB.Location = new System.Drawing.Point(131, 103);
             this.btnCancelarAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancelarAyB.Name = "btnCancelarAyB";
             this.btnCancelarAyB.Size = new System.Drawing.Size(85, 25);
@@ -548,7 +557,7 @@ namespace CapaPresentacion.Gerente
             this.btnGuardarAyB.FlatAppearance.BorderSize = 0;
             this.btnGuardarAyB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardarAyB.ForeColor = System.Drawing.Color.White;
-            this.btnGuardarAyB.Location = new System.Drawing.Point(351, 109);
+            this.btnGuardarAyB.Location = new System.Drawing.Point(42, 103);
             this.btnGuardarAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardarAyB.Name = "btnGuardarAyB";
             this.btnGuardarAyB.Size = new System.Drawing.Size(75, 25);
@@ -561,7 +570,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.txtPrecioAyB.BackColor = System.Drawing.Color.LightBlue;
             this.txtPrecioAyB.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtPrecioAyB.Location = new System.Drawing.Point(391, 50);
+            this.txtPrecioAyB.Location = new System.Drawing.Point(82, 44);
             this.txtPrecioAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPrecioAyB.Multiline = true;
             this.txtPrecioAyB.Name = "txtPrecioAyB";
@@ -573,7 +582,7 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblPrecioAyB.AutoSize = true;
             this.lblPrecioAyB.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPrecioAyB.Location = new System.Drawing.Point(324, 52);
+            this.lblPrecioAyB.Location = new System.Drawing.Point(15, 46);
             this.lblPrecioAyB.Name = "lblPrecioAyB";
             this.lblPrecioAyB.Size = new System.Drawing.Size(54, 18);
             this.lblPrecioAyB.TabIndex = 6;
@@ -583,11 +592,38 @@ namespace CapaPresentacion.Gerente
             // 
             this.lblNombreAyBText.AutoSize = true;
             this.lblNombreAyBText.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNombreAyBText.Location = new System.Drawing.Point(323, 20);
+            this.lblNombreAyBText.Location = new System.Drawing.Point(14, 14);
             this.lblNombreAyBText.Name = "lblNombreAyBText";
             this.lblNombreAyBText.Size = new System.Drawing.Size(64, 18);
             this.lblNombreAyBText.TabIndex = 4;
             this.lblNombreAyBText.Text = "Nombre";
+            // 
+            // dgvNeumatico
+            // 
+            this.dgvNeumatico.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvNeumatico.Location = new System.Drawing.Point(332, 110);
+            this.dgvNeumatico.Name = "dgvNeumatico";
+            this.dgvNeumatico.RowTemplate.Height = 25;
+            this.dgvNeumatico.Size = new System.Drawing.Size(459, 221);
+            this.dgvNeumatico.TabIndex = 19;
+            // 
+            // dgvLavado
+            // 
+            this.dgvLavado.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvLavado.Location = new System.Drawing.Point(358, 105);
+            this.dgvLavado.Name = "dgvLavado";
+            this.dgvLavado.RowTemplate.Height = 25;
+            this.dgvLavado.Size = new System.Drawing.Size(396, 201);
+            this.dgvLavado.TabIndex = 29;
+            // 
+            // dgvServicio
+            // 
+            this.dgvServicio.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvServicio.Location = new System.Drawing.Point(365, 105);
+            this.dgvServicio.Name = "dgvServicio";
+            this.dgvServicio.RowTemplate.Height = 25;
+            this.dgvServicio.Size = new System.Drawing.Size(396, 201);
+            this.dgvServicio.TabIndex = 29;
             // 
             // PrecioServicios
             // 
@@ -614,6 +650,9 @@ namespace CapaPresentacion.Gerente
             this.tabAyB.PerformLayout();
             this.pDatosAyB.ResumeLayout(false);
             this.pDatosAyB.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLavado)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServicio)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -661,5 +700,8 @@ namespace CapaPresentacion.Gerente
         private Label label2;
         private TextBox txtStock;
         private Label label3;
+        private DataGridView dgvNeumatico;
+        private DataGridView dgvLavado;
+        private DataGridView dgvServicio;
     }
 }

@@ -19,6 +19,13 @@ namespace CapaPresentacion
             InitializeComponent();
         }
 
+        private void Login_Load(object sender, EventArgs e)
+        {
+            // Deshabilitar el menú contextual en los text box
+            txtUsuario.ContextMenuStrip = new ContextMenuStrip();
+            txtContrasenia.ContextMenuStrip = new ContextMenuStrip();
+        }
+
         // Btn ingregar
         private void btnIngresar_Click(object sender, EventArgs e)
         {
@@ -46,6 +53,12 @@ namespace CapaPresentacion
                 // Evitar que el Enter sea visible en el TextBox
                 e.SuppressKeyPress = true;
             }
+
+            // Detectar si se está intentando pegar con Ctrl + V
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                e.SuppressKeyPress = true; // Evita que el pegado ocurra
+            }
         }
 
         // txtContrasenia configuracion enter
@@ -56,6 +69,12 @@ namespace CapaPresentacion
             {
                 // Hacemos el login
                 btnIngresar_Click(sender, e);
+            }
+
+            // Detectar si se está intentando pegar con Ctrl + V
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                e.SuppressKeyPress = true; // Evita que el pegado ocurra
             }
         }
     }

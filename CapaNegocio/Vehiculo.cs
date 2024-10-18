@@ -205,7 +205,7 @@ namespace CapaNegocio
             return marcas;
         }
 
-        public byte Guardar(bool modificacion, Cliente c)
+        public byte Guardar(bool modificacion)
         {
             if (!_conexion.Abierta())
             {
@@ -227,7 +227,7 @@ namespace CapaNegocio
                 sql = "INSERT INTO Vehiculo (matricula, id_marca, id_tipo, estado_vehiculo) VALUES " +
                       "('" + Matricula + "', " + marca + ", " + TipoVehiculo + ", 1);";
 
-                sql1 = "INSERT INTO Posee (ci, matricula) VALUES (" + c.ci + ", '" + Matricula + "');";
+                sql1 = "INSERT INTO Posee (ci, matricula) VALUES (" + Cliente.ci + ", '" + Matricula + "');";
             }
 
             try
@@ -235,7 +235,16 @@ namespace CapaNegocio
                 // Ejecutar la consulta SQL para el vehículo
                 _conexion.Ejecutar(sql);
 
-                // Solo ejecutamos el segundo SQL si estamos en modo alta
+                // Validar si el cliente con el 'ci' existe en la tabla Cliente
+                string sqlCheckCliente = "SELECT COUNT(*) FROM Cliente WHERE ci = " + Cliente.ci + ";";
+                object result = _conexion.EjecutarEscalar(sqlCheckCliente);
+
+                if (Convert.ToInt32(result) == 0)
+                {
+                    return 3; // Cliente no existe
+                }
+
+                // Solo ejecutamos el segundo SQL si estamos en modo alta y el cliente existe
                 if (!modificacion && sql1 != null)
                 {
                     _conexion.Ejecutar(sql1);

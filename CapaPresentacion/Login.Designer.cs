@@ -157,6 +157,7 @@ namespace CapaPresentacion
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AioParking";
+            this.Load += new System.EventHandler(this.Login_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
