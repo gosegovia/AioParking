@@ -179,7 +179,7 @@ namespace CapaPresentacion.EjecutivoServicios
                     {
                         case 0:
                             MessageBox.Show("El cliente ya utilizó el lavado gratis, el día " + fecha?.ToString("d"));
-                            break;
+                            return;
 
                         case 1:
                             MessageBox.Show("Error al obtener la conexión.");
@@ -223,12 +223,14 @@ namespace CapaPresentacion.EjecutivoServicios
                         lblPrecio.Text = "...";
                         break;
                     case 1: MessageBox.Show("Error al obtener la conexión."); break;
-                    case 2: MessageBox.Show("Error 2"); break;
+                    case 2: MessageBox.Show("Este cliente no es mensual."); break;
                     case 3: MessageBox.Show("Error 3"); break;
                     case 4: MessageBox.Show("Error 4"); break;
                     case 5: MessageBox.Show("Error 5"); break;
                     case 6: MessageBox.Show("Error 6"); break;
                     case 7: MessageBox.Show("Error 7"); break;
+                    case 8: MessageBox.Show("Error 8"); break;
+                    case 9: MessageBox.Show("Error 9"); break;
                 }
             }
             

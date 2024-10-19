@@ -135,97 +135,176 @@ namespace CapaPresentacion.JefeServicios
             CapaNegocio.Empleado emp;
             Int32 cedula;
 
+            // Validar que la cédula sea numérica
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("La cédula de identidad debe ser numérica");
+                return;
             }
-            else
+
+            // Instanciar el objeto empleado y asignar valores
+            emp = new Empleado
             {
-                // Asigno una nueva instancia de la clase Cliente al objeto c de dicha clase
-                emp = new Empleado();
-                emp.conexion = Program.con;
-                emp.ci = cedula;
+                conexion = Program.con,
+                ci = cedula
+            };
 
-                switch (emp.BuscarEmpleado())
-                {
-                    case 0: // Encontro
-                        if (emp.estado == 0)
-                        {
-                            DialogResult estadoRespuesta = MessageBox.Show("¿Este empleado esta dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
-                            if (estadoRespuesta == DialogResult.Yes)
-                            {
-                                emp.estado = 1;
-                            }
-                            else
-                            {
-                                txtCI.Text = "";
-                                // Ver despues
-                                return;
-                            }
-                        }
+            // Ejecutar búsqueda del empleado
+            switch (emp.BuscarEmpleado())
+            {
+                case 0: // Empleado encontrado
+                        // Verificar si el empleado está inactivo
+                    if (emp.estado == 0)
+                    {
+                        DialogResult estadoRespuesta = MessageBox.Show(
+                            "Este empleado está dado de baja. ¿Desea recuperarlo?",
+                            "Empleado Inactivo",
+                            MessageBoxButtons.YesNo
+                        );
 
-                        btnBuscar.Enabled = false;
-                        txtCI.Enabled = false;
-                        pDatos.Visible = true;
-                        btnEliminar.Enabled = true;
-
-                        txtNombre.Text = emp.nombre;
-                        txtApellido.Text = emp.apellido;
-                        txtNroPuerta.Text = emp.nroPuerta.ToString();
-                        txtCalle.Text = emp.calle;
-                        txtCiudad.Text = emp.ciudad;
-                        txtUsuario.Text = emp.usuario;
-
-                        switch (emp.rol)
+                        if (estadoRespuesta == DialogResult.Yes)
                         {
-                            case 1: cbEmpleado.SelectedIndex = 0; break;
-                            case 2: cbEmpleado.SelectedIndex = 1; break;
-                            case 3: cbEmpleado.SelectedIndex = 2; break;
-                            case 4: cbEmpleado.SelectedIndex = 3; break;
-                            case 5: cbEmpleado.SelectedIndex = 4; break;
-                        }
-                     
-                        string telefono;
-                        cbTelefonos.Items.Clear();
-                        foreach (string tel in emp.Telefonos)
-                        {
-                            telefono = tel;
-                            cbTelefonos.Items.Add(telefono);
-                        }
-                        cbTelefonos.SelectedIndex = 0;
-                        break;
-                    case 1: MessageBox.Show("Debe logearse nuevamente"); break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 4: MessageBox.Show("Error 4"); break;
-                    case 3: // No encontro
-                        if (txtCI.TextLength < 8)
-                        {
-                            MessageBox.Show("Formato incorrecto");
+                            emp.estado = 1; // Reactivar empleado
                         }
                         else
                         {
-                            DialogResult respuesta = MessageBox.Show("¿Desea efectuar el alta?", "Alta", MessageBoxButtons.YesNo);
-                            if (respuesta == DialogResult.Yes)
-                            {
-                                btnBuscar.Enabled = false;
-                                pDatos.Visible = true;
-                                btnEliminar.Enabled = false;
-                                txtNombre.Clear();
-                                txtApellido.Clear();
-                                txtNroPuerta.Clear();
-                                txtCalle.Clear();
-                                txtCiudad.Clear();
-                                txtUsuario.Clear();
-                                cbTelefonos.Items.Clear();
-                                cbTelefonos.Text = "";
-                                cbEmpleado.SelectedIndex = 0;
-                            }
+                            LimpiarCampos(); // Limpiar los campos si no se desea reactivar
+                            return;
                         }
-                        break;
-                }
-                emp = null; // Destruyo el objeto
+                    }
+
+                    // Controlar acceso según el rol del usuario actual
+                    if (!PermitirModificarEmpleadoSegunRol(emp.rol))
+                    {
+                        LimpiarCampos();
+                        return;
+                    }
+
+                    // Preparar la vista para edición del empleado encontrado
+                    btnBuscar.Enabled = false;
+                    txtCI.Enabled = false;
+                    pDatos.Visible = true;
+                    btnEliminar.Enabled = true;
+
+                    // Rellenar los datos del empleado
+                    CargarDatosEmpleado(emp);
+                    break;
+
+                case 1:
+                    MessageBox.Show("Debe volver a iniciar sesión.");
+                    break;
+                case 2:
+                    MessageBox.Show("Error al buscar el empleado.");
+                    break;
+                case 3: // Empleado no encontrado
+                    if (txtCI.TextLength < 8)
+                    {
+                        MessageBox.Show("Formato de cédula incorrecto.");
+                    }
+                    else
+                    {
+                        DialogResult respuesta = MessageBox.Show("¿Desea dar de alta al empleado?", "Alta", MessageBoxButtons.YesNo);
+                        if (respuesta == DialogResult.Yes)
+                        {
+                            PrepararAltaEmpleado();
+                        }
+                    }
+                    break;
+                case 4:
+                    MessageBox.Show("Error desconocido.");
+                    break;
             }
-        } // Fin de botón buscar
+
+            emp = null; // Liberar el objeto
+        }
+
+        // Método para limpiar los campos
+        private void LimpiarCampos()
+        {
+            txtCI.Clear();
+            txtNombre.Clear();
+            txtApellido.Clear();
+            txtNroPuerta.Clear();
+            txtCalle.Clear();
+            txtCiudad.Clear();
+            txtUsuario.Clear();
+            cbTelefonos.Items.Clear();
+            cbTelefonos.Text = "";
+            cbEmpleado.SelectedIndex = -1;
+            pDatos.Visible = false;
+            btnBuscar.Enabled = true;
+            txtCI.Enabled = true;
+        }
+
+        // Método para cargar datos del empleado en los controles de la vista
+        private void CargarDatosEmpleado(CapaNegocio.Empleado emp)
+        {
+            txtNombre.Text = emp.nombre;
+            txtApellido.Text = emp.apellido;
+            txtNroPuerta.Text = emp.nroPuerta.ToString();
+            txtCalle.Text = emp.calle;
+            txtCiudad.Text = emp.ciudad;
+            txtUsuario.Text = emp.usuario;
+
+            // Seleccionar el rol correspondiente en el ComboBox
+            switch (emp.rol)
+            {
+                case 1: cbEmpleado.SelectedIndex = 0; break;
+                case 2: cbEmpleado.SelectedIndex = 1; break;
+                case 3: cbEmpleado.SelectedIndex = 2; break;
+                case 4: cbEmpleado.SelectedIndex = 3; break;
+            }
+
+            // Cargar los teléfonos del empleado en el ComboBox
+            cbTelefonos.Items.Clear();
+            foreach (string tel in emp.Telefonos)
+            {
+                cbTelefonos.Items.Add(tel);
+            }
+
+            // Seleccionar el primer teléfono si existe
+            if (cbTelefonos.Items.Count > 0)
+            {
+                cbTelefonos.SelectedIndex = 0;
+            }
+        }
+
+        // Método para verificar si el usuario tiene permiso de modificar según su rol
+        private bool PermitirModificarEmpleadoSegunRol(int rolEmpleado)
+        {
+            switch (Program.frmPrincipal.Rol)
+            {
+                case "Gerente":
+                    if (rolEmpleado == 5)
+                    {
+                        MessageBox.Show("No se pueden modificar gerentes.");
+                        return false;
+                    }
+                    break;
+                case "Jefe Servicio":
+                    if (rolEmpleado == 4)
+                    {
+                        MessageBox.Show("No se pueden modificar jefes de servicio.");
+                        return false;
+                    } else if (rolEmpleado == 5)
+                    {
+                        MessageBox.Show("No se pueden modificar gerentes.");
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        // Método para preparar la vista para dar de alta a un nuevo empleado
+        private void PrepararAltaEmpleado()
+        {
+            LimpiarCampos(); // Limpiar campos antes de dar de alta
+            btnBuscar.Enabled = false;
+            pDatos.Visible = true;
+            btnEliminar.Enabled = false;
+            cbEmpleado.SelectedIndex = 0;
+        }
 
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)

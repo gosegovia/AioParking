@@ -131,10 +131,15 @@ namespace CapaPresentacion.EjecutivoServicios
             // Llamar al método Buscar
             byte resultado = c.Buscar();
 
-            switch (resultado)
+            if (c.estado == 0)
             {
-                case 0: // Todo funcionó correctamente
-                    var datosClientes = new List<object>
+                MessageBox.Show("No existe el cliente.");
+            } else
+            {
+                switch (resultado)
+                {
+                    case 0: // Todo funcionó correctamente
+                        var datosClientes = new List<object>
             {
                 new
                 {
@@ -149,25 +154,26 @@ namespace CapaPresentacion.EjecutivoServicios
                 }
             };
 
-                    dgvCliente.DataSource = null; // Resetear el DataGridView
-                    dgvCliente.DataSource = datosClientes; // Asignar el cliente encontrado
-                    break;
+                        dgvCliente.DataSource = null; // Resetear el DataGridView
+                        dgvCliente.DataSource = datosClientes; // Asignar el cliente encontrado
+                        break;
 
-                case 1:
-                    MessageBox.Show("La conexión a la base de datos está cerrada.");
-                    break;
+                    case 1:
+                        MessageBox.Show("La conexión a la base de datos está cerrada.");
+                        break;
 
-                case 2:
-                    MessageBox.Show("Error en la ejecución de la consulta.");
-                    break;
+                    case 2:
+                        MessageBox.Show("Error en la ejecución de la consulta.");
+                        break;
 
-                case 3:
-                    MessageBox.Show("No se encontró un cliente con esa cédula.");
-                    break;
+                    case 3:
+                        MessageBox.Show("No se encontró un cliente con esa cédula.");
+                        break;
 
-                default:
-                    MessageBox.Show("Error desconocido.");
-                    break;
+                    default:
+                        MessageBox.Show("Error desconocido.");
+                        break;
+                }
             }
         }
 

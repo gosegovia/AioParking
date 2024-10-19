@@ -873,6 +873,7 @@ GRANT SELECT, INSERT, UPDATE ON Plaza TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Reserva TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Solicita TO 'eje'@'%';
 GRANT SELECT ON Lavado TO 'eje'@'%';
+GRANT SELECT ON Usa TO 'eje'@'%';
 GRANT SELECT ON Alineacion_Balanceo TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Hace TO 'eje'@'%';
 

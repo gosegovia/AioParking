@@ -122,6 +122,11 @@ namespace CapaPresentacion.JefeServicios
             // Llamar al método Buscar
             byte resultado = emp.BuscarEmpleado();
 
+            if(emp.estado == 0)
+            {
+                MessageBox.Show("No existe el empleado.");
+            }
+
             switch (resultado)
             {
                 case 0: // Todo funcionó correctamente
@@ -150,15 +155,11 @@ namespace CapaPresentacion.JefeServicios
                     break;
 
                 case 2:
-                    MessageBox.Show("Error en la ejecución de la consulta.");
+                    MessageBox.Show("Error 2");
                     break;
 
                 case 3:
-                    MessageBox.Show("No se encontró un empleado con esa cédula.");
-                    break;
-
-                default:
-                    MessageBox.Show("Error desconocido.");
+                    MessageBox.Show("Error 3");
                     break;
             }
         }

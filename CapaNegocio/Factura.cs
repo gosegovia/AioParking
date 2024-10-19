@@ -640,13 +640,33 @@ namespace CapaNegocio
                 return 1; // Conexión cerrada
             }
 
-            // Consulta SQL corregida
-            string sql = "SELECT f.id_factura " +
-                         "FROM Factura f " +
-                         "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
+            // Verificar si el cliente es "Mensual"
+            string sql = "SELECT c.tipo_cliente " +
+                         "FROM Cliente c " +
+                         "JOIN Factura f ON f.ci_cliente = c.ci " +
                          "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
-                         "AND f.factura_paga = 0 " +
-                         "AND u.id_lavado IS NULL;";
+                         "AND c.tipo_cliente = 'Mensual';";
+
+            try
+            {
+                dt = _conexion.EjecutarSelect(sql);
+                if (dt.Rows.Count == 0)
+                {
+                    return 2; // Error: El cliente no es de tipo "Mensual"
+                }
+            }
+            catch
+            {
+                return 3; // Error al ejecutar la consulta para verificar el tipo de cliente
+            }
+
+            // Consulta SQL 
+            sql = "SELECT f.id_factura " +
+                  "FROM Factura f " +
+                  "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
+                  "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
+                  "AND f.factura_paga = 0 " +
+                  "AND u.id_lavado IS NULL;";
 
             try
             {
@@ -654,7 +674,7 @@ namespace CapaNegocio
             }
             catch
             {
-                return 2; // Error al ejecutar la consulta
+                return 4; // Error al ejecutar la consulta
             }
 
             if (dt.Rows.Count > 0)
@@ -676,7 +696,7 @@ namespace CapaNegocio
 
                     if (!filasAfectadas)
                     {
-                        return 3; // Error: No se insertó la factura
+                        return 5; // Error: No se insertó la factura
                     }
 
                     string ultimoID = "SELECT LAST_INSERT_ID();";
@@ -688,12 +708,12 @@ namespace CapaNegocio
                     }
                     else
                     {
-                        return 4; // Error: No se obtuvo el ID de la factura
+                        return 6; // Error: No se obtuvo el ID de la factura
                     }
                 }
                 catch
                 {
-                    return 5; // Error en la inserción de la factura
+                    return 7; // Error en la inserción de la factura
                 }
             }
 
@@ -706,12 +726,12 @@ namespace CapaNegocio
 
                 if (!filasAfectadas)
                 {
-                    return 6; // Error: No se insertó el uso del lavado
+                    return 8; // Error: No se insertó el uso del lavado
                 }
             }
             catch
             {
-                return 7;
+                return 9;
             }
 
             return resultado; // Retornar 0 si todo salió bien
