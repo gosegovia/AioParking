@@ -368,7 +368,7 @@ namespace CapaNegocio
                 throw new InvalidOperationException("La conexión está cerrada.");
 
             var resultado = new Dictionary<int, int>();
-            string sql = "SELECT v.id_tipo, COUNT(*) AS Cantidad " +
+            string sql = "SELECT v.id_tipo, COUNT(DISTINCT p.id_parking) AS Cantidad " +
                 "FROM Vehiculo v " +
                 "JOIN Factura f ON v.matricula = f.matricula " +
                 "JOIN Solicita s ON f.id_factura = s.id_factura " +
