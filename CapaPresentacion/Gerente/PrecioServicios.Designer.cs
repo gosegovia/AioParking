@@ -34,6 +34,7 @@ namespace CapaPresentacion.Gerente
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabNeumatico = new System.Windows.Forms.TabPage();
+            this.dgvNeumatico = new System.Windows.Forms.DataGridView();
             this.pDatosNeumatico = new System.Windows.Forms.Panel();
             this.txtStock = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -50,6 +51,7 @@ namespace CapaPresentacion.Gerente
             this.txtNeumatico = new System.Windows.Forms.TextBox();
             this.lblNeumatico = new System.Windows.Forms.Label();
             this.tabLavadero = new System.Windows.Forms.TabPage();
+            this.dgvLavado = new System.Windows.Forms.DataGridView();
             this.pDatosLavado = new System.Windows.Forms.Panel();
             this.lblNombreLavado = new System.Windows.Forms.Label();
             this.btnCancelarLavado = new System.Windows.Forms.Button();
@@ -61,6 +63,7 @@ namespace CapaPresentacion.Gerente
             this.txtLavado = new System.Windows.Forms.TextBox();
             this.lblLavado = new System.Windows.Forms.Label();
             this.tabAyB = new System.Windows.Forms.TabPage();
+            this.dgvServicio = new System.Windows.Forms.DataGridView();
             this.btnBuscarAyB = new System.Windows.Forms.Button();
             this.txtAyB = new System.Windows.Forms.TextBox();
             this.lblAyB = new System.Windows.Forms.Label();
@@ -71,19 +74,16 @@ namespace CapaPresentacion.Gerente
             this.txtPrecioAyB = new System.Windows.Forms.TextBox();
             this.lblPrecioAyB = new System.Windows.Forms.Label();
             this.lblNombreAyBText = new System.Windows.Forms.Label();
-            this.dgvNeumatico = new System.Windows.Forms.DataGridView();
-            this.dgvLavado = new System.Windows.Forms.DataGridView();
-            this.dgvServicio = new System.Windows.Forms.DataGridView();
             this.tabControl1.SuspendLayout();
             this.tabNeumatico.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).BeginInit();
             this.pDatosNeumatico.SuspendLayout();
             this.tabLavadero.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLavado)).BeginInit();
             this.pDatosLavado.SuspendLayout();
             this.tabAyB.SuspendLayout();
-            this.pDatosAyB.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvLavado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServicio)).BeginInit();
+            this.pDatosAyB.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -128,6 +128,15 @@ namespace CapaPresentacion.Gerente
             this.tabNeumatico.TabIndex = 0;
             this.tabNeumatico.Text = "Neumático";
             this.tabNeumatico.UseVisualStyleBackColor = true;
+            // 
+            // dgvNeumatico
+            // 
+            this.dgvNeumatico.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvNeumatico.Location = new System.Drawing.Point(332, 110);
+            this.dgvNeumatico.Name = "dgvNeumatico";
+            this.dgvNeumatico.RowTemplate.Height = 25;
+            this.dgvNeumatico.Size = new System.Drawing.Size(459, 221);
+            this.dgvNeumatico.TabIndex = 19;
             // 
             // pDatosNeumatico
             // 
@@ -335,6 +344,15 @@ namespace CapaPresentacion.Gerente
             this.tabLavadero.Text = "Lavadero";
             this.tabLavadero.UseVisualStyleBackColor = true;
             // 
+            // dgvLavado
+            // 
+            this.dgvLavado.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvLavado.Location = new System.Drawing.Point(358, 105);
+            this.dgvLavado.Name = "dgvLavado";
+            this.dgvLavado.RowTemplate.Height = 25;
+            this.dgvLavado.Size = new System.Drawing.Size(396, 201);
+            this.dgvLavado.TabIndex = 29;
+            // 
             // pDatosLavado
             // 
             this.pDatosLavado.Controls.Add(this.lblNombreLavado);
@@ -474,6 +492,15 @@ namespace CapaPresentacion.Gerente
             this.tabAyB.Text = "Alineación y Balanceo";
             this.tabAyB.UseVisualStyleBackColor = true;
             // 
+            // dgvServicio
+            // 
+            this.dgvServicio.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvServicio.Location = new System.Drawing.Point(419, 105);
+            this.dgvServicio.Name = "dgvServicio";
+            this.dgvServicio.RowTemplate.Height = 25;
+            this.dgvServicio.Size = new System.Drawing.Size(396, 201);
+            this.dgvServicio.TabIndex = 29;
+            // 
             // btnBuscarAyB
             // 
             this.btnBuscarAyB.BackColor = System.Drawing.Color.DodgerBlue;
@@ -520,10 +547,10 @@ namespace CapaPresentacion.Gerente
             this.pDatosAyB.Controls.Add(this.txtPrecioAyB);
             this.pDatosAyB.Controls.Add(this.lblPrecioAyB);
             this.pDatosAyB.Controls.Add(this.lblNombreAyBText);
-            this.pDatosAyB.Location = new System.Drawing.Point(112, 91);
+            this.pDatosAyB.Location = new System.Drawing.Point(17, 122);
             this.pDatosAyB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pDatosAyB.Name = "pDatosAyB";
-            this.pDatosAyB.Size = new System.Drawing.Size(238, 252);
+            this.pDatosAyB.Size = new System.Drawing.Size(384, 159);
             this.pDatosAyB.TabIndex = 7;
             // 
             // lblNombreAyB
@@ -598,33 +625,6 @@ namespace CapaPresentacion.Gerente
             this.lblNombreAyBText.TabIndex = 4;
             this.lblNombreAyBText.Text = "Nombre";
             // 
-            // dgvNeumatico
-            // 
-            this.dgvNeumatico.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvNeumatico.Location = new System.Drawing.Point(332, 110);
-            this.dgvNeumatico.Name = "dgvNeumatico";
-            this.dgvNeumatico.RowTemplate.Height = 25;
-            this.dgvNeumatico.Size = new System.Drawing.Size(459, 221);
-            this.dgvNeumatico.TabIndex = 19;
-            // 
-            // dgvLavado
-            // 
-            this.dgvLavado.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvLavado.Location = new System.Drawing.Point(358, 105);
-            this.dgvLavado.Name = "dgvLavado";
-            this.dgvLavado.RowTemplate.Height = 25;
-            this.dgvLavado.Size = new System.Drawing.Size(396, 201);
-            this.dgvLavado.TabIndex = 29;
-            // 
-            // dgvServicio
-            // 
-            this.dgvServicio.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvServicio.Location = new System.Drawing.Point(365, 105);
-            this.dgvServicio.Name = "dgvServicio";
-            this.dgvServicio.RowTemplate.Height = 25;
-            this.dgvServicio.Size = new System.Drawing.Size(396, 201);
-            this.dgvServicio.TabIndex = 29;
-            // 
             // PrecioServicios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -640,19 +640,19 @@ namespace CapaPresentacion.Gerente
             this.tabControl1.ResumeLayout(false);
             this.tabNeumatico.ResumeLayout(false);
             this.tabNeumatico.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).EndInit();
             this.pDatosNeumatico.ResumeLayout(false);
             this.pDatosNeumatico.PerformLayout();
             this.tabLavadero.ResumeLayout(false);
             this.tabLavadero.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvLavado)).EndInit();
             this.pDatosLavado.ResumeLayout(false);
             this.pDatosLavado.PerformLayout();
             this.tabAyB.ResumeLayout(false);
             this.tabAyB.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvServicio)).EndInit();
             this.pDatosAyB.ResumeLayout(false);
             this.pDatosAyB.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvNeumatico)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvLavado)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvServicio)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
