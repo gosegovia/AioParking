@@ -218,16 +218,15 @@ namespace CapaNegocio
             }
             return resultado; // Todo funciono correctamente
         }
-
         public void GenerarFacturaPDF(string matricula)
         {
             try
             {
                 // Obtener la ruta de la carpeta "Documentos"
                 string documentosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string carpetaFacturas = Path.Combine(documentosPath, "Facturas");
 
                 // Crear la carpeta "Facturas" dentro de "Documentos", si no existe
-                string carpetaFacturas = Path.Combine(documentosPath, "Facturas");
                 if (!Directory.Exists(carpetaFacturas))
                 {
                     Directory.CreateDirectory(carpetaFacturas);
@@ -242,109 +241,115 @@ namespace CapaNegocio
                 doc.Open();
 
                 // Fuentes para diferentes secciones
-                Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 20);
-                Font sectionTitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 14);
-                Font regularFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
-                Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 22);
+                Font sectionTitleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12);
+                Font regularFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                Font boldFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
 
-                // Añadir título con el nombre de la empresa
-                Paragraph title = new Paragraph("Aio Parking", titleFont);
-                title.Alignment = Element.ALIGN_CENTER;
+                // Encabezado de la factura
+                Paragraph title = new Paragraph("Aio Parking", titleFont) { Alignment = Element.ALIGN_CENTER };
                 doc.Add(title);
 
-                doc.Add(new Paragraph("----------------------------------------------------------------------------------------------------------------------------------", regularFont));
+                Paragraph companyInfo = new Paragraph("Jacinto Vera, Luis Alberto de Herrera, entre Marne y Gualeguay\nContacto: +598 1234 5678 | aio_parking@gmail.com", regularFont)
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    SpacingAfter = 20
+                };
+                doc.Add(companyInfo);
 
-                // Información de la empresa
-                doc.Add(new Paragraph("Jacinto Vera, Luis Alberto de Herrera, entre Marne y Gualeguay\n", regularFont));
-                doc.Add(new Paragraph($"Fecha de emisión: {DateTime.Now:dd/MM/yyyy}\n", regularFont));
-                doc.Add(new Paragraph($"Factura N°: {facturaId}", regularFont));
+                // Detalles de la factura
+                doc.Add(new Paragraph($"Fecha de emisión: {DateTime.Now:dd/MM/yyyy}", regularFont));
+                doc.Add(new Paragraph($"Factura N°: {facturaId}\n", regularFont));
 
-                doc.Add(new Paragraph("----------------------------------------------------------------------------------------------------------------------------------", regularFont));
+                // Línea divisoria sutil
+                doc.Add(new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(1f, 100f, BaseColor.GRAY, Element.ALIGN_CENTER, -1))));
 
                 // Datos del cliente
-                doc.Add(new Paragraph("Datos de la factura:", sectionTitleFont));
-                doc.Add(new Paragraph($"Matrícula: {matricula}", regularFont));
-                doc.Add(new Paragraph(" ", sectionTitleFont));
+                Paragraph clienteInfo = new Paragraph($"Matrícula: {matricula}\n\n", regularFont) { SpacingAfter = 10 };
+                doc.Add(clienteInfo);
 
-                // Crear una tabla para listar los productos/servicios y precios
-                PdfPTable table = new PdfPTable(4); // 4 columnas: Descripción, Cantidad, Precio Unitario, Precio Total
-                table.WidthPercentage = 100;
-                table.SetWidths(new float[] { 38f, 12f, 20f, 20f });
+                // Tabla de servicios
+                PdfPTable table = new PdfPTable(4) { WidthPercentage = 100 };
+                table.SetWidths(new float[] { 40f, 15f, 20f, 25f });
 
-                // Encabezado de la tabla
-                table.AddCell(new PdfPCell(new Phrase("Descripción", boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
-                table.AddCell(new PdfPCell(new Phrase("Cantidad", boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
-                table.AddCell(new PdfPCell(new Phrase("Precio Unitario", boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
-                table.AddCell(new PdfPCell(new Phrase("Precio Total", boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
+                // Encabezados de columna con estilo
+                PdfPCell headerCell;
+                string[] headers = { "Descripción", "Cantidad", "Precio Unitario", "Precio Total" };
+                foreach (string header in headers)
+                {
+                    headerCell = new PdfPCell(new Phrase(header, boldFont))
+                    {
+                        BackgroundColor = new BaseColor(230, 230, 250),
+                        HorizontalAlignment = Element.ALIGN_CENTER,
+                        Padding = 5
+                    };
+                    table.AddCell(headerCell);
+                }
 
                 // Inicializar el total
                 double precioTotal = 0;
 
-                // Parking
+                // Agregar filas a la tabla para cada servicio
+                void AddServiceRow(string description, string quantity, string unitPrice, string totalPrice)
+                {
+                    table.AddCell(new PdfPCell(new Phrase(description, regularFont)) { Padding = 5 });
+                    table.AddCell(new PdfPCell(new Phrase(quantity, regularFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                    table.AddCell(new PdfPCell(new Phrase(unitPrice, regularFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                    table.AddCell(new PdfPCell(new Phrase(totalPrice, regularFont)) { HorizontalAlignment = Element.ALIGN_CENTER, Padding = 5 });
+                }
+
+                // Ejemplos de servicios (ajusta estos bloques según los servicios)
                 if (Parking.precioParking > 0)
                 {
                     TimeSpan duracionParking = Parking.HoraSalida - Parking.HoraEntrada;
-                    table.AddCell(new Phrase("Parking", regularFont));
-                    table.AddCell(new Phrase($"{Math.Ceiling(duracionParking.TotalHours)}", regularFont)); // Cantidad en horas
-                    table.AddCell(new Phrase($"${Parking.precioParking}", regularFont));
-                    table.AddCell(new Phrase($"${Parking.precioParking}", regularFont));
+                    AddServiceRow("Parking", $"{Math.Ceiling(duracionParking.TotalHours)}", $"${Parking.precioParking}", $"${Parking.precioParking}");
                     precioTotal += Parking.precioParking;
                 }
 
-                // Alineación y Balanceo
                 if (AlineacionBalanceo.aybNombre != "ne")
                 {
-                    table.AddCell(new Phrase($"{AlineacionBalanceo.aybNombre}", regularFont));
-                    table.AddCell(new Phrase("1", regularFont)); // Cantidad siempre será 1 para servicios
-                    table.AddCell(new Phrase($"${AlineacionBalanceo.aybPrecio}", regularFont));
-                    table.AddCell(new Phrase($"${AlineacionBalanceo.aybPrecio}", regularFont));
+                    AddServiceRow(AlineacionBalanceo.aybNombre, "1", $"${AlineacionBalanceo.aybPrecio}", $"${AlineacionBalanceo.aybPrecio}");
                     precioTotal += AlineacionBalanceo.aybPrecio;
                 }
 
-                // Lavado
                 if (Lavado.LavadoNombre != "ne")
                 {
-                    table.AddCell(new Phrase($"{Lavado.LavadoNombre}", regularFont));
-                    table.AddCell(new Phrase("1", regularFont));
-                    table.AddCell(new Phrase($"${Lavado.LavadoPrecio}", regularFont));
-                    table.AddCell(new Phrase($"${Lavado.LavadoPrecio}", regularFont));
+                    AddServiceRow(Lavado.LavadoNombre, "1", $"${Lavado.LavadoPrecio}", $"${Lavado.LavadoPrecio}");
                     precioTotal += Lavado.LavadoPrecio;
                 }
 
-                // Neumáticos
                 if (Neumatico.neumaticoNombre != "ne")
                 {
                     double precioNeumaticoTotal = (Neumatico.neumaticoPrecio / Neumatico.neumaticoCantidad) * Neumatico.neumaticoCantidad;
-                    table.AddCell(new Phrase($"{Neumatico.neumaticoNombre}", regularFont));
-                    table.AddCell(new Phrase($"{Neumatico.neumaticoCantidad}", regularFont));
-                    table.AddCell(new Phrase($"${(Neumatico.neumaticoPrecio / Neumatico.neumaticoCantidad)}", regularFont));
-                    table.AddCell(new Phrase($"${precioNeumaticoTotal}", regularFont));
+                    AddServiceRow(Neumatico.neumaticoNombre, $"{Neumatico.neumaticoCantidad}", $"${Neumatico.neumaticoPrecio / Neumatico.neumaticoCantidad}", $"${precioNeumaticoTotal}");
                     precioTotal += precioNeumaticoTotal;
                 }
 
-                // Añadir fila del total
-                PdfPCell emptyCell = new PdfPCell(new Phrase("")); // Celda vacía para alineación
-                emptyCell.Border = PdfPCell.NO_BORDER;
-                table.AddCell(emptyCell); // Celda vacía para "Descripción"
-                table.AddCell(emptyCell); // Celda vacía para "Cantidad"
-                table.AddCell(new PdfPCell(new Phrase("Total a pagar:", boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
-                table.AddCell(new PdfPCell(new Phrase($"${precioTotal}", boldFont)) { HorizontalAlignment = Element.ALIGN_CENTER });
+                // Subtotal, IVA, y Total
+                double iva = precioTotal * 0.22;
+                double totalConIva = precioTotal + iva;
 
-                // Añadir la tabla al documento
+                // Añadir la tabla de servicios al documento
                 doc.Add(table);
 
-                doc.Add(new Paragraph("----------------------------------------------------------------------------------------------------------------------------------", regularFont));
+                // Línea divisoria sutil
+                doc.Add(new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(1f, 100f, BaseColor.GRAY, Element.ALIGN_CENTER, -1))));
 
-                // Pie de página con información adicional
-                doc.Add(new Paragraph("Gracias por elegir Aio Parking.\n", regularFont));
+                // Resumen de costos
+                PdfPTable summaryTable = new PdfPTable(2) { WidthPercentage = 50, HorizontalAlignment = Element.ALIGN_RIGHT };
+                summaryTable.AddCell(new PdfPCell(new Phrase("Subtotal:", boldFont)) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                summaryTable.AddCell(new PdfPCell(new Phrase($"${precioTotal:F2}", regularFont)) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                summaryTable.AddCell(new PdfPCell(new Phrase("IVA (22%):", boldFont)) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                summaryTable.AddCell(new PdfPCell(new Phrase($"${iva:F2}", regularFont)) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                summaryTable.AddCell(new PdfPCell(new Phrase("Total a Pagar:", boldFont)) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
+                summaryTable.AddCell(new PdfPCell(new Phrase($"${totalConIva:F2}", boldFont)) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_RIGHT });
 
-                // Información de contacto
-                doc.Add(new Paragraph("Contacto: +598 1234 5678 | aio_parking@gmail.com\n", regularFont));
+                doc.Add(summaryTable);
 
-                // Cerrar el documento PDF
+                // Pie de página
+                doc.Add(new Paragraph("\n¡Gracias por elegir Aio Parking!", regularFont) { Alignment = Element.ALIGN_CENTER });
                 doc.Close();
 
-                // Abrir el archivo PDF en el visor predeterminado
                 Process.Start(new ProcessStartInfo(pdfFilePath) { UseShellExecute = true });
             }
             catch (Exception ex)
