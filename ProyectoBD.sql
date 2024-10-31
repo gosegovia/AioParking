@@ -242,7 +242,6 @@ INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VA
 (70987654, 'Paula', 'Molina', 130, 'Calle de los Arrayanes', 'San José', 1);
 
 INSERT INTO Cliente (ci, tipo_cliente) VALUES 
-(56303446, 'Eventual'),
 (43210987, 'Eventual'),
 (11111111, 'Eventual'),
 (45678901, 'Eventual'),
@@ -256,7 +255,8 @@ INSERT INTO Cliente (ci, tipo_cliente) VALUES
 (70987654, 'Eventual'),
 
 (43214321, 'Mensual'),
-(54839454, 'Mensual'), 
+(54839454, 'Mensual'),
+(56303446, 'Mensual'),
 (38765432, 'Mensual'), 
 (26543210, 'Mensual'),
 (15432109, 'Mensual'), 

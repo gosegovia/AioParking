@@ -221,7 +221,6 @@ namespace CapaPresentacion.JefeServicios
         // Método para limpiar los campos
         private void LimpiarCampos()
         {
-            txtCI.Clear();
             txtNombre.Clear();
             txtApellido.Clear();
             txtNroPuerta.Clear();
@@ -300,6 +299,7 @@ namespace CapaPresentacion.JefeServicios
         private void PrepararAltaEmpleado()
         {
             LimpiarCampos(); // Limpiar campos antes de dar de alta
+            txtCI.Enabled = false;
             btnBuscar.Enabled = false;
             pDatos.Visible = true;
             btnEliminar.Enabled = false;

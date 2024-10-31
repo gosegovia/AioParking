@@ -138,7 +138,7 @@ namespace CapaNegocio
             // Verificar si la conexión está abierta
             if (!_conexion.Abierta())
             {
-                return (1, fechaLavado); // Conexión cerrada
+                return (1, fechaLavado); // Código 1: Conexión cerrada
             }
 
             // Definir la consulta SQL
@@ -155,16 +155,21 @@ namespace CapaNegocio
                 DataTable dt = _conexion.EjecutarSelect(sql);
 
                 // Validar si se encontraron registros
-                if (dt.Rows.Count != 0)
+                if (dt.Rows.Count > 0)
                 {
                     DataRow row = dt.Rows[0];
-                    LavadoId = Convert.ToInt32(row["id_factura"]);
+                    int lavadoId = Convert.ToInt32(row["id_factura"]); // Variable local, si es necesaria en otro contexto, puedes retornarla
                     fechaLavado = Convert.ToDateTime(row["fecha"]);
+                    resultado = 0; // Código 0: Registro encontrado y fecha obtenida
+                }
+                else
+                {
+                    resultado = 3; // Código 3: No se encontraron registros dentro del último mes
                 }
             }
             catch (Exception)
             {
-                return (2, fechaLavado); // Error en la consulta
+                return (2, fechaLavado); // Código 2: Error en la consulta
             }
 
             return (resultado, fechaLavado); // Retornar resultado y fecha

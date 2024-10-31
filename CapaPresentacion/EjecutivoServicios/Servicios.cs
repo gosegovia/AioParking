@@ -185,9 +185,8 @@ namespace CapaPresentacion.EjecutivoServicios
                             MessageBox.Show("Error al obtener la conexión.");
                             break;
 
-                        case 2:
-                            MessageBox.Show("Error en la consulta.");
-                            break;
+                        case 2: MessageBox.Show("Error 2."); break;
+                        case 3: MessageBox.Show("No se encontraron registros dentro del último mes."); break;
                     }
                 }
 
