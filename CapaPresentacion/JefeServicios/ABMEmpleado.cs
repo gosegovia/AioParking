@@ -111,7 +111,7 @@ namespace CapaPresentacion.JefeServicios
             }
             else
             {
-                MessageBox.Show("El telefono ya existe en la lista");
+                MessageBox.Show("El teléfono ya existe en la lista.");
             }
         }
 
@@ -119,7 +119,7 @@ namespace CapaPresentacion.JefeServicios
         {
             if (cbTelefonos.Items.IndexOf(cbTelefonos.Text) < 0)
             {
-                MessageBox.Show("El telefono no exste en la lista");
+                MessageBox.Show("El teléfono no existe en la lista.");
             }
             else
             {
@@ -138,7 +138,7 @@ namespace CapaPresentacion.JefeServicios
             // Validar que la cédula sea numérica
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
-                MessageBox.Show("La cédula de identidad debe ser numérica");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
                 return;
             }
 
@@ -372,7 +372,7 @@ namespace CapaPresentacion.JefeServicios
                 switch (emp.Guardar(btnEliminar.Enabled))
                 {
                     case 0: // Se realizo sin problemas
-                        MessageBox.Show("Se ingreso el empleado.");
+                        MessageBox.Show("Se ingresó el empleado.");
 
                         txtCI.Text = "";
                         btnBuscar.Enabled = true;

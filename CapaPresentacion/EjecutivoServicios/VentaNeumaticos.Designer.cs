@@ -390,7 +390,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCi.Name = "lblCi";
             this.lblCi.Size = new System.Drawing.Size(58, 18);
             this.lblCi.TabIndex = 0;
-            this.lblCi.Text = "Cedula";
+            this.lblCi.Text = "Cédula";
             // 
             // VentaNeumaticos
             // 

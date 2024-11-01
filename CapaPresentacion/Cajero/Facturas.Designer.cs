@@ -434,13 +434,13 @@ namespace CapaPresentacion.Cajero
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(196, 16);
+            this.lblCI.Location = new System.Drawing.Point(210, 16);
             this.lblCI.Name = "lblCI";
             this.lblCI.Size = new System.Drawing.Size(58, 18);
             this.lblCI.TabIndex = 3;
-            this.lblCI.Text = "Cedula";
+            this.lblCI.Text = "Cédula";
             // 
-            // Factura
+            // Facturas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -455,7 +455,7 @@ namespace CapaPresentacion.Cajero
             this.Font = new System.Drawing.Font("Arial", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "Factura";
+            this.Name = "Facturas";
             this.Text = "Factura";
             this.Load += new System.EventHandler(this.Factura_Load);
             this.pMatricula.ResumeLayout(false);

@@ -97,7 +97,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(423, 28);
+            this.btnBuscar.Location = new System.Drawing.Point(453, 28);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -111,7 +111,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCI.BackColor = System.Drawing.Color.LightBlue;
             this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(281, 28);
+            this.txtCI.Location = new System.Drawing.Point(311, 28);
             this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCI.Multiline = true;
             this.txtCI.Name = "txtCI";
@@ -125,11 +125,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(255, 32);
+            this.lblCI.Location = new System.Drawing.Point(245, 32);
             this.lblCI.Name = "lblCI";
-            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.Size = new System.Drawing.Size(58, 18);
             this.lblCI.TabIndex = 0;
-            this.lblCI.Text = "CI";
+            this.lblCI.Text = "Cédula";
             // 
             // btnListar
             // 
@@ -138,7 +138,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnListar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnListar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnListar.ForeColor = System.Drawing.Color.White;
-            this.btnListar.Location = new System.Drawing.Point(504, 28);
+            this.btnListar.Location = new System.Drawing.Point(534, 28);
             this.btnListar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnListar.Name = "btnListar";
             this.btnListar.Size = new System.Drawing.Size(75, 25);

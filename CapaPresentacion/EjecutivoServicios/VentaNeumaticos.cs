@@ -33,7 +33,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
             if (!Int32.TryParse(txtCi.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
@@ -51,13 +51,13 @@ namespace CapaPresentacion.EjecutivoServicios
 
                         break;
                     case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
+                        MessageBox.Show("Debe logearse nuevamente."); break;
                     case 2:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin."); break;
                     case 3: // No encontró
                         if (txtCi.TextLength != 8)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         else
                         {
@@ -86,7 +86,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // Validar que el CI no esté vacío y sea un número válido
             if (!int.TryParse(txtCi.Text.Trim(), out int ci))
             {
-                MessageBox.Show("Ingrese un CI válido.");
+                MessageBox.Show("Ingrese una cédula válido.");
                 return;
             }
 
@@ -145,7 +145,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // Validaciones
             if (Convert.ToInt32(txtCantidad.Text) > Convert.ToInt32(lblStock.Text))
             {
-                MessageBox.Show("La cantidad es mayor al stock");
+                MessageBox.Show("La cantidad es mayor al stock.");
             }
             else
             {
@@ -164,7 +164,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 switch (s.ventaNeumatico())
                 {
                     case 0:
-                        MessageBox.Show("La compra de neumático se guardó correctamente!");
+                        MessageBox.Show("La compra de neumático se guardó correctamente.");
 
                         txtCi.Enabled = true;
                         txtCi.Text = "";
@@ -188,15 +188,15 @@ namespace CapaPresentacion.EjecutivoServicios
                         break;
 
                     case 2:
-                        MessageBox.Show("Error 2");
+                        MessageBox.Show("Error 2.");
                         break;
 
                     case 3:
-                        MessageBox.Show("Error 3");
+                        MessageBox.Show("Error 3.");
                         break;
 
                     case 4:
-                        MessageBox.Show("Error 4");
+                        MessageBox.Show("Error 4.");
                         break;
 
                     case 5:
@@ -312,9 +312,9 @@ namespace CapaPresentacion.EjecutivoServicios
                     MessageBox.Show("No se encontraron neumáticos en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los neumáticos: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los neumáticos.");
             }
         }
 

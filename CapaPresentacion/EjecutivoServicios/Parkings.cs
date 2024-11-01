@@ -56,7 +56,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
             if (!Int32.TryParse(txtTicket.Text, out ticket))
             {
-                MessageBox.Show("El ticket debe ser numerico.");
+                MessageBox.Show("El ticket debe ser numérico.");
             }
             else
             {
@@ -77,11 +77,11 @@ namespace CapaPresentacion.EjecutivoServicios
                         pDatos.Visible = true;
                         break;
                     case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
+                        MessageBox.Show("Debe logearse nuevamente."); break;
                     case 2:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin."); break;
                     case 3: // No encontro
-                        MessageBox.Show("Formato incorrecto");
+                        MessageBox.Show("Formato incorrecto.");
                         break;
                 }
                 p = null; // Destruyo el objeto
@@ -95,7 +95,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // Validaciones
             if (dtpEntrada.Value >= dtpSalida.Value)
             {
-                MessageBox.Show("La hora de entrada no puede ser mayor o igual a la hora de salida");
+                MessageBox.Show("La hora de entrada no puede ser mayor o igual a la hora de salida.");
             }
             else
             {
@@ -114,7 +114,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         switch (p.GuardarParking())
                         {
                             case 0:
-                                MessageBox.Show("El parking se guardo correctamente!");
+                                MessageBox.Show("El parking se guardo correctamente.");
 
                                 txtTicket.Enabled = true;
                                 txtTicket.Text = "";
@@ -140,7 +140,7 @@ namespace CapaPresentacion.EjecutivoServicios
                             case 12: MessageBox.Show("Error 12"); break;
                         }
                         break;
-                    case 1: MessageBox.Show("Error al obtener la conexion."); break;
+                    case 1: MessageBox.Show("Error al obtener la conexión."); break;
                     case 2: MessageBox.Show("Error 2."); break;
                 }
 

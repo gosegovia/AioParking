@@ -101,9 +101,9 @@ namespace CapaPresentacion.EjecutivoServicios
                     MessageBox.Show("No se encontraron clientes en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los clientes: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los clientes.");
             }
         }
 

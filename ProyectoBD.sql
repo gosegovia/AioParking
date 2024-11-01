@@ -940,30 +940,55 @@ GRANT SELECT, INSERT ON Ticket TO 'ope'@'%';
 
 FLUSH PRIVILEGES;
 
-/*
+
 -- CONSULTAS SQL 
+
 -- CONSULTA 1
-SELECT id_factura, ci, matricula, factura_paga, fecha 
+-- Listar todas las facturas realizadas en el último mes
+SELECT id_factura, ci_cliente, matricula, factura_paga, fecha 
 FROM Factura
 WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
 
+SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
+       par.hora_entrada, par.hora_salida, r.id_plaza, s.precio_solicita,
+       l.nombre_lavado, u.precio_usa,
+       ayb.nombre_ayb, h.precio_hace,
+       n.nombre_neumatico, c.cantidad_compra, c.precio_compra
+FROM Factura f
+LEFT JOIN Solicita s ON f.id_factura = s.id_factura
+LEFT JOIN Parking par ON s.id_parking = par.id_parking
+LEFT JOIN Reserva r ON r.id_parking = par.id_parking
+LEFT JOIN Usa u ON u.id_factura = f.id_factura
+LEFT JOIN Lavado l ON u.id_lavado = l.id_lavado
+LEFT JOIN Hace h ON h.id_factura = f.id_factura
+LEFT JOIN Alineacion_Balanceo ayb ON h.id_ayb = ayb.id_ayb
+LEFT JOIN Compra c ON c.id_factura = f.id_factura
+LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
+order by f.id_factura;
+
 -- CONSULTA 2 -- COALESCA devuelve 0 si no encuentra
-SELECT f.ci, 
+-- nombre, 
+-- Listar el top 5 de clientes que más gastaron en el último mes
+SELECT f.ci_cliente, p.nombre, p.apellido, t.telefono, 
        SUM(COALESCE(s.precio_solicita, 0) + 
            COALESCE(c.precio_compra * c.cantidad_compra, 0) + 
            COALESCE(h.precio_hace, 0) + 
            COALESCE(u.precio_usa, 0)) AS total_gastado
- FROM Factura f
- LEFT JOIN Solicita s ON s.id_factura = f.id_factura
- LEFT JOIN Compra c ON c.id_factura = f.id_factura
- LEFT JOIN Hace h ON h.id_factura = f.id_factura
- LEFT JOIN Usa u ON u.id_factura = f.id_factura
- WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
- GROUP BY f.ci
- ORDER BY total_gastado DESC
- LIMIT 5;
+FROM Factura f
+JOIN Persona p ON p.ci = f.ci_cliente
+LEFT JOIN Solicita s ON s.id_factura = f.id_factura
+LEFT JOIN Compra c ON c.id_factura = f.id_factura
+LEFT JOIN Hace h ON h.id_factura = f.id_factura
+LEFT JOIN Usa u ON u.id_factura = f.id_factura
+LEFT JOIN Telefono t ON p.ci = t.ci
+WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+GROUP BY f.ci_cliente
+ORDER BY total_gastado DESC
+LIMIT 5;
+
 
 -- CONSULTA 3
+-- Listar el top 5 de los autos más lavados en el último anio
 SELECT f.matricula, COUNT(u.id_factura) AS total_lavados
 FROM Factura f
 JOIN Usa u ON f.id_factura = u.id_factura
@@ -973,6 +998,7 @@ ORDER BY total_lavados DESC
 LIMIT 5;
 
 -- CONSULTA 4
+-- Listar la plaza más usada
 SELECT s.id_plaza, COUNT(s.id_plaza) AS total_usos
 FROM Solicita s
 GROUP BY s.id_plaza
@@ -980,6 +1006,7 @@ ORDER BY total_usos DESC
 LIMIT 1;
 
 -- CONSULTA 5
+-- Listar todos los servicios y sus respectivos precios
 SELECT 'Lavado' AS servicio, nombre_lavado AS nombre, precio_lavado AS precio
 FROM Lavado
 UNION ALL
@@ -990,8 +1017,8 @@ SELECT 'Neumático' AS servicio, CONCAT(nombre_neumatico, ' - ', marca_neumatico
 FROM Neumatico;
 
 -- CONSULTA 6
+-- Listar todos los neumáticos disponibles con su respectivo stock
 SELECT nombre_neumatico, marca_neumatico, stock_neumatico
 FROM Neumatico
 WHERE estado_neumatico = 1
 ORDER BY marca_neumatico DESC;
-*/

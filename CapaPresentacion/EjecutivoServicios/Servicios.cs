@@ -67,7 +67,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
             if (!Int32.TryParse(txtCi.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
@@ -85,20 +85,20 @@ namespace CapaPresentacion.EjecutivoServicios
 
                         break;
                     case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
+                        MessageBox.Show("Debe logearse nuevamente."); break;
                     case 2:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin."); break;
                     case 3: // No encontró
                         if (txtCi.TextLength != 8)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         else
                         {
                             MessageBox.Show("No se encontró el cliente con la cédula ingresada.");
                         }
                         break;
-                    default: MessageBox.Show("Error al obtener la cedula."); break;
+                    default: MessageBox.Show("Error al obtener la cédula."); break;
                 }
                 c = null; // Destruyo el objeto
             }
@@ -118,7 +118,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // Validar que el CI no esté vacío y sea un número válido
             if (!int.TryParse(txtCi.Text.Trim(), out int ci))
             {
-                MessageBox.Show("Ingrese un CI válido.");
+                MessageBox.Show("Ingrese una cédula válido.");
                 return;
             }
 
@@ -203,7 +203,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 switch (f.ventaLavado())
                 {
                     case 0:
-                        MessageBox.Show("La compra de lavado se guardó correctamente!");
+                        MessageBox.Show("La compra de lavado se guardó correctamente.");
 
                         // Limpiar los campos
                         rbLavado.Enabled = true;
@@ -249,7 +249,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 switch (f.ventaAlineacionBalanceo())
                 {
                     case 0:
-                        MessageBox.Show("La compra de alineacion o balanceo se guardó correctamente!");
+                        MessageBox.Show("La compra de alineación o balanceo se guardó correctamente!");
 
                         // Limpiar los campos
                         rbLavado.Enabled = true;
@@ -333,9 +333,9 @@ namespace CapaPresentacion.EjecutivoServicios
                     MessageBox.Show("No se encontraron lavados en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                MessageBox.Show("Ocurrió un error al cargar los lavados: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los lavados.");
             }
         }
 
@@ -369,12 +369,12 @@ namespace CapaPresentacion.EjecutivoServicios
                 }
                 else
                 {
-                    MessageBox.Show("No se encontraron alineacion/balanceo en la base de datos.");
+                    MessageBox.Show("No se encontraron alineación/balanceo en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los datos: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los datos.");
             }
         }
 
@@ -397,7 +397,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 }
                 catch (InvalidCastException ex)
                 {
-                    MessageBox.Show("Error de conversión de datos: " + ex.Message);
+                    MessageBox.Show("Error de conversión de datos." + ex.Message);
                 }
                 catch (Exception ex)
                 {

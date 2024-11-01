@@ -70,7 +70,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
             if (string.IsNullOrEmpty(matricula))
             {
-                MessageBox.Show("La matrícula no puede estar vacía");
+                MessageBox.Show("La matrícula no puede estar vacía.");
             }
             else
             {
@@ -135,13 +135,13 @@ namespace CapaPresentacion.EjecutivoServicios
                                 cbTipoVehiculo.SelectedIndex = 4; // Opción 5
                                 break;
                             default:
-                                MessageBox.Show("Tipo de vehículo no reconocido");
+                                MessageBox.Show("Tipo de vehículo no reconocido.");
                                 break;
                         }
                     break;
 
                     case 1:
-                        MessageBox.Show("Debe loguearse nuevamente");
+                        MessageBox.Show("Debe loguearse nuevamente.");
                     break;
 
                     case 2: MessageBox.Show("Error 2"); break;
@@ -175,7 +175,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
             if (string.IsNullOrEmpty(matricula))
             {
-                MessageBox.Show("La matrícula no puede estar vacía");
+                MessageBox.Show("La matrícula no puede estar vacía.");
             }
             else if (string.IsNullOrEmpty(txtCI.Text))
             {
@@ -204,7 +204,7 @@ namespace CapaPresentacion.EjecutivoServicios
                 switch (v.Guardar(btnEliminar.Enabled))
                 {
                     case 0:
-                        MessageBox.Show("Se ingreso el vehiculo.");
+                        MessageBox.Show("Se ingreso el vehículo.");
 
                         btnBuscar.Enabled = true;
                         txtMatricula.Enabled = true;
@@ -229,7 +229,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
             if (string.IsNullOrEmpty(matricula))
             {
-                MessageBox.Show("La matrícula no puede estar vacía");
+                MessageBox.Show("La matrícula no puede estar vacía.");
             } else
             {
                 v = new Vehiculo();
@@ -297,9 +297,9 @@ namespace CapaPresentacion.EjecutivoServicios
                 cbMarca.DisplayMember = "Text";
                 cbMarca.ValueMember = "Value";
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Error al cargar las marcas: " + ex.Message);
+                MessageBox.Show("Error al cargar las marcas.");
             }
         }
     }

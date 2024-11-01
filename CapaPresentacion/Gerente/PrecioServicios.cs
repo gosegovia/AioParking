@@ -132,7 +132,7 @@ namespace CapaPresentacion.Gerente
                         if (n.neumaticoEstado == 0)
                         {
                             // Pregunta al usuario si desea recuperar al cliente inactivo
-                            DialogResult estadoRespuesta = MessageBox.Show("¿Este neumatico esta dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
+                            DialogResult estadoRespuesta = MessageBox.Show("¿Este neumático está dado de baja, desea recuperarlo?", "Inactivo", MessageBoxButtons.YesNo);
                             if (estadoRespuesta == DialogResult.Yes)
                             {
                                 n.neumaticoEstado = 1; // Cambia el estado del cliente a activo
@@ -162,7 +162,7 @@ namespace CapaPresentacion.Gerente
                         }
                     break;
                     case 1: // Error de conexión
-                        MessageBox.Show("Debe logearse nuevamente");
+                        MessageBox.Show("Debe logearse nuevamente.");
                         break;
 
                     case 2: // Error en la ejecución
@@ -204,7 +204,7 @@ namespace CapaPresentacion.Gerente
             // Validaciónes
             if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
             {
-                MessageBox.Show("El id neumatico debe ser numerico");
+                MessageBox.Show("El ID neumático debe ser numérico.");
             } else
             {
                 n = new Neumatico();
@@ -225,7 +225,7 @@ namespace CapaPresentacion.Gerente
                 switch (n.GuardarNeumatico(btnEliminar.Enabled))
                 {
                     case 0:
-                        MessageBox.Show("Se ingreso el neumatico.");
+                        MessageBox.Show("Se ingresó el neumático.");
                         mostrarDatosNeumaticos();
 
                         btnBuscarNeumatico.Enabled = true;
@@ -241,7 +241,7 @@ namespace CapaPresentacion.Gerente
                     case 1:
                         MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
                     break;
-                    case 2: MessageBox.Show("Error 2"); break;
+                    case 2: MessageBox.Show("Error 2."); break;
                 }
             }
         } // Fin botón guardar neumático
@@ -255,7 +255,7 @@ namespace CapaPresentacion.Gerente
             // Verifica que el neumatico ingresada sea numérica
             if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
             {
-                MessageBox.Show("El id neumatico debe ser numerico.");
+                MessageBox.Show("El ID neumático debe ser numérico.");
             }
             else
             {
@@ -264,7 +264,7 @@ namespace CapaPresentacion.Gerente
                 n.neumaticoId = neumatico;
 
                 // Pregunta al usuario si desea eliminar el cliente
-                DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea eliminar este neumatico?", "Confirmación de Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult respuesta = MessageBox.Show("¿Está seguro de que desea eliminar este neumático?", "Confirmación de Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 // Si la respuesta es 'Yes', procede con la eliminación
                 if (respuesta == DialogResult.Yes)
@@ -346,9 +346,9 @@ namespace CapaPresentacion.Gerente
                     MessageBox.Show("No se encontraron neumáticos en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los neumáticos: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los neumáticos.");
             }
         }
 
@@ -390,7 +390,7 @@ namespace CapaPresentacion.Gerente
             // Validar que la CI sea numérica
             if (!Int32.TryParse(txtLavado.Text, out lavado))
             {
-                MessageBox.Show("El id lavado debe ser numerico.");
+                MessageBox.Show("El ID lavado debe ser numérico.");
             }
             else
             {
@@ -409,16 +409,16 @@ namespace CapaPresentacion.Gerente
                         txtPrecioLavado.Text = l.LavadoPrecio.ToString();
                         break;
                     case 1: // Error de conexión
-                        MessageBox.Show("Debe logearse nuevamente");
+                        MessageBox.Show("Debe logearse nuevamente.");
                         break;
 
                     case 2: // Error en la ejecución
-                        MessageBox.Show("Error 2");
+                        MessageBox.Show("Error 2.");
                         break;
                     case 3: // No encontró lavado
                         if (txtNeumatico.TextLength > 2)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         break;
                 }
@@ -435,7 +435,7 @@ namespace CapaPresentacion.Gerente
             // Validaciónes
             if (!Int32.TryParse(txtLavado.Text, out lavado))
             {
-                MessageBox.Show("El id lavado debe ser numerico.");
+                MessageBox.Show("El ID lavado debe ser numérico.");
             }
             else
             {
@@ -449,7 +449,7 @@ namespace CapaPresentacion.Gerente
                 {
                     case 0:
                         mostrarDatosLavado();
-                        MessageBox.Show("Se actualizo el precio del lavado!");
+                        MessageBox.Show("Se actualizó el precio del lavado.");
 
                         txtLavado.Text = "";
                         txtLavado.Enabled = true;
@@ -462,8 +462,8 @@ namespace CapaPresentacion.Gerente
                     case 1:
                         MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
                         break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 3: MessageBox.Show("Error 3"); break;
+                    case 2: MessageBox.Show("Error 2."); break;
+                    case 3: MessageBox.Show("Error 3."); break;
                 }
             }
         } // Fin botón guardar lavado
@@ -513,9 +513,9 @@ namespace CapaPresentacion.Gerente
                     MessageBox.Show("No se encontraron lavados en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los lavados: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los lavados.");
             }
         }
 
@@ -557,7 +557,7 @@ namespace CapaPresentacion.Gerente
             // Validar que la CI sea numérica
             if (!Int32.TryParse(txtAyB.Text, out aybid))
             {
-                MessageBox.Show("El id alineacion y balanceo debe ser numerico.");
+                MessageBox.Show("El, id alineación y balanceo debe ser numéricos.");
             }
             else
             {
@@ -576,16 +576,16 @@ namespace CapaPresentacion.Gerente
                         txtPrecioAyB.Text = ayb.aybPrecio.ToString();
                         break;
                     case 1: // Error de conexión
-                        MessageBox.Show("Debe logearse nuevamente");
+                        MessageBox.Show("Debe logearse nuevamente.");
                         break;
 
                     case 2: // Error en la ejecución
-                        MessageBox.Show("Error 2");
+                        MessageBox.Show("Error 2.");
                         break;
                     case 3: // No encontró lavado
                         if (txtAyB.TextLength > 2)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         break;
                 }
@@ -602,7 +602,7 @@ namespace CapaPresentacion.Gerente
             // Validaciónes
             if (!Int32.TryParse(txtAyB.Text, out aybid))
             {
-                MessageBox.Show("El id alineacion balanceo debe ser numerico.");
+                MessageBox.Show("El, id alineación y balanceo debe ser numéricos.");
             }
             else
             {
@@ -615,7 +615,7 @@ namespace CapaPresentacion.Gerente
                 switch (ayb.ActualizarAyB())
                 {
                     case 0:
-                        MessageBox.Show("Se actualizo el precio de alineacion/balanceo!");
+                        MessageBox.Show("Se actualizó el precio de alineación/balanceo.");
                         mostrarDatosAyB();
 
                         txtAyB.Text = "";
@@ -629,8 +629,8 @@ namespace CapaPresentacion.Gerente
                     case 1:
                         MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
                         break;
-                    case 2: MessageBox.Show("Error 2"); break;
-                    case 3: MessageBox.Show("Error 3"); break;
+                    case 2: MessageBox.Show("Error 2."); break;
+                    case 3: MessageBox.Show("Error 3."); break;
                 }
             }
         } // Fin botón guardar AyB
@@ -680,9 +680,9 @@ namespace CapaPresentacion.Gerente
                     MessageBox.Show("No se encontraron alineacion/balanceo en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los datos: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los datos.");
             }
         }
 

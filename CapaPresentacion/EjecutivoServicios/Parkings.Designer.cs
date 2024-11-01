@@ -37,6 +37,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtTicket = new System.Windows.Forms.TextBox();
             this.lblTicket = new System.Windows.Forms.Label();
             this.pDatos = new System.Windows.Forms.Panel();
+            this.dtpEntrada = new System.Windows.Forms.DateTimePicker();
             this.lblCi = new System.Windows.Forms.Label();
             this.lblCiTexto = new System.Windows.Forms.Label();
             this.lblMatricula = new System.Windows.Forms.Label();
@@ -48,7 +49,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnGuardar = new System.Windows.Forms.Button();
             this.lblHoraSalida = new System.Windows.Forms.Label();
             this.lblHoraEntradaTexto = new System.Windows.Forms.Label();
-            this.dtpEntrada = new System.Windows.Forms.DateTimePicker();
             this.pCI.SuspendLayout();
             this.pDatos.SuspendLayout();
             this.SuspendLayout();
@@ -139,6 +139,14 @@ namespace CapaPresentacion.EjecutivoServicios
             this.pDatos.Size = new System.Drawing.Size(826, 350);
             this.pDatos.TabIndex = 4;
             // 
+            // dtpEntrada
+            // 
+            this.dtpEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpEntrada.Location = new System.Drawing.Point(375, 91);
+            this.dtpEntrada.Name = "dtpEntrada";
+            this.dtpEntrada.Size = new System.Drawing.Size(136, 20);
+            this.dtpEntrada.TabIndex = 18;
+            // 
             // lblCi
             // 
             this.lblCi.AutoSize = true;
@@ -159,7 +167,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCiTexto.Name = "lblCiTexto";
             this.lblCiTexto.Size = new System.Drawing.Size(58, 18);
             this.lblCiTexto.TabIndex = 15;
-            this.lblCiTexto.Text = "Cedula";
+            this.lblCiTexto.Text = "Cédula";
             // 
             // lblMatricula
             // 
@@ -179,9 +187,9 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblMatriculaTexto.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblMatriculaTexto.Location = new System.Drawing.Point(267, 62);
             this.lblMatriculaTexto.Name = "lblMatriculaTexto";
-            this.lblMatriculaTexto.Size = new System.Drawing.Size(71, 18);
+            this.lblMatriculaTexto.Size = new System.Drawing.Size(70, 18);
             this.lblMatriculaTexto.TabIndex = 13;
-            this.lblMatriculaTexto.Text = "Matricula";
+            this.lblMatriculaTexto.Text = "Matrícula";
             // 
             // lblPlaza
             // 
@@ -266,14 +274,6 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblHoraEntradaTexto.Size = new System.Drawing.Size(99, 18);
             this.lblHoraEntradaTexto.TabIndex = 3;
             this.lblHoraEntradaTexto.Text = "Hora entrada";
-            // 
-            // dtpEntrada
-            // 
-            this.dtpEntrada.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpEntrada.Location = new System.Drawing.Point(375, 91);
-            this.dtpEntrada.Name = "dtpEntrada";
-            this.dtpEntrada.Size = new System.Drawing.Size(136, 20);
-            this.dtpEntrada.TabIndex = 18;
             // 
             // Parkings
             // 

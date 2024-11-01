@@ -94,7 +94,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.rbAYB.Size = new System.Drawing.Size(125, 17);
             this.rbAYB.TabIndex = 4;
             this.rbAYB.TabStop = true;
-            this.rbAYB.Text = "Alineacion_Balanceo";
+            this.rbAYB.Text = "Alineación_Balanceo";
             this.rbAYB.UseVisualStyleBackColor = true;
             // 
             // rbLavado
@@ -336,7 +336,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCi.Name = "lblCi";
             this.lblCi.Size = new System.Drawing.Size(58, 18);
             this.lblCi.TabIndex = 0;
-            this.lblCi.Text = "Cedula";
+            this.lblCi.Text = "Cédula";
             // 
             // Servicios
             // 

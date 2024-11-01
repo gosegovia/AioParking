@@ -95,9 +95,9 @@ namespace CapaPresentacion.EjecutivoServicios
                     MessageBox.Show("No se encontraron vehículos en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los vehículos: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los vehículos.");
             }
         }
 
@@ -121,7 +121,7 @@ namespace CapaPresentacion.EjecutivoServicios
             
             if (!v.EstadoVehiculo)
             {
-                MessageBox.Show("No existe este vehiculo.");
+                MessageBox.Show("No existe este vehículo.");
             } else
             {
                 switch (resultado)

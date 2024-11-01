@@ -67,7 +67,7 @@ namespace CapaPresentacion.OperadorCamaras
 
             if (!Int32.TryParse(txtCi.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
@@ -86,13 +86,13 @@ namespace CapaPresentacion.OperadorCamaras
                         lblCedula.Text = c.nombre + " " + c.apellido;
                         break;
                     case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
+                        MessageBox.Show("Debe logearse nuevamente."); break;
                     case 2:
-                        MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
+                        MessageBox.Show("Error 2."); break;
                     case 3: // No encontró
                         if (txtCi.TextLength != 8)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         else
                         {
@@ -121,7 +121,7 @@ namespace CapaPresentacion.OperadorCamaras
             // Validar que el CI no esté vacío y sea un número válido
             if (!int.TryParse(txtCi.Text.Trim(), out int ci))
             {
-                MessageBox.Show("Ingrese un CI válido.");
+                MessageBox.Show("Ingrese una cédula válida.");
                 return;
             }
 
@@ -158,7 +158,7 @@ namespace CapaPresentacion.OperadorCamaras
                     break;
 
                 case 2: // Error
-                    MessageBox.Show("Error: no se pudieron obtener los datos.");
+                    MessageBox.Show("Error 2.");
                     break;
                 case 3:
                     break;
@@ -286,7 +286,7 @@ namespace CapaPresentacion.OperadorCamaras
             switch (p.GenerarTicket(matricula, ci, plaza, plaza1, fecha))
             {
                 case 0: // Se realizó sin problemas
-                    MessageBox.Show("Se genero el ticket.");
+                    MessageBox.Show("Se generó el ticket.");
                     p.CrearTicketPDF(matricula, ci, plaza, plaza1, fecha);
                     p.Plaza = int.Parse(lblPlaza.Text);
                     p.ActualizarPlaza();

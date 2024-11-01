@@ -106,12 +106,12 @@ namespace CapaPresentacion.Cajero
                 else if (_currentPage == 0)
                 {
                     // No hay servicios en la primera página
-                    MessageBox.Show("No se encontraron servicios en la base de datos.");
+                    MessageBox.Show("No se encontraron servicios.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show($"Ocurrió un error al cargar los servicios: {ex.Message}");
+                MessageBox.Show("Ocurrió un error al cargar los servicios.");
             }
         }
 
@@ -145,9 +145,9 @@ namespace CapaPresentacion.Cajero
                 // Cargar los servicios filtrados por CI y factura_paga (pago)
                 CargarServicios(ciCliente, facturaPaga);
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show($"Ocurrió un error al buscar los servicios: {ex.Message}");
+                MessageBox.Show($"Ocurrió un error al buscar los servicios.");
             }
         }
 

@@ -88,7 +88,7 @@ namespace CapaPresentacion.Cajero
             this.btnResetear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetear.Font = new System.Drawing.Font("Arial", 12F);
             this.btnResetear.ForeColor = System.Drawing.Color.White;
-            this.btnResetear.Location = new System.Drawing.Point(462, 101);
+            this.btnResetear.Location = new System.Drawing.Point(487, 101);
             this.btnResetear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnResetear.Name = "btnResetear";
             this.btnResetear.Size = new System.Drawing.Size(91, 25);
@@ -104,7 +104,7 @@ namespace CapaPresentacion.Cajero
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(381, 101);
+            this.btnBuscar.Location = new System.Drawing.Point(406, 101);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -118,7 +118,7 @@ namespace CapaPresentacion.Cajero
             this.txtCI.BackColor = System.Drawing.Color.LightBlue;
             this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(239, 101);
+            this.txtCI.Location = new System.Drawing.Point(264, 101);
             this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCI.Multiline = true;
             this.txtCI.Name = "txtCI";
@@ -132,16 +132,16 @@ namespace CapaPresentacion.Cajero
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(213, 105);
+            this.lblCI.Location = new System.Drawing.Point(199, 105);
             this.lblCI.Name = "lblCI";
-            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.Size = new System.Drawing.Size(58, 18);
             this.lblCI.TabIndex = 29;
-            this.lblCI.Text = "CI";
+            this.lblCI.Text = "Cédula";
             // 
             // cbPaga
             // 
             this.cbPaga.AutoSize = true;
-            this.cbPaga.Location = new System.Drawing.Point(559, 102);
+            this.cbPaga.Location = new System.Drawing.Point(584, 102);
             this.cbPaga.Name = "cbPaga";
             this.cbPaga.Size = new System.Drawing.Size(130, 22);
             this.cbPaga.TabIndex = 33;
@@ -149,7 +149,7 @@ namespace CapaPresentacion.Cajero
             this.cbPaga.UseVisualStyleBackColor = true;
             this.cbPaga.CheckedChanged += new System.EventHandler(this.cbPaga_CheckedChanged);
             // 
-            // ListarFactura
+            // ListarFacturas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -165,7 +165,7 @@ namespace CapaPresentacion.Cajero
             this.Font = new System.Drawing.Font("Arial", 12F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "ListarFactura";
+            this.Name = "ListarFacturas";
             this.Text = "ListarCliente";
             this.Load += new System.EventHandler(this.ListarFactura_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvServicios)).EndInit();

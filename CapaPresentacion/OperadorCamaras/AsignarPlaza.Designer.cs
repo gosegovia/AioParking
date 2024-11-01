@@ -32,6 +32,7 @@ namespace CapaPresentacion.OperadorCamaras
         private void InitializeComponent()
         {
             this.pDatos = new System.Windows.Forms.Panel();
+            this.lblPlaza = new System.Windows.Forms.Label();
             this.dgvPlaza = new System.Windows.Forms.DataGridView();
             this.lblTipoVehiculo = new System.Windows.Forms.Label();
             this.lblMarca = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@ namespace CapaPresentacion.OperadorCamaras
             this.txtCi = new System.Windows.Forms.TextBox();
             this.btnBuscarCi = new System.Windows.Forms.Button();
             this.lblCi = new System.Windows.Forms.Label();
-            this.lblPlaza = new System.Windows.Forms.Label();
             this.pDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlaza)).BeginInit();
             this.pMatricula.SuspendLayout();
@@ -76,6 +76,17 @@ namespace CapaPresentacion.OperadorCamaras
             this.pDatos.Name = "pDatos";
             this.pDatos.Size = new System.Drawing.Size(826, 321);
             this.pDatos.TabIndex = 10;
+            // 
+            // lblPlaza
+            // 
+            this.lblPlaza.AutoSize = true;
+            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblPlaza.Location = new System.Drawing.Point(295, 166);
+            this.lblPlaza.Name = "lblPlaza";
+            this.lblPlaza.Size = new System.Drawing.Size(28, 18);
+            this.lblPlaza.TabIndex = 18;
+            this.lblPlaza.Text = ".....";
             // 
             // dgvPlaza
             // 
@@ -319,18 +330,7 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblCi.Name = "lblCi";
             this.lblCi.Size = new System.Drawing.Size(58, 18);
             this.lblCi.TabIndex = 4;
-            this.lblCi.Text = "Cedula";
-            // 
-            // lblPlaza
-            // 
-            this.lblPlaza.AutoSize = true;
-            this.lblPlaza.Font = new System.Drawing.Font("Arial", 12F);
-            this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblPlaza.Location = new System.Drawing.Point(295, 166);
-            this.lblPlaza.Name = "lblPlaza";
-            this.lblPlaza.Size = new System.Drawing.Size(28, 18);
-            this.lblPlaza.TabIndex = 18;
-            this.lblPlaza.Text = ".....";
+            this.lblCi.Text = "Cédula";
             // 
             // AsignarPlaza
             // 

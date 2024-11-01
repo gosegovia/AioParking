@@ -88,7 +88,7 @@ namespace CapaPresentacion.JefeServicios
             this.btnResetear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetear.Font = new System.Drawing.Font("Arial", 12F);
             this.btnResetear.ForeColor = System.Drawing.Color.White;
-            this.btnResetear.Location = new System.Drawing.Point(515, 97);
+            this.btnResetear.Location = new System.Drawing.Point(541, 97);
             this.btnResetear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnResetear.Name = "btnResetear";
             this.btnResetear.Size = new System.Drawing.Size(91, 25);
@@ -104,7 +104,7 @@ namespace CapaPresentacion.JefeServicios
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(434, 97);
+            this.btnBuscar.Location = new System.Drawing.Point(460, 97);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -118,7 +118,7 @@ namespace CapaPresentacion.JefeServicios
             this.txtCI.BackColor = System.Drawing.Color.LightBlue;
             this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(292, 97);
+            this.txtCI.Location = new System.Drawing.Point(318, 97);
             this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCI.Multiline = true;
             this.txtCI.Name = "txtCI";
@@ -130,11 +130,11 @@ namespace CapaPresentacion.JefeServicios
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(266, 101);
+            this.lblCI.Location = new System.Drawing.Point(254, 101);
             this.lblCI.Name = "lblCI";
-            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.Size = new System.Drawing.Size(58, 18);
             this.lblCI.TabIndex = 29;
-            this.lblCI.Text = "CI";
+            this.lblCI.Text = "Cédula";
             // 
             // ListarEmpleado
             // 

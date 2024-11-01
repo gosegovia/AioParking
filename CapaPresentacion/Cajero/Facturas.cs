@@ -69,7 +69,7 @@ namespace CapaPresentacion.Cajero
 
             if (!Int32.TryParse(txtCi.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
@@ -87,20 +87,20 @@ namespace CapaPresentacion.Cajero
 
                         break;
                     case 1:
-                        MessageBox.Show("Debe logearse nuevamente"); break;
+                        MessageBox.Show("Debe logearse nuevamente."); break;
                     case 2:
                         MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin"); break;
                     case 3: // No encontró
                         if (txtCi.TextLength != 8)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         else
                         {
                             MessageBox.Show("No se encontró el cliente con la cédula ingresada.");
                         }
                         break;
-                    default: MessageBox.Show("Error al obtener la cedula."); break;
+                    default: MessageBox.Show("Error al obtener la cédula."); break;
                 }
                 c = null; // Destruyo el objeto
             }
@@ -121,7 +121,7 @@ namespace CapaPresentacion.Cajero
             // Validar que el CI no esté vacío y sea un número válido
             if (!int.TryParse(txtCi.Text.Trim(), out int ci))
             {
-                MessageBox.Show("Ingrese un CI válido.");
+                MessageBox.Show("Ingrese una cédula válida.");
                 return;
             }
 

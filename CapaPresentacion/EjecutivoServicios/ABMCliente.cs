@@ -88,7 +88,7 @@ namespace CapaPresentacion.EjecutivoServicios
             }
             else
             {
-                MessageBox.Show("El telefono ya existe en la lista");
+                MessageBox.Show("El teléfono ya existe en la lista.");
             }
         }
 
@@ -96,7 +96,7 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             if (cbTelefonos.Items.IndexOf(cbTelefonos.Text) < 0)
             {
-                MessageBox.Show("El telefono no exste en la lista");
+                MessageBox.Show("El teléfono no exste en la lista.");
             }
             else
             {
@@ -115,7 +115,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // Validar que la CI sea numérica
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else
             {
@@ -168,7 +168,7 @@ namespace CapaPresentacion.EjecutivoServicios
                             case "Eventual":
                                 cbTipoCliente.SelectedIndex = 2; break;
                             default:
-                                MessageBox.Show("Error con el tipo de cliente"); break;
+                                MessageBox.Show("Error con el tipo de cliente."); break;
                         }
 
                         // Muestra los teléfonos del cliente en el ComboBox
@@ -183,7 +183,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         break;
 
                     case 1: // Error de conexión
-                        MessageBox.Show("Debe logearse nuevamente");
+                        MessageBox.Show("Debe logearse nuevamente.");
                         break;
 
                     case 2: // Error en la ejecución
@@ -198,7 +198,7 @@ namespace CapaPresentacion.EjecutivoServicios
                             // Verifica si el formato de CI es correcto
                         if (txtCI.TextLength < 8)
                         {
-                            MessageBox.Show("Formato incorrecto");
+                            MessageBox.Show("Formato incorrecto.");
                         }
                         else
                         {
@@ -237,7 +237,7 @@ namespace CapaPresentacion.EjecutivoServicios
             // Validaciónes
             if (!Int32.TryParse(txtCI.Text, out cedula))
             {
-                MessageBox.Show("La cedula de identidad debe ser numerica.");
+                MessageBox.Show("La cédula de identidad debe ser numérica.");
             }
             else if (string.IsNullOrEmpty(txtNombre.Text))
             {
@@ -249,7 +249,7 @@ namespace CapaPresentacion.EjecutivoServicios
             }
             else if (cbTelefonos.SelectedIndex == -1 || string.IsNullOrEmpty(cbTelefonos.Text))
             {
-                MessageBox.Show("Debe seleccionar el telefono o ingresar uno.");
+                MessageBox.Show("Debe seleccionar el teléfono o ingresar uno.");
             }
             else if (cbTipoCliente.SelectedIndex == -1)
             {

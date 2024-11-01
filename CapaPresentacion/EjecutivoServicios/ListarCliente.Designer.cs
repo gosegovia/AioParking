@@ -91,7 +91,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Arial", 12F);
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(416, 98);
+            this.btnBuscar.Location = new System.Drawing.Point(444, 98);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 25);
@@ -105,7 +105,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.txtCI.BackColor = System.Drawing.Color.LightBlue;
             this.txtCI.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCI.Font = new System.Drawing.Font("Arial", 12F);
-            this.txtCI.Location = new System.Drawing.Point(274, 98);
+            this.txtCI.Location = new System.Drawing.Point(302, 98);
             this.txtCI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCI.Multiline = true;
             this.txtCI.Name = "txtCI";
@@ -119,11 +119,11 @@ namespace CapaPresentacion.EjecutivoServicios
             this.lblCI.AutoSize = true;
             this.lblCI.Font = new System.Drawing.Font("Arial", 12F);
             this.lblCI.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblCI.Location = new System.Drawing.Point(248, 102);
+            this.lblCI.Location = new System.Drawing.Point(234, 102);
             this.lblCI.Name = "lblCI";
-            this.lblCI.Size = new System.Drawing.Size(23, 18);
+            this.lblCI.Size = new System.Drawing.Size(58, 18);
             this.lblCI.TabIndex = 25;
-            this.lblCI.Text = "CI";
+            this.lblCI.Text = "Cédula";
             // 
             // btnResetear
             // 
@@ -132,7 +132,7 @@ namespace CapaPresentacion.EjecutivoServicios
             this.btnResetear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnResetear.Font = new System.Drawing.Font("Arial", 12F);
             this.btnResetear.ForeColor = System.Drawing.Color.White;
-            this.btnResetear.Location = new System.Drawing.Point(497, 98);
+            this.btnResetear.Location = new System.Drawing.Point(525, 98);
             this.btnResetear.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnResetear.Name = "btnResetear";
             this.btnResetear.Size = new System.Drawing.Size(91, 25);

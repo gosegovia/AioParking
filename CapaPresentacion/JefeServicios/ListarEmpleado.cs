@@ -92,9 +92,9 @@ namespace CapaPresentacion.JefeServicios
                     MessageBox.Show("No se encontraron empleados en la base de datos.");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show("Ocurrió un error al cargar los empleados: " + ex.Message);
+                MessageBox.Show("Ocurrió un error al cargar los empleados.");
             }
         }
 
