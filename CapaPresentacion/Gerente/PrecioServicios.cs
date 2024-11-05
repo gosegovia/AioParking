@@ -198,76 +198,84 @@ namespace CapaPresentacion.Gerente
         // Botón guardar neumático
         private void btnGuardarNeumatico_Click(object sender, EventArgs e)
         {
-            CapaNegocio.Neumatico n;
-            Int32 neumatico;
+            Neumatico n;
+            int neumatico;
 
+            // Validaciones
             if (string.IsNullOrEmpty(txtNombre.Text))
             {
                 MessageBox.Show("El nombre no puede estar vacío.");
-            } else
+            }
+            else if (cbModelo.SelectedIndex == -1)
             {
-                if (cbModelo.SelectedIndex == -1)
+                MessageBox.Show("Debe seleccionar una marca.");
+            }
+            else if (string.IsNullOrEmpty(txtPrecio.Text))
+            {
+                MessageBox.Show("El precio no puede estar vacío.");
+            }
+            else if (!double.TryParse(txtPrecio.Text, out double precio) || precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser un número mayor a 0.");
+            }
+            else if (string.IsNullOrEmpty(txtStock.Text))
+            {
+                MessageBox.Show("El stock no puede estar vacío.");
+            }
+            else if (!int.TryParse(txtNeumatico.Text, out neumatico))
+            {
+                MessageBox.Show("El ID neumático debe ser numérico.");
+            }
+            else
+            {
+                // Crear instancia de Neumatico y asignar propiedades
+                n = new Neumatico
                 {
-                    MessageBox.Show("Debe seleccionar una marca.");
-                } else
+                    Conexion = Program.con,
+                    neumaticoId = neumatico,
+                    neumaticoNombre = txtNombre.Text,
+                    neumaticoPrecio = precio, // Usar el precio validado como decimal
+                    neumaticoCantidad = Convert.ToInt32(txtStock.Text)
+                };
+
+                // Asignar la marca en función de la selección del ComboBox
+                switch (cbModelo.SelectedIndex)
                 {
-                    if (string.IsNullOrEmpty(txtPrecio.Text))
-                    {
-                        MessageBox.Show("El precio no puede estar vacío.");
-                    } else
-                    {
-                        if (string.IsNullOrEmpty(txtStock.Text))
-                        {
-                            MessageBox.Show("El stock no puede estar vacío.");
-                        } else {
-                            if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
-                            {
-                                MessageBox.Show("El ID neumático debe ser numérico.");
-                            }
-                            else
-                            {
-                                n = new Neumatico();
-                                n.Conexion = Program.con;
-
-                                n.neumaticoId = Convert.ToInt32(txtNeumatico.Text);
-                                n.neumaticoNombre = txtNombre.Text;
-                                n.neumaticoPrecio = Convert.ToInt32(txtPrecio.Text);
-                                n.neumaticoCantidad = Convert.ToInt32(txtStock.Text);
-
-                                switch (cbModelo.SelectedIndex)
-                                {
-                                    case 0: n.neumaticoMarca = "Michelin"; break;
-                                    case 1: n.neumaticoMarca = "Bridgestone"; break;
-                                    case 2: n.neumaticoMarca = "Pirelli"; break;
-                                }
-
-                                switch (n.GuardarNeumatico(btnEliminar.Enabled))
-                                {
-                                    case 0:
-                                        MessageBox.Show("Se ingresó el neumático.");
-                                        mostrarDatosNeumaticos();
-
-                                        btnBuscarNeumatico.Enabled = true;
-                                        txtNeumatico.Text = "";
-                                        txtNeumatico.Enabled = true;
-                                        pDatosNeumatico.Visible = false;
-
-                                        txtNombre.Clear();
-                                        cbModelo.SelectedIndex = 0;
-                                        txtPrecio.Clear();
-                                        txtStock.Clear();
-                                        break;
-                                    case 1:
-                                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
-                                        break;
-                                    case 2: MessageBox.Show("Error 2."); break;
-                                }
-                            }
-                        }
-                    }
+                    case 0: n.neumaticoMarca = "Michelin"; break;
+                    case 1: n.neumaticoMarca = "Bridgestone"; break;
+                    case 2: n.neumaticoMarca = "Pirelli"; break;
+                    default: n.neumaticoMarca = string.Empty; break; // Valor predeterminado por si se añade más lógica en el futuro
                 }
 
+                // Guardar el neumático y manejar los diferentes resultados
+                switch (n.GuardarNeumatico(btnEliminar.Enabled))
+                {
+                    case 0:
+                        MessageBox.Show("Se ingresó el neumático.");
+                        mostrarDatosNeumaticos();
+
+                        // Restablecer los controles después de guardar
+                        btnBuscarNeumatico.Enabled = true;
+                        txtNeumatico.Clear();
+                        txtNeumatico.Enabled = true;
+                        pDatosNeumatico.Visible = false;
+
+                        txtNombre.Clear();
+                        cbModelo.SelectedIndex = -1; // Deseleccionar opción
+                        txtPrecio.Clear();
+                        txtStock.Clear();
+                        break;
+
+                    case 1:
+                        MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
+                        break;
+
+                    case 2:
+                        MessageBox.Show("Error al guardar el neumático.");
+                        break;
+                }
             }
+
         } // Fin botón guardar neumático
 
         // Botón eliminar neumático
