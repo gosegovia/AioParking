@@ -142,8 +142,12 @@ namespace CapaPresentacion.EjecutivoServicios
         {
             CapaNegocio.Factura s;
 
+            if (lblID.Text == ".....")
+            {
+                MessageBox.Show("Debe seleccionar una opciòn.");
+            }
             // Validaciones
-            if (string.IsNullOrEmpty(txtCantidad.Text))
+            else if (string.IsNullOrEmpty(txtCantidad.Text))
             {
                 MessageBox.Show("La cantidad no puede estar vacía.");
             } else

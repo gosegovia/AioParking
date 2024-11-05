@@ -164,7 +164,11 @@ namespace CapaPresentacion.EjecutivoServicios
         // Botón guardar
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if(rbLavado.Checked)
+            if(lblID.Text == ".....")
+            {
+                MessageBox.Show("Debe seleccionar una opciòn.");
+            }
+            else if(rbLavado.Checked)
             {
                 Lavado l = new Lavado();
                 l.Conexion = Program.con;

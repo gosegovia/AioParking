@@ -465,7 +465,15 @@ namespace CapaPresentacion.Gerente
             Int32 lavado;
 
             // Validaciónes
-            if (!Int32.TryParse(txtLavado.Text, out lavado))
+            if (string.IsNullOrEmpty(txtPrecioLavado.Text))
+            {
+                MessageBox.Show("El precio no puede estar vacío.");
+            }
+            else if (!double.TryParse(txtPrecioLavado.Text, out double precio) || precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser un número mayor a 0.");
+            }
+            else if (!Int32.TryParse(txtLavado.Text, out lavado))
             {
                 MessageBox.Show("El ID lavado debe ser numérico.");
             }
@@ -632,7 +640,15 @@ namespace CapaPresentacion.Gerente
             Int32 aybid;
 
             // Validaciónes
-            if (!Int32.TryParse(txtAyB.Text, out aybid))
+            if (string.IsNullOrEmpty(txtPrecioAyB.Text))
+            {
+                MessageBox.Show("El precio no puede estar vacío.");
+            }
+            else if (!double.TryParse(txtPrecioAyB.Text, out double precio) || precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser un número mayor a 0.");
+            }
+            else if (!Int32.TryParse(txtAyB.Text, out aybid))
             {
                 MessageBox.Show("El, id alineación y balanceo debe ser numéricos.");
             }
