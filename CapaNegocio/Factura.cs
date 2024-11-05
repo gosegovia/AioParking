@@ -645,33 +645,13 @@ namespace CapaNegocio
                 return 1; // Conexión cerrada
             }
 
-            // Verificar si el cliente es "Mensual"
-            string sql = "SELECT c.tipo_cliente " +
-                         "FROM Cliente c " +
-                         "JOIN Factura f ON f.ci_cliente = c.ci " +
+            // Consulta SQL para verificar facturas sin lavado
+            string sql = "SELECT f.id_factura " +
+                         "FROM Factura f " +
+                         "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
                          "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
-                         "AND c.tipo_cliente = 'Mensual';";
-
-            try
-            {
-                dt = _conexion.EjecutarSelect(sql);
-                if (dt.Rows.Count == 0)
-                {
-                    return 2; // Error: El cliente no es de tipo "Mensual"
-                }
-            }
-            catch
-            {
-                return 3; // Error al ejecutar la consulta para verificar el tipo de cliente
-            }
-
-            // Consulta SQL 
-            sql = "SELECT f.id_factura " +
-                  "FROM Factura f " +
-                  "LEFT JOIN Usa u ON u.id_factura = f.id_factura " +
-                  "WHERE f.matricula = '" + Vehiculo.Matricula + "' " +
-                  "AND f.factura_paga = 0 " +
-                  "AND u.id_lavado IS NULL;";
+                         "AND f.factura_paga = 0 " +
+                         "AND u.id_lavado IS NULL;";
 
             try
             {

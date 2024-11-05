@@ -200,6 +200,7 @@ INSERT INTO Rol (id_rol, nombre_rol) VALUES
 /* CLIENTES */
 
 INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VALUES 
+(52692667, 'Facundo', 'Rivas', 3806, 'Matias Alvarez', 'Montevideo', 1),
 (56303446, 'Juan', 'Pérez', 123, 'Avenida Siempreviva', 'Montevideo', 1),
 (43214321, 'María', 'González', 456, 'Calle Falsa', 'Canelones', 1),
 (32132143, 'Carlos', 'Rodríguez', 789, 'Boulevard Artigas', 'Maldonado', 1),
@@ -241,7 +242,8 @@ INSERT INTO Persona (ci, nombre, apellido, nro_puerta, calle, ciudad, estado) VA
 (69876543, 'Ezequiel', 'Peralta', 129, 'Calle del Horizonte', 'Maldonado', 1),
 (70987654, 'Paula', 'Molina', 130, 'Calle de los Arrayanes', 'San José', 1);
 
-INSERT INTO Cliente (ci, tipo_cliente) VALUES 
+INSERT INTO Cliente (ci, tipo_cliente) VALUES
+(52692667, 'Eventual'),
 (43210987, 'Eventual'),
 (11111111, 'Eventual'),
 (45678901, 'Eventual'),
@@ -286,6 +288,8 @@ INSERT INTO Cliente (ci, tipo_cliente) VALUES
 (58765432, 'Sistematico');
 
 INSERT INTO Telefono (ci, telefono) VALUES
+(52692667, '092871915'),
+(52692667, '091298523'),
 (56303446, '096545765'),
 (56303446, '096923456'),
 (43214321, '097654321'),
@@ -518,6 +522,7 @@ INSERT INTO Vehiculo (matricula, id_marca, id_tipo, estado_vehiculo) VALUES
 ('hij5791', 3, 2, 1),
 ('nop7913', 5, 2, 1),
 ('fgh3579', 13, 2, 1),
+('scn8013', 7, 2, 1),
 
 ('lmn6543', 8, 3, 1),
 ('ijk9876', 12, 3, 1),
@@ -544,6 +549,7 @@ INSERT INTO Vehiculo (matricula, id_marca, id_tipo, estado_vehiculo) VALUES
 /* POSEE */
 
 insert into Posee (ci, matricula) values
+(52692667, 'scn8013'),
 (56303446, 'abc1234'),
 (43214321, 'cba4321'),
 (32132143, 'fga1235'),
@@ -896,7 +902,7 @@ GRANT SELECT, INSERT, UPDATE ON Plaza TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Reserva TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Solicita TO 'eje'@'%';
 GRANT SELECT ON Lavado TO 'eje'@'%';
-GRANT SELECT ON Usa TO 'eje'@'%';
+GRANT SELECT, INSERT, UPDATE ON Usa TO 'eje'@'%';
 GRANT SELECT ON Alineacion_Balanceo TO 'eje'@'%';
 GRANT SELECT, INSERT, UPDATE ON Hace TO 'eje'@'%';
 
@@ -945,10 +951,6 @@ FLUSH PRIVILEGES;
 
 -- CONSULTA 1
 -- Listar todas las facturas realizadas en el último mes
-SELECT id_factura, ci_cliente, matricula, factura_paga, fecha 
-FROM Factura
-WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
-
 SELECT f.id_factura, f.ci_cliente, f.ci_empleado, f.matricula, f.fecha,
        par.hora_entrada, par.hora_salida, r.id_plaza, s.precio_solicita,
        l.nombre_lavado, u.precio_usa,
@@ -967,25 +969,23 @@ LEFT JOIN Neumatico n ON n.id_neumatico = c.id_neumatico
 order by f.id_factura;
 
 -- CONSULTA 2 -- COALESCA devuelve 0 si no encuentra
--- nombre, 
 -- Listar el top 5 de clientes que más gastaron en el último mes
 SELECT f.ci_cliente, p.nombre, p.apellido, t.telefono, 
-       SUM(COALESCE(s.precio_solicita, 0) + 
-           COALESCE(c.precio_compra * c.cantidad_compra, 0) + 
-           COALESCE(h.precio_hace, 0) + 
-           COALESCE(u.precio_usa, 0)) AS total_gastado
+       (COALESCE(SUM(SUM_S.precio_total), 0) + 
+        COALESCE(SUM(SUM_C.precio_total), 0) + 
+        COALESCE(SUM(SUM_H.precio_total), 0) + 
+        COALESCE(SUM(SUM_U.precio_total), 0)) AS total_gastado
 FROM Factura f
 JOIN Persona p ON p.ci = f.ci_cliente
-LEFT JOIN Solicita s ON s.id_factura = f.id_factura
-LEFT JOIN Compra c ON c.id_factura = f.id_factura
-LEFT JOIN Hace h ON h.id_factura = f.id_factura
-LEFT JOIN Usa u ON u.id_factura = f.id_factura
-LEFT JOIN Telefono t ON p.ci = t.ci
+LEFT JOIN (SELECT id_factura, SUM(precio_solicita) AS precio_total FROM Solicita GROUP BY id_factura) AS SUM_S ON SUM_S.id_factura = f.id_factura
+LEFT JOIN (SELECT id_factura, SUM(precio_compra * cantidad_compra) AS precio_total FROM Compra GROUP BY id_factura) AS SUM_C ON SUM_C.id_factura = f.id_factura
+LEFT JOIN (SELECT id_factura, SUM(precio_hace) AS precio_total FROM Hace GROUP BY id_factura) AS SUM_H ON SUM_H.id_factura = f.id_factura
+LEFT JOIN (SELECT id_factura, SUM(precio_usa) AS precio_total FROM Usa GROUP BY id_factura) AS SUM_U ON SUM_U.id_factura = f.id_factura
+LEFT JOIN (SELECT ci, MIN(telefono) AS telefono FROM Telefono GROUP BY ci) AS t ON p.ci = t.ci
 WHERE f.fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
-GROUP BY f.ci_cliente
+GROUP BY f.ci_cliente, p.nombre, p.apellido, t.telefono
 ORDER BY total_gastado DESC
 LIMIT 5;
-
 
 -- CONSULTA 3
 -- Listar el top 5 de los autos más lavados en el último anio

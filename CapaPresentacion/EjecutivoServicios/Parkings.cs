@@ -81,7 +81,7 @@ namespace CapaPresentacion.EjecutivoServicios
                     case 2:
                         MessageBox.Show("Hubo errores al buscar. En caso de persister avisar al admin."); break;
                     case 3: // No encontro
-                        MessageBox.Show("Formato incorrecto.");
+                        MessageBox.Show("No existe el ticket.");
                         break;
                 }
                 p = null; // Destruyo el objeto

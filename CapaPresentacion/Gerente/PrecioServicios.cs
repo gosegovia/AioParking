@@ -201,48 +201,72 @@ namespace CapaPresentacion.Gerente
             CapaNegocio.Neumatico n;
             Int32 neumatico;
 
-            // Validaciónes
-            if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
+            if (string.IsNullOrEmpty(txtNombre.Text))
             {
-                MessageBox.Show("El ID neumático debe ser numérico.");
+                MessageBox.Show("El nombre no puede estar vacío.");
             } else
             {
-                n = new Neumatico();
-                n.Conexion = Program.con;
-
-                n.neumaticoId = Convert.ToInt32(txtNeumatico.Text);
-                n.neumaticoNombre = txtNombre.Text;
-                n.neumaticoPrecio = Convert.ToInt32(txtPrecio.Text);
-                n.neumaticoCantidad = Convert.ToInt32(txtStock.Text);
-
-                switch (cbModelo.SelectedIndex)
+                if (cbModelo.SelectedIndex == -1)
                 {
-                    case 0: n.neumaticoMarca = "Michelin"; break;
-                    case 1: n.neumaticoMarca = "Bridgestone"; break;
-                    case 2: n.neumaticoMarca = "Pirelli"; break;
+                    MessageBox.Show("Debe seleccionar una marca.");
+                } else
+                {
+                    if (string.IsNullOrEmpty(txtPrecio.Text))
+                    {
+                        MessageBox.Show("El precio no puede estar vacío.");
+                    } else
+                    {
+                        if (string.IsNullOrEmpty(txtStock.Text))
+                        {
+                            MessageBox.Show("El stock no puede estar vacío.");
+                        } else {
+                            if (!Int32.TryParse(txtNeumatico.Text, out neumatico))
+                            {
+                                MessageBox.Show("El ID neumático debe ser numérico.");
+                            }
+                            else
+                            {
+                                n = new Neumatico();
+                                n.Conexion = Program.con;
+
+                                n.neumaticoId = Convert.ToInt32(txtNeumatico.Text);
+                                n.neumaticoNombre = txtNombre.Text;
+                                n.neumaticoPrecio = Convert.ToInt32(txtPrecio.Text);
+                                n.neumaticoCantidad = Convert.ToInt32(txtStock.Text);
+
+                                switch (cbModelo.SelectedIndex)
+                                {
+                                    case 0: n.neumaticoMarca = "Michelin"; break;
+                                    case 1: n.neumaticoMarca = "Bridgestone"; break;
+                                    case 2: n.neumaticoMarca = "Pirelli"; break;
+                                }
+
+                                switch (n.GuardarNeumatico(btnEliminar.Enabled))
+                                {
+                                    case 0:
+                                        MessageBox.Show("Se ingresó el neumático.");
+                                        mostrarDatosNeumaticos();
+
+                                        btnBuscarNeumatico.Enabled = true;
+                                        txtNeumatico.Text = "";
+                                        txtNeumatico.Enabled = true;
+                                        pDatosNeumatico.Visible = false;
+
+                                        txtNombre.Clear();
+                                        cbModelo.SelectedIndex = 0;
+                                        txtPrecio.Clear();
+                                        txtStock.Clear();
+                                        break;
+                                    case 1:
+                                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
+                                        break;
+                                    case 2: MessageBox.Show("Error 2."); break;
+                                }
+                            }
+                        }
+                    }
                 }
 
-                switch (n.GuardarNeumatico(btnEliminar.Enabled))
-                {
-                    case 0:
-                        MessageBox.Show("Se ingresó el neumático.");
-                        mostrarDatosNeumaticos();
-
-                        btnBuscarNeumatico.Enabled = true;
-                        txtNeumatico.Text = "";
-                        txtNeumatico.Enabled = true;
-                        pDatosNeumatico.Visible = false;
-
-                        txtNombre.Clear();
-                        cbModelo.SelectedIndex = 0;
-                        txtPrecio.Clear();
-                        txtStock.Clear();
-                    break;
-                    case 1:
-                        MessageBox.Show("Debe logearse nuevamente, la conexion esta cerrada.");
-                    break;
-                    case 2: MessageBox.Show("Error 2."); break;
-                }
             }
         } // Fin botón guardar neumático
 

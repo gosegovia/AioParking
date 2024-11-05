@@ -143,79 +143,85 @@ namespace CapaPresentacion.EjecutivoServicios
             CapaNegocio.Factura s;
 
             // Validaciones
-            if (Convert.ToInt32(txtCantidad.Text) > Convert.ToInt32(lblStock.Text))
+            if (string.IsNullOrEmpty(txtCantidad.Text))
             {
-                MessageBox.Show("La cantidad es mayor al stock.");
-            }
-            else
+                MessageBox.Show("La cantidad no puede estar vacía.");
+            } else
             {
-                s = new Factura();
-                s.Conexion = Program.con;
-
-                s.Cliente.ci = Convert.ToInt32(txtCi.Text);
-                s.Empleado.ci = Program.frmPrincipal.CiEmpleado;
-                s.Vehiculo.Matricula = txtMatricula.Text;
-                
-                s.Neumatico.neumaticoId = Convert.ToInt32(lblID.Text);
-                s.Neumatico.neumaticoCantidad = Convert.ToInt32(txtCantidad.Text);
-                double precio = Convert.ToDouble(lblPrecio.Text);
-                s.Neumatico.neumaticoPrecio = precio * s.Neumatico.neumaticoCantidad;
-
-                switch (s.ventaNeumatico())
+                if (Convert.ToInt32(txtCantidad.Text) > Convert.ToInt32(lblStock.Text))
                 {
-                    case 0:
-                        MessageBox.Show("La compra de neumático se guardó correctamente.");
+                    MessageBox.Show("La cantidad es mayor al stock.");
+                }
+                else
+                {
+                    s = new Factura();
+                    s.Conexion = Program.con;
 
-                        txtCi.Enabled = true;
-                        txtCi.Text = "";
-                        btnBuscarCi.Enabled = true;
-                        txtMatricula.Enabled = true;
-                        txtMatricula.Text = "";
-                        btnBuscarMatricula.Enabled = true;
-                        pMatricula.Visible = false;
-                        pDatos.Visible = false;
+                    s.Cliente.ci = Convert.ToInt32(txtCi.Text);
+                    s.Empleado.ci = Program.frmPrincipal.CiEmpleado;
+                    s.Vehiculo.Matricula = txtMatricula.Text;
 
-                        lblID.Text = "...";
-                        txtCantidad.Text = "";
-                        lblStock.Text = "...";
-                        lblNombre.Text = "...";
-                        lblMarca.Text = "...";
-                        lblPrecio.Text = "...";
-                        break;
+                    s.Neumatico.neumaticoId = Convert.ToInt32(lblID.Text);
+                    s.Neumatico.neumaticoCantidad = Convert.ToInt32(txtCantidad.Text);
+                    double precio = Convert.ToDouble(lblPrecio.Text);
+                    s.Neumatico.neumaticoPrecio = precio * s.Neumatico.neumaticoCantidad;
 
-                    case 1:
-                        MessageBox.Show("Error al obtener la conexión.");
-                        break;
+                    switch (s.ventaNeumatico())
+                    {
+                        case 0:
+                            MessageBox.Show("La compra de neumático se guardó correctamente.");
 
-                    case 2:
-                        MessageBox.Show("Error 2.");
-                        break;
+                            txtCi.Enabled = true;
+                            txtCi.Text = "";
+                            btnBuscarCi.Enabled = true;
+                            txtMatricula.Enabled = true;
+                            txtMatricula.Text = "";
+                            btnBuscarMatricula.Enabled = true;
+                            pMatricula.Visible = false;
+                            pDatos.Visible = false;
 
-                    case 3:
-                        MessageBox.Show("Error 3.");
-                        break;
+                            lblID.Text = "...";
+                            txtCantidad.Text = "";
+                            lblStock.Text = "...";
+                            lblNombre.Text = "...";
+                            lblMarca.Text = "...";
+                            lblPrecio.Text = "...";
+                            break;
 
-                    case 4:
-                        MessageBox.Show("Error 4.");
-                        break;
+                        case 1:
+                            MessageBox.Show("Error al obtener la conexión.");
+                            break;
 
-                    case 5:
-                        MessageBox.Show("Error 5");
-                        break;
+                        case 2:
+                            MessageBox.Show("Error 2.");
+                            break;
 
-                    case 6:
-                        MessageBox.Show("Error 6");
-                        break;
+                        case 3:
+                            MessageBox.Show("Error 3.");
+                            break;
 
-                    case 7:
-                        MessageBox.Show("Error 7");
-                        break;
-                    case 8:
-                        MessageBox.Show("Error 8");
-                        break;
-                    case 9:
-                        MessageBox.Show("Error 9");
-                        break;
+                        case 4:
+                            MessageBox.Show("Error 4.");
+                            break;
+
+                        case 5:
+                            MessageBox.Show("Error 5");
+                            break;
+
+                        case 6:
+                            MessageBox.Show("Error 6");
+                            break;
+
+                        case 7:
+                            MessageBox.Show("Error 7");
+                            break;
+                        case 8:
+                            MessageBox.Show("Error 8");
+                            break;
+                        case 9:
+                            MessageBox.Show("Error 9");
+                            break;
+                    }
                 }
             }
         } // Fin botón guardar

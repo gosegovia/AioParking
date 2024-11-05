@@ -187,6 +187,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
                         case 2: MessageBox.Show("Error 2."); break;
                         case 3: MessageBox.Show("No se encontraron registros dentro del último mes."); break;
+                        case 4: MessageBox.Show("El cliente no es mensual."); return;
                     }
                 }
 
@@ -222,7 +223,7 @@ namespace CapaPresentacion.EjecutivoServicios
                         lblPrecio.Text = "...";
                         break;
                     case 1: MessageBox.Show("Error al obtener la conexión."); break;
-                    case 2: MessageBox.Show("Este cliente no es mensual."); break;
+                    case 2: MessageBox.Show("Error 2"); break;
                     case 3: MessageBox.Show("Error 3"); break;
                     case 4: MessageBox.Show("Error 4"); break;
                     case 5: MessageBox.Show("Error 5"); break;

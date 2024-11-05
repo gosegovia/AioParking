@@ -141,7 +141,24 @@ namespace CapaNegocio
                 return (1, fechaLavado); // Código 1: Conexión cerrada
             }
 
-            // Definir la consulta SQL
+            // Verificar si el cliente es de tipo "Mensual"
+            string verificarCliente = "SELECT c.tipo_cliente FROM Cliente c WHERE c.ci = " + ci;
+
+            try
+            {
+                DataTable dtTipoCliente = _conexion.EjecutarSelect(verificarCliente);
+
+                if (dtTipoCliente.Rows.Count == 0 || dtTipoCliente.Rows[0]["tipo_cliente"].ToString() != "Mensual")
+                {
+                    return (4, fechaLavado); // Código 4: El cliente no es de tipo "Mensual"
+                }
+            }
+            catch (Exception)
+            {
+                return (2, fechaLavado); // Código 2: Error en la consulta de tipo de cliente
+            }
+
+            // Consulta para verificar el uso del lavado gratuito en el último mes
             string sql = "SELECT u.id_factura, f.fecha " +
                          "FROM Usa u " +
                          "JOIN Factura f ON u.id_factura = f.id_factura " +
@@ -158,7 +175,6 @@ namespace CapaNegocio
                 if (dt.Rows.Count > 0)
                 {
                     DataRow row = dt.Rows[0];
-                    int lavadoId = Convert.ToInt32(row["id_factura"]); // Variable local, si es necesaria en otro contexto, puedes retornarla
                     fechaLavado = Convert.ToDateTime(row["fecha"]);
                     resultado = 0; // Código 0: Registro encontrado y fecha obtenida
                 }
