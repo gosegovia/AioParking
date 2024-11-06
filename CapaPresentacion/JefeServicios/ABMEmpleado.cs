@@ -323,6 +323,10 @@ namespace CapaPresentacion.JefeServicios
             {
                 MessageBox.Show("Debe seleccionar el telefono o ingresar uno.");
             }
+            else if (cbTelefonos.Text.Length < 8 || cbTelefonos.Text.Length > 9)
+            {
+                MessageBox.Show("El teléfono debe tener 8 o 9 caracteres.");
+            }
             else if (cbEmpleado.SelectedIndex == -1)
             {
                 MessageBox.Show("Debe seleccionar el tipo de empleado.");

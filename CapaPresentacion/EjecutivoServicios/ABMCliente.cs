@@ -251,6 +251,10 @@ namespace CapaPresentacion.EjecutivoServicios
             {
                 MessageBox.Show("Debe seleccionar el teléfono o ingresar uno.");
             }
+            else if (cbTelefonos.Text.Length < 8 || cbTelefonos.Text.Length > 9)
+            {
+                MessageBox.Show("El teléfono debe tener 8 o 9 caracteres.");
+            }
             else if (cbTipoCliente.SelectedIndex == -1)
             {
                 MessageBox.Show("Debe seleccionar el tipo de cliente.");

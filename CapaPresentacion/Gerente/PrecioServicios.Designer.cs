@@ -137,6 +137,7 @@ namespace CapaPresentacion.Gerente
             this.dgvNeumatico.RowTemplate.Height = 25;
             this.dgvNeumatico.Size = new System.Drawing.Size(459, 221);
             this.dgvNeumatico.TabIndex = 19;
+            this.dgvNeumatico.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNeumatico_CellClick);
             // 
             // pDatosNeumatico
             // 
@@ -352,6 +353,7 @@ namespace CapaPresentacion.Gerente
             this.dgvLavado.RowTemplate.Height = 25;
             this.dgvLavado.Size = new System.Drawing.Size(396, 201);
             this.dgvLavado.TabIndex = 29;
+            this.dgvLavado.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLavado_CellClick);
             // 
             // pDatosLavado
             // 
@@ -500,6 +502,7 @@ namespace CapaPresentacion.Gerente
             this.dgvServicio.RowTemplate.Height = 25;
             this.dgvServicio.Size = new System.Drawing.Size(396, 201);
             this.dgvServicio.TabIndex = 29;
+            this.dgvServicio.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServicio_CellClick);
             // 
             // btnBuscarAyB
             // 

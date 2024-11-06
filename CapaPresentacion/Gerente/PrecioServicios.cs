@@ -448,10 +448,7 @@ namespace CapaPresentacion.Gerente
                         MessageBox.Show("Error 2.");
                         break;
                     case 3: // No encontró lavado
-                        if (txtNeumatico.TextLength > 2)
-                        {
-                            MessageBox.Show("Formato incorrecto.");
-                        }
+                        MessageBox.Show("No existe el lavado.");
                         break;
                 }
                 l = null;
@@ -623,10 +620,7 @@ namespace CapaPresentacion.Gerente
                         MessageBox.Show("Error 2.");
                         break;
                     case 3: // No encontró lavado
-                        if (txtAyB.TextLength > 2)
-                        {
-                            MessageBox.Show("Formato incorrecto.");
-                        }
+                        MessageBox.Show("No existe la alineaciòn o balanceo.");
                         break;
                 }
                 ayb = null;
@@ -761,6 +755,60 @@ namespace CapaPresentacion.Gerente
 
             // Cambiar el estilo de las celdas seleccionadas para que el texto sea negrita
             dgvServicio.DefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+        }
+
+        private void dgvNeumatico_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica si el botón btnBuscarNeumatico está habilitado
+            if (btnBuscarNeumatico.Enabled)
+            {
+                // Verifica que el índice de la fila sea válido
+                if (e.RowIndex >= 0)
+                {
+                    // Obtiene el valor de la primera columna (columna del ID)
+                    var idNeumatico = dgvNeumatico.Rows[e.RowIndex].Cells[0].Value;
+
+                    // Asigna el valor obtenido al TextBox txtNeumatico
+                    txtNeumatico.Text = idNeumatico?.ToString();
+                    btnBuscar_Click(sender, e);
+                }
+            }
+        }
+
+        private void dgvLavado_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica si el botón btnBuscarNeumatico está habilitado
+            if (btnBuscarLavado.Enabled)
+            {
+                // Verifica que el índice de la fila sea válido
+                if (e.RowIndex >= 0)
+                {
+                    // Obtiene el valor de la primera columna (columna del ID)
+                    var idLavado = dgvLavado.Rows[e.RowIndex].Cells[0].Value;
+
+                    // Asigna el valor obtenido al TextBox txtNeumatico
+                    txtLavado.Text = idLavado?.ToString();
+                    btnBuscarLavado_Click(sender, e);
+                }
+            }
+        }
+
+        private void dgvServicio_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica si el botón btnBuscarNeumatico está habilitado
+            if (btnBuscarAyB.Enabled)
+            {
+                // Verifica que el índice de la fila sea válido
+                if (e.RowIndex >= 0)
+                {
+                    // Obtiene el valor de la primera columna (columna del ID)
+                    var idAyB = dgvServicio.Rows[e.RowIndex].Cells[0].Value;
+
+                    // Asigna el valor obtenido al TextBox txtNeumatico
+                    txtAyB.Text = idAyB?.ToString();
+                    btnBuscarAyB_Click(sender, e);
+                }
+            }
         }
     }
 }

@@ -260,13 +260,12 @@ namespace CapaNegocio
                 // Detalles de la factura
                 doc.Add(new Paragraph($"Fecha de emisión: {DateTime.Now:dd/MM/yyyy}", regularFont));
                 doc.Add(new Paragraph($"Factura N°: {facturaId}\n", regularFont));
-
-                // Línea divisoria sutil
-                doc.Add(new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(1f, 100f, BaseColor.GRAY, Element.ALIGN_CENTER, -1))));
-
                 // Datos del cliente
                 Paragraph clienteInfo = new Paragraph($"Matrícula: {matricula}\n\n", regularFont) { SpacingAfter = 10 };
                 doc.Add(clienteInfo);
+
+                // Línea divisoria sutil
+                doc.Add(new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(1f, 100f, BaseColor.GRAY, Element.ALIGN_CENTER, -1))));
 
                 // Tabla de servicios
                 PdfPTable table = new PdfPTable(4) { WidthPercentage = 100 };
