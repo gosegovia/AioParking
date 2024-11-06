@@ -15,42 +15,95 @@ namespace CapaPresentacion
         {
             TextBox textBox = sender as TextBox;
 
-            // Verificar si el carácter ingresado es un número o una tecla de control (como backspace)
+            // Permitir solo números y teclas de control (backspace, etc.)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 MessageBox.Show("Solo puede ingresar números", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 e.Handled = true;
-                return;
             }
-        } // Fin validar Números
+        }
 
-        // Validar Texto
-        public static void validacionTexto(object sender, KeyPressEventArgs e)
+        public static void validacionTexto(object sender, KeyPressEventArgs e, bool permitirEspacios)
         {
             TextBox textBox = sender as TextBox;
 
-            // Permitir letras, backspace y espacio
-            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
+            // Verificar si se permite el espacio y si el primer carácter es un espacio
+            if (permitirEspacios && e.KeyChar == ' ')
             {
-                MessageBox.Show("Solo puede ingreser letras", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("No se permiten espacios en este campo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 e.Handled = true;
                 return;
             }
-        } // Fin Validar Texto
 
-        // Validar TextoNumero
-        public static void validacionTextoNumero(object sender, KeyPressEventArgs e)
+            if (textBox.Text.Length == 0 && e.KeyChar == ' ')
+            {
+                MessageBox.Show("No se permite iniciar con espacios.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Handled = true;
+                return;
+            }
+
+            // Permitir solo letras, control y (si se permite) espacios
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && (e.KeyChar != ' ' || !permitirEspacios))
+            {
+                MessageBox.Show("Solo puede ingresar letras", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                e.Handled = true;
+            }
+        }
+
+        public static void validacionTextoNumero(object sender, KeyPressEventArgs e, bool permitirEspacios)
         {
             TextBox textBox = sender as TextBox;
 
-            // Permitir letras, números y backspace
-            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar))
+            if (permitirEspacios && e.KeyChar == ' ')
+            {
+                MessageBox.Show("No se permiten espacios en este campo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Handled = true;
+                return;
+            }
+
+            if (textBox.Text.Length == 0 && e.KeyChar == ' ')
+            {
+                MessageBox.Show("No se permite iniciar con espacios.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Handled = true;
+                return;
+            }
+
+            // Permitir letras, números, control y (si se permite) espacios
+            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar) && (e.KeyChar != ' ' || !permitirEspacios))
             {
                 MessageBox.Show("Solo puede ingresar letras y números", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 e.Handled = true;
+            }
+        }
+        // Fin Validar TextoNumero
+
+        public static void validacionTextoNumeroConEspacios(object sender, KeyPressEventArgs e, bool permitirEspacios)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Evitar que el texto comience con un espacio
+            if (textBox.Text.Length == 0 && e.KeyChar == ' ')
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permite iniciar con un espacio.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-        } // Fin Validar TextoNumero
+
+            // Bloquear espacios si no se permiten
+            if (!permitirEspacios && e.KeyChar == ' ')
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permiten espacios en este campo.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Permitir letras, números, control (como backspace) y (si se permite) espacios intermedios
+            if (!char.IsControl(e.KeyChar) && !char.IsLetterOrDigit(e.KeyChar) && (e.KeyChar != ' ' || !permitirEspacios))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo puede ingresar letras, números y (si se permite) espacios.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
 
         public static void validacionLongitud(object sender, KeyPressEventArgs e, int longitudMaxima)
         {
@@ -79,5 +132,27 @@ namespace CapaPresentacion
                 }
             }
         }
+
+        // Clase Validaciones
+        public static void validacionTextoEspacio(object sender, KeyPressEventArgs e, bool permitirEspacios = false)
+        {
+            TextBox textBox = sender as TextBox;
+
+            // Evitar que el texto comience con un espacio
+            if (textBox.Text.Length == 0 && e.KeyChar == ' ')
+            {
+                e.Handled = true;
+                MessageBox.Show("No se permite iniciar con un espacio.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Permitir letras, control (como backspace) y espacios si están habilitados
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && (e.KeyChar != ' ' || !permitirEspacios))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo puede ingresar letras y espacios.", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
     }
 }

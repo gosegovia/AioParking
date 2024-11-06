@@ -84,9 +84,9 @@ namespace CapaPresentacion.OperadorCamaras
             this.lblPlaza.ForeColor = System.Drawing.Color.SteelBlue;
             this.lblPlaza.Location = new System.Drawing.Point(295, 166);
             this.lblPlaza.Name = "lblPlaza";
-            this.lblPlaza.Size = new System.Drawing.Size(28, 18);
+            this.lblPlaza.Size = new System.Drawing.Size(37, 18);
             this.lblPlaza.TabIndex = 18;
-            this.lblPlaza.Text = ".....";
+            this.lblPlaza.Text = "hola";
             // 
             // dgvPlaza
             // 

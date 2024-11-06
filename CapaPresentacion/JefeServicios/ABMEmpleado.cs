@@ -48,13 +48,13 @@ namespace CapaPresentacion.JefeServicios
 
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionTexto(sender, e, false);
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
         private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionTexto(sender, e, false);
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
@@ -72,26 +72,20 @@ namespace CapaPresentacion.JefeServicios
 
         private void txtCalle_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionTextoEspacio(sender, e, true);
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
         private void txtCiudad_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionTextoEspacio(sender, e, true);
             Validaciones.validacionLongitud(sender, e, 20);
         }
 
         private void txtUsuario_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionTextoNumero(sender, e, true);
             Validaciones.validacionLongitud(sender, e, 20);
-        }
-
-        private void txtContrasenia_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            Validaciones.validacionTextoNumero(sender, e);
-            Validaciones.validacionLongitud(sender, e, 12);
         }
 
         private void txtCI_KeyDown(object sender, KeyEventArgs e)

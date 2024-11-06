@@ -253,7 +253,7 @@ namespace CapaPresentacion.EjecutivoServicios
 
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTextoNumero(sender, e);
+            Validaciones.validacionTextoNumero(sender, e, false);
             Validaciones.validacionLongitud(sender, e, 10);
         }
 

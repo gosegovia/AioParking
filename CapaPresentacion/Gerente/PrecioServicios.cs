@@ -55,7 +55,7 @@ namespace CapaPresentacion.Gerente
 
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTexto(sender, e);
+            Validaciones.validacionTextoNumeroConEspacios(sender, e, true);
             Validaciones.validacionLongitud(sender, e, 20);
         }
 

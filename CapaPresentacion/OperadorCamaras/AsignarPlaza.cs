@@ -49,7 +49,7 @@ namespace CapaPresentacion.OperadorCamaras
         // Validaciones de entrada
         private void txtMatricula_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Validaciones.validacionTextoNumero(sender, e);
+            Validaciones.validacionTextoNumero(sender, e, false);
             Validaciones.validacionLongitud(sender, e, 10);
         }
 
@@ -174,7 +174,7 @@ namespace CapaPresentacion.OperadorCamaras
                         btnBuscarMatricula.Enabled = false;
                         pDatos.Visible = true;
 
-                        lblPlaza.Text = "";
+                        lblPlaza.Text = ".....";
                         lblMarca.Text = v.NombreMarca;
                         lblTipoVehiculo.Text = v.NombreTipo;
 
@@ -269,7 +269,11 @@ namespace CapaPresentacion.OperadorCamaras
             int plaza=0, plaza1=0;
             DateTime fecha = DateTime.Now;
 
-            if (lblPlaza.Text.Length <= 2)
+            if (lblPlaza.Text == ".....")
+            {
+                MessageBox.Show("Debe seleccionar la plaza.");
+            }
+            else if (lblPlaza.Text.Length <= 2)
             {
                 plaza = Int32.Parse(lblPlaza.Text);
             } else if (lblPlaza.Text.Length > 2)
@@ -282,31 +286,34 @@ namespace CapaPresentacion.OperadorCamaras
                 plaza1 = Int32.Parse(partes[1]);
             }
 
-            // Generar ticket
-            switch (p.GenerarTicket(matricula, ci, plaza, plaza1, fecha))
+            if (lblPlaza.Text != ".....")
             {
-                case 0: // Se realizó sin problemas
-                    MessageBox.Show("Se generó el ticket.");
-                    p.CrearTicketPDF(matricula, ci, plaza, plaza1, fecha);
-                    p.Plaza = int.Parse(lblPlaza.Text);
-                    p.ActualizarPlaza();
+                // Generar ticket
+                switch (p.GenerarTicket(matricula, ci, plaza, plaza1, fecha))
+                {
+                    case 0: // Se realizó sin problemas
+                        MessageBox.Show("Se generó el ticket.");
+                        p.CrearTicketPDF(matricula, ci, plaza, plaza1, fecha);
+                        p.Plaza = int.Parse(lblPlaza.Text);
+                        p.ActualizarPlaza();
 
-                    txtCi.Text = "";
-                    txtCi.Enabled = true;
-                    btnBuscarCi.Enabled = true;
-                    txtMatricula.Text = "";
-                    txtMatricula.Enabled = true;
-                    btnBuscarMatricula.Enabled = true;
-                    pMatricula.Visible = false;
-                    pDatos.Visible = false;
-                    break;
+                        txtCi.Text = "";
+                        txtCi.Enabled = true;
+                        btnBuscarCi.Enabled = true;
+                        txtMatricula.Text = "";
+                        txtMatricula.Enabled = true;
+                        btnBuscarMatricula.Enabled = true;
+                        pMatricula.Visible = false;
+                        pDatos.Visible = false;
+                        break;
 
-                case 1: // Conexión cerrada
-                    MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
-                    break;
+                    case 1: // Conexión cerrada
+                        MessageBox.Show("Debe logearse nuevamente, la conexión está cerrada.");
+                        break;
 
-                case 2: MessageBox.Show("Error 2"); break;
-                case 3: MessageBox.Show("Error 3"); break;
+                    case 2: MessageBox.Show("Error 2"); break;
+                    case 3: MessageBox.Show("Error 3"); break;
+                }
             }
 
             // Liberar memoria
